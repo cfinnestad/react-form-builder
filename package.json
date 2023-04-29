@@ -1,6 +1,6 @@
 {
-  "name": "form-builder",
-  "version": "1.0.0",
+  "name": "@cfinnestad/react-form-builder",
+  "version": "0.0.1",
   "description": "FormBuilder and FormRender Component library for building and gathering custom form data",
   "scripts": {
     "rollup": "rollup -c",
@@ -39,7 +39,8 @@
     "rollup": "^3.21.1",
     "rollup-plugin-dts": "^5.3.0",
     "rollup-plugin-postcss": "^4.0.2",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "tslib": "^2.5.0"
   },
   "dependencies": {
     "react-beautiful-dnd": "^13.1.1"

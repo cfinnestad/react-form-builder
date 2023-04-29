@@ -4,8 +4,7 @@ import typescript from "@rollup/plugin-typescript";
 import postcss from "rollup-plugin-postcss";
 import dts from "rollup-plugin-dts";
 
-const packageJson = require("./package.json");
-
+import packageJson from './package.json' assert { type: 'json' };n
 export default [
     {
         input: "src/index.ts",
