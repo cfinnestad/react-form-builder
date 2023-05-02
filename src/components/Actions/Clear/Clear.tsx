@@ -1,10 +1,8 @@
-import React, {Dispatch, SetStateAction} from "react";
+import React, {FC,Dispatch, SetStateAction} from "react";
 import {Nav} from "react-bootstrap";
+import {ActionProps} from "../Actions";
 
-interface ClearProps {
-    SetItems: Dispatch<SetStateAction<Item[]>>
-}
-const Clear = ({SetItems}: ClearProps) => {
+const Clear = ({SetItems}: ActionProps) => {
     const clearItems = () => {
         SetItems([])
     }

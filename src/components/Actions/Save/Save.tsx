@@ -1,11 +1,8 @@
 import React from "react";
 import {Nav} from "react-bootstrap";
+import {ActionProps} from '../Actions'
 
-interface SaveProps {
-    Items: Item[],
-    Options: Options
-}
-const Save = ({Items, Options}: SaveProps) => {
+const Save = ({Items, Options}: ActionProps) => {
     const saveItems = () => {
         if (Options["onSave"]) {
             Options.onSave(Items)

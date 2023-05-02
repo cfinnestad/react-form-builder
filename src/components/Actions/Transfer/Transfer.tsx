@@ -1,13 +1,11 @@
 import {Button, Form, Modal, Nav} from "react-bootstrap"
-import React, {Dispatch, SetStateAction, useState} from "react";
+import React, {Dispatch, SetStateAction, useState} from "react"
+import {ActionProps} from "../Actions";
+
 
 const jsonSpacing = 3
-interface TransferProps {
-    Items: Item[]
-    SetItems: Dispatch<SetStateAction<Item[]>>
-}
 
-export const Transfer = ({Items, SetItems}: TransferProps) => {
+export const Transfer = ({Items, SetItems}: ActionProps) => {
     const [itemsText, setItemsText] = useState( JSON.stringify(Items, null, jsonSpacing))
     const [isOpen, setIsOpen] = useState(false)
     const [invalidJSON, setInvalidJSON] = useState(false)

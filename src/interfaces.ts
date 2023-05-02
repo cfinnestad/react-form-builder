@@ -1,34 +1,58 @@
-import {Dispatch, SetStateAction} from "react";
-
 interface Item {
     type: string,
-    filters: Filter[]
+    filter?: GroupFilter | Filter,
+    ClassName?: string,
+    [key:string]: any
 }
-
 
 interface Filter {
     fieldName: string,
-    value: string|number|string[]
+    comparison: '='|'!='|'>'|'>='|'<'|'<='|'in'|'not in'
+    value: string|number|boolean|string[]
 }
 
-interface GroupItem {
-    maxColumns: number
+interface GroupFilter {
+    type: 'and'|'or'|'not'|'xor'
+}
+
+interface NamedItem extends Item {
+    name: string,
+}
+interface GroupItem extends NamedItem{
+    maxColumns: number,
+    Items: Item[],
+}
+
+interface Option {
+    fieldName: string,
+    value: string,
+}
+interface OptionItem extends FieldItem {
+    options: Option[]
+}
+
+interface HiddenItem extends NamedItem {
+    value: string
 }
 
 interface DisplayItem extends Item {
-    content: string
+    content: string,
 }
 
 interface FieldItem extends Item {
     required: boolean
     label: boolean
     deprecated: boolean
-    name: string
     value: string|number|Option[]
+    placeholder?: string
 }
 
 interface Option {
     name: string,
     value: string,
+}
+
+interface SelectItem extends OptionItem {
+    multiples: boolean
 }
 

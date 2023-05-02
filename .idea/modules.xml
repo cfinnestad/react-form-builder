@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/form-builder.iml" filepath="$PROJECT_DIR$/.idea/form-builder.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../myapp/.idea/myapp.iml" filepath="$PROJECT_DIR$/../myapp/.idea/myapp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../react-form-builder/.idea/react-form-builder.iml" filepath="$PROJECT_DIR$/../react-form-builder/.idea/react-form-builder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/react-form-builder.iml" filepath="$PROJECT_DIR$/.idea/react-form-builder.iml" />
     </modules>
   </component>
 </project>
