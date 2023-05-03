@@ -1,7 +1,7 @@
 import React from "react";
 import {ItemProps} from "../Items";
 
-const Group = ({}: ItemProps ) => {
+const Group = ({}: ItemProps) => {
     return <></>
 }
 

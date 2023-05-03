@@ -1,21 +1,19 @@
-import {Dispatch, SetStateAction} from "react";
-
 type BaseItem = {
     id: string,
     type: string,
     filter?: GroupFilter,
     ClassName?: string,
-    custom?: {[key:string]: any},
+    custom?: { [key: string]: any },
 }
 
 type Filter = {
     fieldName: string,
-    comparison: '='|'!='|'>'|'>='|'<'|'<='|'in'|'not in',
-    value: string|number|boolean|string[],
+    comparison: '=' | '!=' | '>' | '>=' | '<' | '<=' | 'in' | 'not in',
+    value: string | number | boolean | string[],
 }
 
 type GroupFilter = {
-    type: 'and'|'or'|'not'|'xor',
+    type: 'and' | 'or' | 'not' | 'xor',
     filters: (GroupFilter | Filter)[],
 }
 
@@ -31,7 +29,7 @@ type Option = {
 }
 
 type OptionItem = FieldItem & {
-    value?: string|string[],
+    value?: string | string[],
     options: Option[],
 }
 
@@ -44,7 +42,7 @@ type FieldItem = NamedItem & {
     required: boolean,
     label: string,
     deprecated: boolean,
-    value?: string|number|boolean|Option[],
+    value?: string | number | boolean | Option[],
     placeholder?: string,
 }
 
@@ -109,5 +107,19 @@ type BooleanItem = BaseItem & {
     value: boolean,
 }
 
-type AnyItem = BaseItem | FieldItem | GroupItem | OptionItem | SelectItem | HTMLItem | TextItem | EmailItem | NumberItem | DateItem | HiddenItem | CheckboxItem
+type AnyItem =
+    BaseItem
+    | FieldItem
+    | GroupItem
+    | OptionItem
+    | SelectItem
+    | HTMLItem
+    | TextItem
+    | EmailItem
+    | NumberItem
+    | DateItem
+    | HiddenItem
+    | CheckboxItem
+    | RadioItem
+    | BooleanItem
 

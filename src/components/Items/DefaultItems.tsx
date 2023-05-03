@@ -6,7 +6,7 @@ export type AllowedItems = {
     [key: string]: ItemType,
 }
 
-const DefaultItems = () : AllowedItems  => {
+const DefaultItems = (): AllowedItems => {
     return {
         Text: {
             Item: {
@@ -15,7 +15,7 @@ const DefaultItems = () : AllowedItems  => {
                 required: false,
                 label: 'Text',
                 name: 'text',
-                deprecated:false,
+                deprecated: false,
             },
             ItemFC: Text
         }

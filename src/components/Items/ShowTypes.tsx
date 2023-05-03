@@ -1,5 +1,5 @@
 import React from "react";
-import { AllowedItems } from "./DefaultItems";
+import {AllowedItems} from "./DefaultItems";
 
 interface ShowTypesProps {
     AllowedItems: AllowedItems

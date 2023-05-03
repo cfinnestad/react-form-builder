@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction} from "react"
-import {AppBar, Box, Toolbar, IconButton, Typography} from "@mui/material"
+import {AppBar, Box, Toolbar, IconButton} from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu';
 import Transfer from "./Transfer/Transfer"
 import Save from "./Save/Save"
@@ -13,10 +13,10 @@ export interface ActionProps {
     SetItems: Dispatch<SetStateAction<AnyItem[]>>
 }
 
-const Actions = (ActionProps : ActionProps) => {
-        const Actions = ActionProps.Options.Actions || [Transfer, Save, Clear]
-        const ActionsAppend = ActionProps.Options.ActionsAppend || []
-    return <Box sx={{ flexGrow: 1 }}>
+const Actions = (ActionProps: ActionProps) => {
+    const Actions = ActionProps.Options.Actions || [Transfer, Save, Clear]
+    const ActionsAppend = ActionProps.Options.ActionsAppend || []
+    return <Box sx={{flexGrow: 1}}>
         <AppBar position="static">
             <Toolbar>
                 <IconButton
@@ -24,11 +24,11 @@ const Actions = (ActionProps : ActionProps) => {
                     edge="start"
                     color="inherit"
                     aria-label="menu"
-                    sx={{ mr: 2 }}
+                    sx={{mr: 2}}
                 >
-                    <MenuIcon />
+                    <MenuIcon/>
                 </IconButton>
-                { [...Actions, ...ActionsAppend].map(Action => <Action {...ActionProps}/>) }
+                {[...Actions, ...ActionsAppend].map(Action => <Action {...ActionProps}/>)}
             </Toolbar>
         </AppBar>
     </Box>

@@ -1,1 +1,1 @@
-export { default } from './Builder'
+export {default} from './Builder'

@@ -1,5 +1,5 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from '@mui/material';
-import React, {Dispatch, SetStateAction, useState} from "react"
+import React, {useState} from "react"
 import {ActionProps} from "../Actions";
 import {Typography} from "@mui/material";
 
@@ -7,7 +7,7 @@ import {Typography} from "@mui/material";
 const jsonSpacing = 3
 
 export const Transfer = ({Items, SetItems}: ActionProps) => {
-    const [itemsText, setItemsText] = useState( JSON.stringify(Items, null, jsonSpacing))
+    const [itemsText, setItemsText] = useState(JSON.stringify(Items, null, jsonSpacing))
     const [isOpen, setIsOpen] = useState(false)
     const [invalidJSON, setInvalidJSON] = useState(false)
     const [unchanged, setUnchanged] = useState(true)
@@ -26,27 +26,27 @@ export const Transfer = ({Items, SetItems}: ActionProps) => {
         } catch (error) {
             setInvalidJSON(true)
         }
-        setUnchanged(text === JSON.stringify(Items,null,jsonSpacing))
+        setUnchanged(text === JSON.stringify(Items, null, jsonSpacing))
     }
     const Save = () => {
-        if (! invalidJSON) {
+        if (!invalidJSON) {
             SetItems(JSON.parse(itemsText))
         }
     }
     const Copy = () => {
-        if (! invalidJSON) {
+        if (!invalidJSON) {
             window.navigator.clipboard.writeText(itemsText);
         }
     }
     const Reset = () => {
-        setItemsText(JSON.stringify(Items,null,jsonSpacing))
+        setItemsText(JSON.stringify(Items, null, jsonSpacing))
         setInvalidJSON(true)
         setUnchanged(false)
     }
 
     return <>
 
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
             <Button color="inherit" onClick={Open}>Transfer</Button>
             <Dialog
                 maxWidth="lg"
@@ -56,12 +56,13 @@ export const Transfer = ({Items, SetItems}: ActionProps) => {
             >
                 <DialogTitle>Export JSON Definition</DialogTitle>
                 <DialogContent>
-                    <TextField variant="standard" multiline minRows={15} error={invalidJSON} value={ itemsText } onChange={SaveText}/>
+                    <TextField variant="standard" multiline minRows={15} error={invalidJSON} value={itemsText}
+                               onChange={SaveText}/>
                     {invalidJSON ?? <p>JSON is invalid</p>}
                 </DialogContent>
                 <DialogActions>
                     <Button color="info" onClick={Copy} disabled={invalidJSON}>Copy</Button>
-                    <Button color="success" onClick={Save} disabled={ unchanged || invalidJSON}>Save</Button>
+                    <Button color="success" onClick={Save} disabled={unchanged || invalidJSON}>Save</Button>
                     <Button color="warning" onClick={Reset} disabled={unchanged}>Reset</Button>
                     <Button color="secondary" onClick={Close}>Close</Button>
                 </DialogActions>
