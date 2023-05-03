@@ -1,58 +1,113 @@
-interface Item {
+import {Dispatch, SetStateAction} from "react";
+
+type BaseItem = {
+    id: string,
     type: string,
-    filter?: GroupFilter | Filter,
+    filter?: GroupFilter,
     ClassName?: string,
-    [key:string]: any
+    custom?: {[key:string]: any},
 }
 
-interface Filter {
+type Filter = {
     fieldName: string,
-    comparison: '='|'!='|'>'|'>='|'<'|'<='|'in'|'not in'
-    value: string|number|boolean|string[]
+    comparison: '='|'!='|'>'|'>='|'<'|'<='|'in'|'not in',
+    value: string|number|boolean|string[],
 }
 
-interface GroupFilter {
-    type: 'and'|'or'|'not'|'xor'
+type GroupFilter = {
+    type: 'and'|'or'|'not'|'xor',
+    filters: (GroupFilter | Filter)[],
 }
 
-interface NamedItem extends Item {
+type NamedItem = BaseItem & {
     name: string,
 }
-interface GroupItem extends NamedItem{
-    maxColumns: number,
-    Items: Item[],
-}
 
-interface Option {
+type Option = {
+    checked: boolean,
+    startChecked: boolean,
     fieldName: string,
     value: string,
 }
-interface OptionItem extends FieldItem {
-    options: Option[]
+
+type OptionItem = FieldItem & {
+    value?: string|string[],
+    options: Option[],
 }
 
-interface HiddenItem extends NamedItem {
-    value: string
+type HiddenItem = NamedItem & {
+    type: 'Hidden',
+    value: string,
 }
 
-interface DisplayItem extends Item {
+type FieldItem = NamedItem & {
+    required: boolean,
+    label: string,
+    deprecated: boolean,
+    value?: string|number|boolean|Option[],
+    placeholder?: string,
+}
+
+type GroupItem = NamedItem & {
+    type: 'Group',
+    maxColumns: number,
+    Items: AnyItem[],
+}
+
+type SelectItem = OptionItem & {
+    type: 'Select',
+    multiples: boolean,
+}
+
+type RadioItem = OptionItem & {
+    type: 'Radio',
+    value?: string,
+    inLine?: boolean,
+}
+
+type CheckboxItem = OptionItem & {
+    type: 'Checkbox',
+    inLine?: boolean,
+}
+
+type TextItem = FieldItem & {
+    type: 'Text',
+    value?: string,
+    minLength?: number,
+    maxLength?: number,
+}
+
+type EmailItem = FieldItem & {
+    type: 'Email',
+    value?: string,
+    maxLength?: number,
+}
+
+type NumberItem = FieldItem & {
+    type: 'Number',
+    value?: number,
+    min?: number,
+    max?: number,
+}
+
+type DateItem = FieldItem & {
+    type: 'Date',
+    value?: string,
+    minDate?: string,
+    minDateOffsetDays?: number,
+    maxDate?: string,
+    maxDateOffsetDays?: number,
+}
+
+type HTMLItem = BaseItem & {
+    type: 'HTML',
     content: string,
 }
 
-interface FieldItem extends Item {
-    required: boolean
-    label: boolean
-    deprecated: boolean
-    value: string|number|Option[]
-    placeholder?: string
+type BooleanItem = BaseItem & {
+    type: 'Boolean',
+    value: boolean,
 }
 
-interface Option {
-    name: string,
-    value: string,
-}
-
-interface SelectItem extends OptionItem {
-    multiples: boolean
-}
+type AnyItem = BaseItem | FieldItem | GroupItem | OptionItem | SelectItem | HTMLItem | TextItem | EmailItem | NumberItem | DateItem | HiddenItem | CheckboxItem
 

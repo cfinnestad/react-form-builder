@@ -1,9 +1,10 @@
-import React, {Dispatch, FC, SetStateAction} from "react"
+import React, {Dispatch, SetStateAction} from "react"
 import {Container, Navbar, Nav} from 'react-bootstrap'
 import Transfer from "./Transfer/Transfer"
 import Save from "./Save/Save"
 import Clear from "./Clear/Clear"
-import {ItemProps, ItemType} from "../Items/Items";
+import {ItemType} from "../Items/ShowItems";
+import {Options} from "../Builder/Builder"
 
 export interface ActionProps {
     Items: Item[],
@@ -11,16 +12,6 @@ export interface ActionProps {
     SetItems: Dispatch<SetStateAction<Item[]>>
 }
 
-export interface AllowedItems {
-    [key: string]: ItemType,
-}
-export interface Options {
-    Actions?: FC<ActionProps>[],
-    ActionsAppend?: FC<ActionProps>[]
-    AllowedItems?: AllowedItems,
-    AdditionalItems?: AllowedItems,
-    onSave?: (Items: Item[]) => void
-}
 const Actions = (ActionProps : ActionProps) => {
         const Actions = ActionProps.Options.Actions || [Transfer, Save, Clear]
         const ActionsAppend = ActionProps.Options.ActionsAppend || []

@@ -1,27 +1,22 @@
 import React from "react";
-import {ItemProps} from "../Items";
-import {Form, FormGroup, FormLabel, InputGroup} from "react-bootstrap"
-import {Options} from ''
+import {Form,  FormLabel} from "react-bootstrap"
+import {TextItem, TextProps} from "../Items";
 
-export interface TextItem extends FieldItem {
-    type: 'text',
-}
+const Text = ({Item, SetItems, Options}: TextProps) => {
 
-const Text = ({Item, SetItem, Options}: ItemProps) => {
-
-    const onChange = (event: React.FormEvent<HTMLInputElement>, Item: TextItem) => {
+    const onChange = (event: React.ChangeEvent<any>, item: TextItem) => {
         const value = event.currentTarget.value || null
-        if (Item.required && value === null) {
+        if (item.required && value === null) {
             return false
         }
+
     }
-    let Item;
-    return <FieldItem {...props} >
+    return <>
          <FormLabel>
              { Item.label }
          </FormLabel>
-        <Form.Control type="text" value={props.Item.value} onChange={(event) => onChange(event, props.Item)}/>
-    </FieldItem>
+        <Form.Control type="text" value={Item.value} onChange={(event) => {onChange(event, Item)}}/>
+    </>
 }
 
 export default Text
