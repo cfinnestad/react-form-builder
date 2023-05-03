@@ -120,6 +120,8 @@ export type ItemType = {
 
 }
 
+class ()
+
 export type BaseItemProps = {
     Item: AnyItem,
     Items: AnyItem[],
