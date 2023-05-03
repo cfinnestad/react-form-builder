@@ -74,6 +74,7 @@ export type CheckboxItem = OptionItem & {
 export type TextItem = FieldItem & {
     type: 'Text',
     value?: string,
+    multiline?: boolean
     minLength?: number,
     maxLength?: number,
 }
@@ -121,6 +122,7 @@ export type ItemType = {
 
 export type BaseItemProps = {
     Item: AnyItem,
+    Items: AnyItem[],
     ItemFC: (props: any) => JSX.Element,
     SetItems: Dispatch<SetStateAction<AnyItem[]>>
     Options: Options

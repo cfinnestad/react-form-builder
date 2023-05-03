@@ -17,7 +17,7 @@ export interface Options {
     _AddItem?: (Item: AnyItem, index:number, groupId?: string) => void
 }
 
-interface BuilderProps {
+export interface BuilderProps {
     Items?: AnyItem[],
     Options?: Options,
 }

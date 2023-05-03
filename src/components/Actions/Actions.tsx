@@ -1,5 +1,6 @@
 import React, {Dispatch, SetStateAction} from "react"
-import {Container, Navbar, Nav} from 'react-bootstrap'
+import {AppBar, Box, Toolbar, IconButton, Typography} from "@mui/material"
+import MenuIcon from '@mui/icons-material/Menu';
 import Transfer from "./Transfer/Transfer"
 import Save from "./Save/Save"
 import Clear from "./Clear/Clear"
@@ -15,13 +16,21 @@ export interface ActionProps {
 const Actions = (ActionProps : ActionProps) => {
         const Actions = ActionProps.Options.Actions || [Transfer, Save, Clear]
         const ActionsAppend = ActionProps.Options.ActionsAppend || []
-    return <Navbar bg="light" variant="light">
-        <Container>
-            <Nav>
-                { Actions.map(Action => (Action(ActionProps))) }
-                { ActionsAppend.map(Action => (Action(ActionProps))) }
-            </Nav>
-        </Container>
-    </Navbar>
+    return <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+            <Toolbar>
+                <IconButton
+                    size="large"
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu"
+                    sx={{ mr: 2 }}
+                >
+                    <MenuIcon />
+                </IconButton>
+                { [...Actions, ...ActionsAppend].map(Action => <Action {...ActionProps}/>) }
+            </Toolbar>
+        </AppBar>
+    </Box>
 }
 export default Actions

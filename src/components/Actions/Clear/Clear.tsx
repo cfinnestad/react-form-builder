@@ -1,5 +1,5 @@
 import React, {FC,Dispatch, SetStateAction} from "react";
-import {Nav} from "react-bootstrap";
+import {Button, Typography} from '@mui/material';
 import {ActionProps} from "../Actions";
 
 const Clear = ({SetItems}: ActionProps) => {
@@ -7,9 +7,9 @@ const Clear = ({SetItems}: ActionProps) => {
         SetItems([])
     }
     return <>
-        <Nav.Item>
-            <Nav.Link onClick={clearItems}>Clear</Nav.Link>
-        </Nav.Item>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Button color="inherit" onClick={clearItems}>Clear</Button>
+        </Typography>
     </>
 }
 

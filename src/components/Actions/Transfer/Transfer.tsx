@@ -1,6 +1,7 @@
-import {Button, Form, Modal, Nav} from "react-bootstrap"
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from '@mui/material';
 import React, {Dispatch, SetStateAction, useState} from "react"
 import {ActionProps} from "../Actions";
+import {Typography} from "@mui/material";
 
 
 const jsonSpacing = 3
@@ -44,31 +45,28 @@ export const Transfer = ({Items, SetItems}: ActionProps) => {
     }
 
     return <>
-        <Nav.Item>
-            <Nav.Link onClick={Open}>Transfer</Nav.Link>
-            <Modal
-                size="lg"
-                show={isOpen}
-                onHide={Close}
+
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Button color="inherit" onClick={Open}>Transfer</Button>
+            <Dialog
+                maxWidth="lg"
+                open={isOpen}
+                onClose={Close}
                 aria-labelledby="example-modal-sizes-title-lg"
             >
-                <Modal.Header closeButton>
-                    <Modal.Title id="example-modal-sizes-title-lg">
-                        Export JSON Definition
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form.Control as='textarea' rows={20} value={ itemsText } onChange={SaveText}/>
+                <DialogTitle>Export JSON Definition</DialogTitle>
+                <DialogContent>
+                    <TextField variant="standard" multiline minRows={15} error={invalidJSON} value={ itemsText } onChange={SaveText}/>
                     {invalidJSON ?? <p>JSON is invalid</p>}
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="info" onClick={Copy} disabled={invalidJSON}>Copy</Button>
-                    <Button variant="success" onClick={Save} disabled={ unchanged || invalidJSON}>Save</Button>
-                    <Button variant="light" onClick={Reset} disabled={unchanged}>Reset</Button>
-                    <Button variant="secondary" onClick={Close}>Close</Button>
-                </Modal.Footer>
-            </Modal>
-        </Nav.Item>
+                </DialogContent>
+                <DialogActions>
+                    <Button color="info" onClick={Copy} disabled={invalidJSON}>Copy</Button>
+                    <Button color="success" onClick={Save} disabled={ unchanged || invalidJSON}>Save</Button>
+                    <Button color="warning" onClick={Reset} disabled={unchanged}>Reset</Button>
+                    <Button color="secondary" onClick={Close}>Close</Button>
+                </DialogActions>
+            </Dialog>
+        </Typography>
     </>
 }
 

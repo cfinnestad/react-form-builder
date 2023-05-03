@@ -1,6 +1,6 @@
 import React from "react";
-import {Nav} from "react-bootstrap";
 import {ActionProps} from '../Actions'
+import {Button, Typography} from "@mui/material";
 
 const Save = ({Items, Options}: ActionProps) => {
     const saveItems = () => {
@@ -9,9 +9,9 @@ const Save = ({Items, Options}: ActionProps) => {
         }
     }
     return <>
-        <Nav.Item>
-            <Nav.Link onClick={saveItems}>Save</Nav.Link>
-        </Nav.Item>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Button color="inherit" onClick={saveItems}>Save</Button>
+        </Typography>
     </>
 }
 
