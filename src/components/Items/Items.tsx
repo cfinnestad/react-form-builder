@@ -1,6 +1,5 @@
-import React, {Dispatch, JSXElementConstructor, SetStateAction} from "react";
+import React, {Dispatch, SetStateAction} from "react";
 import {Options} from "../Builder/Builder";
-import {ItemProp} from "./ShowItems";
 
 export type BaseItem = {
     id: string,
@@ -116,12 +115,13 @@ export type AnyItem = BaseItem | FieldItem | GroupItem | OptionItem | SelectItem
 
 export type ItemType = {
     Item: AnyItem,
-    ItemFC: (Item:) => JSX.Element,
+    ItemFC: (props: any) => JSX.Element,
+
 }
 
 export type BaseItemProps = {
     Item: AnyItem,
-    ItemFC: ({Item, SetItems, Options}: ItemProps) => Element,
+    ItemFC: (props: any) => JSX.Element,
     SetItems: Dispatch<SetStateAction<AnyItem[]>>
     Options: Options
 }
@@ -139,6 +139,3 @@ export type CheckboxProps = BaseItemProps & { Item: CheckboxItem }
 export type BooleanProps = BaseItemProps & { Item: BooleanItem }
 export type RadioProps = BaseItemProps & { Item: RadioItem }
 export type ItemProps = BaseItemProps|FieldProps|GroupProps|SelectProps|HTMLProps|TextProps|EmailProps|NumberProps|DateProps|HiddenProps|CheckboxProps|BooleanProps|RadioProps
-
-export type ItemPropsArray = ItemProps[]
-}

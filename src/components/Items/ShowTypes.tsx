@@ -1,5 +1,5 @@
 import React from "react";
-import {AllowedItems} from "./DefaultItems";
+import { AllowedItems } from "./DefaultItems";
 
 interface ShowTypesProps {
     AllowedItems: AllowedItems
@@ -8,7 +8,7 @@ interface ShowTypesProps {
 const ShowTypes = ({AllowedItems}: ShowTypesProps) => {
     return <>
         {
-            Object.values(AllowedItems).map((ItemType) => <div id={ItemType.Item.type}>{ItemType.Item.type}</div>)
+            Object.values(AllowedItems).map(Item => <div id={Item.Item.type}>{Item.Item.type}</div>)
         }
     </>
 }

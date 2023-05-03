@@ -1,9 +1,17 @@
 import React, {Dispatch, SetStateAction} from "react";
+import { ItemProps } from "./Items";
 
 
-const ShowItems = ({ItemProps}: ItemProps) => {
+type ShowItemsProps = {
+    ItemPropsArray: ItemProps[]
+}
+
+
+const ShowItems = ({ItemPropsArray}: ShowItemsProps) => {
     return <>
-        { ItemProps.map((ItemProp) => {ItemProp.ItemFC(ItemProp)}) }
+        {
+            ItemPropsArray.map(ItemProp => {ItemProp.ItemFC(ItemProp)})
+        }
     </>
 }
 

@@ -2,8 +2,9 @@ import React, {FC, useState} from "react";
 import Actions, {ActionProps} from "../Actions/Actions";
 import {Col, Container, Row} from "react-bootstrap";
 import DefaultItems, {AllowedItems} from "../Items/DefaultItems";
-import ShowItems, {ItemProp} from "../Items/ShowItems";
+import ShowItems from "../Items/ShowItems";
 import ShowTypes from "../Items/ShowTypes";
+import { AnyItem, ItemProps } from "../Items/Items";
 
 
 export interface Options {
@@ -24,7 +25,7 @@ interface BuilderProps {
 const Builder = ({ Items, Options}: BuilderProps) => {
     const [items, setItems] = useState(Items || [])
     const AllowedItems: AllowedItems = {...(Options?.AllowedItems || DefaultItems()), ...(Options?.AdditionalItems || {}) }
-    const itemProps: ItemProp[] = items.map((row) => {
+    const itemProps: ItemProps[] = items.map((row) => {
         return {
             Item: row,
             ItemFC: AllowedItems[row.type].ItemFC,
@@ -37,7 +38,7 @@ const Builder = ({ Items, Options}: BuilderProps) => {
         <Actions Items={items} SetItems={setItems} Options={Options || {}}/>d
         <Container>
         <Row>
-            <Col xs={8}><ShowItems ItemProps={itemProps}/></Col>
+            <Col xs={8}><ShowItems ItemPropsArray={itemProps}/></Col>
             <Col ><ShowTypes AllowedItems={AllowedItems}/></Col>
         </Row>
         </Container>

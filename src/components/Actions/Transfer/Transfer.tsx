@@ -45,7 +45,7 @@ export const Transfer = ({Items, SetItems}: ActionProps) => {
 
     return <>
         <Nav.Item>
-            <Nav.Link onClick={Open}>Export</Nav.Link>
+            <Nav.Link onClick={Open}>Transfer</Nav.Link>
             <Modal
                 size="lg"
                 show={isOpen}

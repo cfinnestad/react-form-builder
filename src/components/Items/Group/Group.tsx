@@ -1,5 +1,5 @@
 import React from "react";
-import {ItemProps} from "../ShowItems";
+import {ItemProps} from "../Items";
 
 const Group = ({}: ItemProps ) => {
     return <></>

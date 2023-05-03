@@ -2,7 +2,7 @@ import React from "react";
 import Text from './Text/Text'
 import {ItemType} from "./Items";
 
-type AllowedItems = {
+export type AllowedItems = {
     [key: string]: ItemType,
 }
 
