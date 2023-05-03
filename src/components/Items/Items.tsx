@@ -117,10 +117,7 @@ export type AnyItem = BaseItem | FieldItem | GroupItem | OptionItem | SelectItem
 export type ItemType = {
     Item: AnyItem,
     ItemFC: (props: any) => JSX.Element,
-
 }
-
-class ()
 
 export type BaseItemProps = {
     Item: AnyItem,

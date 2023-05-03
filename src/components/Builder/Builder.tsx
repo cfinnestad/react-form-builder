@@ -1,10 +1,10 @@
 import React, {FC, useState} from "react";
 import Actions, {ActionProps} from "../Actions/Actions";
-import {Col, Container, Row} from "react-bootstrap";
 import DefaultItems, {AllowedItems} from "../Items/DefaultItems";
 import ShowItems from "../Items/ShowItems";
 import ShowTypes from "../Items/ShowTypes";
 import { AnyItem, ItemProps } from "../Items/Items";
+import {Box, Grid} from "@mui/material";
 
 
 export interface Options {
@@ -22,26 +22,31 @@ export interface BuilderProps {
     Options?: Options,
 }
 
-const Builder = ({ Items, Options}: BuilderProps) => {
+const Builder = ({ Items, Options }: BuilderProps) => {
+    console.log('ITEMS::', Items)
+    console.log('OPTIONS:::', Options)
+
     const [items, setItems] = useState(Items || [])
     const AllowedItems: AllowedItems = {...(Options?.AllowedItems || DefaultItems()), ...(Options?.AdditionalItems || {}) }
-    const itemProps: ItemProps[] = items.map((row) => {
-        return {
-            Item: row,
-            ItemFC: AllowedItems[row.type].ItemFC,
-            SetItems: setItems,
-            Options: Options || {}
-        }
-    })
+
+
+
+    const itemProps: ItemProps[] = items.map((row) => ({
+        Item: row,
+        Items: items,
+        ItemFC: AllowedItems[row.type].ItemFC,
+        SetItems: setItems,
+        Options: Options || {}
+    }))
 
     return <div className='builder'>
-        <Actions Items={items} SetItems={setItems} Options={Options || {}}/>d
-        <Container>
-        <Row>
-            <Col xs={8}><ShowItems ItemPropsArray={itemProps}/></Col>
-            <Col ><ShowTypes AllowedItems={AllowedItems}/></Col>
-        </Row>
-        </Container>
+        <Actions Items={items} SetItems={setItems} Options={Options || {}}/>
+        <Box>
+            <Grid container spacing={2}>
+                <Grid item xs={10}><ShowItems ItemPropsArray={itemProps}/></Grid>
+                <Grid item ><ShowTypes AllowedItems={AllowedItems}/></Grid>
+            </Grid>
+        </Box>
 
     </div>
 }
