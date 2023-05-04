@@ -47,7 +47,7 @@ const Clone = styled(Item)`
 `;
 
 const ShowType = ({Item, index}: ShowTypeProps) => {
-    return <Draggable type='Item' key={Item.id}  draggableId={Item.id} index={index}>
+    return <Draggable type='Item' draggableId={Item.id} index={index}>
         {(providedDraggable: DraggableProvided, snapshotDraggable:DraggableStateSnapshot) => (
             <React.Fragment>
                 <Card
@@ -76,7 +76,7 @@ const ShowTypes = ({AllowedItems}: ShowTypesProps) => {
     return <>
         {
             // Object.values(AllowedItems).map(Item => <div id={Item.Item.type}>{Item.Item.type}</div>)
-            Object.values(AllowedItems).map((Item, index) => <ShowType Item={Item.Item} index={index}/>)
+            Object.values(AllowedItems).map((Item, index) => <ShowType key={index} Item={Item.Item} index={index}/>)
         }
     </>
 }
