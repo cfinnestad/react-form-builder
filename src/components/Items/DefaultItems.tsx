@@ -1,23 +1,27 @@
 import React from "react";
-import Text from './Text/Text'
 import {ItemType} from "./Items";
+import Field, { edit as FieldEdit } from "./Field/Field";
+import DefaultSubtypes, { AllowedSubtypes } from "./Subtypes/DefaultSubTypes";
 
 export type AllowedItems = {
     [key: string]: ItemType,
 }
 
-const DefaultItems = (): AllowedItems => {
+const DefaultItems = (allowedSubtypes: AllowedSubtypes): AllowedItems => {
     return {
-        Text: {
+        Field: {
             Item: {
-                id: 'Text',
-                type: 'Text',
+                // TODO add comments to explain these.
+                id: 'Field',
+                type: 'Field',
                 required: false,
                 label: 'Text',
                 name: 'text',
                 deprecated: false,
+                subtype: allowedSubtypes.Text.Subtype
             },
-            ItemFC: Text
+            ItemFC: Field,
+            EditFC: FieldEdit
         }
     }
 }

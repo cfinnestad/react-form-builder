@@ -30,7 +30,7 @@ export default [
             terser(),
             babel({
                 babelHelpers: 'bundled',
-                exclude: 'node_modules/**',
+                exclude: ['node_modules/**', 'Old/**'],
                 presets: ['@babel/preset-env','@babel/preset-react']
             })
         ],

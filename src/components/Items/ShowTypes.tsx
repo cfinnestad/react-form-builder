@@ -3,6 +3,7 @@ import {AllowedItems} from "./DefaultItems";
 import {Draggable, DraggableProvided, DraggableStateSnapshot} from "react-beautiful-dnd";
 import {Card, Typography} from "@mui/material";
 import styled from 'styled-components';
+import {AnyItem} from "./Items";
 
 interface ShowTypesProps {
     AllowedItems: AllowedItems
@@ -47,6 +48,7 @@ const Clone = styled(Item)`
 `;
 
 const ShowType = ({Item, index}: ShowTypeProps) => {
+    // @ts-ignore
     return <Draggable type='Item' draggableId={Item.id} index={index}>
         {(providedDraggable: DraggableProvided, snapshotDraggable:DraggableStateSnapshot) => (
             <React.Fragment>

@@ -12,11 +12,14 @@ const meta = {
             [
                 {
                     id: 'testItem',
-                    type: 'Text',
+                    type: 'Field',
                     name: 'text',
                     required: false,
                     label: 'Text',
                     deprecated: false,
+                    subtype: {
+                        subtype: 'Text'
+                    }
                 }
             ],
     },
@@ -32,27 +35,36 @@ export const Primary: Story = {
             [
                 {
                     id: 'testItem1',
-                    type: 'Text',
+                    type: 'Field',
                     name: 'text1',
                     required: false,
                     label: 'Text 1',
                     deprecated: false,
+                    subtype: {
+                        subtype: 'Text'
+                    }
                 },
                 {
                     id: 'testItem2',
-                    type: 'Text',
+                    type: 'Field',
                     name: 'text2',
                     required: false,
                     label: 'Text 2',
                     deprecated: false,
+                    subtype: {
+                        subtype: 'Text'
+                    }
                 },
                 {
                     id: 'testItem3',
-                    type: 'Text',
+                    type: 'Field',
                     name: 'text3',
                     required: false,
                     label: 'Text 3',
                     deprecated: false,
+                    subtype: {
+                        subtype: 'Text'
+                    }
                 }
             ],
     }
