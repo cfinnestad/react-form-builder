@@ -5,7 +5,7 @@ import ShowItems from "../Items/ShowItems";
 import ShowTypes from "../Items/ShowTypes";
 import { AnyItem, ItemProps } from "../Items/Items";
 import {Box, Grid} from "@mui/material";
-import {uuid} from "uuidv4"
+import {v4 as uuid} from "uuid"
 import {DragDropContext, Droppable, DroppableProvided, DroppableStateSnapshot, DropResult, DraggableLocation} from "react-beautiful-dnd"
 
 export type Options = {
