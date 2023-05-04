@@ -40,7 +40,7 @@ const Handle = styled.div`
 
 const ShowItem = ({ItemProps, index}: ShowItemProps) => {
     // @ts-ignore
-    return <Draggable key={index} type='Item' draggableId={ItemProps.Item.id} index={index}>
+    return <div key={index}><Draggable type='Item' draggableId={ItemProps.Item.id} index={index}>
         {(providedDraggable: DraggableProvided, snapshotDraggable:DraggableStateSnapshot) => (
             <Card
                 ref={providedDraggable.innerRef}
@@ -67,7 +67,7 @@ const ShowItem = ({ItemProps, index}: ShowItemProps) => {
                 { ItemProps.ItemFC(ItemProps)}
             </Card>
         )}
-    </Draggable>
+    </Draggable></div>
 }
 
 
