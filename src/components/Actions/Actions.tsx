@@ -28,7 +28,7 @@ const Actions = (ActionProps: ActionProps) => {
                 >
                     <MenuIcon/>
                 </IconButton>
-                {[...Actions, ...ActionsAppend].map(Action => <Action {...ActionProps}/>)}
+                {[...Actions, ...ActionsAppend].map((Action, index) => <div key={index}><Action {...ActionProps}/></div>)}
             </Toolbar>
         </AppBar>
     </Box>
