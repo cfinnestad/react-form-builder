@@ -19,8 +19,7 @@ const Text = ({Item, Items, SetItems, Options}: TextProps) => {
     }
 
     return <>
-
-        <TextField id={Item.id} fullWidth name={Item.name} label={Item.label} multiline={Item.multiline} type="text" value={Item.value} onChange={(event) => onChange(event, Item, Items, SetItems) }/>
+        <TextField id={Item.id} name={Item.name} label={Item.label} multiline={Item.multiline} type="text" value={Item.value} onChange={(event) => onChange(event, Item, Items, SetItems) }/>
     </>
 }
 
