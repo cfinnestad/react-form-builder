@@ -105,8 +105,8 @@ const Builder = ({ Items, Options }: BuilderProps) => {
             list.list = curList
         }
         let found = false
-        do {
-           curList.forEach((Item) => {
+        curList.forEach((Item) => {
+           if (!found) {
                if (Item.id === id) {
                    list.id.push(id)
                    list.list = (Item as GroupItem).Items
@@ -119,9 +119,8 @@ const Builder = ({ Items, Options }: BuilderProps) => {
                        found = true
                    }
                }
-           })
-
-        } while (!found)
+           }
+        })
         return list
     }
 
