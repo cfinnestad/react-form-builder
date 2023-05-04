@@ -31,11 +31,27 @@ export const Primary: Story = {
         Items:
             [
                 {
-                    id: 'testItem',
+                    id: 'testItem1',
                     type: 'Text',
-                    name: 'text',
+                    name: 'text1',
                     required: false,
-                    label: 'Text',
+                    label: 'Text 1',
+                    deprecated: false,
+                },
+                {
+                    id: 'testItem2',
+                    type: 'Text',
+                    name: 'text2',
+                    required: false,
+                    label: 'Text 2',
+                    deprecated: false,
+                },
+                {
+                    id: 'testItem3',
+                    type: 'Text',
+                    name: 'text3',
+                    required: false,
+                    label: 'Text 3',
                     deprecated: false,
                 }
             ],

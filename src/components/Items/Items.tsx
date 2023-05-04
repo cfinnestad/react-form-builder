@@ -1,6 +1,23 @@
 import React, {Dispatch, SetStateAction} from "react";
 import {Options} from "../Builder/Builder";
 
+
+export const validateItem = (Item: object, index: number): string[] => {
+    const messages: string[] = []
+    const ids: string[] = []
+    const prefix = "Item #" + index + " has "
+
+    if (!('id' in Item)) { messages.push(prefix+"id missing") }
+    else if (typeof Item.id !== 'string') { messages.push(prefix+"invalid property 'id' should be a string") }
+    else if (ids.includes(Item.id)) { messages.push(prefix+"a duplicate id") }
+    else {ids.push(Item.id)}
+
+    if (!('type' in Item)) { messages.push(prefix+"type missing") }
+    else if (typeof Item.type !== 'string') { messages.push(prefix+"invalid property 'type' should be a string") }
+    // TODO finish validations for all types calling the validate for each specific type
+    return messages
+}
+
 export type BaseItem = {
     id: string,
     type: string,
