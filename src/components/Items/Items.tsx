@@ -140,8 +140,7 @@ export type BooleanSubtype = FieldSubType & {
 
 export type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem
 
-export type AnySubtype = FieldSubType | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype
-
+export type AnySubtype = FieldSubType | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype
 
 export type ItemType = {
     Item: AnyItem,
