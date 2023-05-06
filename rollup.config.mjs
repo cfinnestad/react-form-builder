@@ -5,6 +5,9 @@ import postcss from "rollup-plugin-postcss";
 import babel from '@rollup/plugin-babel';
 import dts from "rollup-plugin-dts";
 
+// import tailwindcss from 'tailwindcss';
+// import tailwindConfig from "./tailwind.config.js";
+
 import packageJson from './package.json' assert { type: 'json' };
 import terser from "@rollup/plugin-terser";
 export default [
@@ -25,7 +28,10 @@ export default [
         plugins: [
             resolve(),
             commonjs(),
-            typescript({ tsconfig: "./tsconfig.json" }),
+            typescript({
+                tsconfig: "./tsconfig.json",
+                exclude: ['node_modules/**', 'Old/**']
+            }),
             postcss(),
             terser(),
             babel({
