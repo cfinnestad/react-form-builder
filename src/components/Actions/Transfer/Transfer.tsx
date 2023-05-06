@@ -11,22 +11,23 @@ export const Transfer = ({Items, SetItems}: ActionProps) => {
     const [isOpen, setIsOpen] = useState(false)
     const [invalidJSON, setInvalidJSON] = useState(false)
     const [unchanged, setUnchanged] = useState(true)
+
+
     const Open = () => {
         setIsOpen(true)
     }
     const Close = () => {
         setIsOpen(false)
     }
-    const SaveText = (event: { target: { value: React.SetStateAction<string> } }) => {
-        let text = event.target.value.toString()
-        setItemsText(text)
+    const SaveText = (event: any) => {
         try {
-            JSON.parse(text)
+            JSON.parse(event.target.value)
             setInvalidJSON(false);
+            setItemsText(event.target.value)
         } catch (error) {
             setInvalidJSON(true)
         }
-        setUnchanged(text === JSON.stringify(Items, null, jsonSpacing))
+        setUnchanged(true)
     }
     const Save = () => {
         if (!invalidJSON) {
@@ -35,7 +36,7 @@ export const Transfer = ({Items, SetItems}: ActionProps) => {
     }
     const Copy = () => {
         if (!invalidJSON) {
-            window.navigator.clipboard.writeText(itemsText);
+            navigator.clipboard.writeText(itemsText)
         }
     }
     const Reset = () => {
