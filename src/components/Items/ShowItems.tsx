@@ -1,48 +1,44 @@
-import React from "react";
+import React, {Dispatch, SetStateAction, useState} from "react";
 import { ItemProps } from "./Items";
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from "react-beautiful-dnd";
-import {Card} from "@mui/material";
+import {Box} from "@mui/material";
+import FormatLineSpacingRoundedIcon from "@mui/icons-material/FormatLineSpacingRounded";
+import ModeRoundedIcon from '@mui/icons-material/ModeRounded';
+import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
+import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
+import EditModal from './EditModal'
 
-import styled from 'styled-components';
 
 type ShowItemsProps = {
     ItemPropsArray: ItemProps[]
 }
 type ShowItemProps = {
     ItemProps: ItemProps,
+    setModal: Dispatch<SetStateAction<JSX.Element>>,
     index: number
 }
 
-const grid:number = 8;
+const grid:number = 3;
 const getItemStyle = (draggableStyle: any, isDragging: boolean):{} => ({
     userSelect: 'none',
     padding: 2*grid,
     margin: `0 0 ${grid}px 0`,
-    background: isDragging ? 'lightgreen' : 'grey',
+    background: isDragging ? 'lightgreen' : 'lightgrey',
     ...draggableStyle
 });
 
 
+const ShowItem = ({ItemProps, index, setModal}: ShowItemProps) => {
 
-const Handle = styled.div`
-    display: flex;
-    align-items: center;
-    align-content: center;
-    user-select: none;
-    margin: -0.5rem 0.5rem -0.5rem -0.5rem;
-    padding: 0.5rem;
-    line-height: 1.5;
-    border-radius: 3px 0 0 3px;
-    background: #fff;
-    border-right: 1px solid #ddd;
-    color: #000;
-`;
-
-const ShowItem = ({ItemProps, index}: ShowItemProps) => {
+    const openModal = (ItemProps: ItemProps) => {
+        console.log('ItemProps', ItemProps)
+        console.log('IP', ItemProps)
+        setModal(<EditModal ItemProps={ItemProps} setModal={setModal} />)
+    }
     // @ts-ignore
     return <Draggable type='Item' draggableId={ItemProps.Item.id} index={index}>
         {(providedDraggable: DraggableProvided, snapshotDraggable:DraggableStateSnapshot) => (
-            <Card
+            <Box
                 ref={providedDraggable.innerRef}
                 {...providedDraggable.draggableProps}
                 {...providedDraggable.dragHandleProps}
@@ -50,32 +46,28 @@ const ShowItem = ({ItemProps, index}: ShowItemProps) => {
                     providedDraggable.draggableProps.style,
                     snapshotDraggable.isDragging
                 )}
-
+                sx={{ display:'flex' }}
             >
-                <Handle
-                    {...providedDraggable.dragHandleProps}>
-                    <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24">
-                        <path
-                            // fill="currentColor"
-                            d="M3,15H21V13H3V15M3,19H21V17H3V19M3,11H21V9H3V11M3,5V7H21V5H3Z"
-                        />
-                    </svg>
-                </Handle>
-                { ItemProps.ItemFC(ItemProps)}
-            </Card>
+                <FormatLineSpacingRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
+                <Box component="div" sx={{ flexGrow: 1 }}>
+                    { ItemProps.ItemFC({...ItemProps})}
+                </Box>
+                <ModeRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={()=>openModal(ItemProps)}/>
+                <ContentCopyRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
+                <DeleteForeverRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
+            </Box>
         )}
     </Draggable>
 }
 
-
 const ShowItems = ({ItemPropsArray}: ShowItemsProps) => {
+    const [modal, setModal] = useState( <></>)
+
     return <>
         {
-            ItemPropsArray.map((ItemProp, index) => <ShowItem key={index} ItemProps={ItemProp} index={index}/> )
+            ItemPropsArray.map((ItemProp, index) => <ShowItem key={index} setModal={setModal} ItemProps={ItemProp} index={index}/> )
         }
+        {modal}
     </>
 }
 

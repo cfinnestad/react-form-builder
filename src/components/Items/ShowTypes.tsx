@@ -21,7 +21,7 @@ const getItemStyle = (draggableStyle: any, isDragging: boolean):{} => ({
     userSelect: 'none',
     padding: 2*grid,
     margin: `0 0 ${grid}px 0`,
-    background: isDragging ? 'lightgreen' : 'grey',
+    background: isDragging ? 'lightgreen' : 'lightgrey',
     ...draggableStyle
 });
 
@@ -61,7 +61,7 @@ const ShowType = ({Item, index}: ShowTypeProps) => {
                         snapshotDraggable.isDragging
                     )}
                 >
-                    <Typography variant="h5" component="div">
+                    <Typography component="div">
                         {Item.type}
                     </Typography>
                     {snapshotDraggable.isDragging && (

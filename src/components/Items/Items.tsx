@@ -1,6 +1,7 @@
 import React, {Dispatch, SetStateAction} from "react";
 import {Options} from "../Builder/Builder";
 import {AllowedSubtypes} from "./Subtypes/DefaultSubTypes";
+import {AllowedItems} from "./DefaultItems";
 
 
 export const validateItem = (Item: object, index: number): string[] => {
@@ -151,18 +152,20 @@ export type ItemType = {
 
 export type FieldType = {
     Subtype: AnySubtype,
-    SubtypeFC: (props: any) => JSX.Element,
+    SubtypeFC: (props: ItemProps) => JSX.Element,
     EditFC: (props: any) => JSX.Element,
 }
 
 export type BaseItemProps = {
     Item: AnyItem,
     Items: AnyItem[],
-    ItemFC: (props: any) => JSX.Element,
+    ItemFC: (props:ItemProps) => JSX.Element,
+    EditFC: (props:ItemProps) => JSX.Element,
     IsBuild?: boolean,
     SetItems: Dispatch<SetStateAction<AnyItem[]>>,
     Options: Options,
     AllowedSubtypes: AllowedSubtypes,
+    AllowedItems: AllowedItems,
 }
 
 export type FieldProps = BaseItemProps & { Item: FieldItem }

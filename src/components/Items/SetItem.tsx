@@ -1,22 +1,17 @@
 import {AnyItem, GroupItem} from "./Items";
 
 const SetItem = (Item: AnyItem, Items:AnyItem[]): AnyItem[] => {
-
-    const items: AnyItem[] = [...Items]
-    let found = false
-    items.forEach((curItem, index) => {
-        if(!found) {
-            if (Item.id === curItem.id) {
-                items[index] = Item
-                found = true
-            } else if (curItem.type === "Group") {
-                (curItem as GroupItem).Items = SetItem(Item, (curItem as GroupItem).Items)
-                found = true
-            }
+    console.log('SETITEM', Item)
+    return Items.map((curItem) => {
+        console.log('AAAA', Item.id, curItem.id, curItem.type)
+        if (Item.id === curItem.id) {
+            console.log('SetItem',Item)
+            return Item
+        } else if (curItem.type === "Group") {
+            (curItem as GroupItem).Items = SetItem(Item, (curItem as GroupItem).Items)
         }
+        return curItem
     })
-    return items
-
 }
 
 export default SetItem

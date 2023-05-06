@@ -1,5 +1,6 @@
 import React from "react";
-import Text, { edit as TextEdit } from './Text/Text'
+import Text  from './Text/Text'
+import TextEdit  from './Text/TextEdit'
 import {FieldType} from "../Items";
 
 export type AllowedSubtypes = {

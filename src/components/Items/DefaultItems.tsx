@@ -1,7 +1,8 @@
 import React from "react";
 import {ItemType} from "./Items";
-import Field, { edit as FieldEdit } from "./Field/Field";
-import DefaultSubtypes, { AllowedSubtypes } from "./Subtypes/DefaultSubTypes";
+import Field from "./Field/Field";
+import FieldEdit from "./Field/FieldEdit";
+import { AllowedSubtypes } from "./Subtypes/DefaultSubTypes";
 
 export type AllowedItems = {
     [key: string]: ItemType,
