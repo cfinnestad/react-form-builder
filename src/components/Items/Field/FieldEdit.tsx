@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {AnySubtype, FieldItem, FieldProps} from "../Items";
-import SetItem from "../SetItem";
 
 export const FieldEdit = (FieldProps: FieldProps) => {
     const [item, setItem] = useState(FieldProps.Item as FieldItem)
@@ -11,7 +10,7 @@ export const FieldEdit = (FieldProps: FieldProps) => {
         console.log('ITEM', item)
         if (item !== FieldProps.Item) {
             const itm = {...item}
-            FieldProps.SetItems(SetItem(itm, FieldProps.Items))
+            FieldProps.Options.SetItem(itm)
             console.log('ITEM', itm)
         }
     }, [item])
@@ -26,8 +25,8 @@ export const FieldEdit = (FieldProps: FieldProps) => {
         }
     },[subtype])
     console.log('FE',FieldProps.Item)
-    console.log('AS',FieldProps.AllowedSubtypes[FieldProps.Item.subtype.subtype])
-    const data = FieldProps.AllowedSubtypes[FieldProps.Item.subtype.subtype].EditFC({ subtype: subtype, setSubtype: setSubtype, item })
+    console.log('AS',FieldProps.Options.AllowedSubtypes[FieldProps.Item.subtype.subtype])
+    const data = FieldProps.Options.AllowedSubtypes[FieldProps.Item.subtype.subtype].EditFC({ subtype: subtype, setSubtype: setSubtype, item })
     return <>
         { data }
     </>

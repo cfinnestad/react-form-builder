@@ -6,10 +6,6 @@ import {HiddenItem, ItemProps} from "../Items";
 // If false, render as hidden field
 // Still needs to render, just dont show
 
-export const edit = () => {
-
-    return <></>
-}
 
 const Hidden = (fieldProps: ItemProps) => {
     const item = fieldProps.Item as HiddenItem

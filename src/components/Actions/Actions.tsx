@@ -1,21 +1,19 @@
-import React, {Dispatch, SetStateAction} from "react"
+import React, {FC} from "react"
 import {AppBar, Box, Toolbar, IconButton} from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu';
-import Transfer from "./Transfer/Transfer"
-import Save from "./Save/Save"
-import Clear from "./Clear/Clear"
 import {AnyItem} from "../Items/Items";
 import {Options} from "../Builder/Builder"
 
 export interface ActionProps {
     Items: AnyItem[],
     Options: Options,
-    SetItems: Dispatch<SetStateAction<AnyItem[]>>
 }
 
-const Actions = (ActionProps: ActionProps) => {
-    const Actions = ActionProps.Options.Actions || [Transfer, Save, Clear]
-    const ActionsAppend = ActionProps.Options.ActionsAppend || []
+export type ActionFC = FC<ActionProps>
+
+
+const Actions = ({Items, Options}: ActionProps) => {
+    console.log(Options.Actions)
     return <Box sx={{flexGrow: 1}}>
         <AppBar position="static">
             <Toolbar variant="dense">
@@ -28,7 +26,7 @@ const Actions = (ActionProps: ActionProps) => {
                 >
                     <MenuIcon/>
                 </IconButton>
-                {[...Actions, ...ActionsAppend].map((Action, index) => <div key={index}><Action {...ActionProps}/></div>)}
+                {Options.Actions.map((Action, index) => <div key={index}><Action Items={Items} Options={Options}/></div>)}
             </Toolbar>
         </AppBar>
     </Box>

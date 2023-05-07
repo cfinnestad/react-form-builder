@@ -1,5 +1,5 @@
-import React, {Dispatch, SetStateAction, useState} from "react";
-import { ItemProps } from "./Items";
+import React, {useState} from "react";
+import {AnyItem, ItemProps} from "./Items";
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from "react-beautiful-dnd";
 import {Box} from "@mui/material";
 import FormatLineSpacingRoundedIcon from "@mui/icons-material/FormatLineSpacingRounded";
@@ -7,14 +7,16 @@ import ModeRoundedIcon from '@mui/icons-material/ModeRounded';
 import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import EditModal from './EditModal'
+import {Options} from "../Builder/Builder";
+import ItemFC from "./ItemFC";
 
 
 type ShowItemsProps = {
-    ItemPropsArray: ItemProps[]
+    Items: AnyItem[],
+    Options: Options
 }
 type ShowItemProps = {
     ItemProps: ItemProps,
-    setModal: Dispatch<SetStateAction<JSX.Element>>,
     index: number
 }
 
@@ -28,12 +30,12 @@ const getItemStyle = (draggableStyle: any, isDragging: boolean):{} => ({
 });
 
 
-const ShowItem = ({ItemProps, index, setModal}: ShowItemProps) => {
+const ShowItem = ({ItemProps, index}: ShowItemProps) => {
 
     const openModal = (ItemProps: ItemProps) => {
         console.log('ItemProps', ItemProps)
         console.log('IP', ItemProps)
-        setModal(<EditModal ItemProps={ItemProps} setModal={setModal} />)
+        ItemProps.setModal(<EditModal {...ItemProps} />)
     }
     // @ts-ignore
     return <Draggable type='Item' draggableId={ItemProps.Item.id} index={index}>
@@ -50,7 +52,7 @@ const ShowItem = ({ItemProps, index, setModal}: ShowItemProps) => {
             >
                 <FormatLineSpacingRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
                 <Box component="div" sx={{ flexGrow: 1 }}>
-                    { ItemProps.ItemFC({...ItemProps})}
+                    { ItemFC(ItemProps)}
                 </Box>
                 <ModeRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={()=>openModal(ItemProps)}/>
                 <ContentCopyRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
@@ -60,12 +62,12 @@ const ShowItem = ({ItemProps, index, setModal}: ShowItemProps) => {
     </Draggable>
 }
 
-const ShowItems = ({ItemPropsArray}: ShowItemsProps) => {
+const ShowItems = ({Items, Options}: ShowItemsProps) => {
     const [modal, setModal] = useState( <></>)
 
     return <>
         {
-            ItemPropsArray.map((ItemProp, index) => <ShowItem key={index} setModal={setModal} ItemProps={ItemProp} index={index}/> )
+            Items.map((Item, index) => <ShowItem key={index} ItemProps={{Item:Item, Items:Items, Options:Options, setModal:setModal}} index={index}/> )
         }
         {modal}
     </>

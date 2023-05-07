@@ -1,7 +1,13 @@
 import React from "react";
 import {ItemType} from "./Items";
-import Field, { edit as FieldEdit } from "./Field/Field";
-import DefaultSubtypes, { AllowedSubtypes } from "./Subtypes/DefaultSubTypes";
+import Field from "./Field/Field";
+import FieldEdit from "./Field/FieldEdit";
+import { AllowedSubtypes } from "./Subtypes/DefaultSubTypes";
+import Hidden from "./Hidden/Hidden"
+import HiddenEdit from "./Hidden/HiddenEdit"
+import {ItemGroupEdit} from "./Group/ItemGroupEdit";
+import ItemGroup from "./Group/ItemGroup";
+
 
 export type AllowedItems = {
     [key: string]: ItemType,
@@ -35,6 +41,17 @@ const DefaultItems = (allowedSubtypes: AllowedSubtypes): AllowedItems => {
             },
             ItemFC: Hidden,
             EditFC: HiddenEdit
+        },
+        Group: {
+            Item: {
+                id:'Group',
+                type:'Group',
+                name:'group-1',
+                label:'Group 1',
+                Items:[]
+            },
+            EditFC: ItemGroupEdit,
+            ItemFC: ItemGroup,
         }
     }
 }
