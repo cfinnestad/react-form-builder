@@ -7,16 +7,13 @@ export const FieldEdit = (FieldProps: FieldProps) => {
 
 
     useEffect(()=>{
-        console.log('ITEM', item)
         if (item !== FieldProps.Item) {
             const itm = {...item}
             FieldProps.Options.SetItem(itm)
-            console.log('ITEM', itm)
         }
     }, [item])
 
     useEffect(() => {
-            console.log('TEST', item)
         if (subtype !== item.subtype) {
             const itm = {...item}
             itm.subtype = subtype

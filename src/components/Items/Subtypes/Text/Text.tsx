@@ -33,7 +33,7 @@ const Text = (fieldProps: FieldProps ) => {
         setValue(value)
         setError(false)
         setErrors([])
-        if (!fieldProps.IsBuild) {
+        if (!fieldProps.Options.IsBuild) {
             Item.subtype.value = value
             SetItems(SetItem(Item,Items))
         }
@@ -50,7 +50,7 @@ const Text = (fieldProps: FieldProps ) => {
             multiline={subtype.multiline || false}
             type="text"
             value={value}
-            onChange={(event) => onChange(event, item, fieldProps.Items, fieldProps.SetItems) }
+            onChange={(event) => onChange(event, item, fieldProps.Items, fieldProps.Options.SetItems) }
         />
         <ShowErrors errors={errors}/>
     </>

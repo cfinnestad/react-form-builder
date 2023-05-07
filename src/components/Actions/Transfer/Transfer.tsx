@@ -1,25 +1,38 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography, Snackbar} from '@mui/material';
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import {ActionProps} from "../Actions";
 // @ts-ignore
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import {AnyItem} from "../../Items/Items";
 
 
 const jsonSpacing = 3
 
 export const Transfer = ({Items, Options}: ActionProps) => {
-    const text = JSON.stringify(Items, null, jsonSpacing)
-    const [items, setItems] = useState(Items)
+    let text = JSON.stringify(Items, null, jsonSpacing)
+    let items = Items
     const [itemsText, setItemsText] = useState(text)
     const [modal, setModal] = useState(<></>)
     const [open, setOpen] = useState(false)
     const [invalidJSON, setInvalidJSON] = useState(false)
 
-    console.log('Transfer', Items)
-    if (text !== itemsText) {
-        console.log('init text')
-        setItemsText(text)
-        setItems(Items)
+    const Close = () => {
+        setModal(<></>)
+    }
+    const SaveText = (event: any) => {
+        try {
+            items = JSON.parse(event.target.value)
+            setInvalidJSON(false);
+            setItemsText(event.target.value)
+            text = event.target.value
+        } catch (error) {
+            setInvalidJSON(true)
+        }
+    }
+    const Save = () => {
+        if (!invalidJSON) {
+            Options.SetItems(items)
+        }
     }
 
     const Open = () => {
@@ -32,6 +45,7 @@ export const Transfer = ({Items, Options}: ActionProps) => {
             >
                 <DialogTitle>Export JSON Definition</DialogTitle>
                 <DialogContent>
+                    {/*<TextField type="hidden" value={itemsText}/>*/}
                     <TextField id='transfer-text' variant="standard" multiline minRows={15} error={invalidJSON} defaultValue={itemsText}
                                onChange={SaveText}/>
                     {invalidJSON ?? <p>JSON is invalid</p>}
@@ -47,41 +61,9 @@ export const Transfer = ({Items, Options}: ActionProps) => {
                         message="Copied to clipboard"
                     />
                     <Button color="success" onClick={Save} >Save</Button>
-                    <Button color="warning" onClick={Reset} >Reset</Button>
                     <Button color="secondary" onClick={Close}>Close</Button>
                 </DialogActions>
             </Dialog>)
-    }
-    const Close = () => {
-        setModal(<></>)
-    }
-    const SaveText = (event: any) => {
-        try {
-            console.log('save text')
-            const items = JSON.parse(event.target.value)
-            console.log('save items',items)
-            setInvalidJSON(false);
-            setItemsText(event.target.value)
-            setItems(items)
-            console.log('saved')
-        } catch (error) {
-            console.log('save failed')
-            setInvalidJSON(true)
-        }
-    }
-    const Save = () => {
-        console.log('save',items)
-        if (!invalidJSON) {
-            Options.SetItems(items)
-            console.log('saved')
-        }
-    }
-    const Reset = () => {
-        console.log('reset')
-        setItemsText(text)
-        Close()
-        Open()
-        setInvalidJSON(false)
     }
 
     return <>

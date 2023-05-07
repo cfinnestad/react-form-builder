@@ -1,7 +1,8 @@
 import React from "react";
 import {GroupItem, ItemProps} from "../Items";
-import {Droppable, DroppableProvided, DroppableStateSnapshot} from "react-beautiful-dnd";
+import {DragDropContext, Droppable, DroppableProvided, DroppableStateSnapshot} from "react-beautiful-dnd";
 import ShowItems from "../ShowItems";
+import onDragEnd from "../../Builder/OnDragEnd";
 
 const grid = 3
 const getListStyle = (isDraggingOver: boolean):{} => ({
@@ -13,18 +14,20 @@ const getListStyle = (isDraggingOver: boolean):{} => ({
 const ItemGroup = ({Item, Options}: ItemProps) => {
     const item = Item as GroupItem
     return <>
-        <Droppable type='Item' droppableId={item.id}>
-            {(provided:DroppableProvided, snapshot:DroppableStateSnapshot) => (
-                <div
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    style={getListStyle(snapshot.isDraggingOver)}
-                >
-                    <ShowItems Items={item.Items} Options={Options}  />
-                    {provided.placeholder}
-                </div>
-            )}
-        </Droppable>
+        <DragDropContext onDragEnd={(results) => onDragEnd(results, item.Items, Options)}>
+            <Droppable type={item.id} droppableId={item.id}>
+                {(provided:DroppableProvided, snapshot:DroppableStateSnapshot) => (
+                    <div
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        style={getListStyle(snapshot.isDraggingOver)}
+                    >
+                        <ShowItems Items={item.Items} Options={Options} type={item.id} />
+                        {provided.placeholder}
+                    </div>
+                )}
+            </Droppable>
+        </DragDropContext>
     </>
 }
 

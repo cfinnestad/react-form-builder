@@ -13,11 +13,13 @@ import ItemFC from "./ItemFC";
 
 type ShowItemsProps = {
     Items: AnyItem[],
-    Options: Options
+    Options: Options,
+    type: string
 }
 type ShowItemProps = {
     ItemProps: ItemProps,
-    index: number
+    index: number,
+    type: string
 }
 
 const grid:number = 3;
@@ -30,7 +32,7 @@ const getItemStyle = (draggableStyle: any, isDragging: boolean):{} => ({
 });
 
 
-const ShowItem = ({ItemProps, index}: ShowItemProps) => {
+const ShowItem = ({ItemProps, index, type}: ShowItemProps) => {
 
     const openModal = (ItemProps: ItemProps) => {
         console.log('ItemProps', ItemProps)
@@ -38,7 +40,7 @@ const ShowItem = ({ItemProps, index}: ShowItemProps) => {
         ItemProps.setModal(<EditModal {...ItemProps} />)
     }
     // @ts-ignore
-    return <Draggable type='Item' draggableId={ItemProps.Item.id} index={index}>
+    return <Draggable type={type} draggableId={ItemProps.Item.id} index={index}>
         {(providedDraggable: DraggableProvided, snapshotDraggable:DraggableStateSnapshot) => (
             <Box
                 ref={providedDraggable.innerRef}
@@ -62,12 +64,12 @@ const ShowItem = ({ItemProps, index}: ShowItemProps) => {
     </Draggable>
 }
 
-const ShowItems = ({Items, Options}: ShowItemsProps) => {
+const ShowItems = ({Items, Options, type}: ShowItemsProps) => {
     const [modal, setModal] = useState( <></>)
 
     return <>
         {
-            Items.map((Item, index) => <ShowItem key={index} ItemProps={{Item:Item, Items:Items, Options:Options, setModal:setModal}} index={index}/> )
+            Items.map((Item, index) => <ShowItem key={index} ItemProps={{Item:Item, Items:Items, Options:Options, setModal:setModal}} index={index} type={type}/> )
         }
         {modal}
     </>

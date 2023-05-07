@@ -12,6 +12,7 @@ import Transfer from "../Actions/Transfer/Transfer";
 import Save from "../Actions/Save/Save";
 import Clear from "../Actions/Clear/Clear";
 import SetItem from "../Items/SetItem";
+import onDragEnd from "./OnDragEnd";
 
 type BuilderOptions = {
     Actions?: ActionFC[],
@@ -29,25 +30,14 @@ export type Options = {
     onSave?: (Items: AnyItem[]) => void,
     SetItem: Dispatch<SetStateAction<AnyItem>>,
     SetItems: Dispatch<SetStateAction<AnyItem[]>>,
-    // AddItem: (Item: AnyItem, index:number, groupId?: string) => void,
     IsBuild: boolean,
-    // _reorder?: (list: AnyItem[], startIndex: number, endIndex: number) => AnyItem[] ,
-    // _move?: (source: ListType, destination: ListType, droppableSource:DraggableLocation, droppableDestination:DraggableLocation) => AnyItem[],
-    // _copy?: (destination: ListType, droppableDestination:DraggableLocation, type:string) => AnyItem[],
-    // _updateItems?: ((list: AnyItem[], ids: string[], listPart: AnyItem[]) => AnyItem[],
-    // _getList?: (id: string, curList: AnyItem[]) => ListType,
-    onDragEnd?: (result: DropResult) => void,
+    // onDragEnd?: (result: DropResult) => void,
 }
 
 export type BuilderProps = {
     Items?: AnyItem[],
     SetItems?: Dispatch<SetStateAction<AnyItem[]>>,
     Options?: BuilderOptions,
-}
-
-type ListType = {
-    id: string[]
-    list?: AnyItem[]
 }
 
 const grid:number = 2;
@@ -61,46 +51,6 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     const [items, setItems] = useState(Items || [])
     const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
 
-    const onDragEnd = (result: DropResult):void => {
-        const { source, destination, draggableId } = result;
-
-        if (!destination) {
-            return;
-        }
-
-        switch (source.droppableId) {
-            case destination.droppableId:
-                if (source.index === destination.index) {
-                    return
-                }
-                setItems(reorder(
-                        items,
-                        source.index,
-                        destination.index
-                    )
-                );
-                break;
-            case 'Types':
-                setItems(
-                    copy(
-                        getList(destination.droppableId, items),
-                        destination,
-                        draggableId
-                    )
-                );
-                break;
-            default:
-                setItems(
-                    move(
-                        getList(source.droppableId, items),
-                        getList(destination.droppableId, items),
-                        source,
-                        destination
-                    )
-                );
-                break;
-        }
-    }
     const AllowedSubtypes: AllowedSubtypes = {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})}
     const AllowedItems:AllowedItems = {...(Options?.AllowedItems || DefaultItems(AllowedSubtypes)), ...(Options?.AdditionalItems || {})}
     const MyActions:ActionFC[] = [Transfer, Save, Clear]
@@ -117,12 +67,11 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         // options._copy = copy
         // options._updateItems = updateItems
         // options._getList = getList
-        onDragEnd: onDragEnd
+        // onDragEnd: onDragEnd
     }
 
 
     useEffect(() => {
-        console.log('items effect', items)
         if(SetItems) {
             SetItems(items)
         }
@@ -132,77 +81,10 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         setItems(SetItem(item, items))
     },[item])
 
-    const reorder = (list: AnyItem[], startIndex: number, endIndex: number):AnyItem[] => {
-        const result: AnyItem[] = [...list];
-        const [removed] = result.splice(startIndex, 1);
-        result.splice(endIndex, 0, removed);
-
-        console.log('Reorder', result)
-        return result;
-    };
-    const move = (source: ListType, destination: ListType, droppableSource:DraggableLocation, droppableDestination:DraggableLocation):AnyItem[] => {
-        const sourceClone = [...source.list || []];
-        const destClone = [...destination.list || []];
-        const [removed] = sourceClone.splice(droppableSource.index, 1);
-
-        destClone.splice(droppableDestination.index, 0, removed);
-
-        let newItems = updateItems(items, source.id, sourceClone)
-        return updateItems(newItems, destination.id, destClone)
-    };
-    const copy = (destination: ListType, droppableDestination:DraggableLocation, type:string) => {
-        console.log('==> dest', destination);
-
-        const destClone = [...destination.list || []];
-        const item = {...options.AllowedItems[type].Item};
-        item.id = uuid()
-
-        destClone.splice(droppableDestination.index, 0, { ...item, id: uuid() });
-        return updateItems(items, destination.id, destClone)
-    };
-    const updateItems = (list: AnyItem[], ids: string[], listPart: AnyItem[]): AnyItem[] => {
-        const id = ids.pop()
-        if (id === undefined) {
-            return listPart
-        }
-        return list.map(AnyItem => {
-            if (AnyItem.id === id) {
-                (AnyItem as GroupItem).Items = updateItems((AnyItem as GroupItem).Items, ids, listPart)
-            }
-            return AnyItem
-        })
-    }
-    const getList = (id: string, curList: AnyItem[]): ListType => {
-        const list: ListType = {
-            id: [],
-        }
-        if (id === 'mainItems') {
-            list.list = curList
-        }
-        let found = false
-        curList.forEach((Item) => {
-           if (!found) {
-               if (Item.id === id) {
-                   list.id.push(id)
-                   list.list = (Item as GroupItem).Items
-                   found = true
-               } else if (Item.type === "Group") {
-                   let nextList = getList(id, (Item as GroupItem).Items)
-                   if (nextList.list !== undefined) {
-                       list.id.push(id)
-                       list.list = nextList.list
-                       found = true
-                   }
-               }
-           }
-        })
-        return list
-    }
-
     return <div className='builder'>
         <Actions Items={items} Options={options}/>
         <Box>
-            <DragDropContext onDragEnd={onDragEnd}>
+            <DragDropContext onDragEnd={(results) => onDragEnd(results, items, options)}>
                 <Grid container spacing={2}>
                     <Grid item xs={10}>
                         <Droppable type='Item' droppableId="mainItems">
@@ -212,7 +94,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                                     {...provided.droppableProps}
                                     style={getListStyle(snapshot.isDraggingOver)}
                                 >
-                                    <ShowItems Items={items} Options={options}/>
+                                    <ShowItems Items={items} Options={options} type="Item"/>
                                     {provided.placeholder}
                                 </div>
                             )}

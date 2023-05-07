@@ -2,6 +2,7 @@ import React, {ChangeEvent, Dispatch, SetStateAction, useState} from "react";
 import {FieldItem, TextSubtype,} from "../../Items";
 import {TextField, Checkbox, FormGroup, FormControlLabel} from "@mui/material";
 import ShowErrors from "../ShowErrors";
+import subtypeEdit from "../SubtypeEdit";
 
 type TextEditProps = {
     subtype: TextSubtype,
@@ -16,41 +17,45 @@ export const TextEdit = ({subtype, setSubtype, item}: TextEditProps ) => {
     const [maxLengthError, setMaxLengthError] = useState( false)
     const [maxLengthErrors, setMaxLengthErrors] = useState( [] as string[])
 
-    console.log('TE1',item)
-
     const onChangeMinLength = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value === '' ? undefined : event.target.value
-        if (value && value?.match(/^[0-9]+$/) === undefined) {
-            setMinLengthError(true)
-            setMaxLengthErrors(['minLength must be a positive number'])
-            return false
+
+        const value = event.target.value === '' ? undefined : parseInt(event.target.value)
+
+        if (value !== undefined) {
+            if (value < 0) {
+                setMinLengthError(true)
+                setMaxLengthErrors(['minLength must be a positive number'])
+                return false
+            }
+            if (subtype.maxLength && (value > subtype.maxLength)) {
+                setMinLengthError(true)
+                setMaxLengthErrors(['Min Length must not be greater than Max Length'])
+                return false
+            }
         }
         setMinLengthError(false)
         setMinLengthErrors([]);
-        subtype.minLength = value ? parseInt(value) : undefined
-        console.log('ST', subtype)
+        subtype.minLength = value
         setSubtype(subtype)
     }
 
     const onChangeMaxLength = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value === '' ? undefined : event.target.value
-        let maxLength: number|undefined = undefined
-        if (value) {
-            if (value?.match(/^[0-9]+$/) === undefined) {
-                setMaxLengthError(true)
-                setMaxLengthErrors(['Max Length must be a positive number'])
-                return false
-            }
-            maxLength = parseInt(value)
-            if (maxLength === 0) {
+        const value = event.target.value === '' ? undefined : parseInt(event.target.value)
+        if (value !== undefined) {
+            if (value < 1) {
                 setMaxLengthError(true)
                 setMaxLengthErrors(['Max Length must be greater the 0'])
+                return false
+            }
+            if (subtype.minLength && (value < subtype.minLength)) {
+                setMaxLengthError(true)
+                setMaxLengthErrors(['Max Length must not be less than Min Length '])
                 return false
             }
         }
         setMaxLengthError(false);
         setMaxLengthErrors([]);
-        subtype.maxLength = maxLength
+        subtype.maxLength = value
         setSubtype(subtype)
     }
 
@@ -77,13 +82,11 @@ export const TextEdit = ({subtype, setSubtype, item}: TextEditProps ) => {
 
     const onClickMultiline = () => {
         const st = {...subtype}
-        console.log('here', subtype.multiline)
         if (subtype.multiline !== undefined) {
             delete st.multiline
         } else {
             st.multiline = true
         }
-        console.log('ST', st)
         setSubtype(st)
 
     }
@@ -107,6 +110,7 @@ export const TextEdit = ({subtype, setSubtype, item}: TextEditProps ) => {
             fullWidth={true}
             label='Min Length'
             type="number"
+            inputProps={{"min": (subtype.maxLength || 0)}}
             error={minLengthError}
             value={subtype.minLength}
             onChange={onChangeMinLength}
@@ -117,6 +121,7 @@ export const TextEdit = ({subtype, setSubtype, item}: TextEditProps ) => {
             fullWidth={true}
             label='Max Length'
             type="number"
+            inputProps={{"min": (subtype.minLength || 1)}}
             error={maxLengthError}
             value={subtype.maxLength}
             onChange={onChangeMaxLength}

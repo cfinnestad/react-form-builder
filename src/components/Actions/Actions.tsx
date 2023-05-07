@@ -13,7 +13,6 @@ export type ActionFC = FC<ActionProps>
 
 
 const Actions = ({Items, Options}: ActionProps) => {
-    console.log(Options.Actions)
     return <Box sx={{flexGrow: 1}}>
         <AppBar position="static">
             <Toolbar variant="dense">
