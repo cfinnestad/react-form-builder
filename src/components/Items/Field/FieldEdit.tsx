@@ -2,14 +2,14 @@ import React, {useEffect, useState} from "react";
 import {AnySubtype, FieldItem, FieldProps} from "../Items";
 
 export const FieldEdit = (FieldProps: FieldProps) => {
-    const [item, setItem] = useState(FieldProps.Item as FieldItem)
-    const [subtype, setSubtype] = useState(FieldProps.Item.subtype as AnySubtype)
+    const [item, setItem] = useState(FieldProps.item as FieldItem)
+    const [subtype, setSubtype] = useState(FieldProps.item.subtype as AnySubtype)
 
 
     useEffect(()=>{
-        if (item !== FieldProps.Item) {
+        if (item !== FieldProps.item) {
             const itm = {...item}
-            FieldProps.Options.SetItem(itm)
+            FieldProps.options.SetItem(itm)
         }
     }, [item])
 
@@ -21,9 +21,9 @@ export const FieldEdit = (FieldProps: FieldProps) => {
             console.log('TEST', itm)
         }
     },[subtype])
-    console.log('FE',FieldProps.Item)
-    console.log('AS',FieldProps.Options.AllowedSubtypes[FieldProps.Item.subtype.subtype])
-    const data = FieldProps.Options.AllowedSubtypes[FieldProps.Item.subtype.subtype].EditFC({ subtype: subtype, setSubtype: setSubtype, item })
+    console.log('FE',FieldProps.item)
+    console.log('AS',FieldProps.options.AllowedSubtypes[FieldProps.item.subtype.subtype])
+    const data = FieldProps.options.AllowedSubtypes[FieldProps.item.subtype.subtype].EditFC({ subtype: subtype, setSubtype: setSubtype, item })
     return <>
         { data }
     </>

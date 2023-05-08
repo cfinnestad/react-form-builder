@@ -13,28 +13,28 @@ type ShowItemsProps = ItemProps & {
     key?: string|number
 }
 
-export const ShowItem = ({Item, Items, Options}: ShowItemsProps) => {
-    const ItemProps:ItemProps = {
-        Items: Items,
-        Item: Item,
-        Options: Options
+export const ShowItem = ({item, items, options}: ShowItemsProps) => {
+    const itemProps: ItemProps = {
+        items: items,
+        item: item,
+        options: options
     }
 
     const openModal = (ItemProps: ItemProps) => {
         console.log('ItemProps', ItemProps)
         console.log('IP', ItemProps)
-        Options.SetModal(<EditModal {...ItemProps} />)
+        options.setModal(<EditModal {...ItemProps} />)
     }
     // @ts-ignore
     return (
-        <SortableItem id={Item.id}>
+        <SortableItem id={item.id}>
             <DragHandle>
                 <FormatLineSpacingRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
             </DragHandle>
             <Box component="div" sx={{ flexGrow: 1 }}>
-                { ItemFC(ItemProps)}
+                { ItemFC(itemProps)}
             </Box>
-            <ModeRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={()=>openModal(ItemProps)}/>
+            <ModeRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={()=>openModal(itemProps)}/>
             <ContentCopyRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
             <DeleteForeverRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
          </SortableItem>

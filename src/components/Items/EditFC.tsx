@@ -3,7 +3,7 @@ import {ItemProps} from "./Items";
 
 const EditFC = (ItemProps:ItemProps) => {
     // @ts-ignore
-    const data = ItemProps.Options.AllowedItems[ItemProps.Item.type].EditFC(ItemProps)
+    const data = ItemProps.options.AllowedItems[ItemProps.item.type].EditFC(ItemProps)
     return <>{data}</>
 };
 

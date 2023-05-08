@@ -1,8 +1,7 @@
-import React, {Dispatch, FC, SetStateAction, useEffect, useMemo, useState} from "react";
+import React, {Dispatch, FC, JSX, SetStateAction, useEffect, useState} from "react";
 import Actions, {ActionFC, ActionProps} from "../Actions/Actions";
 import DefaultItems, {AllowedItems} from "../Items/DefaultItems";
 import ShowItem from "../Items/ShowItem";
-import ShowTypes from "../Items/ShowTypes";
 import {AnyItem} from "../Items/Items";
 import {Box, Grid} from "@mui/material";
 import DefaultSubtypes, {AllowedSubtypes} from "../Items/Subtypes/DefaultSubTypes";
@@ -11,9 +10,8 @@ import Save from "../Actions/Save/Save";
 import Clear from "../Actions/Clear/Clear";
 import SetItem from "../Items/SetItem";
 import onDragEnd from "./OnDragEnd";
-import {closestCenter, DndContext, useSensor, PointerSensor, KeyboardSensor, Active,} from "@dnd-kit/core";
+import {closestCenter, DndContext, useSensor, PointerSensor, KeyboardSensor} from "@dnd-kit/core";
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
-import {SortableOverlay} from "../SortableOverlay";
 
 type BuilderOptions = {
     Actions?: ActionFC[],
@@ -31,7 +29,7 @@ export type Options = {
     onSave?: (Items: AnyItem[]) => void,
     SetItem: Dispatch<SetStateAction<AnyItem>>,
     SetItems: Dispatch<SetStateAction<AnyItem[]>>,
-    SetModal: Dispatch<SetStateAction<JSX.Element>>,
+    setModal: Dispatch<SetStateAction<JSX.Element>>,
     IsBuild: boolean,
     // onDragEnd?: (result: DropResult) => void,
 }
@@ -43,12 +41,21 @@ export type BuilderProps = {
 }
 
 const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
-    const [active, setActive] = useState<null | Active>(null)
     const [items, setItems] = useState<AnyItem[]>(Items || [])
     const [modal, setModal] = useState( <></>)
     const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
-
-    const sensors = [useSensor(PointerSensor),useSensor(KeyboardSensor)]
+    const sensors = [
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor)
+    ]
+    useEffect(() => {
+        if(SetItems) {
+            SetItems(items)
+        }
+    }, [items])
+    useEffect(()=>{
+        setItems(SetItem(item, items))
+    },[item])
 
     const AllowedSubtypes: AllowedSubtypes = {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})}
     const AllowedItems:AllowedItems = {...(Options?.AllowedItems || DefaultItems(AllowedSubtypes)), ...(Options?.AdditionalItems || {})}
@@ -61,13 +68,13 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         IsBuild: true,
         SetItem: setItem,
         SetItems: setItems,
-        SetModal: setModal,
+        setModal: setModal,
     }
 
-    const activeItem = useMemo(
-        () => items.find((item) => item.id === active?.id),
-        [items, active?.id]
-    );
+    // const activeItem = useMemo(
+    //     () => items.find((item) => item.id === active?.id),
+    //     [items, active?.id]
+    // );
 
     useEffect(() => {
         if(SetItems) {
@@ -85,23 +92,18 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
-                onDragStart={({ active }) => {
-                    setActive(active);
-                }}
-                onDragCancel={() => {
-                    setActive(null);
-                }}
                 onDragEnd={(results) => onDragEnd(results, items, options)}>
                 <Grid container spacing={2}>
                     <Grid item xs={10}>
                         <SortableContext
+                            id="Main"
                             items={items.map(item => item.id)}
                             strategy={verticalListSortingStrategy}>
-                            {items.map((item) => <ShowItem key={item.id} Item={item} Items={items} Options={options}/>)}
+                            {items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options}/>)}
                         </SortableContext>
-                        <SortableOverlay>
-                            {activeItem ? ShowItem({Item: activeItem, Items: items, Options:options}) : null}
-                        </SortableOverlay>
+                        {/*<SortableOverlay>*/}
+                        {/*    {activeItem ? ShowItem( {item: activeItem, items: items, options:options}) : null}*/}
+                        {/*</SortableOverlay>*/}
                     </Grid>
                     <Grid item xs={2}>
                         {/*<ShowTypes AllowedItems={options.AllowedItems}/>*/}

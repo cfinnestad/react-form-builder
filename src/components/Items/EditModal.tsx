@@ -2,11 +2,11 @@ import React from "react";
 import {ItemProps, NamedItem} from "./Items";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import EditFC from "./EditFC";
-const EditModal = (ItemProps: ItemProps) => {
+const EditModal = (itemProps: ItemProps) => {
     const Close = () => {
-        ItemProps.setModal(<></>)
+        itemProps.options.setModal(<></>)
     }
-    console.log('md', ItemProps.Item.id)
+    console.log('md', itemProps.item.id)
     return <>
         <Dialog
             maxWidth="lg"
@@ -14,9 +14,9 @@ const EditModal = (ItemProps: ItemProps) => {
             onClose={Close}
             aria-labelledby="example-modal-sizes-title-lg"
         >
-            <DialogTitle>Edit {(ItemProps.Item as NamedItem)?.name} {ItemProps.Item.type} ({ItemProps.Item.id}) </DialogTitle>
+            <DialogTitle>Edit {(itemProps.item as NamedItem)?.name} {itemProps.item.type} ({itemProps.item.id}) </DialogTitle>
             <DialogContent>
-                <EditFC {...ItemProps}/>
+                <EditFC {...itemProps}/>
             </DialogContent>
             <DialogActions>
                 <Button color="secondary" onClick={Close}>Close</Button>

@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction} from "react";
+import React from "react";
 import {Options} from "../Builder/Builder";
 
 
@@ -61,7 +61,7 @@ export type HTMLItem = BaseItem & {
 export type GroupItem = NamedItem & {
     type: 'Group',
     label: string,
-    Items: AnyItem[],
+    items: AnyItem[],
 }
 
 export type FieldItem = NamedItem & {
@@ -153,12 +153,12 @@ export type FieldType = {
 }
 
 export type BaseItemProps = {
-    Item: AnyItem,
-    Items: AnyItem[],
-    Options: Options
+    item: AnyItem,
+    items: AnyItem[],
+    options: Options
 }
 
-export type FieldProps = BaseItemProps & { Item: FieldItem }
+export type FieldProps = BaseItemProps & { item: FieldItem }
 export type GroupProps = BaseItemProps & { Item: GroupItem }
 export type HTMLProps = BaseItemProps & { Item: HTMLItem }
 export type HiddenProps = BaseItemProps & { Item: HiddenItem }

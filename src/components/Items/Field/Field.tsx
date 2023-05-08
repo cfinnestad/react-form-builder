@@ -3,7 +3,7 @@ import { FieldProps } from "../Items";
 
 const Field = (fieldProps: FieldProps) => {
     return <>
-        { fieldProps.Options.AllowedSubtypes[fieldProps.Item.subtype.subtype].SubtypeFC(fieldProps) }
+        { fieldProps.options.AllowedSubtypes[fieldProps.item.subtype.subtype].SubtypeFC(fieldProps) }
     </>
 }
 

@@ -1,8 +1,10 @@
 import React from "react";
 import {GroupItem, ItemProps} from "../Items";
-import {DragDropContext, Droppable, DroppableProvided, DroppableStateSnapshot} from "react-beautiful-dnd";
+// import {DragDropContext, Droppable, DroppableProvided, DroppableStateSnapshot, DropResult} from "react-beautiful-dnd";
 import ShowItems from "../ShowItem";
 import onDragEnd from "../../Builder/OnDragEnd";
+import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
+import ShowItem from "../ShowItem";
 
 const grid = 3
 const getListStyle = (isDraggingOver: boolean):{} => ({
@@ -11,23 +13,14 @@ const getListStyle = (isDraggingOver: boolean):{} => ({
     minHeight: 40
 });
 
-const ItemGroup = ({Item, Options}: ItemProps) => {
-    const item = Item as GroupItem
+const ItemGroup = ({item, options}: ItemProps) => {
+    const myItem = item as GroupItem
     return <>
-        <DragDropContext onDragEnd={(results) => onDragEnd(results, item.Items, Options)}>
-            <Droppable type={item.id} droppableId={item.id}>
-                {(provided:DroppableProvided, snapshot:DroppableStateSnapshot) => (
-                    <div
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        style={getListStyle(snapshot.isDraggingOver)}
-                    >
-                        <ShowItems Items={item.Items} Options={Options} type={item.id} />
-                        {provided.placeholder}
-                    </div>
-                )}
-            </Droppable>
-        </DragDropContext>
+        <SortableContext
+            items={myItem.items.map(item => item.id)}
+            strategy={verticalListSortingStrategy}>
+            {myItem.items.map((item) => <ShowItem key={item.id} item={item} items={myItem.items} options={options}/>)}
+        </SortableContext>
     </>
 }
 

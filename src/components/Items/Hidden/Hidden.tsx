@@ -8,7 +8,7 @@ import {HiddenItem, ItemProps} from "../Items";
 
 
 const Hidden = (fieldProps: ItemProps) => {
-    const item = fieldProps.Item as HiddenItem
+    const item = fieldProps.item as HiddenItem
     const isBuild = true //fieldProps.IsBuild
     // const [showHidden, setShowHidden] = useState(fieldProps.IsBuild)
 

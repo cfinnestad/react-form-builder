@@ -1,9 +1,9 @@
 import {ItemProps} from "./Items";
 import React from "react";
 
-const ItemFC = (ItemProps:ItemProps) => {
+const ItemFC = (itemProps:ItemProps) => {
     // @ts-ignore
-    const data = ItemProps.Options.AllowedItems[ItemProps.Item.type].ItemFC(ItemProps)
+    const data = itemProps.options.AllowedItems[itemProps.item.type].ItemFC(itemProps)
     return <>{data}</>
 };
 

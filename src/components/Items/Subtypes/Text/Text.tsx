@@ -7,8 +7,8 @@ import ShowErrors from "../ShowErrors";
 const Text = (fieldProps: FieldProps ) => {
     const [error, setError] = useState(false)
     const [errors, setErrors] = useState( [] as string[])
-    const [value, setValue] = useState(fieldProps.Item.subtype.value)
-    const item = fieldProps.Item as FieldItem
+    const [value, setValue] = useState(fieldProps.item.subtype.value)
+    const item = fieldProps.item as FieldItem
     const subtype = item.subtype as TextSubtype
 
     const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, Item: FieldItem, Items: AnyItem[], SetItems: Dispatch<SetStateAction<AnyItem[]>>) => {
@@ -33,7 +33,7 @@ const Text = (fieldProps: FieldProps ) => {
         setValue(value)
         setError(false)
         setErrors([])
-        if (!fieldProps.Options.IsBuild) {
+        if (!fieldProps.options.IsBuild) {
             Item.subtype.value = value
             SetItems(SetItem(Item,Items))
         }
@@ -50,7 +50,7 @@ const Text = (fieldProps: FieldProps ) => {
             multiline={subtype.multiline || false}
             type="text"
             value={value}
-            onChange={(event) => onChange(event, item, fieldProps.Items, fieldProps.Options.SetItems) }
+            onChange={(event) => onChange(event, item, fieldProps.items, fieldProps.options.SetItems) }
         />
         <ShowErrors errors={errors}/>
     </>

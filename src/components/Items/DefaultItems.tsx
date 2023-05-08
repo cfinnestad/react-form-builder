@@ -48,7 +48,7 @@ const DefaultItems = (allowedSubtypes: AllowedSubtypes): AllowedItems => {
                 type:'Group',
                 name:'group-1',
                 label:'Group 1',
-                Items:[]
+                items:[]
             },
             EditFC: ItemGroupEdit,
             ItemFC: ItemGroup,
