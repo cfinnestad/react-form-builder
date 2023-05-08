@@ -1,18 +1,19 @@
-import React, {Dispatch, FC, SetStateAction, useEffect, useState} from "react";
+import React, {Dispatch, FC, SetStateAction, useEffect, useMemo, useState} from "react";
 import Actions, {ActionFC, ActionProps} from "../Actions/Actions";
 import DefaultItems, {AllowedItems} from "../Items/DefaultItems";
-import ShowItems from "../Items/ShowItems";
+import ShowItem from "../Items/ShowItem";
 import ShowTypes from "../Items/ShowTypes";
-import {AnyItem, GroupItem} from "../Items/Items";
+import {AnyItem} from "../Items/Items";
 import {Box, Grid} from "@mui/material";
-import {v4 as uuid} from "uuid"
-import {DragDropContext, Droppable, DroppableProvided, DroppableStateSnapshot, DropResult, DraggableLocation} from "react-beautiful-dnd"
 import DefaultSubtypes, {AllowedSubtypes} from "../Items/Subtypes/DefaultSubTypes";
 import Transfer from "../Actions/Transfer/Transfer";
 import Save from "../Actions/Save/Save";
 import Clear from "../Actions/Clear/Clear";
 import SetItem from "../Items/SetItem";
 import onDragEnd from "./OnDragEnd";
+import {closestCenter, DndContext, useSensor, PointerSensor, KeyboardSensor, Active,} from "@dnd-kit/core";
+import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
+import {SortableOverlay} from "../SortableOverlay";
 
 type BuilderOptions = {
     Actions?: ActionFC[],
@@ -30,6 +31,7 @@ export type Options = {
     onSave?: (Items: AnyItem[]) => void,
     SetItem: Dispatch<SetStateAction<AnyItem>>,
     SetItems: Dispatch<SetStateAction<AnyItem[]>>,
+    SetModal: Dispatch<SetStateAction<JSX.Element>>,
     IsBuild: boolean,
     // onDragEnd?: (result: DropResult) => void,
 }
@@ -40,16 +42,13 @@ export type BuilderProps = {
     Options?: BuilderOptions,
 }
 
-const grid:number = 2;
-const getListStyle = (isDraggingOver: boolean):{} => ({
-    background: isDraggingOver ? 'lightblue' : 'grey',
-    padding: grid,
-    minHeight: 400
-});
-
 const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
-    const [items, setItems] = useState(Items || [])
+    const [active, setActive] = useState<null | Active>(null)
+    const [items, setItems] = useState<AnyItem[]>(Items || [])
+    const [modal, setModal] = useState( <></>)
     const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
+
+    const sensors = [useSensor(PointerSensor),useSensor(KeyboardSensor)]
 
     const AllowedSubtypes: AllowedSubtypes = {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})}
     const AllowedItems:AllowedItems = {...(Options?.AllowedItems || DefaultItems(AllowedSubtypes)), ...(Options?.AdditionalItems || {})}
@@ -62,14 +61,13 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         IsBuild: true,
         SetItem: setItem,
         SetItems: setItems,
-        // options._reorder= reorder
-        // options._move = move
-        // options._copy = copy
-        // options._updateItems = updateItems
-        // options._getList = getList
-        // onDragEnd: onDragEnd
+        SetModal: setModal,
     }
 
+    const activeItem = useMemo(
+        () => items.find((item) => item.id === active?.id),
+        [items, active?.id]
+    );
 
     useEffect(() => {
         if(SetItems) {
@@ -84,38 +82,45 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     return <div className='builder'>
         <Actions Items={items} Options={options}/>
         <Box>
-            <DragDropContext onDragEnd={(results) => onDragEnd(results, items, options)}>
+            <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragStart={({ active }) => {
+                    setActive(active);
+                }}
+                onDragCancel={() => {
+                    setActive(null);
+                }}
+                onDragEnd={(results) => onDragEnd(results, items, options)}>
                 <Grid container spacing={2}>
                     <Grid item xs={10}>
-                        <Droppable type='Item' droppableId="mainItems">
-                            {(provided:DroppableProvided, snapshot:DroppableStateSnapshot) => (
-                                <div
-                                    ref={provided.innerRef}
-                                    {...provided.droppableProps}
-                                    style={getListStyle(snapshot.isDraggingOver)}
-                                >
-                                    <ShowItems Items={items} Options={options} type="Item"/>
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
+                        <SortableContext
+                            items={items.map(item => item.id)}
+                            strategy={verticalListSortingStrategy}>
+                            {items.map((item) => <ShowItem key={item.id} Item={item} Items={items} Options={options}/>)}
+                        </SortableContext>
+                        <SortableOverlay>
+                            {activeItem ? ShowItem({Item: activeItem, Items: items, Options:options}) : null}
+                        </SortableOverlay>
                     </Grid>
                     <Grid item xs={2}>
-                        <Droppable type='Item' droppableId="Types" isDropDisabled={true}>
-                            {(provided:DroppableProvided, snapshot:DroppableStateSnapshot) => (
-                                <div
-                                    ref={provided.innerRef}
-                                    {...provided.droppableProps}
-                                    style={getListStyle(snapshot.isDraggingOver)}
-                                >
-                                    <ShowTypes AllowedItems={options.AllowedItems}/>
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
+                        {/*<ShowTypes AllowedItems={options.AllowedItems}/>*/}
+                        {/*<Droppable type='Item' droppableId="Types" isDropDisabled={true}>*/}
+                        {/*    {(provided:DroppableProvided, snapshot:DroppableStateSnapshot) => (*/}
+                        {/*        <div*/}
+                        {/*            ref={provided.innerRef}*/}
+                        {/*            {...provided.droppableProps}*/}
+                        {/*            style={getListStyle(snapshot.isDraggingOver)}*/}
+                        {/*        >*/}
+                        {/*            <ShowTypes AllowedItems={options.AllowedItems}/>*/}
+                        {/*            {provided.placeholder}*/}
+                        {/*        </div>*/}
+                        {/*    )}*/}
+                        {/*</Droppable>*/}
                     </Grid>
                 </Grid>
-            </DragDropContext>
+            </DndContext>
+            {modal}
         </Box>
 
     </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import {GroupItem, ItemProps} from "../Items";
 import {DragDropContext, Droppable, DroppableProvided, DroppableStateSnapshot} from "react-beautiful-dnd";
-import ShowItems from "../ShowItems";
+import ShowItems from "../ShowItem";
 import onDragEnd from "../../Builder/OnDragEnd";
 
 const grid = 3

@@ -155,8 +155,7 @@ export type FieldType = {
 export type BaseItemProps = {
     Item: AnyItem,
     Items: AnyItem[],
-    Options: Options,
-    setModal: Dispatch<SetStateAction<JSX.Element>>,
+    Options: Options
 }
 
 export type FieldProps = BaseItemProps & { Item: FieldItem }
