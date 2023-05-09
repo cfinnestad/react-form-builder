@@ -26,19 +26,28 @@ export const ShowItem = ({item, items, options}: ShowItemsProps) => {
         options.setModal(<EditModal {...ItemProps} />)
     }
     // @ts-ignore
-    return (
-        <SortableItem id={item.id}>
-            <DragHandle>
-                <FormatLineSpacingRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
-            </DragHandle>
-            <Box component="div" sx={{ flexGrow: 1 }}>
-                { ItemFC(itemProps)}
-            </Box>
-            <ModeRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={()=>openModal(itemProps)}/>
-            <ContentCopyRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
-            <DeleteForeverRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
-         </SortableItem>
-    )
+
+
+        if (options.IsBuild) {
+            return (
+                <SortableItem id={item.id}>
+                    <DragHandle>
+                        <FormatLineSpacingRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
+                    </DragHandle>
+                    <Box component="div" sx={{ flexGrow: 1 }}>
+                        { ItemFC(itemProps)}
+                    </Box>
+                    <ModeRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={()=>openModal(itemProps)}/>
+                    <ContentCopyRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
+                    <DeleteForeverRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
+                </SortableItem>
+            )
+        }
+
+        return <Box className="py-4" component="div" sx={{ flexGrow: 1 }}>
+            { ItemFC(itemProps)}
+        </Box>
+
 }
 
 export default ShowItem

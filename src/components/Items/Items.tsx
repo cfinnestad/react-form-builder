@@ -163,3 +163,10 @@ export type GroupProps = BaseItemProps & { Item: GroupItem }
 export type HTMLProps = BaseItemProps & { Item: HTMLItem }
 export type HiddenProps = BaseItemProps & { Item: HiddenItem }
 export type ItemProps = BaseItemProps|FieldProps|GroupProps|HiddenProps|HTMLProps
+
+
+export function isGroup(item: AnyItem): item is GroupItem { return item.type === "Group" }
+export function isHidden(item: AnyItem): item is HiddenItem { return item.type === "Hidden" }
+export function isField(item: AnyItem): item is FieldItem { return item.type === "Field" }
+export function isHtml(item: AnyItem): item is HTMLItem { return item.type === "HTML" }
+

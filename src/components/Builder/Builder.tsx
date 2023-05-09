@@ -1,4 +1,4 @@
-import React, {Dispatch, FC, JSX, SetStateAction, useEffect, useState} from "react";
+import React, {Dispatch, FC, SetStateAction, useEffect, useState} from "react";
 import Actions, {ActionFC, ActionProps} from "../Actions/Actions";
 import DefaultItems, {AllowedItems} from "../Items/DefaultItems";
 import ShowItem from "../Items/ShowItem";
@@ -23,15 +23,15 @@ type BuilderOptions = {
     onSave?: (Items: AnyItem[]) => void,
 }
 export type Options = {
-    Actions: FC<ActionProps>[],
+    Actions?: FC<ActionProps>[],
     AllowedItems: AllowedItems,
     AllowedSubtypes: AllowedSubtypes,
     onSave?: (Items: AnyItem[]) => void,
     SetItem: Dispatch<SetStateAction<AnyItem>>,
     setItems: Dispatch<SetStateAction<AnyItem[]>>,
-    setModal: Dispatch<SetStateAction<JSX.Element>>,
+    setModal?: Dispatch<SetStateAction<JSX.Element>>,
     IsBuild: boolean,
-    // onDragEnd?: (result: DropResult) => void,
+    renderType?: 'object' | 'flatobject' | 'array' | 'flatarray'
 }
 
 export type BuilderProps = {

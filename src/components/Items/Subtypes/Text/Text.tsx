@@ -1,4 +1,4 @@
-import React, {ChangeEvent, Dispatch, SetStateAction, useState} from "react";
+import React, {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from "react";
 import {AnyItem, FieldItem, FieldProps, TextSubtype,} from "../../Items";
 import {TextField} from "@mui/material";
 import SetItem from "../../SetItem";
@@ -11,25 +11,45 @@ const Text = (fieldProps: FieldProps ) => {
     const item = fieldProps.item as FieldItem
     const subtype = item.subtype as TextSubtype
 
+    useEffect(() => {
+        if(!fieldProps.options.IsBuild) {
+            item.subtype.value = value
+            fieldProps.options.SetItem(item)
+        }
+    }, [value])
+
     const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, Item: FieldItem, Items: AnyItem[], SetItems: Dispatch<SetStateAction<AnyItem[]>>) => {
         const value = event.target.value || undefined
         if (item.required && value === undefined) {
             setError(true)
             setErrors([Item.name + ' is required'])
-            return false
         }
         if (value) {
             if (value.length < (subtype.minLength || 0)) {
                 setError(true)
                 setErrors([item.label + ' must be at least ' + subtype.minLength + 'charters long'])
-                return
             }
             if (value.length > (subtype.maxLength || 0)) {
                 setError(true)
                 setErrors([item.label + ' cannot exceed ' + subtype.minLength + 'charters'])
-                return
             }
         }
+
+        if(errors.length > 0) {
+            console.log('errors', errors)
+        }
+
+        console.log('value', value)
+
+        if(!fieldProps.options.IsBuild) {
+            const itm = {...item}
+            itm.subtype = {...itm.subtype}
+
+
+            itm.subtype.value = value
+            fieldProps.options.SetItem(itm)
+        }
+
         setValue(value)
         setError(false)
         setErrors([])

@@ -1,4 +1,4 @@
-import {AnyItem, GroupItem} from "./Items";
+import {AnyItem, GroupItem, isGroup} from "./Items";
 
 const SetItem = (item: AnyItem, items:AnyItem[]): AnyItem[] => {
     console.log('SETITEM', item)
@@ -7,8 +7,8 @@ const SetItem = (item: AnyItem, items:AnyItem[]): AnyItem[] => {
         if (item.id === curItem.id) {
             console.log('SetItem',item)
             return item
-        } else if (curItem.type === "Group") {
-            (curItem as GroupItem).items = SetItem(item, (curItem as GroupItem).items)
+        } else if (isGroup(curItem)) {
+            curItem.items = SetItem(item, curItem.items)
         }
         return curItem
     })
