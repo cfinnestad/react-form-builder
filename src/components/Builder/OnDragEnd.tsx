@@ -1,128 +1,120 @@
 import {AnyItem, GroupItem} from "../Items/Items";
 import {v4 as uuid} from "uuid";
 import {Options} from "./Builder";
-import {Active, DragEndEvent, Over, UniqueIdentifier} from "@dnd-kit/core";
+import {Active, DragEndEvent} from "@dnd-kit/core";
+import findDragItem, {DragItem} from "../Items/findDragItem";
 
-type ListType = {
-	ids: (string|number)[]
-	list?: AnyItem[]
-}
-
-// const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: Options):void => {
-// }
 const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: Options):void => {
 	const { active, over } = result;
 	console.log('active', active)
 	console.log('over', active)
-	const reorder = (list: AnyItem[], active: Active, over: Over):AnyItem[] => {
-		const result: AnyItem[] = [...list];
 
-		const activeIndex = list.findIndex(({ id }) => id === active.id);
-		const overIndex = list.findIndex(({ id }) => id === over.id);
-		const [removed] = result.splice(activeIndex, 1);
-		result.splice(overIndex, 0, removed);
+	const reorder = (source: DragItem | undefined, destination: DragItem | undefined):AnyItem[] => {
+		console.log('source', source)
+		console.log('destination', destination)
+		if(source === undefined || destination === undefined) {
+			return items
+		}
 
-		return result;
+		const newList = [...source.items || []]
+		newList[destination.index] = newList.splice(source.index, 1, newList[destination.index])[0]
+
+		console.log('newList', newList)
+		return updateItems(items, source.groupId, newList);
 	};
-	const move = (active: Active, over: Over):AnyItem[] => {
+	const move = (source: DragItem | undefined, destination: DragItem | undefined):AnyItem[] => {
+		if(source === undefined || destination === undefined) {
+			return items
+		}
+		console.log('move', items)
 
-		const source = getList(active.id, items)
-		const destination = getList(over.id, items)
-		const sourceClone = [...source.list || []];
-		const destClone = [...destination.list || []];
+		const sourceClone = [...source.items];
+		const destClone = [...destination?.items];
 
-		const activeIndex = sourceClone.findIndex(({ id }) => id === active.id);
-		const overIndex = destClone.findIndex(({ id }) => id === over.id);
-		const [removed] = sourceClone.splice(activeIndex, 1);
+		console.log('source', sourceClone)
+		console.log('removed', destClone)
+		console.log('activeId', source.item.id)
+		console.log('overId', destination.item.id)
 
-		destClone.splice(overIndex, 0, removed);
+		const [removed] = sourceClone.splice(source.index, 1);
+		console.log('activeIndex', source.index)
+		console.log('overIndex', destination.index)
+		console.log('removed', removed)
 
-		let newItems = updateItems(items, source.ids, sourceClone)
-		return updateItems(newItems, destination.ids, destClone)
+		//todo may want to make sure name is unique in the destination list
+
+		destClone.splice(destination.index, 0, removed);
+
+		let newItems =updateItems(updateItems(items, source.groupId, sourceClone), destination.groupId, destClone)
+		console.log(newItems)
+		return newItems
 	};
-	const copy = (destination: ListType, over: Over, type: UniqueIdentifier) => {
+	const copy = (active: Active, destination: DragItem | undefined) => {
 		console.log('==> dest', destination);
 
-		const destClone = [...destination.list || []];
-		const overIndex = destClone.findIndex(({ id }) => id === over.id);
-		const item = {...options.AllowedItems[type].Item};
-		item.id = uuid()
+		const destClone = [...destination.items || []];
+		const overIndex = destination.index;
+		const item = {...options.AllowedItems[active.id].Item};
 
 		//todo may want to make sure name is unique in the destination list
 
 		destClone.splice(overIndex, 0, { ...item, id: uuid() });
-		return updateItems(items, destination.ids, destClone)
+		return updateItems(items, destination.containerId, destClone)
 	};
 
-	const updateItems = (list: AnyItem[], ids: (string|number)[], listPart: AnyItem[]): AnyItem[] => {
-		const id = ids.pop()
-		if (id === undefined) {
+	const updateItems = (list: AnyItem[], containerId: string|number, listPart: AnyItem[]): AnyItem[] => {
+		if (containerId === 'Main') {
 			return listPart
 		}
-		return list.map(AnyItem => {
-			if (AnyItem.id === id) {
-				(AnyItem as GroupItem).items = updateItems((AnyItem as GroupItem).items, ids, listPart)
+		return list.map(item => {
+			if (item.id === containerId) {
+				(item as GroupItem).items = listPart
+			} else if(item.type === 'Group') {
+				(item as GroupItem).items = updateItems((item as GroupItem).items, containerId, listPart)
 			}
-			return AnyItem
+			return item
 		})
 	}
-	const getList = (id: string|number, curList: AnyItem[]): ListType => {
-		const list: ListType = {
-			ids: [],
-		}
-		if (id === 'mainItems') {
-			list.list = curList
-		}
-		let found = false
-		curList.forEach((Item) => {
-			if (!found) {
-				if (Item.id === id) {
-					list.ids.push(id)
-					list.list = (Item as GroupItem).items
-					found = true
-				} else if (Item.type === "Group") {
-					let nextList = getList(id, (Item as GroupItem).items)
-					if (nextList.list !== undefined) {
-						list.ids.push(id)
-						list.list = nextList.list
-						found = true
-					}
-				}
-			}
-		})
-		return list
-	}
+
 	if (!over) {
 		return;
 	}
 
-	switch (active?.data?.current?.sortable?.id) {
-		case over?.data?.current?.sortable.id:
-			return
-		// 			if (source.index === destination.index) {
-// 				return
-// 			}
-// 			options.SetItems(reorder(
-// 					items,
-// 					source.index,
-// 					destination.index
-// 				)
-// 			);
-// 			break;
+	const source = active.data.current?.sortable
+	const destination = over.data.current?.sortable
+
+	if(destination.containerId === 'Types') {
+		return
+	}
+
+	console.log('switch')
+	switch (source.containerId) {
 		case 'Types':
-			options.SetItems(
+			console.log('types')
+			options.setItems(
 				copy(
-					getList(over.id, items),
-					over,
-					over.id
+					active,
+					findDragItem(over.id, items, destination.containerId)
+				)
+			);
+			break;
+		case destination.containerId:
+			console.log('reorder')
+			if (source.index === destination.index) {
+				return
+			}
+			options.setItems(reorder(
+					findDragItem(active.id, items, source.containerId),
+					findDragItem(over.id, items, destination.containerId)
 				)
 			);
 			break;
 		default:
-			options.SetItems(
+			console.log('default')
+			options.setItems(
 				move(
-					active,
-					over
+					findDragItem(active.id, items, source.containerId),
+					findDragItem(over.id, items, destination.containerId)
 				)
 			);
 			break;

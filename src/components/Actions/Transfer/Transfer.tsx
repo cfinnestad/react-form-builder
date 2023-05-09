@@ -1,9 +1,8 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography, Snackbar} from '@mui/material';
-import React, {useEffect, useState} from "react"
+import React, {useState} from "react"
 import {ActionProps} from "../Actions";
 // @ts-ignore
 import {CopyToClipboard} from 'react-copy-to-clipboard';
-import {AnyItem} from "../../Items/Items";
 
 
 const jsonSpacing = 3
@@ -31,7 +30,7 @@ export const Transfer = ({Items, Options}: ActionProps) => {
     }
     const Save = () => {
         if (!invalidJSON) {
-            Options.SetItems(items)
+            Options.setItems(items)
         }
     }
 

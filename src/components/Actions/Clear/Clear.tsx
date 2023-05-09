@@ -4,7 +4,7 @@ import {ActionProps} from "../Actions";
 
 const Clear = ({Options}: ActionProps) => {
     const clearItems = () => {
-        Options.SetItems([])
+        Options.setItems([])
     }
     return <>
         <Typography variant="h6" component="div" sx={{flexGrow: 1}}>

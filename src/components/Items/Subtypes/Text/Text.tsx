@@ -50,7 +50,7 @@ const Text = (fieldProps: FieldProps ) => {
             multiline={subtype.multiline || false}
             type="text"
             value={value}
-            onChange={(event) => onChange(event, item, fieldProps.items, fieldProps.options.SetItems) }
+            onChange={(event) => onChange(event, item, fieldProps.items, fieldProps.options.setItems) }
         />
         <ShowErrors errors={errors}/>
     </>

@@ -28,7 +28,7 @@ export type Options = {
     AllowedSubtypes: AllowedSubtypes,
     onSave?: (Items: AnyItem[]) => void,
     SetItem: Dispatch<SetStateAction<AnyItem>>,
-    SetItems: Dispatch<SetStateAction<AnyItem[]>>,
+    setItems: Dispatch<SetStateAction<AnyItem[]>>,
     setModal: Dispatch<SetStateAction<JSX.Element>>,
     IsBuild: boolean,
     // onDragEnd?: (result: DropResult) => void,
@@ -67,7 +67,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         AllowedItems: AllowedItems,
         IsBuild: true,
         SetItem: setItem,
-        SetItems: setItems,
+        setItems: setItems,
         setModal: setModal,
     }
 
