@@ -1,5 +1,5 @@
 import React from "react";
-import {ItemProps} from "./Items";
+import {isField, ItemProps} from "./Items";
 import {Box} from "@mui/material";
 import FormatLineSpacingRoundedIcon from "@mui/icons-material/FormatLineSpacingRounded";
 import ModeRoundedIcon from '@mui/icons-material/ModeRounded';
@@ -20,15 +20,18 @@ export const ShowItem = ({item, items, options}: ShowItemsProps) => {
         options: options
     }
 
-    const openModal = (ItemProps: ItemProps) => {
-        console.log('ItemProps', ItemProps)
-        console.log('IP', ItemProps)
-        options.setModal(<EditModal {...ItemProps} />)
-    }
     // @ts-ignore
 
 
         if (options.IsBuild) {
+            const openModal = (ItemProps: ItemProps) => {
+                console.log('ItemProps', ItemProps)
+                console.log('IP', ItemProps)
+                if(options.setModal) {
+                    options.setModal(<EditModal {...ItemProps} />)
+                }
+            }
+
             return (
                 <SortableItem id={item.id}>
                     <DragHandle>
@@ -42,6 +45,10 @@ export const ShowItem = ({item, items, options}: ShowItemsProps) => {
                     <DeleteForeverRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
                 </SortableItem>
             )
+        }
+
+        if (isField(item) && item.deprecated) {
+            return <></>
         }
 
         return <Box className="py-4" component="div" sx={{ flexGrow: 1 }} marginTop={1} marginBottom={1}>
