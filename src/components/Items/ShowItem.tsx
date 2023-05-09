@@ -44,7 +44,7 @@ export const ShowItem = ({item, items, options}: ShowItemsProps) => {
             )
         }
 
-        return <Box className="py-4" component="div" sx={{ flexGrow: 1 }}>
+        return <Box className="py-4" component="div" sx={{ flexGrow: 1 }} marginTop={1} marginBottom={1}>
             { ItemFC(itemProps)}
         </Box>
 

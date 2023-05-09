@@ -5,6 +5,7 @@ import {Active, DragEndEvent} from "@dnd-kit/core";
 import findDragItem, {DragItem} from "../Items/findDragItem";
 
 const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: Options):void => {
+	console.log('result', result)
 	const { active, over } = result;
 	console.log('active', active)
 	console.log('over', active)
@@ -52,6 +53,10 @@ const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: Options):voi
 	const copy = (active: Active, destination: DragItem | undefined) => {
 		console.log('==> dest', destination);
 
+		if(destination === undefined) {
+			return items
+		}
+
 		const destClone = [...destination.items || []];
 		const overIndex = destination.index;
 		const item = {...options.AllowedItems[active.id].Item};
@@ -59,7 +64,7 @@ const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: Options):voi
 		//todo may want to make sure name is unique in the destination list
 
 		destClone.splice(overIndex, 0, { ...item, id: uuid() });
-		return updateItems(items, destination.containerId, destClone)
+		return updateItems(items, destination.groupId, destClone)
 	};
 
 	const updateItems = (list: AnyItem[], containerId: string|number, listPart: AnyItem[]): AnyItem[] => {
