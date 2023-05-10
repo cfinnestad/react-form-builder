@@ -42,8 +42,8 @@ export type NamedItem = BaseItem & {
 }
 
 export type Option = {
-    checked: boolean,
-    startChecked: boolean,
+    selected: boolean,
+    startSelected: boolean,
     fieldName: string,
     value: string,
 }
@@ -65,10 +65,9 @@ export type GroupItem = NamedItem & {
 }
 
 export type FieldItem = NamedItem & {
-    required: boolean,
+    required?: boolean,
     label: string,
-    deprecated: boolean,
-    placeholder?: string,
+    deprecated?: boolean,
     subtype: AnySubtype
 }
 
@@ -121,6 +120,11 @@ export type NumberSubtype = FieldSubType & {
     max?: number,
 }
 
+export type PhoneSubtype = FieldSubType & {
+    subtype: 'Phone',
+    value?: string,
+}
+
 export type DateSubtype = FieldSubType & {
     subtype: 'Date',
     value?: string,
@@ -138,7 +142,7 @@ export type BooleanSubtype = FieldSubType & {
 
 export type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem
 
-export type AnySubtype = FieldSubType | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype
+export type AnySubtype = FieldSubType | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype
 
 export type ItemType = {
     Item: AnyItem,
