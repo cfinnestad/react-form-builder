@@ -16,10 +16,6 @@ jobs:
         with:
           registry-url: https://registry.npmjs.org/
           node-version: 16
-#      - name: 'Automated Version Bump'
-#        uses: 'phips28/gh-action-bump-version@master'
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: publish
         uses: JS-DevTools/npm-publish@v2
         with:
