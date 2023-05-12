@@ -22,5 +22,5 @@ jobs:
 #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: publish
         uses: JS-DevTools/npm-publish@v2
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPMJS_AUTH_TOKEN}}
+        with:
+          token: ${{secrets.NPMJS_AUTH_TOKEN}}
