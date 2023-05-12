@@ -19,4 +19,4 @@ jobs:
       - name: publish
         uses: JS-DevTools/npm-publish@v2
         with:
-          token: ${{secrets.NPMJS_AUTH_TOKEN}}
+          token: ${{secrets.NPMJS_ACCESS_TOKEN}}
