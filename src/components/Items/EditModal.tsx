@@ -4,7 +4,9 @@ import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/ma
 import EditFC from "./EditFC";
 const EditModal = (itemProps: ItemProps) => {
     const Close = () => {
-        itemProps.options.setModal(<></>)
+        if(itemProps.options.setModal != null) {
+            itemProps.options.setModal(<></>)
+        }
     }
     console.log('md', itemProps.item.id)
     return <>
