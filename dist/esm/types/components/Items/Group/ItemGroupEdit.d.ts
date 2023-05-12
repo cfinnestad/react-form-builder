@@ -1,1 +1,2 @@
-export declare const ItemGroupEdit: () => JSX.Element;
+import React from "react";
+export declare const ItemGroupEdit: () => React.JSX.Element;

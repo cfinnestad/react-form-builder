@@ -1,7 +1,8 @@
+/// <reference types="react" />
 import type { StoryObj } from '@storybook/react';
 declare const meta: {
     title: string;
-    component: ({ Items, SetItems, Options }: import("./Builder").BuilderProps) => JSX.Element;
+    component: ({ Items, SetItems, Options }: import("./Builder").BuilderProps) => import("react").JSX.Element;
     tags: string[];
     argTypes: {
         Items: {

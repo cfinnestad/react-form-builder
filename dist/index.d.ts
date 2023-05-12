@@ -1,4 +1,4 @@
-import { FC, Dispatch, SetStateAction } from 'react';
+import React, { FC, Dispatch, SetStateAction } from 'react';
 
 type BaseItem = {
     id: string;
@@ -165,7 +165,7 @@ type BuilderProps = {
     SetItems?: Dispatch<SetStateAction<AnyItem[]>>;
     Options?: BuilderOptions;
 };
-declare const Builder: ({ Items, SetItems, Options }: BuilderProps) => JSX.Element;
+declare const Builder: ({ Items, SetItems, Options }: BuilderProps) => React.JSX.Element;
 
 type RenderProps = {
     Items: AnyItem[];
@@ -183,6 +183,6 @@ type RenderOptions = {
     onSave?: (Items: AnyItem[]) => void;
     returnType?: 'object' | 'flatobject' | 'array' | 'flatarray';
 };
-declare const Render: ({ Items, SetItems, Options, Submit }: RenderProps) => JSX.Element;
+declare const Render: ({ Items, SetItems, Options, Submit }: RenderProps) => React.JSX.Element;
 
 export { Builder, Render };

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { AnyItem } from "../Items/Items";
 import { Options } from "../Builder/Builder";
 export interface ActionProps {
@@ -6,5 +6,5 @@ export interface ActionProps {
     Options: Options;
 }
 export type ActionFC = FC<ActionProps>;
-declare const Actions: ({ Items, Options }: ActionProps) => JSX.Element;
+declare const Actions: ({ Items, Options }: ActionProps) => React.JSX.Element;
 export default Actions;

@@ -1,7 +1,8 @@
+import React from 'react';
 import type { StoryObj } from '@storybook/react';
 declare const meta: {
     title: string;
-    component: ({ Items, SetItems, Options, Submit }: import("./Render").RenderProps) => JSX.Element;
+    component: ({ Items, SetItems, Options, Submit }: import("./Render").RenderProps) => React.JSX.Element;
     tags: string[];
     argTypes: {
         Items: {

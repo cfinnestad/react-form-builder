@@ -1,3 +1,4 @@
+import React from "react";
 import { ItemProps } from "./Items";
-declare const EditFC: (ItemProps: ItemProps) => JSX.Element;
+declare const EditFC: (ItemProps: ItemProps) => React.JSX.Element;
 export default EditFC;

@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from "react";
+import React, { Dispatch, FC, SetStateAction } from "react";
 import { ActionFC, ActionProps } from "../Actions/Actions";
 import { AllowedItems } from "../Items/DefaultItems";
 import { AnyItem } from "../Items/Items";
@@ -28,5 +28,5 @@ export type BuilderProps = {
     SetItems?: Dispatch<SetStateAction<AnyItem[]>>;
     Options?: BuilderOptions;
 };
-declare const Builder: ({ Items, SetItems, Options }: BuilderProps) => JSX.Element;
+declare const Builder: ({ Items, SetItems, Options }: BuilderProps) => React.JSX.Element;
 export default Builder;

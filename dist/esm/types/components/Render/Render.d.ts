@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { AnyItem } from "../Items/Items";
 import { AllowedItems } from "../Items/DefaultItems";
 import { AllowedSubtypes } from "../Items/Subtypes/DefaultSubTypes";
@@ -18,5 +18,5 @@ type RenderOptions = {
     onSave?: (Items: AnyItem[]) => void;
     returnType?: 'object' | 'flatobject' | 'array' | 'flatarray';
 };
-declare const Render: ({ Items, SetItems, Options, Submit }: RenderProps) => JSX.Element;
+declare const Render: ({ Items, SetItems, Options, Submit }: RenderProps) => React.JSX.Element;
 export default Render;
