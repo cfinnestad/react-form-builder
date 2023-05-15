@@ -174,3 +174,13 @@ export function isHidden(item: AnyItem): item is HiddenItem { return item.type =
 export function isField(item: AnyItem): item is FieldItem { return item.type === "Field" }
 export function isHtml(item: AnyItem): item is HTMLItem { return item.type === "HTML" }
 
+export function isSelect(subtype: AnySubtype): subtype is SelectSubtype { return subtype.subtype === "Select"}
+
+export function isRadio(subtype: AnySubtype): subtype is RadioSubtype { return subtype.subtype === "Radio"}
+export function isCheckbox(subtype: AnySubtype): subtype is CheckboxSubtype { return subtype.subtype === "Checkbox"}
+export function isText(subtype: AnySubtype): subtype is TextSubtype { return subtype.subtype === "Text"}
+export function isEmail(subtype: AnySubtype): subtype is EmailSubtype { return subtype.subtype === "Email"}
+export function isNumber(subtype: AnySubtype): subtype is NumberSubtype { return subtype.subtype === "Number"}
+export function isDate(subtype: AnySubtype): subtype is DateSubtype { return subtype.subtype === "Date"}
+export function isBoolean(subtype: AnySubtype): subtype is BooleanSubtype { return subtype.subtype === "Boolean"}
+export function isPhone(subtype: AnySubtype): subtype is PhoneSubtype { return subtype.subtype === "Phone"}
