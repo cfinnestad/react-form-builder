@@ -16,23 +16,57 @@ const Filter = (item: AnyItem, items: AnyItem[], filter: FilterType|undefined): 
         const relatedField = GetItem(filter.fieldId, items)
         if (relatedField !== undefined) {
             if (isEqFilter(filter)) {
-                return relatedField.subtype.value == filter.value
+                if(relatedField.subtype.value instanceof Array) {
+                    // @ts-ignore
+                    return relatedField.subtype.value.includes(filter.value)
+                } else {
+                    return relatedField.subtype.value == filter.value
+                }
             }
             if (isGtFilter(filter))  {
-                // @ts-ignore
-                return relatedField.subtype.value > filter.value
+
+                if(relatedField.subtype.value instanceof Array) {
+                    let result = false
+                    relatedField.subtype.value.map(curValue => {
+                        result ||= (curValue > filter.value)
+                    })
+                } else {
+                    // @ts-ignore
+                    return relatedField.subtype.value > filter.value
+                }
             }
             if (isGteFilter(filter)) {
-                // @ts-ignore
-                return relatedField.subtype.value >= filter.value
+                if(relatedField.subtype.value instanceof Array) {
+                    let result = false
+                    relatedField.subtype.value.map(curValue => {
+                        result ||= (curValue >= filter.value)
+                    })
+                } else {
+                    // @ts-ignore
+                    return relatedField.subtype.value >= filter.value
+                }
             }
             if (isLtFilter(filter)) {
-                // @ts-ignore
-                return relatedField.subtype.value < filter.value
+                if(relatedField.subtype.value instanceof Array) {
+                    let result = false
+                    relatedField.subtype.value.map(curValue => {
+                        result ||= (curValue < filter.value)
+                    })
+                } else {
+                    // @ts-ignore
+                    return relatedField.subtype.value < filter.value
+                }
             }
             if (isLteFilter(filter)) {
-                // @ts-ignore
-                return relatedField.subtype.value < filter.value
+                if(relatedField.subtype.value instanceof Array) {
+                    let result = false
+                    relatedField.subtype.value.map(curValue => {
+                        result ||= (curValue <= filter.value)
+                    })
+                } else {
+                    // @ts-ignore
+                    return relatedField.subtype.value <= filter.value
+                }
             }
         }
     }
