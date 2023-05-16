@@ -5,10 +5,7 @@ import {Active, DragEndEvent} from "@dnd-kit/core";
 import findDragItem, {DragItem} from "../Items/findDragItem";
 
 const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: Options):void => {
-	console.log('result', result)
 	const { active, over } = result;
-	console.log('active', active)
-	console.log('over', active)
 
 	const reorder = (source: DragItem | undefined, destination: DragItem | undefined):AnyItem[] => {
 		console.log('source', source)
@@ -20,27 +17,17 @@ const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: Options):voi
 		const newList = [...source.items || []]
 		newList[destination.index] = newList.splice(source.index, 1, newList[destination.index])[0]
 
-		console.log('newList', newList)
 		return updateItems(items, source.groupId, newList);
 	};
 	const move = (source: DragItem | undefined, destination: DragItem | undefined):AnyItem[] => {
 		if(source === undefined || destination === undefined) {
 			return items
 		}
-		console.log('move', items)
 
 		const sourceClone = [...source.items];
 		const destClone = [...destination?.items];
 
-		console.log('source', sourceClone)
-		console.log('removed', destClone)
-		console.log('activeId', source.item.id)
-		console.log('overId', destination.item.id)
-
 		const [removed] = sourceClone.splice(source.index, 1);
-		console.log('activeIndex', source.index)
-		console.log('overIndex', destination.index)
-		console.log('removed', removed)
 
 		//todo may want to make sure name is unique in the destination list
 

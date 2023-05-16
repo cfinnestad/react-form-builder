@@ -1,10 +1,11 @@
-import React, {Dispatch, FC, SetStateAction, useEffect, useState} from 'react';
-import {AnyItem, isField, isGroup, isHidden, isHtml} from "../Items/Items";
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import {AnyItem, isField, isGroup, isHidden} from "../Items/Items";
 import ShowItem from "../Items/ShowItem";
 import { Options } from '../Builder/Builder'
 import SetItem from "../Items/SetItem";
 import DefaultItems, {AllowedItems} from "../Items/DefaultItems";
 import DefaultSubtypes, {AllowedSubtypes} from "../Items/Subtypes/DefaultSubTypes";
+import Filter from "../Filter/Filter";
 
 export type RenderProps = {
     Items: AnyItem[],
@@ -58,17 +59,19 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
     </>
 }
 
-const RenderedObject = ( Items: AnyItem[] ): {} => {
+const RenderedObject = ( items: AnyItem[] ): {} => {
     let result: Record<string, any> = {}
 
-    for (const item of Items) {
+    for (const item of items) {
 
-        if(isGroup(item)) {
-            result[item.name] = RenderedObject(item.items)
-        } else if(isHidden(item)) {
-            result[item.name] = item.value
-        } else if(isField(item)) {
-            result[item.name] = item.subtype.value
+        if(Filter(item, items, item.filter)) {
+            if (isGroup(item)) {
+                result[item.name] = RenderedObject(item.items)
+            } else if (isHidden(item)) {
+                result[item.name] = item.value
+            } else if (isField(item)) {
+                result[item.name] = item.subtype.value
+            }
         }
     }
 
@@ -76,17 +79,18 @@ const RenderedObject = ( Items: AnyItem[] ): {} => {
 
 }
 
-const RenderedFlatObject = ( Items: AnyItem[], GroupName = '' ): {} => {
+const RenderedFlatObject = ( items: AnyItem[], GroupName = '' ): {} => {
     let result: Record<string, any> = {}
 
-    for (const item of Items) {
-
-        if(isGroup(item)) {
-            result = {...result, ...RenderedFlatObject(item.items, item.name + '_')}
-        } else if(isHidden(item)) {
-            result[GroupName + item.name] = item.value
-        } else if(isField(item)) {
-            result[GroupName + item.name] = item.subtype.value
+    for (const item of items) {
+        if(Filter(item, items, item.filter)) {
+            if (isGroup(item)) {
+                result = {...result, ...RenderedFlatObject(item.items, item.name + '_')}
+            } else if (isHidden(item)) {
+                result[GroupName + item.name] = item.value
+            } else if (isField(item)) {
+                result[GroupName + item.name] = item.subtype.value
+            }
         }
     }
 
@@ -94,26 +98,28 @@ const RenderedFlatObject = ( Items: AnyItem[], GroupName = '' ): {} => {
 
 }
 
-const RenderedArray = ( Items: AnyItem[]): {} | [] => {
+const RenderedArray = ( items: AnyItem[]): {} | [] => {
     let result = []
 
-    for (const item of Items) {
+    for (const item of items) {
 
-        if(isGroup(item)) {
-            result.push({
-                name: item.name,
-                value: RenderedArray(item.items)
-            })
-        } else if(isHidden(item)) {
-            result.push({
-                name: item.name,
-                value: item.value
-            })
-        } else if(isField(item)) {
-            result.push({
-                name: item.name,
-                value: item.subtype.value
-            })
+        if(Filter(item, items, item.filter)) {
+            if (isGroup(item)) {
+                result.push({
+                    name: item.name,
+                    value: RenderedArray(item.items)
+                })
+            } else if (isHidden(item)) {
+                result.push({
+                    name: item.name,
+                    value: item.value
+                })
+            } else if (isField(item)) {
+                result.push({
+                    name: item.name,
+                    value: item.subtype.value
+                })
+            }
         }
     }
 
@@ -121,23 +127,25 @@ const RenderedArray = ( Items: AnyItem[]): {} | [] => {
 
 }
 
-const RenderedFlatArray = ( Items: AnyItem[], GroupName = '' ): object[] => {
+const RenderedFlatArray = ( items: AnyItem[], GroupName = '' ): object[] => {
     let result: object[] = []
 
-    for (const item of Items) {
+    for (const item of items) {
 
-        if(isGroup(item)) {
-            result = [...result, ...RenderedFlatArray(item.items, item.name + '_')]
-        } else if(isHidden(item)) {
-            result.push({
-                name: GroupName + item.name,
-                value: item.value
-            })
-        } else if(isField(item)) {
-            result.push({
-                name: GroupName + item.name,
-                value: item.subtype.value
-            })
+        if(Filter(item, items, item.filter)) {
+            if (isGroup(item)) {
+                result = [...result, ...RenderedFlatArray(item.items, item.name + '_')]
+            } else if (isHidden(item)) {
+                result.push({
+                    name: GroupName + item.name,
+                    value: item.value
+                })
+            } else if (isField(item)) {
+                result.push({
+                    name: GroupName + item.name,
+                    value: item.subtype.value
+                })
+            }
         }
 
     }
@@ -146,13 +154,13 @@ const RenderedFlatArray = ( Items: AnyItem[], GroupName = '' ): object[] => {
 
 }
 
-const RenderedItem = ( Items: AnyItem[], returnType: RenderOptions['returnType'] ): {} | [] => {
+const RenderedItem = ( items: AnyItem[], returnType: RenderOptions['returnType'] ): {} | [] => {
 
     switch(returnType) {
-        case 'object': return RenderedObject(Items);
-        case 'flatobject': return RenderedFlatObject(Items);
-        case 'flatarray': return RenderedFlatArray(Items);
-        default: return RenderedArray(Items);
+        case 'object': return RenderedObject(items);
+        case 'flatobject': return RenderedFlatObject(items);
+        case 'flatarray': return RenderedFlatArray(items);
+        default: return RenderedArray(items);
     }
 
 }

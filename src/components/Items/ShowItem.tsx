@@ -50,10 +50,9 @@ export const ShowItem = ({item, items, options}: ShowItemsProps) => {
         if (isField(item) && item.deprecated) {
             return <></>
         }
-
-        return <Box className="py-4" component="div" sx={{ flexGrow: 1 }} marginTop={1} marginBottom={1}>
+        return <>
             { ItemFC(itemProps)}
-        </Box>
+        </>
 
 }
 

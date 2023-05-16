@@ -7,6 +7,8 @@ import Hidden from "./Hidden/Hidden"
 import HiddenEdit from "./Hidden/HiddenEdit"
 import {ItemGroupEdit} from "./Group/ItemGroupEdit";
 import ItemGroup from "./Group/ItemGroup";
+import Html from "./Html/Html";
+import HtmlEdit from "./Html/HtmlEdit";
 
 
 export type AllowedItems = {
@@ -20,10 +22,8 @@ const DefaultItems = (allowedSubtypes: AllowedSubtypes): AllowedItems => {
                 // TODO add comments to explain these.
                 id: 'Field',
                 type: 'Field',
-                required: false,
                 label: 'Text',
                 name: 'text-1',
-                deprecated: false,
                 subtype: allowedSubtypes.Text.Subtype
             },
             ItemFC: Field,
@@ -34,11 +34,19 @@ const DefaultItems = (allowedSubtypes: AllowedSubtypes): AllowedItems => {
                 id: 'Hidden',
                 type: 'Hidden',
                 name: 'hidden-1',
-                deprecated: false,
                 value: 'Hidden value'
             },
             ItemFC: Hidden,
             EditFC: HiddenEdit
+        },
+        HTML: {
+            Item: {
+                id: 'HTML-1',
+                type: 'HTML',
+                content: '<h3>HTML Content</h3>'
+            },
+            ItemFC: Html,
+            EditFC: HtmlEdit
         },
         Group: {
             Item: {

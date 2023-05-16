@@ -2,9 +2,13 @@ import React from 'react';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import Render from './Render';
+import {EqFilter} from "../Items/Items";
 
 const Submit = ({ Items } : { Items: [] | {} } ) => {
-    return <><button onClick={() => console.log('Button Clicked...', Items)}>SUBMIT</button></>
+    return <><button onClick={() => {
+        console.log('Button Clicked...', Items)
+        alert(JSON.stringify(Items, null, 4))
+    }}>SUBMIT</button></>
 }
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -132,6 +136,59 @@ export const TestFlatArray: Story = {
         Submit: Submit,
         Options: {
             returnType: 'flatarray'
+        }
+
+
+
+    }
+}
+export const Hidden: Story = {
+    args: {
+        Items:
+            [
+                {
+                    id: 'HTML-1',
+                    type: 'HTML',
+                    content: '<h2>My Header</h2>'
+                },
+                {
+                    id: 'hidden-1',
+                    type: 'Hidden',
+                    name: 'hidden1',
+                    deprecated: false,
+                    value: 'hidden value'
+                },
+                {
+                    id: 'testItem1',
+                    type: 'Field',
+                    name: 'text1',
+                    required: false,
+                    label: 'Text 1 (try "show")',
+                    deprecated: false,
+                    subtype: {
+                        subtype: 'Text'
+                    }
+                },
+                {
+                    id: 'testItem2',
+                    type: 'Field',
+                    name: 'text2',
+                    required: false,
+                    label: 'Text 2',
+                    deprecated: false,
+                    filter: {
+                        comparison: "=",
+                        fieldId: "testItem1",
+                        value: 'show'
+                    } as EqFilter,
+                    subtype: {
+                        subtype: 'Text'
+                    }
+                }
+            ],
+        Submit: Submit,
+        Options: {
+            returnType: 'flatobject'
         }
 
 

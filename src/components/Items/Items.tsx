@@ -21,74 +21,74 @@ export const validateItem = (Item: object, index: number): string[] => {
 export type BaseItem = {
     id: string,
     type: string,
-    filter?: Filter,
+    filter?: FilterType,
     ClassName?: string,
     custom?: {[key:string]: any},
 }
 
-export type Filter = {
+export type FilterType = {
     comparison: '='|'>'|'>='|'<'|'<='|'in'|'and'|'or'|'not'
 }
-export type FieldFilter = {
+export type FieldFilter = FilterType & {
     comparison: '='|'>'|'>='|'<'|'<='|'in',
     fieldId: string,
     value: string|number|boolean|string[],
 }
-export const isFieldFilter = (filter: Filter): filter is FieldFilter => { return ['=','>','>=','<','<=','in'].includes(filter.comparison) }
+export const isFieldFilter = (filter: FilterType): filter is FieldFilter => { return ['=','>','>=','<','<=','in'].includes(filter.comparison) }
 
 export type EqFilter = FieldFilter & {
     comparison: '=',
     value: string|number|boolean,
 }
-export const isEqFilter = (filter: Filter): filter is EqFilter => { return filter.comparison === '=' }
+export const isEqFilter = (filter: FilterType): filter is EqFilter => { return filter.comparison === '=' }
 
 export type GtFilter = FieldFilter & {
     comparison: '>',
     value: string|number|boolean,
 }
-export const isGtFilter = (filter: Filter): filter is GtFilter => { return filter.comparison === '>' }
+export const isGtFilter = (filter: FilterType): filter is GtFilter => { return filter.comparison === '>' }
 
 export type GteFilter = FieldFilter & {
     comparison: '>=',
     value: string|number|boolean,
 }
-export const isGteFilter = (filter: Filter): filter is GteFilter => { return filter.comparison === '>=' }
+export const isGteFilter = (filter: FilterType): filter is GteFilter => { return filter.comparison === '>=' }
 
 export type LtFilter = FieldFilter & {
     comparison: '<',
     value: string|number|boolean,
 }
-export const isLtFilter = (filter: Filter): filter is LtFilter => { return filter.comparison === '<' }
+export const isLtFilter = (filter: FilterType): filter is LtFilter => { return filter.comparison === '<' }
 
 export type LteFilter = FieldFilter & {
     comparison: '<=',
     value: string|number|boolean,
 }
-export const isLteFilter = (filter: Filter): filter is LteFilter => { return filter.comparison === '<=' }
+export const isLteFilter = (filter: FilterType): filter is LteFilter => { return filter.comparison === '<=' }
 
 export type InFilter = FieldFilter & {
     comparison: 'in',
     value: string[],
 }
-export const isInFilter = (filter: Filter): filter is InFilter => { return filter.comparison === 'in' }
+export const isInFilter = (filter: FilterType): filter is InFilter => { return filter.comparison === 'in' }
 
-export type AndFilter = Filter & {
+export type AndFilter = FilterType & {
     comparison: 'and',
-    filters: Filter[],
+    filters: FilterType[],
 }
-export const isAndFilter = (filter: Filter): filter is AndFilter => { return filter.comparison === 'and' }
+export const isAndFilter = (filter: FilterType): filter is AndFilter => { return filter.comparison === 'and' }
 
-export type OrFilter = Filter & {
+export type OrFilter = FilterType & {
     comparison: 'or',
-    filters: Filter[],
+    filters: FilterType[],
 }
-export const isOrFilter = (filter: Filter): filter is OrFilter => { return filter.comparison === '=' }
+export const isOrFilter = (filter: FilterType): filter is OrFilter => { return filter.comparison === 'or' }
 
-export type NotFilter = Filter & {
+export type NotFilter = FilterType & {
     comparison: 'not',
-    filter: Filter,
+    filter: FilterType,
 }
-export const isNotFilter = (filter: Filter): filter is NotFilter => { return filter.comparison === 'not' }
+export const isNotFilter = (filter: FilterType): filter is NotFilter => { return filter.comparison === 'not' }
 
 export type NamedItem = BaseItem & {
     name: string,

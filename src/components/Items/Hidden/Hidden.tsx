@@ -11,10 +11,10 @@ import Filter from "../../Filter/Filter";
 
 const Hidden = (fieldProps: ItemProps) => {
     const item = fieldProps.item as HiddenItem
-    if(!fieldProps.options.IsBuild && !Filter(fieldProps, fieldProps.item.filter)) return <></>
+    if(!fieldProps.options.IsBuild && !Filter(item, fieldProps.items, fieldProps.item.filter)) return <></>
     if (fieldProps.options.IsBuild) return <TextField label='Hidden Field' type={"text"} id={fieldProps.item.id} name={item.name} disabled={true} value={item.value}/>
     if (item.deprecated) return <></>
-    return <TextField id={fieldProps.item.id} type={"hidden"} name={item.name} value={item.value}/>
+    return <TextField id={fieldProps.item.id} type={"hidden"} name={item.name} value={item.value} sx={{display:'none'}}/>
 }
 
 export default Hidden

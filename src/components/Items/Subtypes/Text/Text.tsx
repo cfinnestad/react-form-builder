@@ -37,12 +37,9 @@ const Text = (fieldProps: FieldProps ) => {
         }
 
         if(errors.length > 0) {
-            console.log('errors', errors)
             setError(true)
             return
         }
-
-        console.log('value', value)
 
         if(!fieldProps.options.IsBuild) {
             const itm = {...item}

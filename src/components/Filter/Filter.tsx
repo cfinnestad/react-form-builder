@@ -1,18 +1,19 @@
 import {
-    Filter,
+    AnyItem,
+    FilterType,
     isAndFilter,
     isEqFilter,
     isFieldFilter, isGteFilter,
     isGtFilter, isLteFilter, isLtFilter,
     isNotFilter,
-    isOrFilter, ItemProps
+    isOrFilter
 } from "../Items/Items";
 import GetItem from "../Items/GetItem";
 
-const Filter = (itemProps: ItemProps, filter: Filter|undefined): boolean => {
-    if (filter === undefined) return true
+const Filter = (item: AnyItem, items: AnyItem[], filter: FilterType|undefined): boolean => {
+    if (filter == undefined) return true
     if (isFieldFilter(filter)) {
-        const relatedField = GetItem(filter.fieldId, itemProps.items)
+        const relatedField = GetItem(filter.fieldId, items)
         if (relatedField !== undefined) {
             if (isEqFilter(filter)) {
                 return relatedField.subtype.value == filter.value
@@ -38,17 +39,17 @@ const Filter = (itemProps: ItemProps, filter: Filter|undefined): boolean => {
     if (isAndFilter(filter)) {
         let response = true;
         filter.filters.map(nextFilter => {
-            response &&= Filter(itemProps, nextFilter)
+            response &&= Filter(item, items, nextFilter)
         })
     }
     if (isOrFilter(filter)) {
         let response = false;
         filter.filters.map(nextFilter => {
-            response ||= Filter(itemProps, nextFilter)
+            response ||= Filter(item, items, nextFilter)
         })
     }
     if (isNotFilter(filter)) {
-        return !Filter(itemProps, filter.filter)
+        return !Filter(item, items, filter.filter)
     }
     return true
 }

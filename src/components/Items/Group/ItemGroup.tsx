@@ -7,7 +7,7 @@ import Filter from "../../Filter/Filter";
 
 const ItemGroup = ({item, items, options}: ItemProps) => {
     if (!isGroup(item)) return <></>
-    if(!options.IsBuild && !Filter({item: item, items: items, options: options}, item.filter)) return <></>
+    if(!options.IsBuild && !Filter(item, items, item.filter)) return <></>
     if (options.IsBuild) {
         return <>
             <Typography variant="h5">{item.label}</Typography>
@@ -19,8 +19,7 @@ const ItemGroup = ({item, items, options}: ItemProps) => {
         </>
     }
     if (item.deprecated) return <></>
-    return <>
-        <Box marginTop={2} marginBottom={1}>
+    return <Box className="py-4" component="div" sx={{ flexGrow: 1 }} marginTop={4} marginBottom={2}>
             <FormLabel sx={{marginLeft: "0.71em", marginTop: "-0.75em", zIndex: 2, paddingX: 0.5, backgroundColor: "#fff", position: "absolute", fontSize: "0.75em", fontWeight: 400}}>
                 {item.label}
             </FormLabel>
@@ -30,8 +29,6 @@ const ItemGroup = ({item, items, options}: ItemProps) => {
                 </ListItem>
             </List>
         </Box>
-
-    </>
 }
 
 export default ItemGroup
