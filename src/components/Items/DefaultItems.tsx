@@ -33,8 +33,6 @@ const DefaultItems = (allowedSubtypes: AllowedSubtypes): AllowedItems => {
             Item: {
                 id: 'Hidden',
                 type: 'Hidden',
-                required: false,
-                label: 'Hidden',
                 name: 'hidden-1',
                 deprecated: false,
                 value: 'Hidden value'

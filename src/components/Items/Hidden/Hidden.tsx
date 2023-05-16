@@ -1,5 +1,7 @@
 import React from "react";
 import {HiddenItem, ItemProps} from "../Items";
+import {TextField} from "@mui/material";
+import Filter from "../../Filter/Filter";
 
 // TODO Use IsBuild parameter
 // If true, render as text field
@@ -9,14 +11,10 @@ import {HiddenItem, ItemProps} from "../Items";
 
 const Hidden = (fieldProps: ItemProps) => {
     const item = fieldProps.item as HiddenItem
-    const isBuild = true //fieldProps.IsBuild
-    // const [showHidden, setShowHidden] = useState(fieldProps.IsBuild)
-
-    return <>
-        <div className={ isBuild ? 'hidden' : undefined }>
-            { item.value }
-        </div>
-    </>
+    if(!fieldProps.options.IsBuild && !Filter(fieldProps, fieldProps.item.filter)) return <></>
+    if (fieldProps.options.IsBuild) return <TextField label='Hidden Field' type={"text"} id={fieldProps.item.id} name={item.name} disabled={true} value={item.value}/>
+    if (item.deprecated) return <></>
+    return <TextField id={fieldProps.item.id} type={"hidden"} name={item.name} value={item.value}/>
 }
 
 export default Hidden

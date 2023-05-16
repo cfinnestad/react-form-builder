@@ -47,8 +47,6 @@ const Text = (fieldProps: FieldProps ) => {
         if(!fieldProps.options.IsBuild) {
             const itm = {...item}
             itm.subtype = {...itm.subtype}
-
-
             itm.subtype.value = value
             fieldProps.options.SetItem(itm)
         }

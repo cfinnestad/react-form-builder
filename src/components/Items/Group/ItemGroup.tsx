@@ -1,21 +1,13 @@
 import React from "react";
-import {GroupItem, isGroup, ItemProps} from "../Items";
-// import {DragDropContext, Droppable, DroppableProvided, DroppableStateSnapshot, DropResult} from "react-beautiful-dnd";
-import ShowItems from "../ShowItem";
-import onDragEnd from "../../Builder/OnDragEnd";
+import {isGroup, ItemProps} from "../Items";
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import ShowItem from "../ShowItem";
 import {Box, FormLabel, List, ListItem, Typography} from "@mui/material";
-
-const grid = 3
-const getListStyle = (isDraggingOver: boolean):{} => ({
-    background: isDraggingOver ? 'lightblue' : 'grey',
-    padding: grid,
-    minHeight: 40
-});
+import Filter from "../../Filter/Filter";
 
 const ItemGroup = ({item, items, options}: ItemProps) => {
     if (!isGroup(item)) return <></>
+    if(!options.IsBuild && !Filter({item: item, items: items, options: options}, item.filter)) return <></>
     if (options.IsBuild) {
         return <>
             <Typography variant="h5">{item.label}</Typography>
@@ -26,6 +18,7 @@ const ItemGroup = ({item, items, options}: ItemProps) => {
             </SortableContext>
         </>
     }
+    if (item.deprecated) return <></>
     return <>
         <Box marginTop={2} marginBottom={1}>
             <FormLabel sx={{marginLeft: "0.71em", marginTop: "-0.75em", zIndex: 2, paddingX: 0.5, backgroundColor: "#fff", position: "absolute", fontSize: "0.75em", fontWeight: 400}}>
