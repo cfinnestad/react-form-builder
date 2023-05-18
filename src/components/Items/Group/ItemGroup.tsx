@@ -19,7 +19,7 @@ const ItemGroup = ({item, items, options}: ItemProps) => {
         </>
     }
     if (item.deprecated) return <></>
-    return <Box className="py-4" component="div" sx={{ flexGrow: 1 }} marginTop={4} marginBottom={2}>
+    return <Box component="div" sx={{ flexGrow: 1 }} marginTop={1.25} marginBottom={1}>
             <FormLabel sx={{marginLeft: "0.71em", marginTop: "-0.75em", zIndex: 2, paddingX: 0.5, backgroundColor: "#fff", position: "absolute", fontSize: "0.75em", fontWeight: 400}}>
                 {item.label}
             </FormLabel>

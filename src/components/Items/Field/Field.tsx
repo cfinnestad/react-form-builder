@@ -8,7 +8,7 @@ const Field = (fieldProps: FieldProps) => {
         if (!Filter(fieldProps.item, fieldProps.items, fieldProps.item.filter)) return <></>
         if (fieldProps.item.deprecated) return <></>
     }
-    return <Box className="py-4" component="div" sx={{ flexGrow: 1 }} marginTop={1} marginBottom={1}>
+    return <Box component="div" sx={{ flexGrow: 1 }} marginTop={1} marginBottom={1}>
         { fieldProps.options.AllowedSubtypes[fieldProps.item.subtype.subtype].SubtypeFC(fieldProps) }
     </Box>
 }
