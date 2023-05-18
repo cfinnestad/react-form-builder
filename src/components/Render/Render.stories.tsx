@@ -56,6 +56,11 @@ export const Primary: Story = {
                     required: false,
                     label: 'Text 2',
                     deprecated: false,
+                    filter: {
+                        comparison: "=",
+                        fieldId: "testItem1",
+                        value: 'show'
+                    } as EqFilter,
                     subtype: 'Text'
                 },
                 {
@@ -90,7 +95,7 @@ export const Primary: Story = {
             ],
         Submit: Submit,
         Options: {
-
+            returnType: 'flatobject'
         }
 
 
