@@ -22,3 +22,4 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 export declare const Primary: Story;
 export declare const TestFlatArray: Story;
+export declare const Hidden: Story;

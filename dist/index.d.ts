@@ -3,20 +3,14 @@ import React, { FC, Dispatch, SetStateAction } from 'react';
 type BaseItem = {
     id: string;
     type: string;
-    filter?: GroupFilter;
+    filter?: FilterType;
     ClassName?: string;
     custom?: {
         [key: string]: any;
     };
 };
-type Filter = {
-    fieldName: string;
-    comparison: '=' | '!=' | '>' | '>=' | '<' | '<=' | 'in' | 'not in';
-    value: string | number | boolean | string[];
-};
-type GroupFilter = {
-    type: 'and' | 'or' | 'not' | 'xor';
-    filters: (GroupFilter | Filter)[];
+type FilterType = {
+    comparison: '=' | '>' | '>=' | '<' | '<=' | 'in' | 'and' | 'or' | 'not';
 };
 type NamedItem = BaseItem & {
     name: string;
@@ -24,11 +18,12 @@ type NamedItem = BaseItem & {
 type Option = {
     selected: boolean;
     startSelected: boolean;
-    fieldName: string;
+    label: string;
     value: string;
 };
 type HiddenItem = NamedItem & {
     type: 'Hidden';
+    deprecated?: boolean;
     value: string;
 };
 type HTMLItem = BaseItem & {
@@ -38,6 +33,7 @@ type HTMLItem = BaseItem & {
 type GroupItem = NamedItem & {
     type: 'Group';
     label: string;
+    deprecated?: boolean;
     items: AnyItem[];
 };
 type FieldItem = NamedItem & {
