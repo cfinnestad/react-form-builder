@@ -1,4 +1,4 @@
-import React from "react";
+import React, {JSX} from "react";
 import {Options} from "../Builder/Builder";
 
 
@@ -123,16 +123,18 @@ export type FieldItem = NamedItem & {
     required?: boolean,
     label: string,
     deprecated?: boolean,
-    subtype: AnySubtype
-}
-
-export type FieldSubType = {
-    subtype: string,
-    value?: string|number|boolean|string[],
+    subtype: 'Select' | 'Radio' | 'Checkbox' | 'Text' | 'Email' | 'Number' | 'Phone' | 'Date' | 'Boolean'
     custom?: { [key:string]: any }
+    value?: string | number | string[] | boolean
 }
 
-export type OptionSubtype = FieldSubType & {
+// export type BaseSubType = {
+//     subtype: string,
+//     // value?: string|number|boolean|string[],
+//
+// }
+
+export type OptionSubtype = FieldItem & {
     value?: string|string[],
     options: Option[],
 }
@@ -154,7 +156,7 @@ export type CheckboxSubtype = OptionSubtype & {
     inLine?: boolean,
 }
 
-export type TextSubtype = FieldSubType & {
+export type TextSubtype = FieldItem & {
     subtype: 'Text',
     value?: string,
     multiline?: boolean
@@ -162,25 +164,25 @@ export type TextSubtype = FieldSubType & {
     maxLength?: number,
 }
 
-export type EmailSubtype = FieldSubType & {
+export type EmailSubtype = FieldItem & {
     subtype: 'Email',
     value?: string,
     maxLength?: number,
 }
 
-export type NumberSubtype = FieldSubType & {
+export type NumberSubtype = FieldItem & {
     subtype: 'Number',
     value?: number,
     min?: number,
     max?: number,
 }
 
-export type PhoneSubtype = FieldSubType & {
+export type PhoneSubtype = FieldItem & {
     subtype: 'Phone',
     value?: string,
 }
 
-export type DateSubtype = FieldSubType & {
+export type DateSubtype = FieldItem & {
     subtype: 'Date',
     value?: string,
     minDate?: string,
@@ -190,25 +192,23 @@ export type DateSubtype = FieldSubType & {
     // TODO add year min/max offset?
 }
 
-export type BooleanSubtype = FieldSubType & {
+export type BooleanSubtype = FieldItem & {
     subtype: 'Boolean',
     value: boolean,
 }
 
-export type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem
-
-export type AnySubtype = FieldSubType | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype
+export type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype
 
 export type ItemType = {
     Item: AnyItem,
-    ItemFC: (props: any) => JSX.Element,
-    EditFC: (props: any) => JSX.Element,
+    ItemFC: (props: ItemProps) => JSX.Element,
+    EditFC: (props: ItemProps) => JSX.Element,
 }
 
 export type FieldType = {
-    Subtype: AnySubtype,
+    Subtype: FieldItem,
     SubtypeFC: (props: FieldProps) => JSX.Element,
-    EditFC: (props: any) => JSX.Element,
+    EditFC: (props: FieldProps) => JSX.Element,
 }
 
 export type BaseItemProps = {
@@ -218,24 +218,27 @@ export type BaseItemProps = {
 }
 
 export type FieldProps = BaseItemProps & { item: FieldItem }
-export type GroupProps = BaseItemProps & { Item: GroupItem }
-export type HTMLProps = BaseItemProps & { Item: HTMLItem }
-export type HiddenProps = BaseItemProps & { Item: HiddenItem }
-export type ItemProps = BaseItemProps|FieldProps|GroupProps|HiddenProps|HTMLProps
+export type GroupProps = BaseItemProps & { item: GroupItem }
+export type HTMLProps = BaseItemProps & { item: HTMLItem }
+export type HiddenProps = BaseItemProps & { item: HiddenItem }
+export type ItemProps =
+    | BaseItemProps
+    | GroupProps
+    | HiddenProps
+    | HTMLProps
+    | FieldProps
 
 
 export function isGroup(item: AnyItem): item is GroupItem { return item.type === "Group" }
 export function isHidden(item: AnyItem): item is HiddenItem { return item.type === "Hidden" }
 export function isField(item: AnyItem): item is FieldItem { return item.type === "Field" }
 export function isHtml(item: AnyItem): item is HTMLItem { return item.type === "HTML" }
-
-export function isSelect(subtype: AnySubtype): subtype is SelectSubtype { return subtype.subtype === "Select"}
-
-export function isRadio(subtype: AnySubtype): subtype is RadioSubtype { return subtype.subtype === "Radio"}
-export function isCheckbox(subtype: AnySubtype): subtype is CheckboxSubtype { return subtype.subtype === "Checkbox"}
-export function isText(subtype: AnySubtype): subtype is TextSubtype { return subtype.subtype === "Text"}
-export function isEmail(subtype: AnySubtype): subtype is EmailSubtype { return subtype.subtype === "Email"}
-export function isNumber(subtype: AnySubtype): subtype is NumberSubtype { return subtype.subtype === "Number"}
-export function isDate(subtype: AnySubtype): subtype is DateSubtype { return subtype.subtype === "Date"}
-export function isBoolean(subtype: AnySubtype): subtype is BooleanSubtype { return subtype.subtype === "Boolean"}
-export function isPhone(subtype: AnySubtype): subtype is PhoneSubtype { return subtype.subtype === "Phone"}
+export function isSelect(item: AnyItem): item is SelectSubtype { return isField(item) && item.subtype === "Select"}
+export function isRadio(item: AnyItem): item is RadioSubtype { return isField(item) && item.subtype === "Radio"}
+export function isCheckbox(item: AnyItem): item is CheckboxSubtype { return isField(item) && item.subtype === "Checkbox"}
+export function isText(item: AnyItem): item is TextSubtype { return isField(item) && item.subtype === "Text"}
+export function isEmail(item: AnyItem): item is EmailSubtype { return isField(item) && item.subtype === "Email"}
+export function isNumber(item: AnyItem): item is NumberSubtype { return isField(item) && item.subtype === "Number"}
+export function isDate(item: AnyItem): item is DateSubtype { return isField(item) && item.subtype === "Date"}
+export function isBoolean(item: AnyItem): item is BooleanSubtype { return isField(item) && item.subtype === "Boolean"}
+export function isPhone(item: AnyItem): item is PhoneSubtype { return isField(item) && item.subtype === "Phone"}

@@ -12,9 +12,7 @@ declare const meta: {
             required: boolean;
             label: string;
             deprecated: boolean;
-            subtype: {
-                subtype: string;
-            };
+            subtype: string;
         }[];
     };
 };
@@ -22,3 +20,4 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 export declare const Primary: Story;
 export declare const TestFlatArray: Story;
+export declare const Hidden: Story;

@@ -17,9 +17,7 @@ const meta = {
                     required: false,
                     label: 'Text',
                     deprecated: false,
-                    subtype: {
-                        subtype: 'Text'
-                    }
+                    subtype: 'Text'
                 }
             ],
     },
@@ -40,9 +38,7 @@ export const Primary: Story = {
                     required: false,
                     label: 'Text 1',
                     deprecated: false,
-                    subtype: {
-                        subtype: 'Text'
-                    }
+                    subtype: 'Text'
                 },
                 {
                     id: 'testItem2',
@@ -51,9 +47,7 @@ export const Primary: Story = {
                     required: false,
                     label: 'Text 2',
                     deprecated: false,
-                    subtype: {
-                        subtype: 'Text'
-                    }
+                    subtype: 'Text'
                 },
                 {
                     id: 'testItem3',
@@ -62,9 +56,7 @@ export const Primary: Story = {
                     required: false,
                     label: 'Text 3',
                     deprecated: false,
-                    subtype: {
-                        subtype: 'Text'
-                    }
+                    subtype: 'Text'
                 }
             ],
     }

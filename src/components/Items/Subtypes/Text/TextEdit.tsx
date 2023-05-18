@@ -1,15 +1,13 @@
-import React, {ChangeEvent, Dispatch, SetStateAction, useState} from "react";
-import {FieldItem, TextSubtype,} from "../../Items";
+import React, {ChangeEvent, useState} from "react";
+import {FieldProps, isText} from "../../Items";
 import {TextField, Checkbox, FormGroup, FormControlLabel} from "@mui/material";
 import ShowErrors from "../ShowErrors";
-import subtypeEdit from "../SubtypeEdit";
 
-type TextEditProps = {
-    subtype: TextSubtype,
-    setSubtype: Dispatch<SetStateAction<TextSubtype>>
-    item: FieldItem
-}
-export const TextEdit = ({subtype, setSubtype, item}: TextEditProps ) => {
+export const TextEdit = ({item, options}: FieldProps ) => {
+    if (!isText(item)){
+        return <></>
+    }
+
     const [valueError, setValueError] = useState( false)
     const [valueErrors, setValueErrors] = useState( [] as string[])
     const [minLengthError, setMinLengthError] = useState( false)
@@ -27,7 +25,7 @@ export const TextEdit = ({subtype, setSubtype, item}: TextEditProps ) => {
                 setMaxLengthErrors(['minLength must be a positive number'])
                 return false
             }
-            if (subtype.maxLength && (value > subtype.maxLength)) {
+            if (item.maxLength && (value > item.maxLength)) {
                 setMinLengthError(true)
                 setMaxLengthErrors(['Min Length must not be greater than Max Length'])
                 return false
@@ -35,8 +33,8 @@ export const TextEdit = ({subtype, setSubtype, item}: TextEditProps ) => {
         }
         setMinLengthError(false)
         setMinLengthErrors([]);
-        subtype.minLength = value
-        setSubtype(subtype)
+        item.minLength = value
+        options.SetItem(item)
     }
 
     const onChangeMaxLength = (event: ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +45,7 @@ export const TextEdit = ({subtype, setSubtype, item}: TextEditProps ) => {
                 setMaxLengthErrors(['Max Length must be greater the 0'])
                 return false
             }
-            if (subtype.minLength && (value < subtype.minLength)) {
+            if (item.minLength && (value < item.minLength)) {
                 setMaxLengthError(true)
                 setMaxLengthErrors(['Max Length must not be less than Min Length '])
                 return false
@@ -55,39 +53,39 @@ export const TextEdit = ({subtype, setSubtype, item}: TextEditProps ) => {
         }
         setMaxLengthError(false);
         setMaxLengthErrors([]);
-        subtype.maxLength = value
-        setSubtype(subtype)
+        item.maxLength = value
+        options.SetItem(item)
     }
 
     const onChangeValue = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value || undefined
-        const st = {...subtype}
+        const st = {...item}
         if (value) {
-            if (value.length < ((item.subtype as TextSubtype).minLength || 0)) {
+            if (value.length < (item.minLength || 0)) {
                 setValueError(true)
-                setValueErrors([item.label + ' must be at least ' + (item.subtype as TextSubtype).minLength + 'charters long'])
+                setValueErrors([item.label + ' must be at least ' + item.minLength + 'charters long'])
                 return
             }
-            if (value.length > ((item.subtype as TextSubtype).maxLength || 0)) {
+            if (value.length > (item.maxLength || 0)) {
                 setValueError(true)
-                setValueErrors([item.label + ' cannot exceed ' + (item.subtype as TextSubtype).minLength + 'charters'])
+                setValueErrors([item.label + ' cannot exceed ' + item.minLength + 'charters'])
                 return
             }
             st.value = value
         } else {
             delete st.value
         }
-        setSubtype(st)
+        options.SetItem(st)
     }
 
     const onClickMultiline = () => {
-        const st = {...subtype}
-        if (subtype.multiline !== undefined) {
+        const st = {...item}
+        if (item.multiline !== undefined) {
             delete st.multiline
         } else {
             st.multiline = true
         }
-        setSubtype(st)
+        options.SetItem(st)
 
     }
 
@@ -98,21 +96,21 @@ export const TextEdit = ({subtype, setSubtype, item}: TextEditProps ) => {
             label='Value'
             type="text"
             error={valueError}
-            value={subtype.value}
+            value={item.value}
             onChange={onChangeValue}
         />
         <ShowErrors errors={valueErrors}/>
         <FormGroup>
-            <FormControlLabel control={<Checkbox checked={subtype.multiline || false} onClick={onClickMultiline}/>} label="Multiline" labelPlacement="start"/>
+            <FormControlLabel control={<Checkbox checked={item.multiline || false} onClick={onClickMultiline}/>} label="Multiline" labelPlacement="start"/>
         </FormGroup>
         <TextField
             size='small'
             fullWidth={true}
             label='Min Length'
             type="number"
-            inputProps={{"min": (subtype.maxLength || 0)}}
+            inputProps={{"min": (item.maxLength || 0)}}
             error={minLengthError}
-            value={subtype.minLength}
+            value={item.minLength}
             onChange={onChangeMinLength}
         />
         <ShowErrors errors={minLengthErrors}/>
@@ -121,9 +119,9 @@ export const TextEdit = ({subtype, setSubtype, item}: TextEditProps ) => {
             fullWidth={true}
             label='Max Length'
             type="number"
-            inputProps={{"min": (subtype.minLength || 1)}}
+            inputProps={{"min": (item.minLength || 1)}}
             error={maxLengthError}
-            value={subtype.maxLength}
+            value={item.maxLength}
             onChange={onChangeMaxLength}
         />
         <ShowErrors errors={maxLengthErrors}/>

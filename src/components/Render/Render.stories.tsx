@@ -26,9 +26,7 @@ const meta = {
                     required: false,
                     label: 'Text',
                     deprecated: false,
-                    subtype: {
-                        subtype: 'Text'
-                    }
+                    subtype: 'Text'
                 }
             ],
     },
@@ -46,23 +44,30 @@ export const Primary: Story = {
                     id: 'testItem1',
                     type: 'Field',
                     name: 'text1',
-                    required: false,
+                    required: true,
                     label: 'Text 1',
                     deprecated: false,
-                    subtype: {
-                        subtype: 'Text'
-                    }
+                    subtype: 'Text'
                 },
                 {
                     id: 'testItem2',
                     type: 'Field',
-                    name: 'text1',
+                    name: 'text2',
                     required: false,
                     label: 'Text 2',
                     deprecated: false,
-                    subtype: {
-                        subtype: 'Text'
-                    }
+                    subtype: 'Text'
+                },
+                {
+                    id: 'testItem3',
+                    type: 'Field',
+                    name: 'number1',
+                    required: true,
+                    label: 'Number 1',
+                    deprecated: false,
+                    subtype: 'Number',
+                    min: 0,
+                    max: 5000
                 },
                 {
                     id: 'group1',
@@ -72,15 +77,13 @@ export const Primary: Story = {
                     label: 'Testing Group',
                     deprecated: false,
                     items: [{
-                        id: 'testItem3',
+                        id: 'testItem4',
                         type: 'Field',
                         name: 'text3',
                         required: false,
                         label: 'Text 3',
                         deprecated: false,
-                        subtype: {
-                            subtype: 'Text'
-                        }
+                        subtype: 'Text'
                     }]
                 }
 
@@ -106,9 +109,7 @@ export const TestFlatArray: Story = {
                     required: false,
                     label: 'Text 1',
                     deprecated: false,
-                    subtype: {
-                        subtype: 'Text'
-                    }
+                    subtype: 'Text'
                 },
                 {
                     id: 'testItem2',
@@ -117,9 +118,7 @@ export const TestFlatArray: Story = {
                     required: false,
                     label: 'Text 2',
                     deprecated: false,
-                    subtype: {
-                        subtype: 'Text'
-                    }
+                    subtype: 'Text'
                 },
                 {
                     id: 'testItem3',
@@ -128,9 +127,7 @@ export const TestFlatArray: Story = {
                     required: false,
                     label: 'Text 3',
                     deprecated: false,
-                    subtype: {
-                        subtype: 'Text'
-                    }
+                    subtype: 'Text'
                 }
             ],
         Submit: Submit,
@@ -165,9 +162,7 @@ export const Hidden: Story = {
                     required: false,
                     label: 'Text 1 (try "show")',
                     deprecated: false,
-                    subtype: {
-                        subtype: 'Text'
-                    }
+                    subtype: 'Text'
                 },
                 {
                     id: 'testItem2',
@@ -181,9 +176,7 @@ export const Hidden: Story = {
                         fieldId: "testItem1",
                         value: 'show'
                     } as EqFilter,
-                    subtype: {
-                        subtype: 'Text'
-                    }
+                    subtype: 'Text'
                 }
             ],
         Submit: Submit,

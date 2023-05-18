@@ -1,22 +1,16 @@
-import React, { FC, Dispatch, SetStateAction } from 'react';
+import React, { JSX as JSX$1, FC, Dispatch, SetStateAction } from 'react';
 
 type BaseItem = {
     id: string;
     type: string;
-    filter?: GroupFilter;
+    filter?: FilterType;
     ClassName?: string;
     custom?: {
         [key: string]: any;
     };
 };
-type Filter = {
-    fieldName: string;
-    comparison: '=' | '!=' | '>' | '>=' | '<' | '<=' | 'in' | 'not in';
-    value: string | number | boolean | string[];
-};
-type GroupFilter = {
-    type: 'and' | 'or' | 'not' | 'xor';
-    filters: (GroupFilter | Filter)[];
+type FilterType = {
+    comparison: '=' | '>' | '>=' | '<' | '<=' | 'in' | 'and' | 'or' | 'not';
 };
 type NamedItem = BaseItem & {
     name: string;
@@ -24,11 +18,12 @@ type NamedItem = BaseItem & {
 type Option = {
     selected: boolean;
     startSelected: boolean;
-    fieldName: string;
+    label: string;
     value: string;
 };
 type HiddenItem = NamedItem & {
     type: 'Hidden';
+    deprecated?: boolean;
     value: string;
 };
 type HTMLItem = BaseItem & {
@@ -38,22 +33,20 @@ type HTMLItem = BaseItem & {
 type GroupItem = NamedItem & {
     type: 'Group';
     label: string;
+    deprecated?: boolean;
     items: AnyItem[];
 };
 type FieldItem = NamedItem & {
     required?: boolean;
     label: string;
     deprecated?: boolean;
-    subtype: AnySubtype;
-};
-type FieldSubType = {
-    subtype: string;
-    value?: string | number | boolean | string[];
+    subtype: 'Select' | 'Radio' | 'Checkbox' | 'Text' | 'Email' | 'Number' | 'Phone' | 'Date' | 'Boolean';
     custom?: {
         [key: string]: any;
     };
+    value?: string | number | string[] | boolean;
 };
-type OptionSubtype = FieldSubType & {
+type OptionSubtype = FieldItem & {
     value?: string | string[];
     options: Option[];
 };
@@ -71,29 +64,29 @@ type CheckboxSubtype = OptionSubtype & {
     subtype: 'Checkbox';
     inLine?: boolean;
 };
-type TextSubtype = FieldSubType & {
+type TextSubtype = FieldItem & {
     subtype: 'Text';
     value?: string;
     multiline?: boolean;
     minLength?: number;
     maxLength?: number;
 };
-type EmailSubtype = FieldSubType & {
+type EmailSubtype = FieldItem & {
     subtype: 'Email';
     value?: string;
     maxLength?: number;
 };
-type NumberSubtype = FieldSubType & {
+type NumberSubtype = FieldItem & {
     subtype: 'Number';
     value?: number;
     min?: number;
     max?: number;
 };
-type PhoneSubtype = FieldSubType & {
+type PhoneSubtype = FieldItem & {
     subtype: 'Phone';
     value?: string;
 };
-type DateSubtype = FieldSubType & {
+type DateSubtype = FieldItem & {
     subtype: 'Date';
     value?: string;
     minDate?: string;
@@ -101,21 +94,20 @@ type DateSubtype = FieldSubType & {
     maxDate?: string;
     maxDateOffsetDays?: number;
 };
-type BooleanSubtype = FieldSubType & {
+type BooleanSubtype = FieldItem & {
     subtype: 'Boolean';
     value: boolean;
 };
-type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem;
-type AnySubtype = FieldSubType | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype;
+type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype;
 type ItemType = {
     Item: AnyItem;
-    ItemFC: (props: any) => JSX.Element;
-    EditFC: (props: any) => JSX.Element;
+    ItemFC: (props: ItemProps) => JSX$1.Element;
+    EditFC: (props: ItemProps) => JSX$1.Element;
 };
 type FieldType = {
-    Subtype: AnySubtype;
-    SubtypeFC: (props: FieldProps) => JSX.Element;
-    EditFC: (props: any) => JSX.Element;
+    Subtype: FieldItem;
+    SubtypeFC: (props: FieldProps) => JSX$1.Element;
+    EditFC: (props: FieldProps) => JSX$1.Element;
 };
 type BaseItemProps = {
     item: AnyItem;
@@ -125,6 +117,16 @@ type BaseItemProps = {
 type FieldProps = BaseItemProps & {
     item: FieldItem;
 };
+type GroupProps = BaseItemProps & {
+    item: GroupItem;
+};
+type HTMLProps = BaseItemProps & {
+    item: HTMLItem;
+};
+type HiddenProps = BaseItemProps & {
+    item: HiddenItem;
+};
+type ItemProps = BaseItemProps | GroupProps | HiddenProps | HTMLProps | FieldProps;
 
 interface ActionProps {
     Items: AnyItem[];
@@ -132,12 +134,12 @@ interface ActionProps {
 }
 type ActionFC = FC<ActionProps>;
 
-type AllowedSubtypes = {
-    [key: string]: FieldType;
-};
-
 type AllowedItems = {
     [key: string]: ItemType;
+};
+
+type AllowedSubtypes = {
+    [key: string]: FieldType;
 };
 
 type BuilderOptions = {
