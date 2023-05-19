@@ -1,8 +1,6 @@
-import React, {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from "react";
-import {AnyItem, FieldProps, isText, TextSubtype} from "../../Items";
+import React, {ChangeEvent, useEffect, useState} from "react";
+import {FieldProps, isText, TextSubtype} from "../../Items";
 import {TextField} from "@mui/material";
-import SetItem from "../../SetItem";
-import ShowErrors from "../ShowErrors";
 
 const Text = (fieldProps: FieldProps ) => {
 
@@ -10,67 +8,60 @@ const Text = (fieldProps: FieldProps ) => {
         return <></>
     }
 
-    const [error, setError] = useState(false)
-    const [errors, setErrors] = useState( [] as string[])
-    const [value, setValue] = useState(fieldProps.item.value)
+    const [item, setItem] = useState(fieldProps.item as TextSubtype)
+    const [value, setValue] = useState(item.value)
 
-    const item = fieldProps.item
-
-    useEffect(() => {
-        if(!fieldProps.options.IsBuild) {
-            fieldProps.item.value = value
-            fieldProps.options.SetItem(fieldProps.item)
-        }
-    }, [value])
-
-    const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, Item: TextSubtype, Items: AnyItem[], SetItems: Dispatch<SetStateAction<AnyItem[]>>) => {
-        const value = event.target.value || undefined
-        if (item.required && value === undefined) {
-            setErrors([...errors, Item.name + ' is required'])
-        }
-        if (value) {
-            if (value.length < (item.minLength || 0)) {
-                setErrors([...errors, item.label + ' must be at least ' + item.minLength + 'charters long'])
-            }
-            if (value.length > (item.maxLength || 0)) {
-                setErrors([...errors, item.label + ' cannot exceed ' + item.minLength + 'charters'])
-            }
-        }
-
-        if(errors.length > 0) {
-            setError(true)
-            return
-        }
-
-        if(!fieldProps.options.IsBuild) {
-            const itm = {...item}
-            itm.value = value
-            fieldProps.options.SetItem(itm)
-        }
-
-        setValue(value)
-        setError(false)
-        setErrors([])
+    useEffect(()=>{
+        console.log('Post Item', item)
         if (!fieldProps.options.IsBuild) {
-            Item.value = value
-            SetItems(SetItem(Item,Items))
+            fieldProps.options.SetItem(item)
         }
+    },[item])
+
+    const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const val = event.target.value || undefined
+        const itm = {...item}
+        console.log('PRE Item', item)
+        itm.errorText = undefined
+        delete itm.errorText
+        if (itm.required && val === undefined) {
+            itm.value = undefined
+            delete itm.value
+            setValue(undefined)
+            itm.errorText = itm.label + ' is required'
+        }
+        if (val !== undefined) {
+            if (val.length < (itm.minLength ?? 0)) {
+                itm.errorText = itm.label + ' must be at least ' + itm.minLength + 'charters long'
+            }
+            if (itm.maxLength !== undefined && val.length > itm.maxLength) {
+                itm.errorText = itm.label + ' cannot exceed ' + itm.maxLength + 'charters'
+                setValue(item.value)
+            }
+        }
+        if (!itm.errorText) {
+            itm.value = val
+        }
+        setItem(itm)
     }
 
     return <>
         <TextField
             id={item.id}
-            error={error}
+            error={item.errorText !== undefined}
             size='small'
             fullWidth={true}
             name={item.name}
             label={item.label}
-            multiline={item.multiline || false}
+            multiline={item.multiline ?? false}
+            helperText={<>
+                {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
+                {item.errorText}
+            </>}
             type="text"
             value={value}
-            onChange={(event) => onChange(event, item, fieldProps.items, fieldProps.options.setItems) }
+            onChange={onChange}
         />
-        <ShowErrors errors={errors}/>
     </>
 }
 

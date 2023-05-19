@@ -2,7 +2,7 @@ import React from 'react';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import Render, {SubmitProps} from './Render';
-import {AnyItem, EqFilter, isField, isNumber} from "../Items/Items";
+import {EqFilter, isNumber, TextSubtype} from "../Items/Items";
 import {Button} from "@mui/material";
 
 
@@ -50,8 +50,10 @@ const meta = {
                     required: false,
                     label: 'Text',
                     deprecated: false,
-                    subtype: 'Text'
-                }
+                    subtype: 'Text',
+                    minLength: 2,
+                    maxLength: 4,
+                } as TextSubtype
             ],
     },
 } satisfies Meta<typeof Render>;
@@ -163,9 +165,6 @@ export const TestFlatArray: Story = {
         Options: {
             returnType: 'flatarray'
         }
-
-
-
     }
 }
 export const Hidden: Story = {
