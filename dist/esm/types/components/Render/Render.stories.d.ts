@@ -1,19 +1,12 @@
 import React from 'react';
 import type { StoryObj } from '@storybook/react';
+import { TextSubtype } from "../Items/Items";
 declare const meta: {
     title: string;
     component: ({ Items, SetItems, Options, Submit }: import("./Render").RenderProps) => React.JSX.Element;
     tags: string[];
     argTypes: {
-        Items: {
-            id: string;
-            type: string;
-            name: string;
-            required: boolean;
-            label: string;
-            deprecated: boolean;
-            subtype: string;
-        }[];
+        Items: TextSubtype[];
     };
 };
 export default meta;
