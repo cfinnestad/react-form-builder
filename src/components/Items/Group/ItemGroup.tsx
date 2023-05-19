@@ -24,7 +24,7 @@ const ItemGroup = ({item, items, options}: ItemProps) => {
                 {item.label}
             </FormLabel>
             <List dense sx={{ borderRadius: 1, border: 1, borderColor: 'grey.600', "&:hover": { borderColor: 'grey.200' }}}>
-                <ListItem>
+                <ListItem sx={{display: 'block'}}>
                     {item.items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options}/>)}
                 </ListItem>
             </List>

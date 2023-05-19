@@ -2,7 +2,7 @@ import React from 'react';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import Render, {SubmitProps} from './Render';
-import {EqFilter, GroupItem, isNumber, NumberSubtype, TextSubtype} from "../Items/Items";
+import {EmailSubtype, EqFilter, GroupItem, isNumber, NumberSubtype, TextSubtype} from "../Items/Items";
 import {Button} from "@mui/material";
 
 
@@ -109,15 +109,27 @@ export const Primary: Story = {
                     required: false,
                     label: 'Testing Group',
                     deprecated: false,
-                    items: [{
-                        id: 'testItem4',
-                        type: 'Field',
-                        name: 'text3',
-                        required: false,
-                        label: 'Text 3',
-                        deprecated: false,
-                        subtype: 'Text'
-                    } as TextSubtype]
+                    items: [
+                        {
+                            id: 'testItem4',
+                            type: 'Field',
+                            name: 'text3',
+                            required: false,
+                            label: 'Text 3',
+                            deprecated: false,
+                            subtype: 'Text'
+                        } as TextSubtype,
+                        {
+                            id: 'email1',
+                            type: 'Field',
+                            name: 'email1',
+                            required: true,
+                            label: 'Email',
+                            deprecated: false,
+                            subtype: 'Email',
+                            maxLength: 255,
+                        } as EmailSubtype,
+                    ]
                 } as GroupItem
 
             ],

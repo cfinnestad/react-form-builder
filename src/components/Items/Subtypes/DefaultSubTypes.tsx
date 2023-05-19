@@ -3,7 +3,9 @@ import NumberST from './Number/NumberST'
 import NumberEdit from './Number/NumberEdit'
 import Text  from './Text/Text'
 import TextEdit  from './Text/TextEdit'
-import {FieldType, NumberSubtype, TextSubtype} from "../Items";
+import {EmailSubtype, FieldType, NumberSubtype, TextSubtype} from "../Items";
+import Email from "./Email/Email";
+import EmailEdit from "./Email/EmailEdit";
 
 export type AllowedSubtypes = {
     [key: string]: FieldType,
@@ -22,6 +24,18 @@ const DefaultSubtypes = (): AllowedSubtypes => {
             } as TextSubtype,
             SubtypeFC: Text,
             EditFC: TextEdit,
+        },
+        Email: {
+            Subtype: {
+                id: 'email2',
+                type: 'Field',
+                label: 'Email',
+                name: 'email-1',
+                subtype: 'Email',
+                maxLength: 255
+            } as EmailSubtype,
+            SubtypeFC: Email,
+            EditFC: EmailEdit,
         },
         Number: {
             Subtype: {
