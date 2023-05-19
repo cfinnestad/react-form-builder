@@ -1,14 +1,38 @@
 import React from 'react';
 import type {Meta, StoryObj} from '@storybook/react';
 
-import Render from './Render';
-import {EqFilter} from "../Items/Items";
+import Render, {SubmitProps} from './Render';
+import {AnyItem, EqFilter, isField, isNumber} from "../Items/Items";
+import {Button} from "@mui/material";
 
-const Submit = ({ Items } : { Items: [] | {} } ) => {
-    return <><button onClick={() => {
-        console.log('Button Clicked...', Items)
-        alert(JSON.stringify(Items, null, 4))
-    }}>SUBMIT</button></>
+
+
+const Submit = ({ items, options, results } : SubmitProps ) => {
+    return <>
+        <Button onClick={() => {
+            alert(JSON.stringify(results, null, 4))
+        }}>
+            SUBMIT RESULTS
+        </Button>
+        <Button onClick={() => {
+            alert(JSON.stringify(items, null, 4))
+        }}>
+            SUBMIT ITEMS
+        </Button>
+        <Button onClick={() => {
+            // alert(JSON.stringify(items, null, 4))
+            for(const item of items) {
+                if (isNumber(item)) {
+                    item.errorText = 'TESTING ERROR'
+                    options.SetItem(item)
+                    break;
+                }
+            }
+
+        }}>
+            ADD ERROR
+        </Button>
+    </>
 }
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction

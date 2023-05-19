@@ -3,62 +3,45 @@ import {AnyItem, FieldProps, isNumber, NumberSubtype} from "../../Items";
 import {TextField} from "@mui/material";
 
 const NumberST = ({item, items, options}: FieldProps ) => {
-    // console.log('Number ..', props)
+    console.log('Number ..', item)
+
+    // const [value, setValue] = useState(item.value)
 
     if (!isNumber(item) ) {
         return <></>
     }
 
-    const [errorText, setErrorText] = useState<JSX.Element | null>(null)
-    const [value, setValue] = useState(item.value)
-
-    console.log('STATE...', {
-        errorText: errorText,
-        value: value
-    })
-
-    useEffect(() => {
-        if(!options.IsBuild) {
-            item.value = value
-            options.SetItem(item)
-        }
-    }, [value])
-
-    const validate = (value?: string): number | undefined => {
+    const validate = (value?: string): void => {
         console.log('validate...', value)
 
-        const parsed = value != null && value !== '' && !isNaN(+value)
+        const itm = {...item}
+        itm.errorText = undefined
+
+        const parsed = (value != null && value !== '' && !isNaN(+value))
             ? Number(value)
             : undefined
 
-        if (parsed != null) {   // input is a number
-            if (item?.min != null && parsed < item?.min) {
-                setErrorText(<>{item.label + ' must be greater than ' + item.min}<br/></>)
-                return undefined
-            }
-            if (item.max != null && parsed > item.max) {
-                setErrorText(<>{item.label + ' must be less than ' + item.max}<br/></>)
-                return undefined
-            }
-        } else if (value != null && value !== '') {     // input is not a number
-            setErrorText(<>{item.label + ' must be a valid number.'}<br/></>)
-            return undefined
+        if (parsed != undefined && item?.min != null && parsed < item?.min) {
+            itm.errorText = item.label + ' must be greater than ' + item.min
+        } else if (parsed != undefined && item.max != null && parsed > item.max) {
+            itm.errorText = item.label + ' must be less than ' + item.max
+        } else if (parsed === undefined && value !== undefined && isNaN(+value)) {     // input is not a number
+            console.log('value != null && value !== \'\'')
+            itm.errorText = item.label + ' must be a valid number.'
+            itm.value = undefined
+        } else if (item.required && parsed === undefined) {
+            console.log('item.required')
+            itm.errorText = item.label + ' is required'
+            itm.value = undefined
+        } else {
+            console.log('itm.value = parsed')
+            itm.value = parsed
         }
-        else {    // input is missing
-            if (item.required) {
-                setErrorText(<>{item.name + ' is required'}<br/></>)
-                return undefined
-            }
-        }
-        setErrorText(null)
-        return parsed
+        options.SetItem(itm)
     }
 
     const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, Item: NumberSubtype, Items: AnyItem[], SetItems: Dispatch<SetStateAction<AnyItem[]>>) => {
         const value = event.target.value ?? undefined
-        console.log('onChange...', value)
-
-
 
         // if (value != null) {
         //     if (isValidNumber(value)) {
@@ -96,7 +79,9 @@ const NumberST = ({item, items, options}: FieldProps ) => {
         //     fieldoptions.SetItem(itm)
         // }
 
-        setValue(validate(value))
+        validate(value)
+
+        // setValue(validate(value))
         // setError(false)
         // setErrors([])
         // if (!fieldoptions.IsBuild) {
@@ -108,8 +93,8 @@ const NumberST = ({item, items, options}: FieldProps ) => {
     return <>
         <TextField
             id={item.id}
-            error={errorText != null}
-            helperText={<>TEST TEXT<br/>{errorText}</>}
+            error={item.errorText != null}
+            helperText={<>{item.helperText ? <>{item.helperText}<br/></> : ''}{item.errorText}</>}
             size='small'
             fullWidth={true}
             name={item.name}
@@ -118,7 +103,7 @@ const NumberST = ({item, items, options}: FieldProps ) => {
             type="text"
             inputProps={{pattern: '\d*'}}
             required={item.required ?? false}
-            value={value}
+            value={item.value}
             onChange={(event) => onChange(event, item, items, options.setItems) }
         />
     </>

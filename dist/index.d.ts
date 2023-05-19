@@ -17,9 +17,8 @@ type NamedItem = BaseItem & {
 };
 type Option = {
     selected: boolean;
-    startSelected: boolean;
     label: string;
-    value: string;
+    value?: string;
 };
 type HiddenItem = NamedItem & {
     type: 'Hidden';
@@ -40,11 +39,13 @@ type FieldItem = NamedItem & {
     required?: boolean;
     label: string;
     deprecated?: boolean;
+    helperText?: string;
     subtype: 'Select' | 'Radio' | 'Checkbox' | 'Text' | 'Email' | 'Number' | 'Phone' | 'Date' | 'Boolean';
     custom?: {
         [key: string]: any;
     };
     value?: string | number | string[] | boolean;
+    errorText?: string;
 };
 type OptionSubtype = FieldItem & {
     value?: string | string[];
@@ -169,13 +170,16 @@ type BuilderProps = {
 };
 declare const Builder: ({ Items, SetItems, Options }: BuilderProps) => React.JSX.Element;
 
+type SubmitProps = {
+    items: AnyItem[];
+    options: Options;
+    results: Array<Object> | Object;
+};
 type RenderProps = {
     Items: AnyItem[];
     SetItems?: Dispatch<SetStateAction<AnyItem[]>>;
     Options: RenderOptions;
-    Submit: ({ Items }: {
-        Items: [] | {};
-    }) => JSX.Element;
+    Submit: (props: SubmitProps) => JSX$1.Element;
 };
 type RenderOptions = {
     AllowedItems?: AllowedItems;
@@ -185,6 +189,6 @@ type RenderOptions = {
     onSave?: (Items: AnyItem[]) => void;
     returnType?: 'object' | 'flatobject' | 'array' | 'flatarray';
 };
-declare const Render: ({ Items, SetItems, Options, Submit }: RenderProps) => React.JSX.Element;
+declare const Render: ({ Items, SetItems, Options, Submit }: RenderProps) => JSX$1.Element;
 
 export { Builder, Render };

@@ -69,9 +69,8 @@ export type NamedItem = BaseItem & {
 };
 export type Option = {
     selected: boolean;
-    startSelected: boolean;
     label: string;
-    value: string;
+    value?: string;
 };
 export type HiddenItem = NamedItem & {
     type: 'Hidden';
@@ -92,11 +91,13 @@ export type FieldItem = NamedItem & {
     required?: boolean;
     label: string;
     deprecated?: boolean;
+    helperText?: string;
     subtype: 'Select' | 'Radio' | 'Checkbox' | 'Text' | 'Email' | 'Number' | 'Phone' | 'Date' | 'Boolean';
     custom?: {
         [key: string]: any;
     };
     value?: string | number | string[] | boolean;
+    errorText?: string;
 };
 export type OptionSubtype = FieldItem & {
     value?: string | string[];
