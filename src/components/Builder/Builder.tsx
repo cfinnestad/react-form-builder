@@ -57,14 +57,14 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         setItems(SetItem(item, items))
     },[item])
 
-    const AllowedSubtypes: AllowedSubtypes = {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})}
-    const AllowedItems:AllowedItems = {...(Options?.AllowedItems || DefaultItems(AllowedSubtypes)), ...(Options?.AdditionalItems || {})}
-    const MyActions:ActionFC[] = [Transfer, Save, Clear]
+    // const AllowedSubtypes: AllowedSubtypes = {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})}
+    // const AllowedItems:AllowedItems = {...(Options?.AllowedItems || DefaultItems()), ...(Options?.AdditionalItems || {})}
+    // const MyActions:ActionFC[] = [Transfer, Save, Clear]
         //{...(Options?.Actions || [Transfer, Save, Clear]), ...(Options?.ActionsAppend || [] as FC<ActionProps>[])}
     const options:Options = {...(Options || {}),
-        Actions: MyActions,
-        AllowedSubtypes: AllowedSubtypes,
-        AllowedItems: AllowedItems,
+        Actions: [Transfer, Save, Clear],
+        AllowedSubtypes: {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})},
+        AllowedItems: {...(Options?.AllowedItems || DefaultItems()), ...(Options?.AdditionalItems || {})},
         IsBuild: true,
         SetItem: setItem,
         setItems: setItems,

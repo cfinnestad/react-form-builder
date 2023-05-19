@@ -1,14 +1,38 @@
 import React from 'react';
 import type {Meta, StoryObj} from '@storybook/react';
 
-import Render from './Render';
-import {EqFilter} from "../Items/Items";
+import Render, {SubmitProps} from './Render';
+import {EqFilter, GroupItem, isNumber, NumberSubtype, TextSubtype} from "../Items/Items";
+import {Button} from "@mui/material";
 
-const Submit = ({ Items } : { Items: [] | {} } ) => {
-    return <><button onClick={() => {
-        console.log('Button Clicked...', Items)
-        alert(JSON.stringify(Items, null, 4))
-    }}>SUBMIT</button></>
+
+
+const Submit = ({ items, options, results } : SubmitProps ) => {
+    return <>
+        <Button onClick={() => {
+            alert(JSON.stringify(results, null, 4))
+        }}>
+            SUBMIT RESULTS
+        </Button>
+        <Button onClick={() => {
+            alert(JSON.stringify(items, null, 4))
+        }}>
+            SUBMIT ITEMS
+        </Button>
+        <Button onClick={() => {
+            // alert(JSON.stringify(items, null, 4))
+            for(const item of items) {
+                if (isNumber(item)) {
+                    item.errorText = 'TESTING ERROR'
+                    options.SetItem(item)
+                    break;
+                }
+            }
+
+        }}>
+            ADD ERROR
+        </Button>
+    </>
 }
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -26,10 +50,10 @@ const meta = {
                     required: false,
                     label: 'Text',
                     deprecated: false,
-                    subtype: {
-                        subtype: 'Text'
-                    }
-                }
+                    subtype: 'Text',
+                    minLength: 2,
+                    maxLength: 4,
+                } as TextSubtype
             ],
     },
 } satisfies Meta<typeof Render>;
@@ -46,13 +70,13 @@ export const Primary: Story = {
                     id: 'testItem1',
                     type: 'Field',
                     name: 'text1',
-                    required: false,
-                    label: 'Text 1',
+                    required: true,
+                    label: 'Type "show"',
                     deprecated: false,
-                    subtype: {
-                        subtype: 'Text'
-                    }
-                },
+                    subtype: 'Text',
+                    maxLength: 10,
+                    minLength: 2
+                } as TextSubtype,
                 {
                     id: 'testItem2',
                     type: 'Field',
@@ -65,10 +89,19 @@ export const Primary: Story = {
                         fieldId: "testItem1",
                         value: 'show'
                     } as EqFilter,
-                    subtype: {
-                        subtype: 'Text'
-                    }
-                },
+                    subtype: 'Text'
+                } as TextSubtype,
+                {
+                    id: 'testItem3',
+                    type: 'Field',
+                    name: 'number1',
+                    required: true,
+                    label: 'Number 1',
+                    deprecated: false,
+                    subtype: 'Number',
+                    min: 12,
+                    max: 5000
+                } as NumberSubtype,
                 {
                     id: 'group1',
                     type: 'Group',
@@ -77,17 +110,15 @@ export const Primary: Story = {
                     label: 'Testing Group',
                     deprecated: false,
                     items: [{
-                        id: 'testItem3',
+                        id: 'testItem4',
                         type: 'Field',
                         name: 'text3',
                         required: false,
                         label: 'Text 3',
                         deprecated: false,
-                        subtype: {
-                            subtype: 'Text'
-                        }
-                    }]
-                }
+                        subtype: 'Text'
+                    } as TextSubtype]
+                } as GroupItem
 
             ],
         Submit: Submit,
@@ -111,9 +142,7 @@ export const TestFlatArray: Story = {
                     required: false,
                     label: 'Text 1',
                     deprecated: false,
-                    subtype: {
-                        subtype: 'Text'
-                    }
+                    subtype: 'Text'
                 },
                 {
                     id: 'testItem2',
@@ -122,9 +151,7 @@ export const TestFlatArray: Story = {
                     required: false,
                     label: 'Text 2',
                     deprecated: false,
-                    subtype: {
-                        subtype: 'Text'
-                    }
+                    subtype: 'Text'
                 },
                 {
                     id: 'testItem3',
@@ -133,18 +160,13 @@ export const TestFlatArray: Story = {
                     required: false,
                     label: 'Text 3',
                     deprecated: false,
-                    subtype: {
-                        subtype: 'Text'
-                    }
+                    subtype: 'Text'
                 }
             ],
         Submit: Submit,
         Options: {
             returnType: 'flatarray'
         }
-
-
-
     }
 }
 export const Hidden: Story = {
@@ -170,9 +192,7 @@ export const Hidden: Story = {
                     required: false,
                     label: 'Text 1 (try "show")',
                     deprecated: false,
-                    subtype: {
-                        subtype: 'Text'
-                    }
+                    subtype: 'Text'
                 },
                 {
                     id: 'testItem2',
@@ -186,9 +206,7 @@ export const Hidden: Story = {
                         fieldId: "testItem1",
                         value: 'show'
                     } as EqFilter,
-                    subtype: {
-                        subtype: 'Text'
-                    }
+                    subtype: 'Text'
                 }
             ],
         Submit: Submit,

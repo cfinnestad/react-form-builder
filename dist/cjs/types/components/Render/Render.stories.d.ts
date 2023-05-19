@@ -12,9 +12,7 @@ declare const meta: {
             required: boolean;
             label: string;
             deprecated: boolean;
-            subtype: {
-                subtype: string;
-            };
+            subtype: string;
         }[];
     };
 };

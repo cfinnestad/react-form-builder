@@ -1,4 +1,4 @@
-import React, { FC, Dispatch, SetStateAction } from 'react';
+import React, { JSX as JSX$1, FC, Dispatch, SetStateAction } from 'react';
 
 type BaseItem = {
     id: string;
@@ -17,9 +17,8 @@ type NamedItem = BaseItem & {
 };
 type Option = {
     selected: boolean;
-    startSelected: boolean;
     label: string;
-    value: string;
+    value?: string;
 };
 type HiddenItem = NamedItem & {
     type: 'Hidden';
@@ -40,16 +39,15 @@ type FieldItem = NamedItem & {
     required?: boolean;
     label: string;
     deprecated?: boolean;
-    subtype: AnySubtype;
-};
-type FieldSubType = {
-    subtype: string;
-    value?: string | number | boolean | string[];
+    helperText?: string;
+    subtype: 'Select' | 'Radio' | 'Checkbox' | 'Text' | 'Email' | 'Number' | 'Phone' | 'Date' | 'Boolean';
     custom?: {
         [key: string]: any;
     };
+    value?: string | number | string[] | boolean;
+    errorText?: string;
 };
-type OptionSubtype = FieldSubType & {
+type OptionSubtype = FieldItem & {
     value?: string | string[];
     options: Option[];
 };
@@ -67,29 +65,29 @@ type CheckboxSubtype = OptionSubtype & {
     subtype: 'Checkbox';
     inLine?: boolean;
 };
-type TextSubtype = FieldSubType & {
+type TextSubtype = FieldItem & {
     subtype: 'Text';
     value?: string;
     multiline?: boolean;
     minLength?: number;
     maxLength?: number;
 };
-type EmailSubtype = FieldSubType & {
+type EmailSubtype = FieldItem & {
     subtype: 'Email';
     value?: string;
     maxLength?: number;
 };
-type NumberSubtype = FieldSubType & {
+type NumberSubtype = FieldItem & {
     subtype: 'Number';
     value?: number;
     min?: number;
     max?: number;
 };
-type PhoneSubtype = FieldSubType & {
+type PhoneSubtype = FieldItem & {
     subtype: 'Phone';
     value?: string;
 };
-type DateSubtype = FieldSubType & {
+type DateSubtype = FieldItem & {
     subtype: 'Date';
     value?: string;
     minDate?: string;
@@ -97,21 +95,20 @@ type DateSubtype = FieldSubType & {
     maxDate?: string;
     maxDateOffsetDays?: number;
 };
-type BooleanSubtype = FieldSubType & {
+type BooleanSubtype = FieldItem & {
     subtype: 'Boolean';
     value: boolean;
 };
-type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem;
-type AnySubtype = FieldSubType | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype;
+type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype;
 type ItemType = {
     Item: AnyItem;
-    ItemFC: (props: any) => JSX.Element;
-    EditFC: (props: any) => JSX.Element;
+    ItemFC: (props: ItemProps) => JSX$1.Element;
+    EditFC: (props: ItemProps) => JSX$1.Element;
 };
 type FieldType = {
-    Subtype: AnySubtype;
-    SubtypeFC: (props: FieldProps) => JSX.Element;
-    EditFC: (props: any) => JSX.Element;
+    Subtype: FieldItem;
+    SubtypeFC: (props: FieldProps) => JSX$1.Element;
+    EditFC: (props: FieldProps) => JSX$1.Element;
 };
 type BaseItemProps = {
     item: AnyItem;
@@ -121,6 +118,16 @@ type BaseItemProps = {
 type FieldProps = BaseItemProps & {
     item: FieldItem;
 };
+type GroupProps = BaseItemProps & {
+    item: GroupItem;
+};
+type HTMLProps = BaseItemProps & {
+    item: HTMLItem;
+};
+type HiddenProps = BaseItemProps & {
+    item: HiddenItem;
+};
+type ItemProps = BaseItemProps | GroupProps | HiddenProps | HTMLProps | FieldProps;
 
 interface ActionProps {
     Items: AnyItem[];
@@ -128,12 +135,12 @@ interface ActionProps {
 }
 type ActionFC = FC<ActionProps>;
 
-type AllowedSubtypes = {
-    [key: string]: FieldType;
-};
-
 type AllowedItems = {
     [key: string]: ItemType;
+};
+
+type AllowedSubtypes = {
+    [key: string]: FieldType;
 };
 
 type BuilderOptions = {
@@ -163,13 +170,16 @@ type BuilderProps = {
 };
 declare const Builder: ({ Items, SetItems, Options }: BuilderProps) => React.JSX.Element;
 
+type SubmitProps = {
+    items: AnyItem[];
+    options: Options;
+    results: Array<Object> | Object;
+};
 type RenderProps = {
     Items: AnyItem[];
     SetItems?: Dispatch<SetStateAction<AnyItem[]>>;
     Options: RenderOptions;
-    Submit: ({ Items }: {
-        Items: [] | {};
-    }) => JSX.Element;
+    Submit: (props: SubmitProps) => JSX$1.Element;
 };
 type RenderOptions = {
     AllowedItems?: AllowedItems;
@@ -179,6 +189,6 @@ type RenderOptions = {
     onSave?: (Items: AnyItem[]) => void;
     returnType?: 'object' | 'flatobject' | 'array' | 'flatarray';
 };
-declare const Render: ({ Items, SetItems, Options, Submit }: RenderProps) => React.JSX.Element;
+declare const Render: ({ Items, SetItems, Options, Submit }: RenderProps) => JSX$1.Element;
 
 export { Builder, Render };
