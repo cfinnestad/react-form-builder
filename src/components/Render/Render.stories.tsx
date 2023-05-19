@@ -2,7 +2,7 @@ import React from 'react';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import Render, {SubmitProps} from './Render';
-import {EqFilter, isNumber, TextSubtype} from "../Items/Items";
+import {EqFilter, GroupItem, isNumber, NumberSubtype, TextSubtype} from "../Items/Items";
 import {Button} from "@mui/material";
 
 
@@ -71,10 +71,12 @@ export const Primary: Story = {
                     type: 'Field',
                     name: 'text1',
                     required: true,
-                    label: 'Text 1',
+                    label: 'Type "show"',
                     deprecated: false,
-                    subtype: 'Text'
-                },
+                    subtype: 'Text',
+                    maxLength: 10,
+                    minLength: 2
+                } as TextSubtype,
                 {
                     id: 'testItem2',
                     type: 'Field',
@@ -88,7 +90,7 @@ export const Primary: Story = {
                         value: 'show'
                     } as EqFilter,
                     subtype: 'Text'
-                },
+                } as TextSubtype,
                 {
                     id: 'testItem3',
                     type: 'Field',
@@ -97,9 +99,9 @@ export const Primary: Story = {
                     label: 'Number 1',
                     deprecated: false,
                     subtype: 'Number',
-                    min: 0,
+                    min: 12,
                     max: 5000
-                },
+                } as NumberSubtype,
                 {
                     id: 'group1',
                     type: 'Group',
@@ -115,8 +117,8 @@ export const Primary: Story = {
                         label: 'Text 3',
                         deprecated: false,
                         subtype: 'Text'
-                    }]
-                }
+                    } as TextSubtype]
+                } as GroupItem
 
             ],
         Submit: Submit,

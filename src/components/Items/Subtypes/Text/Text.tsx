@@ -9,10 +9,8 @@ const Text = (fieldProps: FieldProps ) => {
     }
 
     const [item, setItem] = useState(fieldProps.item as TextSubtype)
-    const [value, setValue] = useState(item.value)
 
     useEffect(()=>{
-        console.log('Post Item', item)
         if (!fieldProps.options.IsBuild) {
             fieldProps.options.SetItem(item)
         }
@@ -21,22 +19,21 @@ const Text = (fieldProps: FieldProps ) => {
     const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const val = event.target.value || undefined
         const itm = {...item}
-        console.log('PRE Item', item)
+
+        itm.value = undefined
+        delete itm.value
         itm.errorText = undefined
         delete itm.errorText
+
         if (itm.required && val === undefined) {
-            itm.value = undefined
-            delete itm.value
-            setValue(undefined)
             itm.errorText = itm.label + ' is required'
         }
         if (val !== undefined) {
             if (val.length < (itm.minLength ?? 0)) {
-                itm.errorText = itm.label + ' must be at least ' + itm.minLength + 'charters long'
+                itm.errorText = itm.label + ' must be at least ' + itm.minLength + ' characters long'
             }
             if (itm.maxLength !== undefined && val.length > itm.maxLength) {
-                itm.errorText = itm.label + ' cannot exceed ' + itm.maxLength + 'charters'
-                setValue(item.value)
+                itm.errorText = itm.label + ' cannot exceed ' + itm.maxLength + ' characters'
             }
         }
         if (!itm.errorText) {
@@ -59,7 +56,7 @@ const Text = (fieldProps: FieldProps ) => {
                 {item.errorText}
             </>}
             type="text"
-            value={value}
+            defaultValue={item.value}
             onChange={onChange}
         />
     </>
