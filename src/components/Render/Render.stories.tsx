@@ -225,9 +225,38 @@ export const Hidden: Story = {
         Options: {
             returnType: 'flatobject'
         }
+    }
+}
 
-
-
+export const Checkbox: Story = {
+    args: {
+        Items:
+            [
+                {
+                    id: 'CHECKBOX-1',
+                    type: 'Field',
+                    name: 'Checkbox',
+                    subtype: 'Checkbox',
+                    //If value not defined, use label
+                    value: ['Checkbox'],
+                    options: [
+                        {
+                            selected: false,
+                            label: 'First',
+                            value: 'first value'
+                        },
+                        {
+                            selected: true,
+                            label: 'Second',
+                            value: 'second value'
+                        }
+                    ]
+                }
+            ],
+        Submit: Submit,
+        Options: {
+            returnType: 'flatobject'
+        }
     }
 }
 

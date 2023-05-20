@@ -1,5 +1,6 @@
 import React, {JSX} from "react";
 import {Options} from "../Builder/Builder";
+import checkboxEdit from "./Subtypes/Checkbox/CheckboxEdit";
 
 
 export const validateItem = (Item: object, index: number): string[] => {

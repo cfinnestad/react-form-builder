@@ -6,6 +6,9 @@ import TextEdit  from './Text/TextEdit'
 import {EmailSubtype, FieldType, NumberSubtype, TextSubtype} from "../Items";
 import Email from "./Email/Email";
 import EmailEdit from "./Email/EmailEdit";
+import {CheckboxSubtype} from "../Items";
+import CheckboxEdit from "./Checkbox/CheckboxEdit";
+import CheckboxField from "./Checkbox/CheckboxField";
 
 export type AllowedSubtypes = {
     [key: string]: FieldType,
@@ -36,6 +39,28 @@ const DefaultSubtypes = (): AllowedSubtypes => {
             } as EmailSubtype,
             SubtypeFC: Email,
             EditFC: EmailEdit,
+        },
+        Checkbox: {
+            Subtype: {
+                id: 'checkbox1',
+                type: 'Field',
+                label: 'Checkbox1',
+                name: 'Checkbox-1',
+                subtype: 'Checkbox',
+                value: 'Checkbox 1',
+                    options: [
+                        {
+                            selected: true,
+                            label: 'Text 1',
+                        },
+                        {
+                            selected: false,
+                            label: 'Text 2'
+                        }
+                    ]
+            } as CheckboxSubtype,
+            SubtypeFC: CheckboxField,
+            EditFC: CheckboxEdit,
         },
         Number: {
             Subtype: {
