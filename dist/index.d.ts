@@ -16,7 +16,7 @@ type NamedItem = BaseItem & {
     name: string;
 };
 type Option = {
-    selected: boolean;
+    selected?: boolean;
     label: string;
     value?: string;
 };

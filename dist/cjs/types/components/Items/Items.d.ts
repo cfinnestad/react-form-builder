@@ -68,7 +68,7 @@ export type NamedItem = BaseItem & {
     name: string;
 };
 export type Option = {
-    selected: boolean;
+    selected?: boolean;
     label: string;
     value?: string;
 };
