@@ -1,5 +1,6 @@
 import React, {JSX} from "react";
 import {Options} from "../Builder/Builder";
+import checkboxEdit from "./Subtypes/Checkbox/CheckboxEdit";
 
 
 export const validateItem = (Item: object, index: number): string[] => {
@@ -95,7 +96,7 @@ export type NamedItem = BaseItem & {
 }
 
 export type Option = {
-    selected: boolean,
+    selected?: boolean,
     label: string,
     value?: string,
 }
