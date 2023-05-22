@@ -5,6 +5,7 @@ import {
     isEqFilter,
     isFieldFilter, isGteFilter,
     isGtFilter, isLteFilter, isLtFilter,
+    isInFilter,
     isNotFilter,
     isOrFilter
 } from "../Items/Items";
@@ -66,6 +67,14 @@ const Filter = (item: AnyItem, items: AnyItem[], filter: FilterType|undefined): 
                 } else {
                     // @ts-ignore
                     return relatedField.value <= filter.value
+                }
+            }
+            if (isInFilter(filter)) {
+                if(relatedField.value instanceof Array) {
+                    //@ts-ignore
+                    return filter.value.some(r=> relatedField.value.includes(r))
+                } else {
+                    return filter.value.some(r => r === relatedField.value)
                 }
             }
         }
