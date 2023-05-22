@@ -9,45 +9,49 @@ import change = Simulate.change;
 
 const CheckboxField = (fieldProps: FieldProps ) => {
 
-
     if (!isField(fieldProps.item) || !isCheckbox(fieldProps.item) ) {
         return <></>
     }
 
-    const [value, setValue] = useState(fieldProps.item as CheckboxSubtype)
+    const [item, setItem] = useState(fieldProps.item as CheckboxSubtype)
 
-    const item = fieldProps.item
-
-    const itm = {...value};
+    const itm = {...item};
     useEffect(() => {
         if(!fieldProps.options.IsBuild) {
-            fieldProps.options.SetItem(value)
+            fieldProps.options.SetItem(item)
         }
-    }, [value])
+    }, [item])
 
-    function handleChange(index: number){
+    function onChange(index: number){
         itm.options[index].selected = !itm.options[index].selected;
-        setValue(itm);
+        itm.value = itm.options.filter(i => {return i.selected ?? false}).map(i => {return i.value ?? i.label});
+        setItem(itm);
     }
-    const inline = 'inline';
+
+    let flex : string = '';
+    if(item.inLine){
+        flex = 'flex';
+    }
+
     return <>
         <p>{item.name}</p>
-        {/*TODO: if inline do this else do that or some way to manage inline*/}
-        {item.options.map((option,index) =>
-            <>
-                <FormGroup>
-                    <FormControlLabel
-                        control=
-                            {<Checkbox
-                                sx = {{display: 'inline'}}
-                                value={option.value}
-                                checked={option.selected}
-                                onClick={() => handleChange(index)} />}
-                        label={option.label
-                    }/>
-                </FormGroup>
-            </>
-        )}
+        <div style = {{display: flex, flexDirection: 'row'}} >
+            {item.options.map((option,index) =>
+                <>
+                    <FormGroup>
+                        <FormControlLabel
+                            control=
+                                {<Checkbox
+                                    value={option.value}
+                                    checked={option.selected}
+                                    onChange={() => onChange(index)} />}
+                            label={option.label
+                            }/>
+                    </FormGroup>
+                </>
+            )}
+        </div>
+
     </>
 }
 

@@ -47,14 +47,11 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 label: 'Checkbox1',
                 name: 'Checkbox-1',
                 subtype: 'Checkbox',
-                value: 'Checkbox 1',
                     options: [
                         {
-                            selected: true,
                             label: 'Text 1',
                         },
                         {
-                            selected: false,
                             label: 'Text 2'
                         }
                     ]

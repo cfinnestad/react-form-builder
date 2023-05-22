@@ -2,7 +2,7 @@ import React from 'react';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import Render, {SubmitProps} from './Render';
-import {EmailSubtype, EqFilter, GroupItem, isNumber, NumberSubtype, TextSubtype} from "../Items/Items";
+import {CheckboxSubtype, EmailSubtype, EqFilter, GroupItem, isNumber, NumberSubtype, TextSubtype} from "../Items/Items";
 import {Button} from "@mui/material";
 
 
@@ -130,7 +130,25 @@ export const Primary: Story = {
                             maxLength: 255,
                         } as EmailSubtype,
                     ]
-                } as GroupItem
+                } as GroupItem,
+                {
+                    id: 'CHECKBOX-1',
+                    type: 'Field',
+                    name: 'Checkbox',
+                    subtype: 'Checkbox',
+                    //If value not defined, use label
+                    value: ['second value'],
+                    options: [
+                        {
+                            label: 'First',
+                        },
+                        {
+                            selected: true,
+                            label: 'Second',
+                            value: 'second value'
+                        }
+                    ]
+                } as CheckboxSubtype
 
             ],
         Submit: Submit,
@@ -237,13 +255,10 @@ export const Checkbox: Story = {
                     type: 'Field',
                     name: 'Checkbox',
                     subtype: 'Checkbox',
-                    //If value not defined, use label
-                    value: ['Checkbox'],
+                    value: ['second value'],
                     options: [
                         {
-                            selected: false,
                             label: 'First',
-                            value: 'first value'
                         },
                         {
                             selected: true,
@@ -251,6 +266,16 @@ export const Checkbox: Story = {
                             value: 'second value'
                         }
                     ]
+                } as CheckboxSubtype,
+                {
+                    id: 'HTML',
+                    type: 'HTML',
+                    content: '<h4>Hello</h4>',
+                    filter: {
+                        fieldId: 'CHECKBOX-1',
+                        comparison: "=",
+                        value: "First"
+                    } as EqFilter
                 }
             ],
         Submit: Submit,

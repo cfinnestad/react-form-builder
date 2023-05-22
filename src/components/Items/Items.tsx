@@ -96,7 +96,7 @@ export type NamedItem = BaseItem & {
 }
 
 export type Option = {
-    selected: boolean,
+    selected?: boolean,
     label: string,
     value?: string,
 }
