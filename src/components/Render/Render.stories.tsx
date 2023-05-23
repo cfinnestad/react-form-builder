@@ -109,7 +109,8 @@ export const Primary: Story = {
                     label: 'Number 1',
                     subtype: 'Number',
                     min: 12,
-                    max: 5000
+                    max: 5000,
+                    helperText: 'Helper text',
                 } as NumberSubtype,
                 {
                     id: 'group1',
@@ -141,6 +142,8 @@ export const Primary: Story = {
                     name: 'Checkbox',
                     subtype: 'Checkbox',
                     value: ['second value'],
+                    label: 'Checkbox',
+                    helperText: 'Checkbox helper text test',
                     options: [
                         {
                             label: 'First',

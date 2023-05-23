@@ -34,8 +34,7 @@ const BooleanField = (fieldProps: FieldProps ) => {
     }
 
     return <>
-        <p>{item.name}</p>
-        <FormGroup>
+        <FormGroup sx = {{ paddingX: 2}}>
             <FormControlLabel control=
                 {<Checkbox
                     value={item.value}
@@ -44,7 +43,7 @@ const BooleanField = (fieldProps: FieldProps ) => {
                     onChange={onChange}
                 />} label={item.label}
             />
-            <FormHelperText>
+            <FormHelperText sx = {{marginTop: -1}}>
                 {item.helperText}
             </FormHelperText>
         </FormGroup>
