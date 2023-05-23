@@ -121,9 +121,7 @@ export const Primary: Story = {
                             id: 'group1_text3',
                             type: 'Field',
                             name: 'text3',
-                            required: false,
                             label: 'Text 3',
-                            deprecated: false,
                             subtype: 'Text'
                         } as TextSubtype,
                         {
