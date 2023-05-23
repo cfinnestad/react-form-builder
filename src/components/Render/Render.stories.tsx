@@ -107,7 +107,6 @@ export const Primary: Story = {
                     name: 'number1',
                     required: true,
                     label: 'Number 1',
-                    deprecated: false,
                     subtype: 'Number',
                     min: 12,
                     max: 5000
@@ -116,9 +115,7 @@ export const Primary: Story = {
                     id: 'group1',
                     type: 'Group',
                     name: 'group1',
-                    required: false,
                     label: 'Testing Group',
-                    deprecated: false,
                     items: [
                         {
                             id: 'group1_text3',
@@ -135,7 +132,6 @@ export const Primary: Story = {
                             name: 'email1',
                             required: true,
                             label: 'Email',
-                            deprecated: false,
                             subtype: 'Email',
                             maxLength: 255,
                         } as EmailSubtype,
