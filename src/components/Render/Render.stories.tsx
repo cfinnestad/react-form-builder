@@ -108,9 +108,8 @@ export const Primary: Story = {
                     label: 'Number 1',
                     deprecated: false,
                     subtype: 'Number',
-                    helperText: 'test text helper text',
                     min: 12,
-                    max: 5000,
+                    max: 5000
                 } as NumberSubtype,
                 {
                     id: 'group1',
@@ -165,8 +164,7 @@ export const Primary: Story = {
                     name: 'Boolean',
                     subtype: 'Boolean',
                     helperText: 'This is the boolean helper text',
-                } as BooleanSubtype,
-
+                } as BooleanSubtype
             ],
         Submit: Submit,
         Options: {
