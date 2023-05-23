@@ -97,7 +97,7 @@ type DateSubtype = FieldItem & {
 };
 type BooleanSubtype = FieldItem & {
     subtype: 'Boolean';
-    value: boolean;
+    value?: boolean;
 };
 type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype;
 type ItemType = {
