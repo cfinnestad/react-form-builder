@@ -77,7 +77,7 @@ export const Primary: Story = {
         Items:
             [
                 {
-                    id: 'text1',
+                    id: 'testItem1',
                     type: 'Field',
                     name: 'text1',
                     required: true,
@@ -88,7 +88,7 @@ export const Primary: Story = {
                     minLength: 2
                 } as TextSubtype,
                 {
-                    id: 'text2',
+                    id: 'testItem2',
                     type: 'Field',
                     name: 'text2',
                     required: false,
@@ -96,13 +96,13 @@ export const Primary: Story = {
                     deprecated: false,
                     filter: {
                         comparison: "=",
-                        fieldId: "text1",
+                        fieldId: "testItem1",
                         value: 'show'
                     } as EqFilter,
                     subtype: 'Text'
                 } as TextSubtype,
                 {
-                    id: 'number1',
+                    id: 'testItem3',
                     type: 'Field',
                     name: 'number1',
                     required: true,
@@ -116,31 +116,37 @@ export const Primary: Story = {
                     id: 'group1',
                     type: 'Group',
                     name: 'group1',
+                    required: false,
                     label: 'Testing Group',
+                    deprecated: false,
                     items: [
                         {
-                            id: 'group1_text3',
+                            id: 'testItem4',
                             type: 'Field',
                             name: 'text3',
+                            required: false,
                             label: 'Text 3',
+                            deprecated: false,
                             subtype: 'Text'
                         } as TextSubtype,
                         {
-                            id: 'group1_email1',
+                            id: 'email1',
                             type: 'Field',
                             name: 'email1',
                             required: true,
                             label: 'Email',
+                            deprecated: false,
                             subtype: 'Email',
                             maxLength: 255,
                         } as EmailSubtype,
                     ]
                 } as GroupItem,
                 {
-                    id: 'Checkbox',
+                    id: 'CHECKBOX-1',
                     type: 'Field',
                     name: 'Checkbox',
                     subtype: 'Checkbox',
+                    //If value not defined, use label
                     value: ['second value'],
                     options: [
                         {
