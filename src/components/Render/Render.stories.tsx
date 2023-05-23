@@ -3,6 +3,7 @@ import type {Meta, StoryObj} from '@storybook/react';
 
 import Render, {SubmitProps} from './Render';
 import {
+    BooleanSubtype,
     CheckboxSubtype,
     EmailSubtype,
     EqFilter,
@@ -108,7 +109,8 @@ export const Primary: Story = {
                     label: 'Number 1',
                     subtype: 'Number',
                     min: 12,
-                    max: 5000
+                    max: 5000,
+                    helperText: 'Helper text',
                 } as NumberSubtype,
                 {
                     id: 'group1',
@@ -139,8 +141,9 @@ export const Primary: Story = {
                     type: 'Field',
                     name: 'Checkbox',
                     subtype: 'Checkbox',
-                    //If value not defined, use label
                     value: ['second value'],
+                    label: 'Checkbox',
+                    helperText: 'Checkbox helper text test',
                     options: [
                         {
                             label: 'First',
@@ -161,8 +164,15 @@ export const Primary: Story = {
                         comparison: "=",
                         value: "First"
                     } as EqFilter
-                } as HTMLItem
-
+                } as HTMLItem,
+                {
+                    id: 'boolean1',
+                    type: 'Field',
+                    label: 'Boolean Label',
+                    name: 'Boolean',
+                    subtype: 'Boolean',
+                    helperText: 'This is the boolean helper text',
+                } as BooleanSubtype
             ],
         Submit: Submit,
         Options: {
