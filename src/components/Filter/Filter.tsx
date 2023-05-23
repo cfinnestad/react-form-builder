@@ -11,7 +11,10 @@ import {
 import GetItem from "../Items/GetItem";
 
 const Filter = (item: AnyItem, items: AnyItem[], filter: FilterType|undefined): boolean => {
-    if (filter == undefined) return true
+    if (filter == undefined) {
+        return true
+    }
+
     if (isFieldFilter(filter)) {
         const relatedField = GetItem(filter.fieldId, items)
         if (relatedField !== undefined) {

@@ -2,7 +2,16 @@ import React from 'react';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import Render, {SubmitProps} from './Render';
-import {CheckboxSubtype, EmailSubtype, EqFilter, GroupItem, isNumber, NumberSubtype, TextSubtype} from "../Items/Items";
+import {
+    CheckboxSubtype,
+    EmailSubtype,
+    EqFilter,
+    GroupItem,
+    HTMLItem,
+    isNumber,
+    NumberSubtype,
+    TextSubtype
+} from "../Items/Items";
 import {Button} from "@mui/material";
 
 
@@ -67,7 +76,7 @@ export const Primary: Story = {
         Items:
             [
                 {
-                    id: 'testItem1',
+                    id: 'text1',
                     type: 'Field',
                     name: 'text1',
                     required: true,
@@ -78,7 +87,7 @@ export const Primary: Story = {
                     minLength: 2
                 } as TextSubtype,
                 {
-                    id: 'testItem2',
+                    id: 'text2',
                     type: 'Field',
                     name: 'text2',
                     required: false,
@@ -86,18 +95,17 @@ export const Primary: Story = {
                     deprecated: false,
                     filter: {
                         comparison: "=",
-                        fieldId: "testItem1",
+                        fieldId: "text1",
                         value: 'show'
                     } as EqFilter,
                     subtype: 'Text'
                 } as TextSubtype,
                 {
-                    id: 'testItem3',
+                    id: 'number1',
                     type: 'Field',
                     name: 'number1',
                     required: true,
                     label: 'Number 1',
-                    deprecated: false,
                     subtype: 'Number',
                     min: 12,
                     max: 5000
@@ -106,33 +114,28 @@ export const Primary: Story = {
                     id: 'group1',
                     type: 'Group',
                     name: 'group1',
-                    required: false,
                     label: 'Testing Group',
-                    deprecated: false,
                     items: [
                         {
-                            id: 'testItem4',
+                            id: 'group1_text3',
                             type: 'Field',
                             name: 'text3',
-                            required: false,
                             label: 'Text 3',
-                            deprecated: false,
                             subtype: 'Text'
                         } as TextSubtype,
                         {
-                            id: 'email1',
+                            id: 'group1_email1',
                             type: 'Field',
                             name: 'email1',
                             required: true,
                             label: 'Email',
-                            deprecated: false,
                             subtype: 'Email',
                             maxLength: 255,
                         } as EmailSubtype,
                     ]
                 } as GroupItem,
                 {
-                    id: 'CHECKBOX-1',
+                    id: 'Checkbox',
                     type: 'Field',
                     name: 'Checkbox',
                     subtype: 'Checkbox',
@@ -148,7 +151,17 @@ export const Primary: Story = {
                             value: 'second value'
                         }
                     ]
-                } as CheckboxSubtype
+                } as CheckboxSubtype,
+                {
+                    id: "HTML1",
+                    type: "HTML",
+                    content: "<h4>Hello</h4>",
+                    filter: {
+                        fieldId: "Checkbox",
+                        comparison: "=",
+                        value: "First"
+                    } as EqFilter
+                } as HTMLItem
 
             ],
         Submit: Submit,

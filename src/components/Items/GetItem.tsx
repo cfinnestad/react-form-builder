@@ -5,11 +5,11 @@ const GetItem = (id: string|number, items:AnyItem[]): FieldItem|undefined => {
         const item = items[i]
         if (isGroup(item)) {
             const groupItem = GetItem(id, item.items)
-            if (groupItem !== null) {
+            if (groupItem !== undefined) {
                 return groupItem
             }
         }
-        if (isField(item) && (id == item.id)) {
+        if (isField(item) && (id === item.id)) {
             return item
         }
     }

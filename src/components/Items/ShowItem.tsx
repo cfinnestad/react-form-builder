@@ -8,6 +8,7 @@ import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import EditModal from './EditModal'
 import ItemFC from "./ItemFC";
 import {SortableItem, DragHandle} from "../SortableItem";
+import Filter from "../Filter/Filter";
 
 type ShowItemsProps = ItemProps & {
     key?: string|number
@@ -48,6 +49,9 @@ export const ShowItem = ({item, items, options}: ShowItemsProps) => {
         }
 
         if (isField(item) && item.deprecated) {
+            return <></>
+        }
+        if (!Filter(item, items, item.filter)) {
             return <></>
         }
         return <>

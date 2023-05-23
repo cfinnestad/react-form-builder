@@ -3,11 +3,9 @@ import {isGroup, ItemProps} from "../Items";
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import ShowItem from "../ShowItem";
 import {Box, FormLabel, List, ListItem, Typography} from "@mui/material";
-import Filter from "../../Filter/Filter";
 
 const ItemGroup = ({item, items, options}: ItemProps) => {
     if (!isGroup(item)) return <></>
-    if(!options.IsBuild && !Filter(item, items, item.filter)) return <></>
     if (options.IsBuild) {
         return <>
             <Typography variant="h5">{item.label}</Typography>
