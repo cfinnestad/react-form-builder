@@ -2,7 +2,16 @@ import React from 'react';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import Render, {SubmitProps} from './Render';
-import {CheckboxSubtype, EmailSubtype, EqFilter, GroupItem, isNumber, NumberSubtype, TextSubtype} from "../Items/Items";
+import {
+    BooleanSubtype,
+    CheckboxSubtype,
+    EmailSubtype,
+    EqFilter,
+    GroupItem,
+    isNumber,
+    NumberSubtype,
+    TextSubtype
+} from "../Items/Items";
 import {Button} from "@mui/material";
 
 
@@ -99,8 +108,9 @@ export const Primary: Story = {
                     label: 'Number 1',
                     deprecated: false,
                     subtype: 'Number',
+                    helperText: 'test text helper text',
                     min: 12,
-                    max: 5000
+                    max: 5000,
                 } as NumberSubtype,
                 {
                     id: 'group1',
@@ -136,7 +146,6 @@ export const Primary: Story = {
                     type: 'Field',
                     name: 'Checkbox',
                     subtype: 'Checkbox',
-                    //If value not defined, use label
                     value: ['second value'],
                     options: [
                         {
@@ -148,7 +157,15 @@ export const Primary: Story = {
                             value: 'second value'
                         }
                     ]
-                } as CheckboxSubtype
+                } as CheckboxSubtype,
+                {
+                    id: 'boolean1',
+                    type: 'Field',
+                    label: 'Boolean Label',
+                    name: 'Boolean',
+                    subtype: 'Boolean',
+                    helperText: 'This is the boolean helper text',
+                } as BooleanSubtype,
 
             ],
         Submit: Submit,
