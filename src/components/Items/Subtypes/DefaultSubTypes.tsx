@@ -3,12 +3,14 @@ import NumberST from './Number/NumberST'
 import NumberEdit from './Number/NumberEdit'
 import Text  from './Text/Text'
 import TextEdit  from './Text/TextEdit'
-import {EmailSubtype, FieldType, NumberSubtype, TextSubtype} from "../Items";
+import {BooleanSubtype, EmailSubtype, FieldType, NumberSubtype, TextSubtype} from "../Items";
 import Email from "./Email/Email";
 import EmailEdit from "./Email/EmailEdit";
 import {CheckboxSubtype} from "../Items";
 import CheckboxEdit from "./Checkbox/CheckboxEdit";
 import CheckboxField from "./Checkbox/CheckboxField";
+import BooleanEdit from "./Boolean/BooleanEdit";
+import BooleanField from "./Boolean/BooleanField";
 
 export type AllowedSubtypes = {
     [key: string]: FieldType,
@@ -71,6 +73,17 @@ const DefaultSubtypes = (): AllowedSubtypes => {
             } as NumberSubtype,
             SubtypeFC: NumberST,
             EditFC: NumberEdit
+        },
+        Boolean: {
+            Subtype: {
+                id: 'boolean1',
+                type: 'Field',
+                label: 'Boolean',
+                name: 'boolean-1',
+                subtype: 'Boolean',
+            } as BooleanSubtype,
+            SubtypeFC: BooleanField,
+            EditFC: BooleanEdit
         }
     }
 }
