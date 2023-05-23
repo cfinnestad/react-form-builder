@@ -1,5 +1,6 @@
 import React, { JSX as JSX$1, FC, Dispatch, SetStateAction } from 'react';
 
+declare const validateItem: (Item: object, index: number) => string[];
 type BaseItem = {
     id: string;
     type: string;
@@ -12,6 +13,57 @@ type BaseItem = {
 type FilterType = {
     comparison: '=' | '>' | '>=' | '<' | '<=' | 'in' | 'and' | 'or' | 'not';
 };
+type FieldFilter = FilterType & {
+    comparison: '=' | '>' | '>=' | '<' | '<=' | 'in';
+    fieldId: string;
+    value: string | number | boolean | string[];
+};
+declare const isFieldFilter: (filter: FilterType) => filter is FieldFilter;
+type EqFilter = FieldFilter & {
+    comparison: '=';
+    value: string | number | boolean;
+};
+declare const isEqFilter: (filter: FilterType) => filter is EqFilter;
+type GtFilter = FieldFilter & {
+    comparison: '>';
+    value: string | number | boolean;
+};
+declare const isGtFilter: (filter: FilterType) => filter is GtFilter;
+type GteFilter = FieldFilter & {
+    comparison: '>=';
+    value: string | number | boolean;
+};
+declare const isGteFilter: (filter: FilterType) => filter is GteFilter;
+type LtFilter = FieldFilter & {
+    comparison: '<';
+    value: string | number | boolean;
+};
+declare const isLtFilter: (filter: FilterType) => filter is LtFilter;
+type LteFilter = FieldFilter & {
+    comparison: '<=';
+    value: string | number | boolean;
+};
+declare const isLteFilter: (filter: FilterType) => filter is LteFilter;
+type InFilter = FieldFilter & {
+    comparison: 'in';
+    value: string[];
+};
+declare const isInFilter: (filter: FilterType) => filter is InFilter;
+type AndFilter = FilterType & {
+    comparison: 'and';
+    filters: FilterType[];
+};
+declare const isAndFilter: (filter: FilterType) => filter is AndFilter;
+type OrFilter = FilterType & {
+    comparison: 'or';
+    filters: FilterType[];
+};
+declare const isOrFilter: (filter: FilterType) => filter is OrFilter;
+type NotFilter = FilterType & {
+    comparison: 'not';
+    filter: FilterType;
+};
+declare const isNotFilter: (filter: FilterType) => filter is NotFilter;
 type NamedItem = BaseItem & {
     name: string;
 };
@@ -128,6 +180,19 @@ type HiddenProps = BaseItemProps & {
     item: HiddenItem;
 };
 type ItemProps = BaseItemProps | GroupProps | HiddenProps | HTMLProps | FieldProps;
+declare function isGroup(item: AnyItem): item is GroupItem;
+declare function isHidden(item: AnyItem): item is HiddenItem;
+declare function isField(item: AnyItem): item is FieldItem;
+declare function isHtml(item: AnyItem): item is HTMLItem;
+declare function isSelect(item: AnyItem): item is SelectSubtype;
+declare function isRadio(item: AnyItem): item is RadioSubtype;
+declare function isCheckbox(item: AnyItem): item is CheckboxSubtype;
+declare function isText(item: AnyItem): item is TextSubtype;
+declare function isEmail(item: AnyItem): item is EmailSubtype;
+declare function isNumber(item: AnyItem): item is NumberSubtype;
+declare function isDate(item: AnyItem): item is DateSubtype;
+declare function isBoolean(item: AnyItem): item is BooleanSubtype;
+declare function isPhone(item: AnyItem): item is PhoneSubtype;
 
 interface ActionProps {
     Items: AnyItem[];
@@ -191,4 +256,4 @@ type RenderOptions = {
 };
 declare const Render: ({ Items, SetItems, Options, Submit }: RenderProps) => JSX$1.Element;
 
-export { Builder, Render };
+export { AndFilter, AnyItem, BaseItem, BaseItemProps, BooleanSubtype, Builder, CheckboxSubtype, DateSubtype, EmailSubtype, EqFilter, FieldFilter, FieldItem, FieldProps, FieldType, FilterType, GroupItem, GroupProps, GtFilter, GteFilter, HTMLItem, HTMLProps, HiddenItem, HiddenProps, InFilter, ItemProps, ItemType, LtFilter, LteFilter, NamedItem, NotFilter, NumberSubtype, Option, OptionSubtype, OrFilter, PhoneSubtype, RadioSubtype, Render, SelectSubtype, TextSubtype, isAndFilter, isBoolean, isCheckbox, isDate, isEmail, isEqFilter, isField, isFieldFilter, isGroup, isGtFilter, isGteFilter, isHidden, isHtml, isInFilter, isLtFilter, isLteFilter, isNotFilter, isNumber, isOrFilter, isPhone, isRadio, isSelect, isText, validateItem };
