@@ -11,11 +11,10 @@ import {
     HTMLItem,
     isNumber,
     NumberSubtype,
+    SelectSubtype,
     TextSubtype
 } from "../Items/Items";
 import {Button} from "@mui/material";
-
-
 
 const Submit = ({ items, options, results } : SubmitProps ) => {
     return <>
@@ -308,4 +307,49 @@ export const Checkbox: Story = {
     }
 }
 
-
+export const Select: Story = {
+    args: {
+        Items: [
+            {
+                type: 'Field',
+                subtype: 'Select',
+                id: 'selectTest',
+                name: 'select1',
+                label: 'Select',
+                helperText: 'Helper text to describe your field',
+                required: true,
+                value: '',
+                options: [
+                    {
+                        label: 'Option 1',
+                        value: '0'
+                    },
+                    {
+                        label: 'Option 2',
+                        value: '1'
+                    },
+                    {
+                        label: 'Option 3'
+                    },
+                    {
+                        label: 'Option 4'
+                    }
+                ]
+            } as SelectSubtype,
+            {
+                id: 'HTML',
+                type: 'HTML',
+                content: '<h4>Hello</h4>',
+                filter: {
+                    fieldId: 'selectTest',
+                    comparison: '=',
+                    value: '1' // test for second item in options list
+                } as EqFilter
+            }
+        ],
+        Submit: Submit,
+        Options: {
+            returnType: 'flatobject'
+        }
+    }
+}
