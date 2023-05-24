@@ -48,7 +48,7 @@ const CheckboxField = (fieldProps: FieldProps ) => {
             <FormLabel sx={{marginLeft: "0.71em", marginTop: "-0.75em", zIndex: 2, paddingX: 0.5, backgroundColor: "#fff", position: "absolute", fontSize: "0.75em", fontWeight: 400}}>
                 {item.label}
             </FormLabel>
-            <Box sx = {{ paddingLeft: 2, paddingY: 1,  display: {flex}, flexDirection: 'row', borderRadius: 1, border: 1, borderColor: 'grey.600', "&:hover": { borderColor: 'grey.200' }} } >
+            <Box sx = {{ paddingLeft: 2, paddingY: 1,  display: flex, flexDirection: 'row', borderRadius: 1, border: 1, borderColor: 'grey.600', "&:hover": { borderColor: 'grey.200' }} } >
                 {item.options.map((option,index) =>
                     <>
                         <FormGroup>

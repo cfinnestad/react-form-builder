@@ -3,7 +3,7 @@ import NumberST from './Number/NumberST'
 import NumberEdit from './Number/NumberEdit'
 import Text  from './Text/Text'
 import TextEdit  from './Text/TextEdit'
-import {BooleanSubtype, EmailSubtype, FieldType, NumberSubtype, TextSubtype} from "../Items";
+import {BooleanSubtype, EmailSubtype, FieldType, NumberSubtype, RadioSubtype, TextSubtype} from "../Items";
 import Email from "./Email/Email";
 import EmailEdit from "./Email/EmailEdit";
 import {CheckboxSubtype} from "../Items";
@@ -11,6 +11,8 @@ import CheckboxEdit from "./Checkbox/CheckboxEdit";
 import CheckboxField from "./Checkbox/CheckboxField";
 import BooleanEdit from "./Boolean/BooleanEdit";
 import BooleanField from "./Boolean/BooleanField";
+import RadioField from "./Radio/RadioField";
+import RadioEdit from "./Radio/RadioEdit";
 
 export type AllowedSubtypes = {
     [key: string]: FieldType,
@@ -84,6 +86,28 @@ const DefaultSubtypes = (): AllowedSubtypes => {
             } as BooleanSubtype,
             SubtypeFC: BooleanField,
             EditFC: BooleanEdit
+        },
+        Radio: {
+            Subtype: {
+                id: 'radio1',
+                type: 'Field',
+                label: 'Radio1',
+                name: 'Radio-1',
+                subtype: 'Radio',
+                value: 'Radio 1 value',
+                options: [
+                    {
+                        label: 'Radio 1',
+                        selected: true,
+                        value: 'Radio 1 value'
+                    },
+                    {
+                        label: 'Radio 2'
+                    }
+                ]
+            } as RadioSubtype,
+            SubtypeFC: RadioField,
+            EditFC: RadioEdit
         }
     }
 }
