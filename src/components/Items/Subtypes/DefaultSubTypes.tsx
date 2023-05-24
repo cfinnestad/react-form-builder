@@ -1,16 +1,27 @@
 import React from "react";
 import NumberST from './Number/NumberST'
 import NumberEdit from './Number/NumberEdit'
-import Text  from './Text/Text'
-import TextEdit  from './Text/TextEdit'
-import {BooleanSubtype, EmailSubtype, FieldType, NumberSubtype, TextSubtype} from "../Items";
+import Text from './Text/Text'
+import TextEdit from './Text/TextEdit'
+import {
+    BooleanSubtype,
+    CheckboxSubtype,
+    EmailSubtype,
+    FieldType,
+    NumberSubtype,
+    SelectSubtype,
+    TextSubtype
+} from "../Items";
+
 import Email from "./Email/Email";
 import EmailEdit from "./Email/EmailEdit";
-import {CheckboxSubtype} from "../Items";
 import CheckboxEdit from "./Checkbox/CheckboxEdit";
 import CheckboxField from "./Checkbox/CheckboxField";
 import BooleanEdit from "./Boolean/BooleanEdit";
 import BooleanField from "./Boolean/BooleanField";
+import SelectST from "./Select/Select";
+import SelectEdit from "./Select/SelectEdit";
+
 
 export type AllowedSubtypes = {
     [key: string]: FieldType,
@@ -49,14 +60,14 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 label: 'Checkbox1',
                 name: 'Checkbox-1',
                 subtype: 'Checkbox',
-                    options: [
-                        {
-                            label: 'Text 1',
-                        },
-                        {
-                            label: 'Text 2'
-                        }
-                    ]
+                options: [
+                    {
+                        label: 'Text 1',
+                    },
+                    {
+                        label: 'Text 2'
+                    }
+                ]
             } as CheckboxSubtype,
             SubtypeFC: CheckboxField,
             EditFC: CheckboxEdit,
@@ -84,8 +95,34 @@ const DefaultSubtypes = (): AllowedSubtypes => {
             } as BooleanSubtype,
             SubtypeFC: BooleanField,
             EditFC: BooleanEdit
+        },
+        Select: {
+            Subtype: {
+                type: 'Field',
+                subtype: 'Select',
+                id: 'select1',
+                name: 'Select-1',
+                label: 'Select1',
+                value: '',
+                options: [
+                    {
+                        label: 'Option 1',
+                        value: '0'
+                    },
+                    {
+                        label: 'Option 2',
+                        value: '1'
+                    },
+                    {
+                        label: 'Option 3',
+                        value: '2'
+                    }
+                ]
+            } as SelectSubtype,
+            SubtypeFC: SelectST,
+            EditFC: SelectEdit
         }
     }
 }
 
-export default DefaultSubtypes
+export default DefaultSubtypes;
