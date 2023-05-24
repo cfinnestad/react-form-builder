@@ -12,11 +12,10 @@ import {
     isNumber,
     NumberSubtype,
     TextSubtype,
-    RadioSubtype
+    RadioSubtype,
+    SelectSubtype
 } from "../Items/Items";
 import {Button} from "@mui/material";
-
-
 
 const Submit = ({ items, options, results } : SubmitProps ) => {
     return <>
@@ -289,5 +288,4 @@ export const Hidden: Story = {
         }
     }
 }
-
 
