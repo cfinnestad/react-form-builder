@@ -149,7 +149,6 @@ export type SelectSubtype = OptionSubtype & {
 
 export type RadioSubtype = OptionSubtype & {
     subtype: 'Radio',
-    value?: string,
     inLine?: boolean,
 }
 

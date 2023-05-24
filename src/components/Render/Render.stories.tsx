@@ -11,7 +11,8 @@ import {
     HTMLItem,
     isNumber,
     NumberSubtype,
-    TextSubtype
+    TextSubtype,
+    RadioSubtype
 } from "../Items/Items";
 import {Button} from "@mui/material";
 
@@ -172,7 +173,27 @@ export const Primary: Story = {
                     name: 'Boolean',
                     subtype: 'Boolean',
                     helperText: 'This is the boolean helper text',
-                } as BooleanSubtype
+                } as BooleanSubtype,
+                {
+                    id: 'radio1',
+                    type: 'Field',
+                    label: 'Radio1',
+                    name: 'Radio-1',
+                    subtype: 'Radio',
+                    inLine: true,
+                    value: ['Radio 2 value'],
+                    helperText: 'Radio helper text',
+                    options: [
+                        {
+                            label: 'Radio 1',
+                        },
+                        {
+                            label: 'Radio 2',
+                            value: 'Radio 2 value',
+                            selected: true
+                        }
+                    ]
+                } as RadioSubtype
             ],
         Submit: Submit,
         Options: {
@@ -260,45 +281,6 @@ export const Hidden: Story = {
                         value: 'show'
                     } as EqFilter,
                     subtype: 'Text'
-                }
-            ],
-        Submit: Submit,
-        Options: {
-            returnType: 'flatobject'
-        }
-    }
-}
-
-export const Checkbox: Story = {
-    args: {
-        Items:
-            [
-                {
-                    id: 'CHECKBOX-1',
-                    type: 'Field',
-                    name: 'Checkbox',
-                    subtype: 'Checkbox',
-                    value: ['second value'],
-                    options: [
-                        {
-                            label: 'First',
-                        },
-                        {
-                            selected: true,
-                            label: 'Second',
-                            value: 'second value'
-                        }
-                    ]
-                } as CheckboxSubtype,
-                {
-                    id: 'HTML',
-                    type: 'HTML',
-                    content: '<h4>Hello</h4>',
-                    filter: {
-                        fieldId: 'CHECKBOX-1',
-                        comparison: "=",
-                        value: "First"
-                    } as EqFilter
                 }
             ],
         Submit: Submit,
