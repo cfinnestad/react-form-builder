@@ -124,7 +124,7 @@ export type FieldItem = NamedItem & {
     label: string,
     deprecated?: boolean,
     helperText?: string,
-    subtype: 'Select' | 'Radio' | 'Checkbox' | 'Text' | 'Email' | 'Number' | 'Phone' | 'Date' | 'Boolean'
+    subtype: string,
     custom?: { [key:string]: any }
     value?: string | number | string[] | boolean,
     errorText?: string
