@@ -66,17 +66,9 @@ export const Basic: Story = {
                 label: 'Select',
                 value: '',
                 options: [
-                    {
-                        label: 'Option 1',
-                        value: '0'
-                    },
-                    {
-                        label: 'Option 2',
-                        value: '1'
-                    },
-                    {
-                        label: 'Option 3'
-                    }
+                    { label: 'Option 1' },
+                    { label: 'Option 2' },
+                    { label: 'Option 3' }
                 ]
             } as SelectSubtype,
             {
@@ -86,7 +78,7 @@ export const Basic: Story = {
                 filter: {
                     fieldId: 'selectTest',
                     comparison: '=',
-                    value: '1' // test for second item in options list
+                    value: 'Option 2' // test for second item in options list
                 } as EqFilter
             }
         ],
@@ -110,17 +102,9 @@ export const HelperText: Story = {
                 helperText: 'Helper text to describe your field',
                 value: '',
                 options: [
-                    {
-                        label: 'Option 1',
-                        value: '0'
-                    },
-                    {
-                        label: 'Option 2',
-                        value: '1'
-                    },
-                    {
-                        label: 'Option 3'
-                    }
+                    { label: 'Option 1' },
+                    { label: 'Option 2' },
+                    { label: 'Option 3' }
                 ]
             } as SelectSubtype,
             {
@@ -130,7 +114,7 @@ export const HelperText: Story = {
                 filter: {
                     fieldId: 'selectTest',
                     comparison: '=',
-                    value: '1' // test for second item in options list
+                    value: 'Option 2' // test for second item in options list
                 } as EqFilter
             }
         ]
@@ -151,17 +135,9 @@ export const Required: Story = {
                 required: true,
                 value: '',
                 options: [
-                    {
-                        label: 'Option 1',
-                        value: '0'
-                    },
-                    {
-                        label: 'Option 2',
-                        value: '1'
-                    },
-                    {
-                        label: 'Option 3'
-                    }
+                    { label: 'Option 1' },
+                    { label: 'Option 2' },
+                    { label: 'Option 3' }
                 ]
             } as SelectSubtype,
             {
@@ -171,7 +147,7 @@ export const Required: Story = {
                 filter: {
                     fieldId: 'selectTest',
                     comparison: '=',
-                    value: '1' // test for second item in options list
+                    value: 'Option 2' // test for second item in options list
                 } as EqFilter
             }
         ]
@@ -189,24 +165,12 @@ export const DefaultOptionSelected: Story = {
                 name: 'select1',
                 label: 'Select',
                 helperText: 'One option preselected on render',
-                value: '2',
+                value: 'Option 3',
                 options: [
-                    {
-                        label: 'Option 1',
-                        value: '0'
-                    },
-                    {
-                        label: 'Option 2',
-                        value: '1'
-                    },
-                    {
-                        label: 'Option 3',
-                        value: '2',
-                        selected: true
-                    },
-                    {
-                        label: 'Option 4'
-                    }
+                    { label: 'Option 1' },
+                    { label: 'Option 2' },
+                    { label: 'Option 3', selected: true },
+                    { label: 'Option 4' }
                 ]
             } as SelectSubtype,
             {
@@ -216,7 +180,7 @@ export const DefaultOptionSelected: Story = {
                 filter: {
                     fieldId: 'selectTest',
                     comparison: '=',
-                    value: '1' // test for second item in options list
+                    value: 'Option 2' // test for second item in options list
                 } as EqFilter
             }
         ]
@@ -237,30 +201,13 @@ export const SelectMultipleOptions: Story = {
                 multiples: true,
                 value: [],
                 options: [
-                    {
-                        label: 'Option 1',
-                        value: 'Option 1'
-                    },
-                    {
-                        label: 'Option 2',
-                        value: 'Option 2'
-                    },
-                    {
-                        label: 'Option 3',
-                        value: 'Option 3'
-                    },
-                    {
-                        label: 'Option 4'
-                    },
-                    {
-                        label: 'Option 5'
-                    },
-                    {
-                        label: 'Option 6'
-                    },
-                    {
-                        label: 'Option 7'
-                    }
+                    { label: 'Option 1' },
+                    { label: 'Option 2' },
+                    { label: 'Option 3' },
+                    { label: 'Option 4' },
+                    { label: 'Option 5' },
+                    { label: 'Option 6' },
+                    { label: 'Option 7' }
                 ]
             } as SelectSubtype,
             {
@@ -270,7 +217,7 @@ export const SelectMultipleOptions: Story = {
                 filter: {
                     fieldId: 'selectMutiplesTest',
                     comparison: '=',
-                    value: 'some label'
+                    value: 'Option 2'
                 } as EqFilter
             }
         ]
@@ -289,32 +236,15 @@ export const DefaultOptionsSelected: Story = {
                 label: 'Select Multiple Options',
                 helperText: 'Multiple options preselected on render',
                 multiples: true,
-                value: ['0ption 1', 'Option 3', 'Option 4', 'Option 7'],
+                value: ['Option 1', 'Option 3', 'Option 4', 'Option 7'],
                 options: [
-                    {
-                        label: 'Option 1',
-                        value: 'Option 1'
-                    },
-                    {
-                        label: 'Option 2',
-                        value: 'Option 2'
-                    },
-                    {
-                        label: 'Option 3',
-                        value: 'Option 3'
-                    },
-                    {
-                        label: 'Option 4'
-                    },
-                    {
-                        label: 'Option 5'
-                    },
-                    {
-                        label: 'Option 6'
-                    },
-                    {
-                        label: 'Option 7'
-                    }
+                    { label: 'Option 1', selected: true },
+                    { label: 'Option 2' },
+                    { label: 'Option 3', selected: true },
+                    { label: 'Option 4', selected: true },
+                    { label: 'Option 5' },
+                    { label: 'Option 6' },
+                    { label: 'Option 7', selected: true }
                 ]
             } as SelectSubtype,
             {
@@ -324,7 +254,7 @@ export const DefaultOptionsSelected: Story = {
                 filter: {
                     fieldId: 'selectMutiplesTest',
                     comparison: '=',
-                    value: 'some label'
+                    value: 'Option 2'
                 } as EqFilter
             }
         ]

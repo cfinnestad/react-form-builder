@@ -107,7 +107,7 @@ function SelectST(fieldProps: FieldProps) {
                         item.options.map((option, index) =>
                             <MenuItem
                                 key={option.label}
-                                value={index}
+                                value={option.label}
                                 selected={option.selected}
                             >
                                 {option.label}

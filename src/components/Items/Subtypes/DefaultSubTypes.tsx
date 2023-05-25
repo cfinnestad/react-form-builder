@@ -1,9 +1,9 @@
 import React from "react";
 import NumberST from './Number/NumberST'
 import NumberEdit from './Number/NumberEdit'
-import Text  from './Text/Text'
-import TextEdit  from './Text/TextEdit'
-import {CheckboxSubtype, BooleanSubtype, EmailSubtype, FieldType, NumberSubtype, RadioSubtype, SelectSubtype, TextSubtype} from "../Items";
+import Text from './Text/Text'
+import TextEdit from './Text/TextEdit'
+import { CheckboxSubtype, BooleanSubtype, EmailSubtype, FieldType, NumberSubtype, RadioSubtype, SelectSubtype, TextSubtype } from "../Items";
 import Email from "./Email/Email";
 import EmailEdit from "./Email/EmailEdit";
 import CheckboxEdit from "./Checkbox/CheckboxEdit";
@@ -122,15 +122,15 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 options: [
                     {
                         label: 'Option 1',
-                        value: '0'
+                        value: 'option 1'
                     },
                     {
                         label: 'Option 2',
-                        value: '1'
+                        value: 'option 2'
                     },
                     {
                         label: 'Option 3',
-                        value: '2'
+                        value: 'option 3'
                     }
                 ]
             } as SelectSubtype,
