@@ -31,11 +31,12 @@ const RadioST = (fieldProps: FieldProps ) => {
     }, [item])
 
     function onChange(index: number){
+        const curVal = itm.options[index].selected
         itm.options.map((option, index) => {
             itm.options[index].selected = false;
         })
 
-        itm.options[index].selected = true;
+        itm.options[index].selected = itm.required ? true : !curVal
 
         itm.value = itm.options.filter(i => {return i.selected ?? false}).map(i => {return i.value ?? i.label});
 
