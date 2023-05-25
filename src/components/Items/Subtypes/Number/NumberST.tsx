@@ -31,13 +31,13 @@ const NumberST = (fieldProps: FieldProps ) => {
             : undefined
 
         if (item.required && !val) {
-            itm.errorText = itm.label + ' is required'
+            itm.errorText = fieldProps.options.getError('required', itm)
         } else if (val && isNaN(+val)) {     // input is not a number
-            itm.errorText = item.label + ' must be a valid number.'
+            itm.errorText = fieldProps.options.getError('nan', itm)
         } else if (parsed !== undefined && item?.min !== undefined && parsed < item?.min  ) {
-            itm.errorText = item.label + ' must be greater than ' + item.min
+            itm.errorText = fieldProps.options.getError('min', itm)
         } else if (parsed !== undefined && item.max !== undefined && parsed > item.max) {
-            itm.errorText = item.label + ' must be less than ' + item.max
+            itm.errorText = fieldProps.options.getError('max', itm)
         } else {
             itm.value = parsed
         }

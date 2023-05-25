@@ -1,32 +1,21 @@
-import React, {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
-    AnyItem,
-    CheckboxSubtype,
-    FieldItem,
     FieldProps,
-    isCheckbox,
     isField,
     isRadio,
-    isText,
     RadioSubtype
 } from "../../Items";
 import {
     Box,
-    Checkbox,
-    FormControl,
     FormControlLabel,
     FormGroup,
     FormHelperText,
-    FormLabel, Radio, RadioGroup,
-    TextField
+    FormLabel,
+    Radio,
+    RadioGroup
 } from "@mui/material";
-import SetItem from "../../SetItem";
-import ShowErrors from "../ShowErrors";
-import {number} from "prop-types";
-import {Simulate} from "react-dom/test-utils";
-import change = Simulate.change;
 
-const RadioField = (fieldProps: FieldProps ) => {
+const RadioST = (fieldProps: FieldProps ) => {
 
     if (!isField(fieldProps.item) || !isRadio(fieldProps.item) ) {
         return <></>
@@ -49,6 +38,11 @@ const RadioField = (fieldProps: FieldProps ) => {
         itm.options[index].selected = true;
 
         itm.value = itm.options.filter(i => {return i.selected ?? false}).map(i => {return i.value ?? i.label});
+
+        if(itm.required && !itm.value) {
+            itm.errorText = fieldProps.options.getError('required', itm)
+        }
+
         setItem(itm);
     }
 
@@ -87,4 +81,4 @@ const RadioField = (fieldProps: FieldProps ) => {
     </>
 }
 
-export default RadioField
+export default RadioST

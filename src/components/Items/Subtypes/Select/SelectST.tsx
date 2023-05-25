@@ -31,10 +31,17 @@ function SelectST(fieldProps: FieldProps) {
         const itm = { ...item };
         const { target: { value } } = event;
 
-        if (itm.multiples)
+        if (itm.multiples) {
             itm.value = typeof value === 'string' ? value.split(',') : value;
-        else
+            if(itm.required && itm.value.length ===0) {
+                itm.errorText = fieldProps.options.getError('required', itm)
+            }
+        } else {
             itm.value = event.target.value;
+            if(itm.required && !itm.value) {
+                itm.errorText = fieldProps.options.getError('required', itm)
+            }
+        }
 
         setItem(itm);
     };
@@ -73,7 +80,7 @@ function SelectST(fieldProps: FieldProps) {
                     MenuProps={MenuProps}
                 >
                     {
-                        item.options.map((option, index) =>
+                        item.options.map(option =>
                             <MenuItem
                                 key={option.label}
                                 value={option.label}

@@ -1,22 +1,15 @@
-import React, {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from "react";
-import {AnyItem, CheckboxSubtype, FieldItem, FieldProps, isCheckbox, isField, isText} from "../../Items";
+import React, {useEffect, useState} from "react";
+import {CheckboxSubtype, FieldProps, isCheckbox, isField} from "../../Items";
 import {
     Box,
     Checkbox,
-    FormControl,
     FormControlLabel,
     FormGroup,
     FormHelperText,
-    FormLabel,
-    TextField
+    FormLabel
 } from "@mui/material";
-import SetItem from "../../SetItem";
-import ShowErrors from "../ShowErrors";
-import {number} from "prop-types";
-import {Simulate} from "react-dom/test-utils";
-import change = Simulate.change;
 
-const CheckboxField = (fieldProps: FieldProps ) => {
+const CheckboxST = (fieldProps: FieldProps ) => {
 
     if (!isField(fieldProps.item) || !isCheckbox(fieldProps.item) ) {
         return <></>
@@ -34,6 +27,9 @@ const CheckboxField = (fieldProps: FieldProps ) => {
     function onChange(index: number){
         itm.options[index].selected = !itm.options[index].selected;
         itm.value = itm.options.filter(i => {return i.selected ?? false}).map(i => {return i.value ?? i.label});
+        if(itm.required && itm.value.length === 0) {
+            itm.errorText = fieldProps.options.getError('required', itm)
+        }
         setItem(itm);
     }
 
@@ -71,4 +67,4 @@ const CheckboxField = (fieldProps: FieldProps ) => {
     </>
 }
 
-export default CheckboxField
+export default CheckboxST

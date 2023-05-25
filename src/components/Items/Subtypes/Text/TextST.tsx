@@ -2,7 +2,7 @@ import React, {ChangeEvent, useEffect, useState} from "react";
 import {FieldProps, isText, TextSubtype} from "../../Items";
 import {TextField} from "@mui/material";
 
-const Text = (fieldProps: FieldProps ) => {
+const TextST = (fieldProps: FieldProps ) => {
 
     if (!isText(fieldProps.item) ) {
         return <></>
@@ -26,14 +26,14 @@ const Text = (fieldProps: FieldProps ) => {
         delete itm.errorText
 
         if (itm.required && val === undefined) {
-            itm.errorText = itm.label + ' is required'
+            itm.errorText = fieldProps.options.getError('required', itm)
         }
         if (val !== undefined) {
             if (val.length < (itm.minLength ?? 0)) {
-                itm.errorText = itm.label + ' must be at least ' + itm.minLength + ' characters long'
+                itm.errorText = fieldProps.options.getError('minLength', itm)
             }
             if (itm.maxLength !== undefined && val.length > itm.maxLength) {
-                itm.errorText = itm.label + ' cannot exceed ' + itm.maxLength + ' characters'
+                itm.errorText = fieldProps.options.getError('maxLength', itm)
             }
         }
         if (!itm.errorText) {
@@ -62,4 +62,4 @@ const Text = (fieldProps: FieldProps ) => {
     </>
 }
 
-export default Text
+export default TextST

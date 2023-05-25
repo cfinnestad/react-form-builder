@@ -2,7 +2,7 @@ import React, {Dispatch, FC, SetStateAction, useEffect, useState} from "react";
 import Actions, {ActionFC, ActionProps} from "../Actions/Actions";
 import DefaultItems, {AllowedItems} from "../Items/DefaultItems";
 import ShowItem from "../Items/ShowItem";
-import {AnyItem} from "../Items/Items";
+import {AnyItem} from "../Items";
 import {Box, Grid} from "@mui/material";
 import DefaultSubtypes, {AllowedSubtypes} from "../Items/Subtypes/DefaultSubTypes";
 import Transfer from "../Actions/Transfer/Transfer";
@@ -12,6 +12,7 @@ import SetItem from "../Items/SetItem";
 import onDragEnd from "./OnDragEnd";
 import {closestCenter, DndContext, useSensor, PointerSensor, KeyboardSensor} from "@dnd-kit/core";
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
+import Errors, {ErrorType, GetError} from "../Errors/Errors";
 
 type BuilderOptions = {
     Actions?: ActionFC[],
@@ -21,6 +22,7 @@ type BuilderOptions = {
     AllowedSubtypes?: AllowedSubtypes,
     AdditionalSubtypes?: AllowedSubtypes,
     onSave?: (Items: AnyItem[]) => void,
+    Errors?: ErrorType,
 }
 export type Options = {
     Actions?: FC<ActionProps>[],
@@ -31,10 +33,15 @@ export type Options = {
     setItems: Dispatch<SetStateAction<AnyItem[]>>,
     setModal?: Dispatch<SetStateAction<JSX.Element>>,
     IsBuild: boolean,
-    renderType?: 'object' | 'flatobject' | 'array' | 'flatarray'
+    renderType?: 'object' | 'flatobject' | 'array' | 'flatarray',
+    getError: (error: string, item: AnyItem) => string|undefined,
 }
 
 export type BuilderProps = {
+    AllowedItems?: AllowedItems,
+    AdditionalItems?: AllowedItems,
+    AllowedSubtypes?: AllowedSubtypes,
+    AdditionalSubtypes?: AllowedSubtypes,
     Items?: AnyItem[],
     SetItems?: Dispatch<SetStateAction<AnyItem[]>>,
     Options?: BuilderOptions,
@@ -69,6 +76,9 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         SetItem: setItem,
         setItems: setItems,
         setModal: setModal,
+        getError: (error: string, item: AnyItem) => {
+            return GetError(error, item, {...Errors(), ...(Options?.Errors ?? {})})
+        }
     }
 
     // const activeItem = useMemo(

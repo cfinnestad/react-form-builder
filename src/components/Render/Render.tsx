@@ -1,11 +1,12 @@
 import React, {Dispatch, SetStateAction, useEffect, useState, JSX} from 'react';
-import {AnyItem, isField, isGroup, isHidden} from "../Items/Items";
+import {AnyItem, isField, isGroup, isHidden} from "../Items";
 import ShowItem from "../Items/ShowItem";
 import { Options } from '../Builder/Builder'
 import SetItem from "../Items/SetItem";
 import DefaultItems, {AllowedItems} from "../Items/DefaultItems";
 import DefaultSubtypes, {AllowedSubtypes} from "../Items/Subtypes/DefaultSubTypes";
 import Filter from "../Filter/Filter";
+import {ErrorType, GetError} from "../Errors/Errors";
 
 export type SubmitProps = {
     items: AnyItem[],
@@ -26,7 +27,8 @@ export type RenderOptions = {
     AllowedSubtypes?: AllowedSubtypes,
     AdditionalSubtypes?: AllowedSubtypes,
     onSave?: (Items: AnyItem[]) => void,
-    returnType?: 'object' | 'flatobject' | 'array' | 'flatarray'
+    returnType?: 'object' | 'flatobject' | 'array' | 'flatarray',
+    Errors: ErrorType,
 }
 
 const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
@@ -39,7 +41,10 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
         IsBuild: false,
         SetItem: setItem,
         setItems: setItems,
-        renderType: Options.returnType ?? 'array'
+        renderType: Options.returnType ?? 'array',
+        getError: (error: string, item: AnyItem) => {
+           return GetError(error, item, (Options.Errors ?? {}))
+        }
     }
 
     const [submit, setSubmit] = useState(<Submit items={ items } options={options} results={RenderedItem(items, options.renderType)} ></Submit>)

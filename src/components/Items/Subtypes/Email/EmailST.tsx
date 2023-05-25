@@ -2,7 +2,7 @@ import React, {ChangeEvent, useEffect, useState} from "react";
 import {EmailSubtype, FieldProps, isEmail} from "../../Items";
 import {TextField} from "@mui/material";
 
-const Email = (fieldProps: FieldProps ) => {
+const EmailST = (fieldProps: FieldProps ) => {
 
     if (!isEmail(fieldProps.item) ) {
         return <></>
@@ -26,11 +26,11 @@ const Email = (fieldProps: FieldProps ) => {
         delete itm.errorText
 
         if (itm.required && val === undefined) {
-            itm.errorText = itm.label + ' is required'
+            itm.errorText = fieldProps.options.getError('required', itm)
         } else if (val !== undefined && itm.maxLength !== undefined && val.length > itm.maxLength) {
-            itm.errorText = itm.label + ' cannot exceed ' + itm.maxLength + ' characters'
+            itm.errorText = fieldProps.options.getError('maxLength', itm)
         } else if (val !== undefined && !val.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
-            itm.errorText = itm.label + ' is not a valid email address'
+            itm.errorText = fieldProps.options.getError('email', itm)
         } else {
             itm.value = val
         }
@@ -56,4 +56,4 @@ const Email = (fieldProps: FieldProps ) => {
     </>
 }
 
-export default Email
+export default EmailST
