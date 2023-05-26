@@ -1,1 +1,1 @@
-export {default} from './Render'
+export {default, RenderedArray, RenderedFlatArray, RenderedFlatObject, RenderedObject} from './Render'

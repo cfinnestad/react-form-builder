@@ -1,39 +1,12 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import Render, { SubmitProps } from '../../../Render/Render';
-import { EqFilter, isNumber, SelectSubtype } from "../../Items";
-import { Button } from "@mui/material";
-
-const Submit = ({ items, options, results }: SubmitProps) => {
-    return <>
-        <Button onClick={() => {
-            alert(JSON.stringify(results, null, 4))
-        }}>
-            SUBMIT RESULTS
-        </Button>
-        <Button onClick={() => {
-            alert(JSON.stringify(items, null, 4))
-        }}>
-            SUBMIT ITEMS
-        </Button>
-        <Button onClick={() => {
-            // alert(JSON.stringify(items, null, 4))
-            for (const item of items) {
-                if (isNumber(item)) {
-                    item.errorText = 'TESTING ERROR'
-                    options.SetItem(item)
-                    break;
-                }
-            }
-        }}>
-            ADD ERROR
-        </Button>
-    </>
-}
+import Render from '../../../Render/Render';
+import { EqFilter, SelectSubtype } from "../../Items";
+import {Submit} from "../../../Render/Render.stories";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta = {
-    title: 'Components/Select',
+    title: 'Components/Items/Fields/Select',
     component: Render,
     tags: ['autodocs'],
     argTypes: {

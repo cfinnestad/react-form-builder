@@ -1,7 +1,7 @@
 import React from 'react';
 import type {Meta, StoryObj} from '@storybook/react';
 
-import Render, {SubmitProps} from './Render';
+import Render, {RenderedArray, RenderedFlatArray, RenderedFlatObject, RenderedObject, SubmitProps} from './Render';
 import {
     BooleanSubtype,
     CheckboxSubtype,
@@ -9,40 +9,45 @@ import {
     EqFilter,
     GroupItem,
     HTMLItem,
-    isNumber,
     NumberSubtype,
     TextSubtype,
     RadioSubtype,
     SelectSubtype
-} from "../Items/Items";
-import {Button} from "@mui/material";
+} from "../Items";
+import {Button, ButtonGroup} from "@mui/material";
+import ValidateFields from "../Items/ValidateFields";
 
-const Submit = ({ items, options, results } : SubmitProps ) => {
-    return <>
+export const Submit = ({ items, options }: SubmitProps) => {
+    return <ButtonGroup>
         <Button onClick={() => {
-            alert(JSON.stringify(results, null, 4))
-        }}>
-            SUBMIT RESULTS
-        </Button>
-        <Button onClick={() => {
-            alert(JSON.stringify(items, null, 4))
-        }}>
-            SUBMIT ITEMS
-        </Button>
-        <Button onClick={() => {
-            // alert(JSON.stringify(items, null, 4))
-            for(const item of items) {
-                if (isNumber(item)) {
-                    item.errorText = 'TESTING ERROR'
-                    options.SetItem(item)
-                    break;
-                }
+            if(ValidateFields(items, options)) {
+                alert(JSON.stringify(RenderedObject(items), null, 4))
             }
-
         }}>
-            ADD ERROR
+            SUBMIT AS OBJECT
         </Button>
-    </>
+        <Button onClick={() => {
+            if(ValidateFields(items, options)) {
+                alert(JSON.stringify(RenderedFlatObject(items), null, 4))
+            }
+        }}>
+            SUBMIT AS FLAT OBJECT
+        </Button>
+        <Button onClick={() => {
+            if(ValidateFields(items, options)) {
+                alert(JSON.stringify(RenderedArray(items), null, 4))
+            }
+        }}>
+            SUBMIT AS ARRAY
+        </Button>
+        <Button onClick={() => {
+            if(ValidateFields(items, options)) {
+                alert(JSON.stringify(RenderedFlatArray(items), null, 4))
+            }
+        }}>
+            SUBMIT AS FLAT ARRAY
+        </Button>
+    </ButtonGroup>
 }
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -137,6 +142,26 @@ export const Primary: Story = {
                     ]
                 } as GroupItem,
                 {
+                    id: 'Select',
+                    type: 'Field',
+                    name: 'Select',
+                    subtype: 'Select',
+                    value: ['second value'],
+                    label: 'Checkbox',
+                    multiples: true,
+                    helperText: 'Select helper text test',
+                    options: [
+                        {
+                            label: 'First',
+                        },
+                        {
+                            selected: true,
+                            label: 'Second',
+                            value: 'second value'
+                        }
+                    ]
+                } as SelectSubtype,
+                {
                     id: 'Checkbox',
                     type: 'Field',
                     name: 'Checkbox',
@@ -180,7 +205,7 @@ export const Primary: Story = {
                     name: 'Radio-1',
                     subtype: 'Radio',
                     inLine: true,
-                    value: ['Radio 2 value'],
+                    value: 'Radio 2 value',
                     helperText: 'Radio helper text',
                     options: [
                         {
@@ -204,88 +229,4 @@ export const Primary: Story = {
     }
 }
 
-export const TestFlatArray: Story = {
-    args: {
-        Items:
-            [
-                {
-                    id: 'testItem1',
-                    type: 'Field',
-                    name: 'text1',
-                    required: false,
-                    label: 'Text 1',
-                    deprecated: false,
-                    subtype: 'Text'
-                },
-                {
-                    id: 'testItem2',
-                    type: 'Field',
-                    name: 'text1',
-                    required: false,
-                    label: 'Text 2',
-                    deprecated: false,
-                    subtype: 'Text'
-                },
-                {
-                    id: 'testItem3',
-                    type: 'Field',
-                    name: 'text3',
-                    required: false,
-                    label: 'Text 3',
-                    deprecated: false,
-                    subtype: 'Text'
-                }
-            ],
-        Submit: Submit,
-        Options: {
-            returnType: 'flatarray'
-        }
-    }
-}
-export const Hidden: Story = {
-    args: {
-        Items:
-            [
-                {
-                    id: 'HTML-1',
-                    type: 'HTML',
-                    content: '<h2>My Header</h2>'
-                },
-                {
-                    id: 'hidden-1',
-                    type: 'Hidden',
-                    name: 'hidden1',
-                    deprecated: false,
-                    value: 'hidden value'
-                },
-                {
-                    id: 'testItem1',
-                    type: 'Field',
-                    name: 'text1',
-                    required: false,
-                    label: 'Text 1 (try "show")',
-                    deprecated: false,
-                    subtype: 'Text'
-                },
-                {
-                    id: 'testItem2',
-                    type: 'Field',
-                    name: 'text2',
-                    required: false,
-                    label: 'Text 2',
-                    deprecated: false,
-                    filter: {
-                        comparison: "=",
-                        fieldId: "testItem1",
-                        value: 'show'
-                    } as EqFilter,
-                    subtype: 'Text'
-                }
-            ],
-        Submit: Submit,
-        Options: {
-            returnType: 'flatobject'
-        }
-    }
-}
 

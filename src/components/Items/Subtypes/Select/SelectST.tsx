@@ -103,11 +103,12 @@ function SelectST(fieldProps: FieldProps) {
     else {
         return (
             <FormControl sx={{ m: 1, minWidth: 250 }}>
-                <InputLabel id={`${item.id}-label`} required={item.required}>
+                <InputLabel id={`${item.id}-label`} required={item.required ?? false}>
                     {item.label}
                 </InputLabel>
                 <Select
                     labelId={`${item.id}-label`}
+                    error={item.errorText !== undefined}
                     id={item.id}
                     label={item.label}
                     value={item.value as string}
@@ -122,7 +123,7 @@ function SelectST(fieldProps: FieldProps) {
                         )
                     }
                     {
-                        item.options.map((option, index) =>
+                        item.options.map(option =>
                             <MenuItem
                                 key={option.label}
                                 value={option.label}
@@ -133,7 +134,10 @@ function SelectST(fieldProps: FieldProps) {
                         )
                     }
                 </Select>
-                <FormHelperText>{item.helperText}</FormHelperText>
+                <FormHelperText error={item.errorText !== undefined}>
+                    {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
+                    {item.errorText}
+                </FormHelperText>
             </FormControl>
         );
     }
