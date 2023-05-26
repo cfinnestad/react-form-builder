@@ -1,8 +1,9 @@
 import { Dispatch, SetStateAction, JSX } from 'react';
-import { AnyItem } from "../Items/Items";
+import { AnyItem } from "../Items";
 import { Options } from '../Builder/Builder';
 import { AllowedItems } from "../Items/DefaultItems";
 import { AllowedSubtypes } from "../Items/Subtypes/DefaultSubTypes";
+import { ErrorType } from "../Errors/Errors";
 export type SubmitProps = {
     items: AnyItem[];
     options: Options;
@@ -21,6 +22,11 @@ export type RenderOptions = {
     AdditionalSubtypes?: AllowedSubtypes;
     onSave?: (Items: AnyItem[]) => void;
     returnType?: 'object' | 'flatobject' | 'array' | 'flatarray';
+    Errors?: ErrorType;
 };
 declare const Render: ({ Items, SetItems, Options, Submit }: RenderProps) => JSX.Element;
+export declare const RenderedObject: (items: AnyItem[]) => {};
+export declare const RenderedFlatObject: (items: AnyItem[]) => {};
+export declare const RenderedArray: (items: AnyItem[]) => {} | [];
+export declare const RenderedFlatArray: (items: AnyItem[]) => object[];
 export default Render;

@@ -1,6 +1,8 @@
 import React from 'react';
 import type { StoryObj } from '@storybook/react';
-import { TextSubtype } from "../Items/Items";
+import { SubmitProps } from './Render';
+import { TextSubtype } from "../Items";
+export declare const Submit: ({ items, options }: SubmitProps) => React.JSX.Element;
 declare const meta: {
     title: string;
     component: ({ Items, SetItems, Options, Submit }: import("./Render").RenderProps) => React.JSX.Element;
@@ -12,6 +14,3 @@ declare const meta: {
 export default meta;
 type Story = StoryObj<typeof meta>;
 export declare const Primary: Story;
-export declare const TestFlatArray: Story;
-export declare const Hidden: Story;
-export declare const Checkbox: Story;

@@ -92,7 +92,7 @@ export type FieldItem = NamedItem & {
     label: string;
     deprecated?: boolean;
     helperText?: string;
-    subtype: 'Select' | 'Radio' | 'Checkbox' | 'Text' | 'Email' | 'Number' | 'Phone' | 'Date' | 'Boolean';
+    subtype: string;
     custom?: {
         [key: string]: any;
     };
@@ -115,6 +115,7 @@ export type RadioSubtype = OptionSubtype & {
 };
 export type CheckboxSubtype = OptionSubtype & {
     subtype: 'Checkbox';
+    value?: string[];
     inLine?: boolean;
 };
 export type TextSubtype = FieldItem & {
@@ -161,6 +162,7 @@ export type FieldType = {
     Subtype: FieldItem;
     SubtypeFC: (props: FieldProps) => JSX.Element;
     EditFC: (props: FieldProps) => JSX.Element;
+    ValidateFC?: (item: FieldItem, options: Options) => boolean;
 };
 export type BaseItemProps = {
     item: AnyItem;
