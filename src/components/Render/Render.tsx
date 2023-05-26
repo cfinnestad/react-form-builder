@@ -28,7 +28,7 @@ export type RenderOptions = {
     AdditionalSubtypes?: AllowedSubtypes,
     onSave?: (Items: AnyItem[]) => void,
     returnType?: 'object' | 'flatobject' | 'array' | 'flatarray',
-    Errors: ErrorType,
+    Errors?: ErrorType,
 }
 
 const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
