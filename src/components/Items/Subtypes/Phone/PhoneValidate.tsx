@@ -1,9 +1,9 @@
-import {isNumber, FieldItem} from "../../Items";
+import {FieldItem, isPhone} from "../../Items";
 import {Options} from "../../../Builder/Builder";
 
-const NumberValidate = (item: FieldItem, options: Options): boolean => {
+const PhoneValidate = (item: FieldItem, options: Options): boolean => {
     item.errorText = undefined
-    if (!isNumber(item)){
+    if (!isPhone(item)){
         item.errorText = options.getError('invalidType', item)
     } else if(item.required && !item.value) {
         item.errorText = options.getError('required', item)
@@ -14,4 +14,4 @@ const NumberValidate = (item: FieldItem, options: Options): boolean => {
     return !item.errorText
 }
 
-export default NumberValidate
+export default PhoneValidate
