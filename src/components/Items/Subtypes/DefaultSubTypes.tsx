@@ -130,15 +130,15 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 options: [
                     {
                         label: 'Option 1',
-                        value: '0'
+                        value: 'option 1'
                     },
                     {
                         label: 'Option 2',
-                        value: '1'
+                        value: 'option 2'
                     },
                     {
                         label: 'Option 3',
-                        value: '2'
+                        value: 'option 3'
                     }
                 ]
             } as SelectSubtype,
