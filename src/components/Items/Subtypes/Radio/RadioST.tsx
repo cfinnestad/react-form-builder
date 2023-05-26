@@ -1,32 +1,22 @@
-import React, {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
-    AnyItem,
-    CheckboxSubtype,
-    FieldItem,
     FieldProps,
-    isCheckbox,
     isField,
     isRadio,
-    isText,
     RadioSubtype
 } from "../../Items";
 import {
     Box,
-    Checkbox,
-    FormControl,
     FormControlLabel,
     FormGroup,
     FormHelperText,
-    FormLabel, Radio, RadioGroup,
-    TextField
+    FormLabel,
+    Radio,
+    RadioGroup
 } from "@mui/material";
-import SetItem from "../../SetItem";
-import ShowErrors from "../ShowErrors";
-import {number} from "prop-types";
-import {Simulate} from "react-dom/test-utils";
-import change = Simulate.change;
+import {RadioValidate} from "./index";
 
-const RadioField = (fieldProps: FieldProps ) => {
+const RadioST = (fieldProps: FieldProps ) => {
 
     if (!isField(fieldProps.item) || !isRadio(fieldProps.item) ) {
         return <></>
@@ -42,13 +32,23 @@ const RadioField = (fieldProps: FieldProps ) => {
     }, [item])
 
     function onChange(index: number){
+        const curVal = itm.options[index].selected
         itm.options.map((option, index) => {
             itm.options[index].selected = false;
         })
 
-        itm.options[index].selected = true;
+        itm.options[index].selected = itm.required ? true : !curVal
 
-        itm.value = itm.options.filter(i => {return i.selected ?? false}).map(i => {return i.value ?? i.label});
+        const value = itm.options.filter(i => {return i.selected ?? false}).map(i => {return i.value ?? i.label});
+        if (value.length === 0) {
+            itm.value = undefined
+            delete itm.value
+        } else {
+            itm.value = value[0]
+        }
+
+        RadioValidate(itm, fieldProps.options)
+
         setItem(itm);
     }
 
@@ -70,7 +70,6 @@ const RadioField = (fieldProps: FieldProps ) => {
                                 <FormControlLabel
                                     control=
                                         {<Radio
-                                            value={option.value}
                                             checked={option.selected ?? false}
                                             onClick={() => onChange(index)} />}
                                     label={option.label
@@ -87,4 +86,4 @@ const RadioField = (fieldProps: FieldProps ) => {
     </>
 }
 
-export default RadioField
+export default RadioST

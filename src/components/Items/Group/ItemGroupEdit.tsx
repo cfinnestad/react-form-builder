@@ -1,6 +1,8 @@
 import React from "react";
-export const ItemGroupEdit = () => {
+const ItemGroupEdit = () => {
     return (
         <></>
     );
 };
+
+export default ItemGroupEdit

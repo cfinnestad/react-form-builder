@@ -1,19 +1,21 @@
-import React from "react";
-import NumberST from './Number/NumberST'
-import NumberEdit from './Number/NumberEdit'
-import Text  from './Text/Text'
-import TextEdit  from './Text/TextEdit'
-import {CheckboxSubtype, BooleanSubtype, EmailSubtype, FieldType, NumberSubtype, RadioSubtype, SelectSubtype, TextSubtype} from "../Items";
-import Email from "./Email/Email";
-import EmailEdit from "./Email/EmailEdit";
-import CheckboxEdit from "./Checkbox/CheckboxEdit";
-import CheckboxField from "./Checkbox/CheckboxField";
-import BooleanEdit from "./Boolean/BooleanEdit";
-import BooleanField from "./Boolean/BooleanField";
-import RadioField from "./Radio/RadioField";
-import RadioEdit from "./Radio/RadioEdit";
-import SelectST from "./Select/Select";
-import SelectEdit from "./Select/SelectEdit";
+import React, {JSX} from "react";
+import {
+    CheckboxSubtype,
+    BooleanSubtype,
+    EmailSubtype,
+    FieldType,
+    NumberSubtype,
+    RadioSubtype,
+    SelectSubtype,
+    TextSubtype,
+} from "../Items";
+import {BooleanValidate, BooleanEdit, BooleanST} from "./Boolean";
+import {TextEdit, TextST, TextValidate} from "./Text";
+import {EmailEdit, EmailST, EmailValidate} from "./Email";
+import {CheckboxEdit, CheckboxST, CheckboxValidate} from "./Checkbox";
+import {NumberEdit, NumberST, NumberValidate} from "./Number";
+import {RadioEdit, RadioST, RadioValidate} from "./Radio";
+import {SelectEdit, SelectST, SelectValidate} from "./Select";
 
 
 export type AllowedSubtypes = {
@@ -31,8 +33,9 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 subtype: 'Text',
                 maxLength: 255
             } as TextSubtype,
-            SubtypeFC: Text,
+            SubtypeFC: TextST,
             EditFC: TextEdit,
+            ValidateFC: TextValidate
         },
         Email: {
             Subtype: {
@@ -43,8 +46,9 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 subtype: 'Email',
                 maxLength: 255
             } as EmailSubtype,
-            SubtypeFC: Email,
+            SubtypeFC: EmailST,
             EditFC: EmailEdit,
+            ValidateFC: EmailValidate
         },
         Checkbox: {
             Subtype: {
@@ -62,8 +66,9 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                     }
                 ]
             } as CheckboxSubtype,
-            SubtypeFC: CheckboxField,
+            SubtypeFC: CheckboxST,
             EditFC: CheckboxEdit,
+            ValidateFC: CheckboxValidate
         },
         Number: {
             Subtype: {
@@ -76,7 +81,8 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 max: 5000
             } as NumberSubtype,
             SubtypeFC: NumberST,
-            EditFC: NumberEdit
+            EditFC: NumberEdit,
+            ValidateFC: NumberValidate
         },
         Boolean: {
             Subtype: {
@@ -86,8 +92,9 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 name: 'boolean-1',
                 subtype: 'Boolean',
             } as BooleanSubtype,
-            SubtypeFC: BooleanField,
-            EditFC: BooleanEdit
+            SubtypeFC: BooleanST,
+            EditFC: BooleanEdit,
+            ValidateFC: BooleanValidate,
         },
         Radio: {
             Subtype: {
@@ -108,8 +115,9 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                     }
                 ]
             } as RadioSubtype,
-            SubtypeFC: RadioField,
-            EditFC: RadioEdit
+            SubtypeFC: RadioST,
+            EditFC: RadioEdit,
+            ValidateFC: RadioValidate
         },
         Select: {
             Subtype: {
@@ -122,20 +130,21 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 options: [
                     {
                         label: 'Option 1',
-                        value: '0'
+                        value: 'option 1'
                     },
                     {
                         label: 'Option 2',
-                        value: '1'
+                        value: 'option 2'
                     },
                     {
                         label: 'Option 3',
-                        value: '2'
+                        value: 'option 3'
                     }
                 ]
             } as SelectSubtype,
             SubtypeFC: SelectST,
-            EditFC: SelectEdit
+            EditFC: SelectEdit,
+            ValidateFC: SelectValidate
         }
     }
 }

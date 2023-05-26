@@ -1,14 +1,15 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
-import {EmailSubtype, FieldProps, isEmail} from "../../Items";
+import {FieldProps, isText, TextSubtype} from "../../Items";
 import {TextField} from "@mui/material";
+import {TextValidate} from "./index";
 
-const Email = (fieldProps: FieldProps ) => {
+const TextST = (fieldProps: FieldProps ) => {
 
-    if (!isEmail(fieldProps.item) ) {
+    if (!isText(fieldProps.item) ) {
         return <></>
     }
 
-    const [item, setItem] = useState(fieldProps.item as EmailSubtype)
+    const [item, setItem] = useState(fieldProps.item as TextSubtype)
 
     useEffect(()=>{
         if (!fieldProps.options.IsBuild) {
@@ -20,20 +21,11 @@ const Email = (fieldProps: FieldProps ) => {
         const val = event.target.value || undefined
         const itm = {...item}
 
-        itm.value = undefined
-        delete itm.value
-        itm.errorText = undefined
-        delete itm.errorText
-
-        if (itm.required && val === undefined) {
-            itm.errorText = itm.label + ' is required'
-        } else if (val !== undefined && itm.maxLength !== undefined && val.length > itm.maxLength) {
-            itm.errorText = itm.label + ' cannot exceed ' + itm.maxLength + ' characters'
-        } else if (val !== undefined && !val.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
-            itm.errorText = itm.label + ' is not a valid email address'
-        } else {
-            itm.value = val
+        itm.value = val
+        if(itm.value === undefined) {
+            delete itm.value
         }
+        TextValidate(itm, fieldProps.options)
         setItem(itm)
     }
 
@@ -45,6 +37,7 @@ const Email = (fieldProps: FieldProps ) => {
             fullWidth={true}
             name={item.name}
             label={item.label}
+            multiline={item.multiline ?? false}
             helperText={<>
                 {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
                 {item.errorText}
@@ -56,4 +49,4 @@ const Email = (fieldProps: FieldProps ) => {
     </>
 }
 
-export default Email
+export default TextST

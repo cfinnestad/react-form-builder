@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { Theme, useTheme } from '@mui/material/styles';
 import { FieldProps, isSelect, SelectSubtype } from '../../Items';
+import {SelectValidate} from "./index";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -31,10 +32,21 @@ function SelectST(fieldProps: FieldProps) {
         const itm = { ...item };
         const { target: { value } } = event;
 
-        if (itm.multiples)
+        if (itm.multiples) {
             itm.value = typeof value === 'string' ? value.split(',') : value;
-        else
-            itm.value = event.target.value;
+            if(itm.value.length === 0) {
+                itm.value = undefined
+                delete itm.value
+            }
+        } else {
+            itm.value = event.target.value
+            if (!itm.value) {
+                itm.value = undefined
+                delete itm.value
+            }
+        }
+
+        SelectValidate(itm, fieldProps.options)
 
         setItem(itm);
     };
@@ -73,7 +85,7 @@ function SelectST(fieldProps: FieldProps) {
                     MenuProps={MenuProps}
                 >
                     {
-                        item.options.map((option, index) =>
+                        item.options.map(option =>
                             <MenuItem
                                 key={option.label}
                                 value={option.label}
@@ -107,7 +119,7 @@ function SelectST(fieldProps: FieldProps) {
                         item.options.map((option, index) =>
                             <MenuItem
                                 key={option.label}
-                                value={index}
+                                value={option.label}
                                 selected={option.selected}
                             >
                                 {option.label}

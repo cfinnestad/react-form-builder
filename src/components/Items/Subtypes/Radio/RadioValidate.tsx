@@ -1,0 +1,17 @@
+import {FieldItem, isRadio} from "../../Items";
+import {Options} from "../../../Builder/Builder";
+
+const RadioValidate = (item: FieldItem, options: Options): boolean => {
+    item.errorText = undefined
+    if (!isRadio(item)){
+        item.errorText = options.getError('invalidType', item)
+    } else if(item.required && !item.value) {
+        item.errorText = options.getError('required', item)
+    }
+    if(item.errorText === undefined) {
+        delete item.errorText
+    }
+    return !item.errorText
+}
+
+export default RadioValidate

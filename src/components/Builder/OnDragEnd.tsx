@@ -8,8 +8,8 @@ const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: Options):voi
 	const { active, over } = result;
 
 	const reorder = (source: DragItem | undefined, destination: DragItem | undefined):AnyItem[] => {
-		console.log('source', source)
-		console.log('destination', destination)
+		// console.log('source', source)
+		// console.log('destination', destination)
 		if(source === undefined || destination === undefined) {
 			return items
 		}
