@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {EmailSubtype, FieldProps, isEmail} from "../../Items";
-import {TextField} from "@mui/material";
+import {FormHelperText, TextField} from "@mui/material";
 import {EmailValidate} from "./index";
 
 const EmailST = (fieldProps: FieldProps ) => {
@@ -34,18 +34,19 @@ const EmailST = (fieldProps: FieldProps ) => {
         <TextField
             id={item.id}
             error={item.errorText !== undefined}
+            required={item.required ?? false}
             size='small'
             fullWidth={true}
             name={item.name}
             label={item.label}
-            helperText={<>
-                {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
-                {item.errorText}
-            </>}
             type="text"
             defaultValue={item.value}
             onChange={onChange}
         />
+        <FormHelperText error={item.errorText !== undefined}>
+            {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
+            {item.errorText}
+        </FormHelperText>
     </>
 }
 

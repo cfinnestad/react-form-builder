@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {FieldProps, isNumber, NumberSubtype} from "../../Items";
-import {TextField} from "@mui/material";
+import {FormHelperText, TextField} from "@mui/material";
 import {NumberValidate} from "./index";
 
 const NumberST = (fieldProps: FieldProps ) => {
@@ -39,7 +39,6 @@ const NumberST = (fieldProps: FieldProps ) => {
         <TextField
             id={item.id}
             error={item.errorText != null}
-            helperText={<>{item.helperText ? <>{item.helperText}<br/></> : ''}{item.errorText}</>}
             size='small'
             fullWidth={true}
             name={item.name}
@@ -51,6 +50,10 @@ const NumberST = (fieldProps: FieldProps ) => {
             defaultValue={item.value ?? ''}
             onChange={onChange}
         />
+        <FormHelperText error={item.errorText !== undefined}>
+            {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
+            {item.errorText}
+        </FormHelperText>
     </>
 }
 

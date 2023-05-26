@@ -38,16 +38,15 @@ const BooleanST = (fieldProps: FieldProps ) => {
 
     return <>
         <FormGroup sx = {{ paddingX: 2}}>
-            <FormControlLabel control=
+            <FormControlLabel required={item.required ?? false} control=
                 {<Checkbox
-                    value={item.value ?? false}
                     checked={item.value ?? false}
-                    required={item.required ?? false}
                     onChange={onChange}
                 />} label={item.label}
             />
-            <FormHelperText sx = {{marginTop: -1}}>
-                {item.helperText}
+            <FormHelperText error={item.errorText !== undefined} sx = {{marginTop: -1}}>
+                {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
+                {item.errorText}
             </FormHelperText>
         </FormGroup>
     </>

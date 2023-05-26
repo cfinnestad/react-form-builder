@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {FieldProps, isText, TextSubtype} from "../../Items";
-import {TextField} from "@mui/material";
+import {FormHelperText, TextField} from "@mui/material";
 import {TextValidate} from "./index";
 
 const TextST = (fieldProps: FieldProps ) => {
@@ -33,19 +33,20 @@ const TextST = (fieldProps: FieldProps ) => {
         <TextField
             id={item.id}
             error={item.errorText !== undefined}
+            required={item.required ?? false}
             size='small'
             fullWidth={true}
             name={item.name}
             label={item.label}
             multiline={item.multiline ?? false}
-            helperText={<>
-                {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
-                {item.errorText}
-            </>}
             type="text"
             defaultValue={item.value}
             onChange={onChange}
         />
+        <FormHelperText error={item.errorText !== undefined}>
+            {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
+            {item.errorText}
+        </FormHelperText>
     </>
 }
 

@@ -1,6 +1,5 @@
 import React, {JSX} from "react";
 import {Options} from "../Builder/Builder";
-import checkboxEdit from "./Subtypes/Checkbox/CheckboxEdit";
 
 
 export const validateItem = (Item: object, index: number): string[] => {
@@ -149,11 +148,13 @@ export type SelectSubtype = OptionSubtype & {
 
 export type RadioSubtype = OptionSubtype & {
     subtype: 'Radio',
+    value?: string,
     inLine?: boolean,
 }
 
 export type CheckboxSubtype = OptionSubtype & {
     subtype: 'Checkbox',
+    value?: string[],
     inLine?: boolean,
 }
 
