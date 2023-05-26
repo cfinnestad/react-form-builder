@@ -54,8 +54,7 @@ const CheckboxST = (fieldProps: FieldProps ) => {
                             <FormControlLabel
                                 control=
                                     {<Checkbox
-                                        value={option.value}
-                                        checked={option.selected}
+                                        checked={option.selected ?? false}
                                         onChange={() => onChange(index)} />}
                                 label={option.label
                                 }/>

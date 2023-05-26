@@ -22,10 +22,7 @@ export const GetError = (error: string, item: AnyItem, errors: ErrorType): strin
     let result = errors[error] ?? "Error " + error + " is undefined";
     for (const prop in item) {
         // @ts-ignore
-        const value = item['prop']
-        if (typeof value !== 'object') {
-            result = result.replace('{' + prop + '}',value)
-        }
+        result = result.replace('{' + prop + '}', item[prop])
     }
     return (result === '') ? undefined : result
 }

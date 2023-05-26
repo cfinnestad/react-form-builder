@@ -39,10 +39,12 @@ const RadioST = (fieldProps: FieldProps ) => {
 
         itm.options[index].selected = itm.required ? true : !curVal
 
-        itm.value = itm.options.filter(i => {return i.selected ?? false}).map(i => {return i.value ?? i.label});
-        if (itm.value.length === 0) {
-            item.value = undefined
-            delete item.value
+        const value = itm.options.filter(i => {return i.selected ?? false}).map(i => {return i.value ?? i.label});
+        if (value.length === 0) {
+            itm.value = undefined
+            delete itm.value
+        } else {
+            itm.value = value[0]
         }
 
         RadioValidate(itm, fieldProps.options)
@@ -68,7 +70,6 @@ const RadioST = (fieldProps: FieldProps ) => {
                                 <FormControlLabel
                                     control=
                                         {<Radio
-                                            value={option.value}
                                             checked={option.selected ?? false}
                                             onClick={() => onChange(index)} />}
                                     label={option.label
