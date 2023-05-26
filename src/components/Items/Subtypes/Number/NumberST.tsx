@@ -1,10 +1,9 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {FieldProps, isNumber, NumberSubtype} from "../../Items";
 import {TextField} from "@mui/material";
+import {NumberValidate} from "./index";
 
 const NumberST = (fieldProps: FieldProps ) => {
-    console.log('Number ..', fieldProps.item)
-
     if (!isNumber(fieldProps.item) ) {
         return <></>
     }
@@ -21,26 +20,18 @@ const NumberST = (fieldProps: FieldProps ) => {
         const val = event.target.value ?? undefined
         const itm = {...item}
 
-        itm.value = undefined
-        delete item.value
-        itm.errorText = undefined
-        delete itm.errorText
-
         const parsed = (val != null && val !== '' && !isNaN(+val))
             ? Number(val)
             : undefined
 
-        if (item.required && !val) {
-            itm.errorText = fieldProps.options.getError('required', itm)
-        } else if (val && isNaN(+val)) {     // input is not a number
-            itm.errorText = fieldProps.options.getError('nan', itm)
-        } else if (parsed !== undefined && item?.min !== undefined && parsed < item?.min  ) {
-            itm.errorText = fieldProps.options.getError('min', itm)
-        } else if (parsed !== undefined && item.max !== undefined && parsed > item.max) {
-            itm.errorText = fieldProps.options.getError('max', itm)
-        } else {
-            itm.value = parsed
+        // @ts-ignore
+        itm.value = val
+        NumberValidate(itm, fieldProps.options)
+        itm.value = parsed
+        if(item.value === undefined) {
+            delete item.value
         }
+
         setItem(itm)
     }
 
@@ -57,7 +48,7 @@ const NumberST = (fieldProps: FieldProps ) => {
             type="text"
             inputProps={{pattern: '\d*'}}
             required={item.required ?? false}
-            defaultValue={item.value}
+            defaultValue={item.value ?? ''}
             onChange={onChange}
         />
     </>

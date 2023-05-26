@@ -14,6 +14,7 @@ import {
     Radio,
     RadioGroup
 } from "@mui/material";
+import {RadioValidate} from "./index";
 
 const RadioST = (fieldProps: FieldProps ) => {
 
@@ -39,10 +40,12 @@ const RadioST = (fieldProps: FieldProps ) => {
         itm.options[index].selected = itm.required ? true : !curVal
 
         itm.value = itm.options.filter(i => {return i.selected ?? false}).map(i => {return i.value ?? i.label});
-
-        if(itm.required && !itm.value) {
-            itm.errorText = fieldProps.options.getError('required', itm)
+        if (itm.value.length === 0) {
+            item.value = undefined
+            delete item.value
         }
+
+        RadioValidate(itm, fieldProps.options)
 
         setItem(itm);
     }

@@ -1,6 +1,7 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {EmailSubtype, FieldProps, isEmail} from "../../Items";
 import {TextField} from "@mui/material";
+import {EmailValidate} from "./index";
 
 const EmailST = (fieldProps: FieldProps ) => {
 
@@ -20,20 +21,12 @@ const EmailST = (fieldProps: FieldProps ) => {
         const val = event.target.value || undefined
         const itm = {...item}
 
-        itm.value = undefined
-        delete itm.value
-        itm.errorText = undefined
-        delete itm.errorText
-
-        if (itm.required && val === undefined) {
-            itm.errorText = fieldProps.options.getError('required', itm)
-        } else if (val !== undefined && itm.maxLength !== undefined && val.length > itm.maxLength) {
-            itm.errorText = fieldProps.options.getError('maxLength', itm)
-        } else if (val !== undefined && !val.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
-            itm.errorText = fieldProps.options.getError('email', itm)
-        } else {
-            itm.value = val
+        itm.value = val
+        if(itm.value === undefined) {
+            delete itm.value
         }
+
+        EmailValidate(itm, fieldProps.options)
         setItem(itm)
     }
 

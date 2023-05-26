@@ -14,14 +14,18 @@ const Errors = (): ErrorType => {
         email: 'Invalid email address',
         mustCheck: 'You are required to check this',
         nan: 'Must be a valid number',
+        invalidType: 'Wrong validator used for field subtype: "{subtype}"'
     }
 }
 
 export const GetError = (error: string, item: AnyItem, errors: ErrorType): string|undefined => {
-    let result = errors['error'] ?? "Error " + error + " is undefined";
-    for (const prop in item ) {
+    let result = errors[error] ?? "Error " + error + " is undefined";
+    for (const prop in item) {
         // @ts-ignore
-        result = result.replace('{' + prop + '}', item[prop])
+        const value = item['prop']
+        if (typeof value !== 'object') {
+            result = result.replace('{' + prop + '}',value)
+        }
     }
     return (result === '') ? undefined : result
 }

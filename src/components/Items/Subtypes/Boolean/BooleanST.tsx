@@ -5,6 +5,7 @@ import {
     isField,
 } from "../../Items";
 import {Checkbox, FormControlLabel, FormGroup, FormHelperText} from "@mui/material";
+import {BooleanValidate} from "./index";
 
 const BooleanST = (fieldProps: FieldProps ) => {
 
@@ -30,9 +31,7 @@ const BooleanST = (fieldProps: FieldProps ) => {
             delete itm.value
         }
 
-        if (itm.required && !itm.value) {
-            itm.errorText = fieldProps.options.getError('mustCheck', itm)
-        }
+        BooleanValidate(itm, fieldProps.options)
 
         setItem(itm);
     }
@@ -41,8 +40,8 @@ const BooleanST = (fieldProps: FieldProps ) => {
         <FormGroup sx = {{ paddingX: 2}}>
             <FormControlLabel control=
                 {<Checkbox
-                    value={item.value}
-                    checked={item.value}
+                    value={item.value ?? false}
+                    checked={item.value ?? false}
                     required={item.required ?? false}
                     onChange={onChange}
                 />} label={item.label}

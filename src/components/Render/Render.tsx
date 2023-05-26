@@ -6,7 +6,7 @@ import SetItem from "../Items/SetItem";
 import DefaultItems, {AllowedItems} from "../Items/DefaultItems";
 import DefaultSubtypes, {AllowedSubtypes} from "../Items/Subtypes/DefaultSubTypes";
 import Filter from "../Filter/Filter";
-import {ErrorType, GetError} from "../Errors/Errors";
+import Errors, {ErrorType, GetError} from "../Errors/Errors";
 
 export type SubmitProps = {
     items: AnyItem[],
@@ -43,7 +43,7 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
         setItems: setItems,
         renderType: Options.returnType ?? 'array',
         getError: (error: string, item: AnyItem) => {
-           return GetError(error, item, (Options.Errors ?? {}))
+           return GetError(error, item, {...Errors(), ...(Options.Errors ?? {})})
         }
     }
 
@@ -55,7 +55,6 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
 
 
     useEffect(() => {
-        console.log('Items Changes:', items)
         setSubmit(Submit({items: items, options: options, results: RenderedItem(items, options.renderType)} ) )
         if(SetItems) {
             SetItems(items)

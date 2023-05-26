@@ -8,6 +8,7 @@ import {
     FormHelperText,
     FormLabel
 } from "@mui/material";
+import {CheckboxValidate} from "./index";
 
 const CheckboxST = (fieldProps: FieldProps ) => {
 
@@ -27,9 +28,11 @@ const CheckboxST = (fieldProps: FieldProps ) => {
     function onChange(index: number){
         itm.options[index].selected = !itm.options[index].selected;
         itm.value = itm.options.filter(i => {return i.selected ?? false}).map(i => {return i.value ?? i.label});
-        if(itm.required && itm.value.length === 0) {
-            itm.errorText = fieldProps.options.getError('required', itm)
+        if (itm.value?.length === 0) {
+            itm.value = undefined
+            delete itm.value
         }
+        CheckboxValidate(itm, fieldProps.options)
         setItem(itm);
     }
 

@@ -1,19 +1,21 @@
-import React from "react";
-import NumberST from './Number/NumberST'
-import NumberEdit from './Number/NumberEdit'
-import TextST  from './Text/TextST'
-import TextEdit  from './Text/TextEdit'
-import {CheckboxSubtype, BooleanSubtype, EmailSubtype, FieldType, NumberSubtype, RadioSubtype, SelectSubtype, TextSubtype} from "../Items";
-import EmailST from "./Email/EmailST";
-import EmailEdit from "./Email/EmailEdit";
-import CheckboxEdit from "./Checkbox/CheckboxEdit";
-import CheckboxST from "./Checkbox/CheckboxST";
-import BooleanEdit from "./Boolean/BooleanEdit";
-import BooleanST from "./Boolean/BooleanST";
-import RadioST from "./Radio/RadioST";
-import RadioEdit from "./Radio/RadioEdit";
-import SelectST from "./Select/SelectST";
-import SelectEdit from "./Select/SelectEdit";
+import React, {JSX} from "react";
+import {
+    CheckboxSubtype,
+    BooleanSubtype,
+    EmailSubtype,
+    FieldType,
+    NumberSubtype,
+    RadioSubtype,
+    SelectSubtype,
+    TextSubtype,
+} from "../Items";
+import {BooleanValidate, BooleanEdit, BooleanST} from "./Boolean";
+import {TextEdit, TextST, TextValidate} from "./Text";
+import {EmailEdit, EmailST, EmailValidate} from "./Email";
+import {CheckboxEdit, CheckboxST, CheckboxValidate} from "./Checkbox";
+import {NumberEdit, NumberST, NumberValidate} from "./Number";
+import {RadioEdit, RadioST, RadioValidate} from "./Radio";
+import {SelectEdit, SelectST, SelectValidate} from "./Select";
 
 
 export type AllowedSubtypes = {
@@ -33,6 +35,7 @@ const DefaultSubtypes = (): AllowedSubtypes => {
             } as TextSubtype,
             SubtypeFC: TextST,
             EditFC: TextEdit,
+            ValidateFC: TextValidate
         },
         Email: {
             Subtype: {
@@ -45,6 +48,7 @@ const DefaultSubtypes = (): AllowedSubtypes => {
             } as EmailSubtype,
             SubtypeFC: EmailST,
             EditFC: EmailEdit,
+            ValidateFC: EmailValidate
         },
         Checkbox: {
             Subtype: {
@@ -64,6 +68,7 @@ const DefaultSubtypes = (): AllowedSubtypes => {
             } as CheckboxSubtype,
             SubtypeFC: CheckboxST,
             EditFC: CheckboxEdit,
+            ValidateFC: CheckboxValidate
         },
         Number: {
             Subtype: {
@@ -76,7 +81,8 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 max: 5000
             } as NumberSubtype,
             SubtypeFC: NumberST,
-            EditFC: NumberEdit
+            EditFC: NumberEdit,
+            ValidateFC: NumberValidate
         },
         Boolean: {
             Subtype: {
@@ -87,7 +93,8 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 subtype: 'Boolean',
             } as BooleanSubtype,
             SubtypeFC: BooleanST,
-            EditFC: BooleanEdit
+            EditFC: BooleanEdit,
+            ValidateFC: BooleanValidate,
         },
         Radio: {
             Subtype: {
@@ -109,7 +116,8 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 ]
             } as RadioSubtype,
             SubtypeFC: RadioST,
-            EditFC: RadioEdit
+            EditFC: RadioEdit,
+            ValidateFC: RadioValidate
         },
         Select: {
             Subtype: {
@@ -135,7 +143,8 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 ]
             } as SelectSubtype,
             SubtypeFC: SelectST,
-            EditFC: SelectEdit
+            EditFC: SelectEdit,
+            ValidateFC: SelectValidate
         }
     }
 }

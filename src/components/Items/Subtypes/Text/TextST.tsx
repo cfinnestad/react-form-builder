@@ -1,6 +1,7 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {FieldProps, isText, TextSubtype} from "../../Items";
 import {TextField} from "@mui/material";
+import {TextValidate} from "./index";
 
 const TextST = (fieldProps: FieldProps ) => {
 
@@ -20,25 +21,11 @@ const TextST = (fieldProps: FieldProps ) => {
         const val = event.target.value || undefined
         const itm = {...item}
 
-        itm.value = undefined
-        delete itm.value
-        itm.errorText = undefined
-        delete itm.errorText
-
-        if (itm.required && val === undefined) {
-            itm.errorText = fieldProps.options.getError('required', itm)
+        itm.value = val
+        if(itm.value === undefined) {
+            delete itm.value
         }
-        if (val !== undefined) {
-            if (val.length < (itm.minLength ?? 0)) {
-                itm.errorText = fieldProps.options.getError('minLength', itm)
-            }
-            if (itm.maxLength !== undefined && val.length > itm.maxLength) {
-                itm.errorText = fieldProps.options.getError('maxLength', itm)
-            }
-        }
-        if (!itm.errorText) {
-            itm.value = val
-        }
+        TextValidate(itm, fieldProps.options)
         setItem(itm)
     }
 
