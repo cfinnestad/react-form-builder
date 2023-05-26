@@ -108,6 +108,7 @@ function SelectST(fieldProps: FieldProps) {
                 </InputLabel>
                 <Select
                     labelId={`${item.id}-label`}
+                    error={item.errorText !== undefined}
                     id={item.id}
                     label={item.label}
                     value={item.value as string}
@@ -115,7 +116,14 @@ function SelectST(fieldProps: FieldProps) {
                     onChange={handleChange}
                 >
                     {
-                        item.options.map((option, index) =>
+                        !item.required && (
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                        )
+                    }
+                    {
+                        item.options.map(option =>
                             <MenuItem
                                 key={option.label}
                                 value={option.label}
