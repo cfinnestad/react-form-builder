@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {BooleanSubtype, EqFilter, HTMLItem} from "../Items";
-import {Submit} from "../../Render/Render.stories";
+import {Submit} from "../../Render/StoriesSubmit";
 import {Render} from "../../index";
 
 

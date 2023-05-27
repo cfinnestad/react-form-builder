@@ -1,8 +1,8 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {EqFilter, TextSubtype} from "../../Items";
-import {Submit} from "../../../Render/Render.stories";
 import {Render} from "../../../index";
+import {Submit} from "../../../Render/StoriesSubmit";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta = {

@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Render from '../../../Render/Render';
 import {CheckboxSubtype, EqFilter} from "../../Items";
-import {Submit} from "../../../Render/Render.stories";
+import {Submit} from "../../../Render/StoriesSubmit";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta = {
