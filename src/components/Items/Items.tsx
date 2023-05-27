@@ -32,43 +32,43 @@ export type FilterType = {
 export type FieldFilter = FilterType & {
     comparison: '='|'>'|'>='|'<'|'<='|'in',
     fieldId: string,
-    value: string|number|boolean|string[],
+    value?: string|number|boolean|string[],
 }
 export const isFieldFilter = (filter: FilterType): filter is FieldFilter => { return ['=','>','>=','<','<=','in'].includes(filter.comparison) }
 
 export type EqFilter = FieldFilter & {
     comparison: '=',
-    value: string|number|boolean,
+    value?: string|number|boolean,
 }
 export const isEqFilter = (filter: FilterType): filter is EqFilter => { return filter.comparison === '=' }
 
 export type GtFilter = FieldFilter & {
     comparison: '>',
-    value: string|number|boolean,
+    value?: string|number|boolean,
 }
 export const isGtFilter = (filter: FilterType): filter is GtFilter => { return filter.comparison === '>' }
 
 export type GteFilter = FieldFilter & {
     comparison: '>=',
-    value: string|number|boolean,
+    value?: string|number|boolean,
 }
 export const isGteFilter = (filter: FilterType): filter is GteFilter => { return filter.comparison === '>=' }
 
 export type LtFilter = FieldFilter & {
     comparison: '<',
-    value: string|number|boolean,
+    value?: string|number|boolean,
 }
 export const isLtFilter = (filter: FilterType): filter is LtFilter => { return filter.comparison === '<' }
 
 export type LteFilter = FieldFilter & {
     comparison: '<=',
-    value: string|number|boolean,
+    value?: string|number|boolean,
 }
 export const isLteFilter = (filter: FilterType): filter is LteFilter => { return filter.comparison === '<=' }
 
 export type InFilter = FieldFilter & {
     comparison: 'in',
-    value: string[],
+    value?: string[],
 }
 export const isInFilter = (filter: FilterType): filter is InFilter => { return filter.comparison === 'in' }
 
