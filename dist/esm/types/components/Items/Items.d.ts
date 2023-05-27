@@ -16,37 +16,37 @@ export type FilterType = {
 export type FieldFilter = FilterType & {
     comparison: '=' | '>' | '>=' | '<' | '<=' | 'in';
     fieldId: string;
-    value: string | number | boolean | string[];
+    value?: string | number | boolean | string[];
 };
 export declare const isFieldFilter: (filter: FilterType) => filter is FieldFilter;
 export type EqFilter = FieldFilter & {
     comparison: '=';
-    value: string | number | boolean;
+    value?: string | number | boolean;
 };
 export declare const isEqFilter: (filter: FilterType) => filter is EqFilter;
 export type GtFilter = FieldFilter & {
     comparison: '>';
-    value: string | number | boolean;
+    value?: string | number | boolean;
 };
 export declare const isGtFilter: (filter: FilterType) => filter is GtFilter;
 export type GteFilter = FieldFilter & {
     comparison: '>=';
-    value: string | number | boolean;
+    value?: string | number | boolean;
 };
 export declare const isGteFilter: (filter: FilterType) => filter is GteFilter;
 export type LtFilter = FieldFilter & {
     comparison: '<';
-    value: string | number | boolean;
+    value?: string | number | boolean;
 };
 export declare const isLtFilter: (filter: FilterType) => filter is LtFilter;
 export type LteFilter = FieldFilter & {
     comparison: '<=';
-    value: string | number | boolean;
+    value?: string | number | boolean;
 };
 export declare const isLteFilter: (filter: FilterType) => filter is LteFilter;
 export type InFilter = FieldFilter & {
     comparison: 'in';
-    value: string[];
+    value?: string[];
 };
 export declare const isInFilter: (filter: FilterType) => filter is InFilter;
 export type AndFilter = FilterType & {
