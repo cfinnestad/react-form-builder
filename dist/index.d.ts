@@ -139,6 +139,7 @@ type NumberSubtype = FieldItem & {
 type PhoneSubtype = FieldItem & {
     subtype: 'Phone';
     value?: string;
+    placeholder?: string;
 };
 type DateSubtype = FieldItem & {
     subtype: 'Date';
