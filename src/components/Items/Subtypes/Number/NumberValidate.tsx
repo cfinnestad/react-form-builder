@@ -15,7 +15,7 @@ const NumberValidate = (item: FieldItem, options: Options): boolean => {
     } else if (item.value !== undefined && item.max !== undefined && item.value > item.max) {
         item.errorText = options.getError('max', item)
     }
-    if (item.errorText === undefined) {
+    if(item.errorText === undefined) {
         delete item.errorText
     }
     return !item.errorText
