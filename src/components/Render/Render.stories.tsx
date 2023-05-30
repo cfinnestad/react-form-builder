@@ -12,7 +12,8 @@ import {
     NumberSubtype,
     TextSubtype,
     RadioSubtype,
-    SelectSubtype
+    SelectSubtype,
+    PhoneSubtype
 } from "../Items";
 import {Submit} from "./StoriesSubmit";
 
@@ -83,6 +84,16 @@ export const Primary: Story = {
                     max: 5000,
                     helperText: 'Helper text',
                 } as NumberSubtype,
+                {
+                    id: 'phone1',
+                    type: 'Field',
+                    name: 'phone1',
+                    required: true,
+                    label: 'Phone 1',
+                    subtype: 'Phone',
+                    helperText: 'Helper text',
+                    placeholder: '(555) 555-5555',
+                } as PhoneSubtype,
                 {
                     id: 'group1',
                     type: 'Group',

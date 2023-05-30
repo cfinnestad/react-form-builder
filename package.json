@@ -25,16 +25,16 @@
   },
   "homepage": "https://github.com/cfinnestad/react-form-builder#readme",
   "peerDependencies": {
-    "react": ">=18.2.0",
-    "react-dom": ">=18.2.0"
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.5",
     "@babel/preset-env": "^7.21.5",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.21.5",
-    "@emotion/react": "^11.10.8",
-    "@emotion/styled": "^11.10.8",
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.4.1",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^24.1.0",
     "@rollup/plugin-node-resolve": "^15.0.2",
@@ -75,6 +75,9 @@
     "@dnd-kit/utilities": "^3.2.1",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.3",
+    "country-flag-icons": "^1.5.7",
+    "lodash": "^4.17.21",
+    "material-ui-phone-number": "^3.0.0",
     "react-copy-to-clipboard": "^5.1.0",
     "styled-components": "^5.3.10",
     "uuidv4": "^6.2.13"

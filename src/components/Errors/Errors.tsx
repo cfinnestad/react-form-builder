@@ -14,7 +14,8 @@ const Errors = (): ErrorType => {
         email: 'Invalid email address',
         mustCheck: 'You are required to check this',
         nan: 'Must be a valid number',
-        invalidType: 'Wrong validator used for field subtype: "{subtype}"'
+        invalidType: 'Wrong validator used for field subtype: "{subtype}"',
+        invalidPhone: 'Value must be a valid 10 digit phone number'
     }
 }
 

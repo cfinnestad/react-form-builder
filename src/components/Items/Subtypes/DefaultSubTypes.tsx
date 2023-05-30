@@ -8,6 +8,7 @@ import {
     RadioSubtype,
     SelectSubtype,
     TextSubtype,
+    PhoneSubtype,
 } from "../Items";
 import {BooleanValidate, BooleanEdit, BooleanST} from "./Boolean";
 import {TextEdit, TextST, TextValidate} from "./Text";
@@ -16,6 +17,7 @@ import {CheckboxEdit, CheckboxST, CheckboxValidate} from "./Checkbox";
 import {NumberEdit, NumberST, NumberValidate} from "./Number";
 import {RadioEdit, RadioST, RadioValidate} from "./Radio";
 import {SelectEdit, SelectST, SelectValidate} from "./Select";
+import {PhoneEdit, PhoneST, PhoneValidate} from "./Phone";
 
 
 export type AllowedSubtypes = {
@@ -145,6 +147,21 @@ const DefaultSubtypes = (): AllowedSubtypes => {
             SubtypeFC: SelectST,
             EditFC: SelectEdit,
             ValidateFC: SelectValidate
+        },
+        Phone: {
+            Subtype: {
+                id: 'phone1',
+                type: 'Field',
+                name: 'phone1',
+                required: true,
+                label: 'Phone 1',
+                subtype: 'Phone',
+                helperText: 'Helper text',
+                placeholder: '(555) 555-5555',
+            } as PhoneSubtype,
+            SubtypeFC: PhoneST,
+            EditFC: PhoneEdit,
+            ValidateFC: PhoneValidate
         }
     }
 }
