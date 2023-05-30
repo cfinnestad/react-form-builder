@@ -151,9 +151,15 @@ const DefaultSubtypes = (): AllowedSubtypes => {
             Subtype: {
                 id: 'phone1',
                 type: 'Field',
-                label: 'Phone',
-                name: 'phone-1',
-                subtype: 'Phone'
+                name: 'phone1',
+                required: true,
+                label: 'Phone 1',
+                subtype: 'Phone',
+                helperText: 'Helper text',
+                disableCountryCode: true,
+                disableDropDown: true,
+                placeholder: '(555) 555-5555',
+                defaultCountry: 'us'
             } as PhoneSubtype,
             SubtypeFC: PhoneST,
             EditFC: PhoneEdit,

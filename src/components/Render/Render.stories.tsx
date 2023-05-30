@@ -121,6 +121,8 @@ export const Primary: Story = {
                     label: 'Phone 1',
                     subtype: 'Phone',
                     helperText: 'Helper text',
+                    placeholder: '(555) 555-5555',
+                    defaultCountry: 'us'
                 } as PhoneSubtype,
                 {
                     id: 'group1',
