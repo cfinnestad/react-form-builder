@@ -13,10 +13,10 @@ const meta = {
         Items: [
             {
                 type: 'Field',
-                subtype: 'Number',
-                id: 'number1',
-                name: 'number1',
-                label: 'Number',
+                subtype: 'Phone',
+                id: 'phone1',
+                name: 'phone1',
+                label: 'Phone',
             } as PhoneSubtype
         ],
     },

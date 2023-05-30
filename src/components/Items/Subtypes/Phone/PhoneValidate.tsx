@@ -8,7 +8,7 @@ const PhoneValidate = (item: FieldItem, options: Options): boolean => {
     } else if(item.required && !item.value) {
         item.errorText = options.getError('required', item)
     } else if (item.required && item.value !== undefined && item.value.length != 14) {
-    item.errorText = options.getError('invalidPhone', item)
+        item.errorText = options.getError('invalidPhone', item)
     }
     if(item.errorText === undefined) {
         delete item.errorText

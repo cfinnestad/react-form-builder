@@ -7,7 +7,8 @@ import {
     NumberSubtype,
     RadioSubtype,
     SelectSubtype,
-    TextSubtype, PhoneSubtype,
+    TextSubtype,
+    PhoneSubtype,
 } from "../Items";
 import {BooleanValidate, BooleanEdit, BooleanST} from "./Boolean";
 import {TextEdit, TextST, TextValidate} from "./Text";
