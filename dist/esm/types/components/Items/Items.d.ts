@@ -16,37 +16,37 @@ export type FilterType = {
 export type FieldFilter = FilterType & {
     comparison: '=' | '>' | '>=' | '<' | '<=' | 'in';
     fieldId: string;
-    value: string | number | boolean | string[];
+    value?: string | number | boolean | string[];
 };
 export declare const isFieldFilter: (filter: FilterType) => filter is FieldFilter;
 export type EqFilter = FieldFilter & {
     comparison: '=';
-    value: string | number | boolean;
+    value?: string | number | boolean;
 };
 export declare const isEqFilter: (filter: FilterType) => filter is EqFilter;
 export type GtFilter = FieldFilter & {
     comparison: '>';
-    value: string | number | boolean;
+    value?: string | number | boolean;
 };
 export declare const isGtFilter: (filter: FilterType) => filter is GtFilter;
 export type GteFilter = FieldFilter & {
     comparison: '>=';
-    value: string | number | boolean;
+    value?: string | number | boolean;
 };
 export declare const isGteFilter: (filter: FilterType) => filter is GteFilter;
 export type LtFilter = FieldFilter & {
     comparison: '<';
-    value: string | number | boolean;
+    value?: string | number | boolean;
 };
 export declare const isLtFilter: (filter: FilterType) => filter is LtFilter;
 export type LteFilter = FieldFilter & {
     comparison: '<=';
-    value: string | number | boolean;
+    value?: string | number | boolean;
 };
 export declare const isLteFilter: (filter: FilterType) => filter is LteFilter;
 export type InFilter = FieldFilter & {
     comparison: 'in';
-    value: string[];
+    value?: string[];
 };
 export declare const isInFilter: (filter: FilterType) => filter is InFilter;
 export type AndFilter = FilterType & {
@@ -92,7 +92,7 @@ export type FieldItem = NamedItem & {
     label: string;
     deprecated?: boolean;
     helperText?: string;
-    subtype: 'Select' | 'Radio' | 'Checkbox' | 'Text' | 'Email' | 'Number' | 'Phone' | 'Date' | 'Boolean';
+    subtype: string;
     custom?: {
         [key: string]: any;
     };
@@ -115,6 +115,7 @@ export type RadioSubtype = OptionSubtype & {
 };
 export type CheckboxSubtype = OptionSubtype & {
     subtype: 'Checkbox';
+    value?: string[];
     inLine?: boolean;
 };
 export type TextSubtype = FieldItem & {
@@ -161,6 +162,7 @@ export type FieldType = {
     Subtype: FieldItem;
     SubtypeFC: (props: FieldProps) => JSX.Element;
     EditFC: (props: FieldProps) => JSX.Element;
+    ValidateFC?: (item: FieldItem, options: Options) => boolean;
 };
 export type BaseItemProps = {
     item: AnyItem;

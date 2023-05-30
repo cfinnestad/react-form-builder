@@ -7,7 +7,7 @@ import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 const jsonSpacing = 3
 
-export const Transfer = ({Items, Options}: ActionProps) => {
+const Transfer = ({Items, Options}: ActionProps) => {
     let text = JSON.stringify(Items, null, jsonSpacing)
     let items = Items
     const [itemsText, setItemsText] = useState(text)

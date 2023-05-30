@@ -2,10 +2,9 @@ import React from "react";
 import {FieldItem, GroupItem, HiddenItem, HTMLItem, ItemType} from "./Items";
 import Field from "./Field/Field";
 import FieldEdit from "./Field/FieldEdit";
-import DefaultSubtypes, { AllowedSubtypes } from "./Subtypes/DefaultSubTypes";
 import Hidden from "./Hidden/Hidden"
 import HiddenEdit from "./Hidden/HiddenEdit"
-import {ItemGroupEdit} from "./Group/ItemGroupEdit";
+import {ItemGroupEdit} from "./Group";
 import ItemGroup from "./Group/ItemGroup";
 import Html from "./Html/Html";
 import HtmlEdit from "./Html/HtmlEdit";

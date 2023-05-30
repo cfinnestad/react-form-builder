@@ -1,3 +1,4 @@
 import React from "react";
-declare const BooleanEdit: () => React.JSX.Element;
+import { FieldProps } from "../../Items";
+declare const BooleanEdit: (fieldProps: FieldProps) => React.JSX.Element;
 export default BooleanEdit;

@@ -71,7 +71,7 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
     </>
 }
 
-const RenderedObject = ( items: AnyItem[] ): {} => {
+export const RenderedObject = ( items: AnyItem[] ): {} => {
     let result: Record<string, any> = {}
 
     for (const item of items) {
@@ -91,17 +91,17 @@ const RenderedObject = ( items: AnyItem[] ): {} => {
 
 }
 
-const RenderedFlatObject = ( items: AnyItem[], GroupName = '' ): {} => {
+export const RenderedFlatObject = ( items: AnyItem[]): {} => {
     let result: Record<string, any> = {}
 
     for (const item of items) {
         if(Filter(item, items, item.filter)) {
             if (isGroup(item)) {
-                result = {...result, ...RenderedFlatObject(item.items, item.name + '_')}
+                result = {...result, ...RenderedFlatObject(item.items)}
             } else if (isHidden(item)) {
-                result[GroupName + item.name] = item.value
+                result[item.id] = item.value
             } else if (isField(item)) {
-                result[GroupName + item.name] = item.value
+                result[item.id] = item.value
             }
         }
     }
@@ -110,7 +110,7 @@ const RenderedFlatObject = ( items: AnyItem[], GroupName = '' ): {} => {
 
 }
 
-const RenderedArray = ( items: AnyItem[]): {} | [] => {
+export const RenderedArray = ( items: AnyItem[]): {} | [] => {
     let result = []
 
     for (const item of items) {
@@ -139,22 +139,22 @@ const RenderedArray = ( items: AnyItem[]): {} | [] => {
 
 }
 
-const RenderedFlatArray = ( items: AnyItem[], GroupName = '' ): object[] => {
+export const RenderedFlatArray = ( items: AnyItem[]): object[] => {
     let result: object[] = []
 
     for (const item of items) {
 
         if(Filter(item, items, item.filter)) {
             if (isGroup(item)) {
-                result = [...result, ...RenderedFlatArray(item.items, item.name + '_')]
+                result = [...result, ...RenderedFlatArray(item.items)]
             } else if (isHidden(item)) {
                 result.push({
-                    name: GroupName + item.name,
+                    name: item.id,
                     value: item.value
                 })
             } else if (isField(item)) {
                 result.push({
-                    name: GroupName + item.name,
+                    name: item.id,
                     value: item.value
                 })
             }

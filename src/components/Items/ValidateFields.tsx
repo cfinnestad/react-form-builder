@@ -14,3 +14,5 @@ const ValidateFields = (items: AnyItem[], options: Options): boolean => {
     options.setItems(items)
     return result
 }
+
+export default ValidateFields
