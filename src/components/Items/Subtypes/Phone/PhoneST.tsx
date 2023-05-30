@@ -41,7 +41,7 @@ const PhoneST = (fieldProps: FieldProps ) => {
     return <>
         <Box component="div" sx={{ flexGrow: 1 }} marginTop={1.25} marginBottom={1}>
             <FormLabel sx={{marginLeft: "0.71em", marginTop: "-0.75em", zIndex: 2, paddingX: 0.5, backgroundColor: "#fff", position: "absolute", fontSize: "0.75em", fontWeight: 400, color: styles.phoneInput.color}}>
-                {item.label}
+                {item.label} {item.required ? '*' : ''}
             </FormLabel>
             <Box sx = {{ paddingLeft: 2, paddingY: 1, borderRadius: 1, border: 1, borderColor: styles.phoneInput.borderColor, "&:hover": { borderColor: styles.phoneInput.borderColorHover }, color: styles.phoneInput.color }} >
                 <MuiPhoneNumber
