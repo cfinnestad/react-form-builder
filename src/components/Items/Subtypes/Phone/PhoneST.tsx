@@ -50,14 +50,14 @@ const PhoneST = (fieldProps: FieldProps ) => {
                     disableCountryCode = 'true'
                     disableDropdown = 'true'
                     onlyCountries = {['us']}
-                    placeholder = {item.placeholder}
+                    placeholder = {item.placeholder ?? ''}
                     InputProps = {{ disableUnderline: true }}
-                    required = {item.required}
+                    required = {item.required ?? false}
                     error={item.errorText != null}
                 />
             </Box>
         </Box>
-        <FormHelperText sx = {{ paddingX: 2, color: styles.phoneInput.color}}>
+        <FormHelperText sx = {{ paddingX: 2, color: styles.phoneInput.color, marginTop: -0.5, paddingLeft: 0}}>
             {<>{item.helperText ? <>{item.helperText}<br/></> : ''}{item.errorText}</>}
         </FormHelperText>
     </>
