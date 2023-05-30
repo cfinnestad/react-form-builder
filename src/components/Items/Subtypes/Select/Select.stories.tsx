@@ -1,8 +1,7 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Render from '../../../Render/Render';
 import { EqFilter, SelectSubtype } from "../../Items";
-import {Submit} from "../../../Render/StoriesSubmit";
+import { Submit } from "../../../Render/StoriesSubmit";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta = {
@@ -36,7 +35,7 @@ export const Basic: Story = {
                 subtype: 'Select',
                 id: 'selectTest',
                 name: 'select1',
-                label: 'Select',
+                label: 'Select an Option',
                 value: '',
                 options: [
                     { label: 'Option 1' },
@@ -71,7 +70,7 @@ export const HelperText: Story = {
                 subtype: 'Select',
                 id: 'selectTest',
                 name: 'select1',
-                label: 'Select',
+                label: 'Select an Option',
                 helperText: 'Helper text to describe your field',
                 value: '',
                 options: [
@@ -87,7 +86,7 @@ export const HelperText: Story = {
                 filter: {
                     fieldId: 'selectTest',
                     comparison: '=',
-                    value: 'Option 2' // test for second item in options list
+                    value: 'Option 2'
                 } as EqFilter
             }
         ]
@@ -103,7 +102,7 @@ export const Required: Story = {
                 subtype: 'Select',
                 id: 'selectTest',
                 name: 'select1',
-                label: 'Select',
+                label: 'Select an Option',
                 helperText: 'Note the asterisk by the label',
                 required: true,
                 value: '',
@@ -120,7 +119,7 @@ export const Required: Story = {
                 filter: {
                     fieldId: 'selectTest',
                     comparison: '=',
-                    value: 'Option 2' // test for second item in options list
+                    value: 'Option 2'
                 } as EqFilter
             }
         ]
@@ -136,7 +135,7 @@ export const DefaultOptionSelected: Story = {
                 subtype: 'Select',
                 id: 'selectTest',
                 name: 'select1',
-                label: 'Select',
+                label: 'Select an Option',
                 helperText: 'One option preselected on render',
                 value: 'Option 3',
                 options: [
@@ -153,7 +152,7 @@ export const DefaultOptionSelected: Story = {
                 filter: {
                     fieldId: 'selectTest',
                     comparison: '=',
-                    value: 'Option 2' // test for second item in options list
+                    value: 'Option 2'
                 } as EqFilter
             }
         ]
