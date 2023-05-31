@@ -8,7 +8,8 @@ import {
     MenuItem,
     OutlinedInput,
     Select,
-    SelectChangeEvent
+    SelectChangeEvent,
+    Stack
 } from '@mui/material';
 import { Theme, useTheme } from '@mui/material/styles';
 import { FieldProps, isSelect, SelectSubtype } from '../../Items';
@@ -61,84 +62,80 @@ function SelectST(fieldProps: FieldProps) {
 
     if (item.multiples) {
         return (
-            <FormControl sx={{ m: 1, minWidth: 250 }}>
-                <InputLabel id={`${item.id}-label`} required={item.required}>
-                    {item.label}
-                </InputLabel>
-                <Select
-                    labelId={`${item.id}-label`}
-                    id={item.id}
-                    label={item.label}
-                    multiple={item.multiples}
-                    value={item.value as string[]}
-                    autoWidth
-                    onChange={handleChange}
-                    input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-                    renderValue={(selected) => (
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                            {selected.map((value) => (
-                                <Chip key={value} label={value} />
-                            ))}
-                        </Box>
-                    )}
-                    MenuProps={MenuProps}
-                >
-                    {
-                        item.options.map(option =>
-                            <MenuItem
-                                key={option.label}
-                                value={option.label}
-                                selected={option.selected}
-                                style={getStyles(option.label, item.value as string[], theme)}
-                            >
-                                {option.label}
-                            </MenuItem>
-                        )
-                    }
-                </Select>
-                <FormHelperText>{item.helperText}</FormHelperText>
-            </FormControl>
+            <Stack spacing={2}>
+                <div>{item.label} {item.required && <span>*</span>}</div>
+                <FormControl sx={{ m: 1, minWidth: 250 }}>
+                    <Select
+                        id={item.id}
+                        multiple={item.multiples}
+                        value={item.value as string[]}
+                        autoWidth
+                        onChange={handleChange}
+                        input={<OutlinedInput id={item.id} label="Chip" />}
+                        renderValue={(selected) => (
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                {selected.map((value) => (
+                                    <Chip key={value} label={value} />
+                                ))}
+                            </Box>
+                        )}
+                        MenuProps={MenuProps}
+                    >
+                        {
+                            item.options.map(option =>
+                                <MenuItem
+                                    key={option.label}
+                                    value={option.label}
+                                    selected={option.selected}
+                                    style={getStyles(option.label, item.value as string[], theme)}
+                                >
+                                    {option.label}
+                                </MenuItem>
+                            )
+                        }
+                    </Select>
+                    <FormHelperText>{item.helperText}</FormHelperText>
+                </FormControl>
+            </Stack>
         );
     }
     else {
         return (
-            <FormControl sx={{ m: 1, minWidth: 250 }}>
-                <InputLabel id={`${item.id}-label`} required={item.required ?? false}>
-                    {item.label}
-                </InputLabel>
-                <Select
-                    labelId={`${item.id}-label`}
-                    error={item.errorText !== undefined}
-                    id={item.id}
-                    label={item.label}
-                    value={item.value as string}
-                    autoWidth
-                    onChange={handleChange}
-                >
-                    {
-                        !item.required && (
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                        )
-                    }
-                    {
-                        item.options.map(option =>
-                            <MenuItem
-                                key={option.label}
-                                value={option.label}
-                                selected={option.selected}
-                            >
-                                {option.label}
-                            </MenuItem>
-                        )
-                    }
-                </Select>
-                <FormHelperText error={item.errorText !== undefined}>
-                    {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
-                    {item.errorText}
-                </FormHelperText>
-            </FormControl>
+            <Stack spacing={2}>
+                <div>{item.label} {item.required && <span>*</span>}</div>
+                <FormControl sx={{ m: 1, minWidth: 250 }}>
+                    <Select
+                        error={item.errorText !== undefined}
+                        id={item.id}
+                        value={item.value as string}
+                        autoWidth
+                        onChange={handleChange}
+                    >
+                        {
+                            !item.required && (
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                            )
+                        }
+                        {
+                            item.options.map(option =>
+                                <MenuItem
+                                    key={option.label}
+                                    value={option.label}
+                                    selected={option.selected}
+                                >
+                                    {option.label}
+                                </MenuItem>
+                            )
+                        }
+                    </Select>
+                    <FormHelperText error={item.errorText !== undefined}>
+                        {(item.helperText !== undefined) ? <>{item.helperText}<br /></> : ''}
+                        {item.errorText}
+                    </FormHelperText>
+                </FormControl>
+            </Stack>
         );
     }
 }
