@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {FieldProps, isPhone, PhoneSubtype} from "../../Items";
-import MuiPhoneNumber from 'material-ui-phone-number';
+import MuiPhoneNumber from 'mui-phone-number';
 import phoneValidate from "./PhoneValidate";
 import {Box, FormHelperText, FormLabel} from "@mui/material";
 
