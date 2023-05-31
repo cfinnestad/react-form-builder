@@ -8,15 +8,17 @@ import {
     RadioSubtype,
     SelectSubtype,
     TextSubtype,
+    AutocompleteSubtype,
     PhoneSubtype,
 } from "../Items";
-import {BooleanValidate, BooleanEdit, BooleanST} from "./Boolean";
+import {BooleanEdit, BooleanST, BooleanValidate} from "./Boolean";
 import {TextEdit, TextST, TextValidate} from "./Text";
 import {EmailEdit, EmailST, EmailValidate} from "./Email";
 import {CheckboxEdit, CheckboxST, CheckboxValidate} from "./Checkbox";
 import {NumberEdit, NumberST, NumberValidate} from "./Number";
 import {RadioEdit, RadioST, RadioValidate} from "./Radio";
 import {SelectEdit, SelectST, SelectValidate} from "./Select";
+import {AutocompleteEdit, AutocompleteST, AutocompleteValidate} from "./Autocomplete"
 import {PhoneEdit, PhoneST, PhoneValidate} from "./Phone";
 
 
@@ -162,6 +164,19 @@ const DefaultSubtypes = (): AllowedSubtypes => {
             SubtypeFC: PhoneST,
             EditFC: PhoneEdit,
             ValidateFC: PhoneValidate
+        },
+        Autocomplete: {
+            Subtype: {
+                type: 'Field',
+                subtype: 'Autocomplete',
+                id: 'autocomplete1',
+                name: 'Autocomplete-1',
+                label: 'Autocomplete1',
+                value: '',
+            } as AutocompleteSubtype,
+            SubtypeFC: AutocompleteST,
+            EditFC: AutocompleteEdit,
+            ValidateFC: AutocompleteValidate
         }
     }
 }

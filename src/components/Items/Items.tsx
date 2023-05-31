@@ -137,6 +137,7 @@ export type FieldItem = NamedItem & {
 
 export type OptionSubtype = FieldItem & {
     value?: string|string[],
+    searchableOptionsName?: string,
     options: Option[],
 }
 
@@ -156,6 +157,12 @@ export type CheckboxSubtype = OptionSubtype & {
     subtype: 'Checkbox',
     value?: string[],
     inLine?: boolean,
+}
+
+export type AutocompleteSubtype = OptionSubtype & {
+    subtype: 'Autocomplete',
+    allowAnyInput?: boolean,
+    value?: string
 }
 
 export type TextSubtype = FieldItem & {
@@ -200,7 +207,7 @@ export type BooleanSubtype = FieldItem & {
     value?: boolean,
 }
 
-export type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype
+export type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype | AutocompleteSubtype
 
 export type ItemType = {
     Item: AnyItem,
@@ -245,4 +252,5 @@ export function isEmail(item: AnyItem): item is EmailSubtype { return isField(it
 export function isNumber(item: AnyItem): item is NumberSubtype { return isField(item) && item.subtype === "Number"}
 export function isDate(item: AnyItem): item is DateSubtype { return isField(item) && item.subtype === "Date"}
 export function isBoolean(item: AnyItem): item is BooleanSubtype { return isField(item) && item.subtype === "Boolean"}
+export function isAutocomplete(item: AnyItem): item is AutocompleteSubtype { return isField(item) && item.subtype === "Autocomplete"}
 export function isPhone(item: AnyItem): item is PhoneSubtype { return isField(item) && item.subtype === "Phone"}

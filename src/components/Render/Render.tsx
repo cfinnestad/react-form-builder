@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction, useEffect, useState, JSX} from 'react';
-import {AnyItem, isField, isGroup, isHidden} from "../Items";
+import {AnyItem, isField, isGroup, isHidden, Option} from "../Items";
 import ShowItem from "../Items/ShowItem";
 import { Options } from '../Builder/Builder'
 import SetItem from "../Items/SetItem";
@@ -29,6 +29,9 @@ export type RenderOptions = {
     onSave?: (Items: AnyItem[]) => void,
     returnType?: 'object' | 'flatobject' | 'array' | 'flatarray',
     Errors?: ErrorType,
+    searchableOptions?: {
+        [key: string]: (input?: string) => Promise<Option[]> | Option[]
+    }
 }
 
 const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
