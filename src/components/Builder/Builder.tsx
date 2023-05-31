@@ -2,7 +2,7 @@ import React, {Dispatch, FC, SetStateAction, useEffect, useState} from "react";
 import Actions, {ActionFC, ActionProps} from "../Actions/Actions";
 import DefaultItems, {AllowedItems} from "../Items/DefaultItems";
 import ShowItem from "../Items/ShowItem";
-import {AnyItem} from "../Items";
+import {AnyItem, Option} from "../Items";
 import {Box, Grid} from "@mui/material";
 import DefaultSubtypes, {AllowedSubtypes} from "../Items/Subtypes/DefaultSubTypes";
 import Transfer from "../Actions/Transfer/Transfer";
@@ -23,7 +23,11 @@ type BuilderOptions = {
     AdditionalSubtypes?: AllowedSubtypes,
     onSave?: (Items: AnyItem[]) => void,
     Errors?: ErrorType,
+    searchableOptions?: {
+        [key: string]: (input?: string) => Promise<Option[]> | Option[]
+    }
 }
+
 export type Options = {
     Actions?: FC<ActionProps>[],
     AllowedItems: AllowedItems,
@@ -35,6 +39,9 @@ export type Options = {
     IsBuild: boolean,
     renderType?: 'object' | 'flatobject' | 'array' | 'flatarray',
     getError: (error: string, item: AnyItem) => string|undefined,
+    searchableOptions?: {
+        [key: string]: (input?: string) => Promise<Option[]> | Option[]
+    }
 }
 
 export type BuilderProps = {
