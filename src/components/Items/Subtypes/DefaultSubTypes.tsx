@@ -11,16 +11,14 @@ import {
     AutocompleteSubtype,
     PhoneSubtype,
 } from "../Items";
-import {BooleanValidate, BooleanEdit, BooleanST} from "./Boolean";
+import {BooleanEdit, BooleanST, BooleanValidate} from "./Boolean";
 import {TextEdit, TextST, TextValidate} from "./Text";
 import {EmailEdit, EmailST, EmailValidate} from "./Email";
 import {CheckboxEdit, CheckboxST, CheckboxValidate} from "./Checkbox";
 import {NumberEdit, NumberST, NumberValidate} from "./Number";
 import {RadioEdit, RadioST, RadioValidate} from "./Radio";
 import {SelectEdit, SelectST, SelectValidate} from "./Select";
-import AutocompleteST from "./Autocomplete/AutocompleteST";
-import AutocompleteEdit from "./Autocomplete/AutocompleteEdit";
-import AutocompleteValidate from "./Autocomplete/AutocompleteValidate";
+import {AutocompleteEdit, AutocompleteST, AutocompleteValidate} from "./Autocomplete"
 import {PhoneEdit, PhoneST, PhoneValidate} from "./Phone";
 
 
