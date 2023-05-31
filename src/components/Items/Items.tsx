@@ -189,6 +189,7 @@ export type NumberSubtype = FieldItem & {
 export type PhoneSubtype = FieldItem & {
     subtype: 'Phone',
     value?: string,
+    placeholder?: string
 }
 
 export type DateSubtype = FieldItem & {
