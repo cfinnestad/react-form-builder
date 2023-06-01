@@ -2,7 +2,7 @@ import React, {ChangeEvent, useEffect, useState} from "react";
 import {FieldProps, isPhone, PhoneSubtype} from "../../Items";
 import MuiPhoneNumber from 'mui-phone-number';
 import phoneValidate from "./PhoneValidate";
-import {Box, FormHelperText, FormLabel} from "@mui/material";
+import {Box, FormHelperText, FormLabel, Stack} from "@mui/material";
 
 const PhoneST = (fieldProps: FieldProps ) => {
     if (!isPhone(fieldProps.item) ) {
@@ -39,10 +39,8 @@ const PhoneST = (fieldProps: FieldProps ) => {
     };
 
     return <>
-        <Box component="div" sx={{ flexGrow: 1 }} marginTop={1.25} marginBottom={1}>
-            <FormLabel sx={{marginLeft: "0.71em", marginTop: "-0.75em", zIndex: 2, paddingX: 0.5, backgroundColor: "#fff", position: "absolute", fontSize: "0.75em", fontWeight: 400, color: styles.phoneInput.color}}>
-                {item.label} {item.required ? '*' : ''}
-            </FormLabel>
+        <Stack spacing={2}>
+            <div>{item.label} {item.required && <span>*</span>}</div>
             <Box sx = {{ paddingLeft: 2, paddingY: 1, borderRadius: 1, border: 1, borderColor: styles.phoneInput.borderColor, "&:hover": { borderColor: styles.phoneInput.borderColorHover }, color: styles.phoneInput.color }} >
                 <MuiPhoneNumber
                     defaultCountry={'us'}
@@ -56,10 +54,10 @@ const PhoneST = (fieldProps: FieldProps ) => {
                     error={item.errorText != null}
                 />
             </Box>
-        </Box>
-        <FormHelperText sx = {{ paddingX: 2, color: styles.phoneInput.color, marginTop: -0.5, paddingLeft: 0}}>
-            {<>{item.helperText ? <>{item.helperText}<br/></> : ''}{item.errorText}</>}
-        </FormHelperText>
+            <FormHelperText sx = {{ paddingX: 2, color: styles.phoneInput.color, marginTop: -0.5, paddingLeft: 0}}>
+                {<>{item.helperText ? <>{item.helperText}<br/></> : ''}{item.errorText}</>}
+            </FormHelperText>
+        </Stack>
     </>
 }
 
