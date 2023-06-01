@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {EmailSubtype, FieldProps, isEmail} from "../../Items";
-import {FormHelperText, TextField} from "@mui/material";
+import {FormHelperText, Stack, TextField} from "@mui/material";
 import {EmailValidate} from "./index";
 
 const EmailST = (fieldProps: FieldProps ) => {
@@ -31,22 +31,24 @@ const EmailST = (fieldProps: FieldProps ) => {
     }
 
     return <>
-        <TextField
-            id={item.id}
-            error={item.errorText !== undefined}
-            required={item.required ?? false}
-            size='small'
-            fullWidth={true}
-            name={item.name}
-            label={item.label}
-            type="text"
-            defaultValue={item.value}
-            onChange={onChange}
-        />
-        <FormHelperText error={item.errorText !== undefined}>
-            {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
-            {item.errorText}
-        </FormHelperText>
+        <Stack spacing={2}>
+            <div>{item.label} {item.required && <span>*</span>}</div>
+            <TextField
+                id={item.id}
+                error={item.errorText !== undefined}
+                required={item.required ?? false}
+                size='small'
+                fullWidth={true}
+                name={item.name}
+                type="text"
+                defaultValue={item.value}
+                onChange={onChange}
+            />
+            <FormHelperText error={item.errorText !== undefined}>
+                {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
+                {item.errorText}
+            </FormHelperText>
+        </Stack>
     </>
 }
 
