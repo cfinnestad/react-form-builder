@@ -1,7 +1,8 @@
-import React, {useEffect, useRef, useState} from "react";
-import {Autocomplete, TextField} from "@mui/material";
+import React, {useEffect, useRef, useState, JSX} from "react";
+import {Autocomplete, InputLabel, Stack, TextField} from "@mui/material";
 import {FieldProps, Option, isAutocomplete} from "../../Items";
 import AutocompleteValidate from "./AutocompleteValidate";
+import {Label} from "@mui/icons-material";
 
 
 export type FilterOptionsFunc = (input?: string) => (Promise<Option[]> | Option[])
@@ -71,43 +72,52 @@ const AutocompleteST = (fieldProps: FieldProps) => {
     }
 
     return <>
-        <Autocomplete
-            id={item.id}
-            // freeSolo={item.allowAnyInput ?? false}   // TODO: implement allowAnyInput
-            // autoSelect={item.allowAnyInput ?? false}
-            onChange={onAutocompleteChange}
-            defaultValue={null}
-            options={choices}
-            // filterOptions={ (options, state) => options }
-            disablePortal={true}
-            componentsProps={{
-                paper: {
-                    sx: {
-                        boxShadow: '0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12)',
+        <Stack spacing={2}>
+
+            <InputLabel>{item.label}{item.required && <span>*</span>}</InputLabel>
+            <Autocomplete
+                id={item.id}
+                sx={{borderRadius: '0px'}}
+                // freeSolo={item.allowAnyInput ?? false}   // TODO: implement allowAnyInput
+                // autoSelect={item.allowAnyInput ?? false}
+                onChange={onAutocompleteChange}
+                defaultValue={null}
+                options={choices}
+                // filterOptions={ (options, state) => options }
+                disablePortal={true}
+                componentsProps={{
+                    paper: {
+                        sx: {
+                            boxShadow: '0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12)',
+                        }
                     }
+                }}
+                onInputChange={(event, value) => {
+                    console.log('onInputChange', value)
+                    setSearchTerm(value)
+                }}
+                renderInput={(params) =>
+                    <TextField
+                        {...params}
+                        sx={{
+                            // '& .MuiOutlinedInput-root': {
+                            //     borderRadius: '0px'
+                            // }
+                        }}
+                        type="text"
+                        size="medium"
+                        name={item.name}
+                        fullWidth={true}
+                        required={item.required}
+                        error={item.errorText !== undefined}
+                        helperText={<>
+                            {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
+                            {item.errorText}
+                        </>}
+                    />
                 }
-            }}
-            onInputChange={(event, value) => {
-                console.log('onInputChange', value)
-                setSearchTerm(value)
-            }}
-            renderInput={(params) =>
-                <TextField
-                    {...params}
-                    type="text"
-                    label={item.label}
-                    name={item.name}
-                    fullWidth={true}
-                    required={item.required}
-                    size='small'
-                    error={item.errorText !== undefined}
-                    helperText={<>
-                        {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
-                        {item.errorText}
-                    </>}
-                />
-            }
-        />
+            />
+        </Stack>
     </>
 }
 

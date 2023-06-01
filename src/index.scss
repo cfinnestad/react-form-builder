@@ -1,3 +1,115 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Gotham-Bold';
+  src: url('./shared/fonts/Gotham-Medium.woff');
+  font-weight: normal;
+}
+@font-face {
+  font-family: 'Gotham-Book';
+  src: url('./shared/fonts/Gotham-Light.otf');
+  font-weight: normal;
+}
+@font-face {
+  font-family: 'Gotham-Medium';
+  src: url('./shared/fonts/Gotham-Book.woff');
+  font-weight: normal;
+}
+
+// Typography
+//@import 'fonts';
+//$font-family-sans-serif: 'Gotham-Book', sans-serif;
+$font-family-book: 'Gotham-Book', sans-serif;
+$font-family-medium: 'Gotham-Medium', sans-serif;
+$font-family-bold: 'Gotham-Bold', sans-serif;
+$font-size-base: 0.9rem;
+$line-height-base: 1.6;
+
+//@mixin text-base {
+//    font-family: $font-family-sans-serif !important;
+//    //font-size: $font-size-base;
+//    //line-height: $line-height-base;
+//    //letter-spacing: 0.05rem;
+//}
+
+// GCI Red Scale
+$gci-red: #B71234;
+$light-red: #D3153B;
+$dark-red: #850D25;
+
+// Glacier Blue Scale
+$glacier-blue: #00A9E0;
+$light-glacier: #00BFFE;
+$dark-glacier: #006384;
+
+// Midnight Blue Scale
+$midnight-blue: #042046;
+$midnight-blue-light: #073473;
+$midnight-blue-dark: #031835;
+
+// Scale
+$white: #ffffff;
+$light: #F2F5FA;
+$middle: #BDBFC6;
+$dark: #66646F;
+$almost-black: #312E3B;
+
+// System
+$focus: #00A9E0;
+$focus-light: #F3FCFF;
+$focus-dark: #0084B0;
+$error-normal: #E50000;
+$error-light: #FFF3F3;
+$error-dark: #B40000;
+$success: #188623;
+$success-light: #F2FDF3;
+$success-dark: #13691B;
+
+// Font Sizes
+$size-hxl: 3rem;
+$size-hl: 2.5rem;
+$size-hm: 2rem;
+$size-hs: 1.5rem;
+$size-hxs: 1.25rem;
+$size-bl: 1.123rem;
+$size-bs: 1rem;
+$size-eb: 1rem;
+$size-sm: .875rem;
+$size-xs: .75rem;
+
+// Line Heights     TODO detect for mobile scale
+$lh-hxl: 58px;
+$lh-hl: 48px;
+$lh-hm: 39px;
+$lh-hs: 29px;
+$lh-hxs: 24px;
+$lh-bl: 27px;
+$lh-bs: 24px;
+$lh-eb: 24px;    // TODO ensure Eyebrow has additional 8% letter spacing
+$lh-sm: 21px;
+$lh-xs: 18px;
+
+$test-color: #6fc665;
+
+@mixin gci-text-body-large {
+  font-family: $font-family-book !important;
+  font-size: $size-bl !important;
+  line-height: $lh-bl !important;
+}
+@mixin gci-text-body-small {
+  font-family: $font-family-book !important;
+  font-size: $size-bs !important;
+  line-height: $lh-bs !important;
+}
+@mixin gci-text-small {
+  font-family: $font-family-book !important;
+  font-size: $size-sm !important;
+  line-height: $lh-sm !important;
+}
+@mixin gci-text-extra-small {
+  font-family: $font-family-medium !important;
+  font-size: $size-xs !important;
+  line-height: $lh-xs !important;
+}

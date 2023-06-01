@@ -13,7 +13,7 @@ import {
     TextSubtype,
     RadioSubtype,
     SelectSubtype,
-    PhoneSubtype
+    PhoneSubtype, AutocompleteSubtype
 } from "../Items";
 import {Submit} from "./StoriesSubmit";
 
@@ -73,6 +73,15 @@ export const Primary: Story = {
                     } as EqFilter,
                     subtype: 'Text'
                 } as TextSubtype,
+                {
+                    id: 'autocompleteId1',
+                    type: 'Field',
+                    name: 'autocompleteName1',
+                    required: false,
+                    label: 'Autocomplete 1',
+                    deprecated: false,
+                    subtype: 'Autocomplete'
+                } as AutocompleteSubtype,
                 {
                     id: 'number1',
                     type: 'Field',

@@ -7,6 +7,9 @@ import DefaultItems, {AllowedItems} from "../Items/DefaultItems";
 import DefaultSubtypes, {AllowedSubtypes} from "../Items/Subtypes/DefaultSubTypes";
 import Filter from "../Filter/Filter";
 import Errors, {ErrorType, GetError} from "../Errors/Errors";
+import {createTheme, ThemeProvider} from "@mui/material";
+import "../../index.scss"
+import {red} from "@mui/material/colors";
 
 export type SubmitProps = {
     items: AnyItem[],
@@ -33,6 +36,15 @@ export type RenderOptions = {
         [key: string]: (input?: string) => Promise<Option[]> | Option[]
     }
 }
+
+const theme = createTheme({
+    palette: {
+        primary: red
+    },
+    typography: {
+        fontFamily: 'Gotham-Book'
+    }
+})
 
 const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
     const [items, setItems] = useState<AnyItem[]>(Items || [])
@@ -68,9 +80,11 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
     },[item])
 
     return <>
-        { items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options}/>) }
-        {/*<Submit Items={ RenderedItem(items) } ></Submit>*/}
-        { submit }
+        <ThemeProvider theme={theme}>
+            { items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options}/>) }
+            {/*<Submit Items={ RenderedItem(items) } ></Submit>*/}
+            { submit }
+        </ThemeProvider>
     </>
 }
 
