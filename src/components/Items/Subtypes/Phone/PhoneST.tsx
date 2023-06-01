@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import {FieldProps, isPhone, PhoneSubtype} from "../../Items";
 import MuiPhoneNumber from 'mui-phone-number';
 import phoneValidate from "./PhoneValidate";
@@ -17,16 +17,16 @@ const PhoneST = (fieldProps: FieldProps ) => {
         }
     },[item])
 
-    const onChange = (value: string) => {
+    const onChange = (e: string | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const itm = {...item}
-
-        itm.value = !value ? undefined : value
+        
+        itm.value = (typeof e === 'string') ? e.toString() : e.target.value
 
         if(item.value === undefined) {
             delete item.value
         }
         phoneValidate(itm, fieldProps.options)
-
+        
         setItem(itm)
     }
 
@@ -47,8 +47,8 @@ const PhoneST = (fieldProps: FieldProps ) => {
                 <MuiPhoneNumber
                     defaultCountry={'us'}
                     onChange={onChange}
-                    disableCountryCode = 'true'
-                    disableDropdown = 'true'
+                    disableCountryCode = {true}
+                    disableDropdown = {true}
                     onlyCountries = {['us']}
                     placeholder = {item.placeholder ?? ''}
                     InputProps = {{ disableUnderline: true }}
