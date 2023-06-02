@@ -33,19 +33,10 @@ function SelectST(fieldProps: FieldProps) {
         const itm = { ...item };
         const { target: { value } } = event;
 
-        if (itm.multiples) {
+        if (itm.multiples)
             itm.value = typeof value === 'string' ? value.split(',') : value;
-            if (itm.value.length === 0) {
-                itm.value = undefined;
-                delete itm.value;
-            }
-        } else {
-            itm.value = event.target.value
-            if (!itm.value) {
-                itm.value = undefined;
-                delete itm.value;
-            }
-        }
+        else
+            itm.value = event.target.value;
 
         SelectValidate(itm, fieldProps.options);
         setItem(itm);
@@ -71,7 +62,6 @@ function SelectST(fieldProps: FieldProps) {
                         value={item.value as string[]}
                         autoWidth
                         onChange={handleChange}
-                        input={<OutlinedInput id={item.id} label="Chip" />}
                         renderValue={(selected) => (
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                                 {selected.map((value) => (
