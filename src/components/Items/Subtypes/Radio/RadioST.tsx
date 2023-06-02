@@ -12,7 +12,8 @@ import {
     FormHelperText,
     FormLabel,
     Radio,
-    RadioGroup
+    RadioGroup,
+    Stack
 } from "@mui/material";
 import {RadioValidate} from "./index";
 
@@ -52,39 +53,28 @@ const RadioST = (fieldProps: FieldProps ) => {
         setItem(itm);
     }
 
-    let flex : string = '';
-    if(item.inLine){
-        flex = 'flex';
-    }
-
-    return <>
-        <Box component="div" sx={{ flexGrow: 1 }} marginTop={1.25} marginBottom={1}>
-            <FormLabel required={item.required ?? false} sx={{marginLeft: "0.71em", marginTop: "-0.75em", zIndex: 2, paddingX: 0.5, backgroundColor: "#fff", position: "absolute", fontSize: "0.75em", fontWeight: 400}}>
-                {item.label}
-            </FormLabel>
-            <Box sx = {{ paddingLeft: 2, paddingY: 1, borderRadius: 1, border: 1, borderColor: 'grey.600', "&:hover": { borderColor: 'grey.200' }} } >
-                <RadioGroup sx = {{display: flex, flexDirection: 'row'}}>
-                    {item.options.map((option,index) =>
-                        <>
-                            <FormGroup>
-                                <FormControlLabel
-                                    control=
-                                        {<Radio
-                                            checked={option.selected ?? false}
-                                            onClick={() => onChange(index)} />}
-                                    label={option.label
-                                    }/>
-                            </FormGroup>
-                        </>
-                    )}
-                </RadioGroup>
-            </Box>
+    return (
+        <Stack spacing={2}>
+            <div>{item.label} {item.required && <span>*</span>}</div>
+            <RadioGroup row={item.inLine}>
+                {item.options.map((option,index) =>
+                    <FormControlLabel
+                        control={
+                            <Radio
+                                checked={option.selected ?? false}
+                                onClick={() => onChange(index)}
+                            />
+                        }
+                        label={option.label}
+                    />
+                )}
+            </RadioGroup>
             <FormHelperText error={item.errorText !== undefined}>
                 {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
                 {item.errorText}
             </FormHelperText>
-        </Box>
-    </>
+        </Stack>
+    )
 }
 
 export default RadioST
