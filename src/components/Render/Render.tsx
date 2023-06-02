@@ -31,7 +31,8 @@ export type RenderOptions = {
     Errors?: ErrorType,
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[]
-    }
+    },
+    custom?: {[key:string]: any}
 }
 
 const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
