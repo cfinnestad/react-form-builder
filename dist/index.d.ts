@@ -251,6 +251,9 @@ type Options = {
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
     };
+    custom?: {
+        [key: string]: any;
+    };
 };
 type BuilderProps = {
     AllowedItems?: AllowedItems;
@@ -260,6 +263,9 @@ type BuilderProps = {
     Items?: AnyItem[];
     SetItems?: Dispatch<SetStateAction<AnyItem[]>>;
     Options?: BuilderOptions;
+    custom?: {
+        [key: string]: any;
+    };
 };
 declare const Builder: ({ Items, SetItems, Options }: BuilderProps) => React.JSX.Element;
 
@@ -284,6 +290,9 @@ type RenderOptions = {
     Errors?: ErrorType;
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
+    };
+    custom?: {
+        [key: string]: any;
     };
 };
 declare const Render: ({ Items, SetItems, Options, Submit }: RenderProps) => JSX$1.Element;

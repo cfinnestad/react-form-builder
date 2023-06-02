@@ -31,6 +31,9 @@ export type Options = {
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
     };
+    custom?: {
+        [key: string]: any;
+    };
 };
 export type BuilderProps = {
     AllowedItems?: AllowedItems;
@@ -40,6 +43,9 @@ export type BuilderProps = {
     Items?: AnyItem[];
     SetItems?: Dispatch<SetStateAction<AnyItem[]>>;
     Options?: BuilderOptions;
+    custom?: {
+        [key: string]: any;
+    };
 };
 declare const Builder: ({ Items, SetItems, Options }: BuilderProps) => React.JSX.Element;
 export default Builder;
