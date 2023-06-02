@@ -53,27 +53,20 @@ const RadioST = (fieldProps: FieldProps ) => {
         setItem(itm);
     }
 
-    let flex : string = '';
-    if(item.inLine){
-        flex = 'flex';
-    }
-
-    return <>
+    return (
         <Stack spacing={2}>
             <div>{item.label} {item.required && <span>*</span>}</div>
-            <RadioGroup sx = {{display: flex, flexDirection: 'row'}}>
+            <RadioGroup row={item.inLine}>
                 {item.options.map((option,index) =>
-                    <>
-                        <FormGroup>
-                            <FormControlLabel
-                                control=
-                                    {<Radio
-                                        checked={option.selected ?? false}
-                                        onClick={() => onChange(index)} />}
-                                label={option.label
-                                }/>
-                        </FormGroup>
-                    </>
+                    <FormControlLabel
+                        control={
+                            <Radio
+                                checked={option.selected ?? false}
+                                onClick={() => onChange(index)}
+                            />
+                        }
+                        label={option.label}
+                    />
                 )}
             </RadioGroup>
             <FormHelperText error={item.errorText !== undefined}>
@@ -81,7 +74,7 @@ const RadioST = (fieldProps: FieldProps ) => {
                 {item.errorText}
             </FormHelperText>
         </Stack>
-    </>
+    )
 }
 
 export default RadioST
