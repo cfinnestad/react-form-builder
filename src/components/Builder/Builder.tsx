@@ -14,7 +14,7 @@ import {closestCenter, DndContext, useSensor, PointerSensor, KeyboardSensor} fro
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import Errors, {ErrorType, GetError} from "../Errors/Errors";
 
-type BuilderOptions = {
+export type BuilderOptions = {
     Actions?: ActionFC[],
     ActionsAppend?: FC<ActionProps>[]
     AllowedItems?: AllowedItems,

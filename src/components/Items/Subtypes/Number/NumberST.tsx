@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {FieldProps, isNumber, NumberSubtype} from "../../Items";
-import {FormHelperText, TextField} from "@mui/material";
+import {FormHelperText, Stack, TextField} from "@mui/material";
 import {NumberValidate} from "./index";
 
 const NumberST = (fieldProps: FieldProps ) => {
@@ -36,24 +36,26 @@ const NumberST = (fieldProps: FieldProps ) => {
     }
 
     return <>
-        <TextField
-            id={item.id}
-            error={item.errorText != null}
-            size='small'
-            fullWidth={true}
-            name={item.name}
-            label={item.label}
-            multiline={false}
-            type="text"
-            inputProps={{pattern: '\d*'}}
-            required={item.required ?? false}
-            defaultValue={item.value ?? ''}
-            onChange={onChange}
-        />
-        <FormHelperText error={item.errorText !== undefined}>
-            {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
-            {item.errorText}
-        </FormHelperText>
+        <Stack spacing={2}>
+            <div>{item.label} {item.required && <span>*</span>}</div>
+            <TextField
+                id={item.id}
+                error={item.errorText != null}
+                size='small'
+                fullWidth={true}
+                name={item.name}
+                multiline={false}
+                type="text"
+                inputProps={{pattern: '\d*'}}
+                required={item.required ?? false}
+                defaultValue={item.value ?? ''}
+                onChange={onChange}
+            />
+            <FormHelperText error={item.errorText !== undefined}>
+                {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
+                {item.errorText}
+            </FormHelperText>
+        </Stack>
     </>
 }
 

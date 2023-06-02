@@ -1,9 +1,9 @@
-import React from 'react';
+/// <reference types="react" />
 import type { StoryObj } from '@storybook/react';
 import { SelectSubtype } from "../../Items";
 declare const meta: {
     title: string;
-    component: ({ Items, SetItems, Options, Submit }: import("../../../Render/Render").RenderProps) => React.JSX.Element;
+    component: ({ Items, SetItems, Options, Submit }: import("../../../Render/Render").RenderProps) => import("react").JSX.Element;
     tags: string[];
     argTypes: {
         Items: SelectSubtype[];

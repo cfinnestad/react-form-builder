@@ -63,7 +63,7 @@ export const Primary: Story = {
                     id: 'text2',
                     type: 'Field',
                     name: 'text2',
-                    required: false,
+                    required: true,
                     label: 'Text 2',
                     deprecated: false,
                     filter: {

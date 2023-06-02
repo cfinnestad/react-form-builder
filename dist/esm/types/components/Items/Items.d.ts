@@ -101,6 +101,7 @@ export type FieldItem = NamedItem & {
 };
 export type OptionSubtype = FieldItem & {
     value?: string | string[];
+    searchableOptionsName?: string;
     options: Option[];
 };
 export type SelectSubtype = OptionSubtype & {
@@ -117,6 +118,11 @@ export type CheckboxSubtype = OptionSubtype & {
     subtype: 'Checkbox';
     value?: string[];
     inLine?: boolean;
+};
+export type AutocompleteSubtype = OptionSubtype & {
+    subtype: 'Autocomplete';
+    allowAnyInput?: boolean;
+    value?: string;
 };
 export type TextSubtype = FieldItem & {
     subtype: 'Text';
@@ -153,7 +159,7 @@ export type BooleanSubtype = FieldItem & {
     subtype: 'Boolean';
     value?: boolean;
 };
-export type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype;
+export type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype | AutocompleteSubtype;
 export type ItemType = {
     Item: AnyItem;
     ItemFC: (props: ItemProps) => JSX.Element;
@@ -195,4 +201,5 @@ export declare function isEmail(item: AnyItem): item is EmailSubtype;
 export declare function isNumber(item: AnyItem): item is NumberSubtype;
 export declare function isDate(item: AnyItem): item is DateSubtype;
 export declare function isBoolean(item: AnyItem): item is BooleanSubtype;
+export declare function isAutocomplete(item: AnyItem): item is AutocompleteSubtype;
 export declare function isPhone(item: AnyItem): item is PhoneSubtype;
