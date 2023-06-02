@@ -6,7 +6,8 @@ import {
     FormControlLabel,
     FormGroup,
     FormHelperText,
-    FormLabel
+    FormLabel,
+    Stack
 } from "@mui/material";
 import {CheckboxValidate} from "./index";
 
@@ -36,38 +37,28 @@ const CheckboxST = (fieldProps: FieldProps ) => {
         setItem(itm);
     }
 
-    let flex : string = '';
-    if(item.inLine){
-        flex = 'flex';
-    }
-
-    return <>
-
-        <Box component="div" sx={{ flexGrow: 1 }} marginTop={1.25} marginBottom={1}>
-            <FormLabel required={item.required ?? false} sx={{marginLeft: "0.71em", marginTop: "-0.75em", zIndex: 2, paddingX: 0.5, backgroundColor: "#fff", position: "absolute", fontSize: "0.75em", fontWeight: 400}}>
-                {item.label}
-            </FormLabel>
-            <Box sx = {{ paddingLeft: 2, paddingY: 1,  display: flex, flexDirection: 'row', borderRadius: 1, border: 1, borderColor: 'grey.600', "&:hover": { borderColor: 'grey.200' }} } >
+    return (
+        <Stack spacing={2}>
+            <div>{item.label} {item.required && <span>*</span>}</div>
+            <FormGroup row={item.inLine}>
                 {item.options.map((option,index) =>
-                    <>
-                        <FormGroup>
-                            <FormControlLabel
-                                control=
-                                    {<Checkbox
-                                        checked={option.selected ?? false}
-                                        onChange={() => onChange(index)} />}
-                                label={option.label
-                                }/>
-                        </FormGroup>
-                    </>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={option.selected ?? false}
+                                onChange={() => onChange(index)}
+                            />
+                        }
+                        label={option.label}
+                    />
                 )}
-            </Box>
+            </FormGroup>
             <FormHelperText error={item.errorText !== undefined}>
                 {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
                 {item.errorText}
             </FormHelperText>
-        </Box>
-    </>
+        </Stack>
+    )
 }
 
 export default CheckboxST
