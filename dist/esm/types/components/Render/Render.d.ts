@@ -1,9 +1,10 @@
 import { Dispatch, SetStateAction, JSX } from 'react';
 import { AnyItem, Option } from "../Items";
-import { Options } from '../Builder/Builder';
+import { Options } from '../Builder';
 import { AllowedItems } from "../Items/DefaultItems";
 import { AllowedSubtypes } from "../Items/Subtypes/DefaultSubTypes";
 import { ErrorType } from "../Errors/Errors";
+import { Theme } from "@mui/material/styles";
 export type SubmitProps = {
     items: AnyItem[];
     options: Options;
@@ -26,6 +27,7 @@ export type RenderOptions = {
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
     };
+    muiTheme?: Theme;
     custom?: {
         [key: string]: any;
     };

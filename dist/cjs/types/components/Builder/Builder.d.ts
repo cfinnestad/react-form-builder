@@ -4,6 +4,7 @@ import { AllowedItems } from "../Items/DefaultItems";
 import { AnyItem, Option } from "../Items";
 import { AllowedSubtypes } from "../Items/Subtypes/DefaultSubTypes";
 import { ErrorType } from "../Errors/Errors";
+import { Theme } from "@mui/material/styles";
 export type BuilderOptions = {
     Actions?: ActionFC[];
     ActionsAppend?: FC<ActionProps>[];
@@ -16,6 +17,7 @@ export type BuilderOptions = {
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
     };
+    muiTheme?: Theme;
 };
 export type Options = {
     Actions?: FC<ActionProps>[];
@@ -31,6 +33,7 @@ export type Options = {
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
     };
+    muiTheme: Theme;
     custom?: {
         [key: string]: any;
     };

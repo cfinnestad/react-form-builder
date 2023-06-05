@@ -1,4 +1,5 @@
 import React, { JSX as JSX$1, FC, Dispatch, SetStateAction } from 'react';
+import { Theme } from '@mui/material/styles';
 
 declare const validateItem: (Item: object, index: number) => string[];
 type BaseItem = {
@@ -236,6 +237,7 @@ type BuilderOptions = {
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
     };
+    muiTheme?: Theme;
 };
 type Options = {
     Actions?: FC<ActionProps>[];
@@ -251,6 +253,7 @@ type Options = {
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
     };
+    muiTheme: Theme;
     custom?: {
         [key: string]: any;
     };
@@ -291,6 +294,7 @@ type RenderOptions = {
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
     };
+    muiTheme?: Theme;
     custom?: {
         [key: string]: any;
     };
