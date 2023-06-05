@@ -6,9 +6,7 @@ import {
     RadioSubtype
 } from "../../Items";
 import {
-    Box,
     FormControlLabel,
-    FormGroup,
     FormHelperText,
     InputLabel,
     Radio,
@@ -52,11 +50,6 @@ const RadioST = (fieldProps: FieldProps ) => {
         setItem(itm);
     }
 
-    let flex : string = '';
-    if(item.inLine){
-        flex = 'flex';
-    }
-
     return <>
         <Stack>
             <InputLabel
@@ -66,23 +59,19 @@ const RadioST = (fieldProps: FieldProps ) => {
             >
                 {item.label}
             </InputLabel>
-            <Box>
-                <RadioGroup sx = {{display: flex, flexDirection: 'row'}}>
-                    {item.options.map((option,index) =>
-                        <>
-                            <FormGroup>
-                                <FormControlLabel
-                                    control=
-                                        {<Radio
-                                            checked={option.selected ?? false}
-                                            onClick={() => onChange(index)} />}
-                                    label={option.label
-                                    }/>
-                            </FormGroup>
-                        </>
-                    )}
-                </RadioGroup>
-            </Box>
+            <RadioGroup row={item.inLine}>
+                {item.options.map((option,index) =>
+                    <FormControlLabel
+                        control={
+                            <Radio
+                                checked={option.selected ?? false}
+                                onClick={() => onChange(index)}
+                            />
+                        }
+                        label={option.label}
+                    />
+                )}
+            </RadioGroup>
             <FormHelperText
                 sx={{marginTop: -1}}
                 error={item.errorText !== undefined}

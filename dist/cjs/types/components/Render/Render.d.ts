@@ -26,6 +26,9 @@ export type RenderOptions = {
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
     };
+    custom?: {
+        [key: string]: any;
+    };
 };
 declare const Render: ({ Items, SetItems, Options, Submit }: RenderProps) => JSX.Element;
 export declare const RenderedObject: (items: AnyItem[]) => {};

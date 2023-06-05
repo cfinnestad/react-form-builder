@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {CheckboxSubtype, FieldProps, isCheckbox, isField} from "../../Items";
 import {
-    Box,
     Checkbox,
     FormControlLabel,
     FormGroup,
@@ -36,13 +35,7 @@ const CheckboxST = (fieldProps: FieldProps ) => {
         setItem(itm);
     }
 
-    let flex : string = '';
-    if(item.inLine){
-        flex = 'flex';
-    }
-
     return <>
-
         <Stack>
             <InputLabel
                 required={item.required ?? false}
@@ -51,21 +44,19 @@ const CheckboxST = (fieldProps: FieldProps ) => {
             >
                 {item.label}
             </InputLabel>
-            <Box sx = {{ display: flex, flexDirection: 'row'}} >
+            <FormGroup row={item.inLine}>
                 {item.options.map((option,index) =>
-                    <>
-                        <FormGroup>
-                            <FormControlLabel
-                                control=
-                                    {<Checkbox
-                                        checked={option.selected ?? false}
-                                        onChange={() => onChange(index)} />}
-                                label={option.label
-                                }/>
-                        </FormGroup>
-                    </>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={option.selected ?? false}
+                                onChange={() => onChange(index)}
+                            />
+                        }
+                        label={option.label}
+                    />
                 )}
-            </Box>
+            </FormGroup>
             <FormHelperText
                 sx={{marginTop: -1}}
                 error={item.errorText !== undefined}

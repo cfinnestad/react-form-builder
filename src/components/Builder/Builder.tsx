@@ -44,7 +44,8 @@ export type Options = {
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[]
     }
-    muiTheme: Theme
+    muiTheme: Theme,
+    custom?: {[key:string]: any}
 }
 
 export type BuilderProps = {
@@ -55,6 +56,7 @@ export type BuilderProps = {
     Items?: AnyItem[],
     SetItems?: Dispatch<SetStateAction<AnyItem[]>>,
     Options?: BuilderOptions,
+    custom?: {[key:string]: any}
 }
 
 const Builder = ({ Items, SetItems, Options }: BuilderProps) => {

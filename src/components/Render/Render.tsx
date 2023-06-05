@@ -34,11 +34,9 @@ export type RenderOptions = {
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[]
     },
-    muiTheme?: Theme
+    muiTheme?: Theme,
+    custom?: {[key:string]: any}
 }
-
-
-
 
 const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
     const [items, setItems] = useState<AnyItem[]>(Items || [])
