@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState, JSX} from "react";
-import {Autocomplete, InputLabel, Stack, TextField} from "@mui/material";
+import {Autocomplete, FormHelperText, InputLabel, Stack, TextField} from "@mui/material";
 import {FieldProps, Option, isAutocomplete} from "../../Items";
 import AutocompleteValidate from "./AutocompleteValidate";
-import {Label} from "@mui/icons-material";
+import {useTheme} from "@mui/material/styles";
 
 
 export type FilterOptionsFunc = (input?: string) => (Promise<Option[]> | Option[])
@@ -72,12 +72,15 @@ const AutocompleteST = (fieldProps: FieldProps) => {
     }
 
     return <>
-        <Stack spacing={2}>
-
-            <InputLabel>{item.label}{item.required && <span>*</span>}</InputLabel>
+        <Stack spacing={.5}>
+            <InputLabel
+                required = {item.required ?? false}
+                error={item.errorText != null}
+            >
+                {item.label}
+            </InputLabel>
             <Autocomplete
                 id={item.id}
-                sx={{borderRadius: '0px'}}
                 // freeSolo={item.allowAnyInput ?? false}   // TODO: implement allowAnyInput
                 // autoSelect={item.allowAnyInput ?? false}
                 onChange={onAutocompleteChange}
@@ -99,24 +102,17 @@ const AutocompleteST = (fieldProps: FieldProps) => {
                 renderInput={(params) =>
                     <TextField
                         {...params}
-                        sx={{
-                            // '& .MuiOutlinedInput-root': {
-                            //     borderRadius: '0px'
-                            // }
-                        }}
                         type="text"
-                        size="medium"
                         name={item.name}
-                        fullWidth={true}
                         required={item.required}
                         error={item.errorText !== undefined}
-                        helperText={<>
-                            {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
-                            {item.errorText}
-                        </>}
                     />
                 }
             />
+            <FormHelperText error={item.errorText !== undefined}>
+                {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
+                {item.errorText}
+            </FormHelperText>
         </Stack>
     </>
 }

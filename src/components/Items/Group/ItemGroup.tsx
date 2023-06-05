@@ -2,7 +2,7 @@ import React from "react";
 import {isGroup, ItemProps} from "../Items";
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import ShowItem from "../ShowItem";
-import {Box, FormLabel, List, ListItem, Stack, Typography} from "@mui/material";
+import {List, ListItem, Stack, Typography} from "@mui/material";
 
 const ItemGroup = ({item, items, options}: ItemProps) => {
     if (!isGroup(item)) return <></>
@@ -18,10 +18,10 @@ const ItemGroup = ({item, items, options}: ItemProps) => {
     }
     if (item.deprecated) return <></>
     return <>
-        <Stack spacing={2}>
-            <div>{item.label}</div>
-            <List dense>
-                <ListItem sx={{display: 'block'}}>
+        <Stack>
+            <Typography variant="body1" sx={{marginBottom: -1}}>{item.label}</Typography>
+            <List dense sx={{padding: 0}}>
+                <ListItem sx={{display: 'block', padding: '0px'}}>
                     {item.items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options}/>)}
                 </ListItem>
             </List>

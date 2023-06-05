@@ -1,15 +1,15 @@
 import React, {Dispatch, SetStateAction, useEffect, useState, JSX} from 'react';
 import {AnyItem, isField, isGroup, isHidden, Option} from "../Items";
 import ShowItem from "../Items/ShowItem";
-import { Options } from '../Builder/Builder'
+import { Options } from '../Builder'
 import SetItem from "../Items/SetItem";
 import DefaultItems, {AllowedItems} from "../Items/DefaultItems";
 import DefaultSubtypes, {AllowedSubtypes} from "../Items/Subtypes/DefaultSubTypes";
 import Filter from "../Filter/Filter";
 import Errors, {ErrorType, GetError} from "../Errors/Errors";
-import {createTheme, ThemeProvider} from "@mui/material";
-import "../../index.scss"
-import {red} from "@mui/material/colors";
+import {ThemeProvider} from "@mui/material";
+import {GciTheme} from "../../shared/themes/GciTheme";
+import {Theme, useTheme} from "@mui/material/styles";
 
 export type SubmitProps = {
     items: AnyItem[],
@@ -34,21 +34,18 @@ export type RenderOptions = {
     Errors?: ErrorType,
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[]
-    }
+    },
+    muiTheme?: Theme
 }
 
-const theme = createTheme({
-    palette: {
-        primary: red
-    },
-    typography: {
-        fontFamily: 'Gotham-Book'
-    }
-})
+
+
 
 const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
     const [items, setItems] = useState<AnyItem[]>(Items || [])
     const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
+
+    const defaultTheme = useTheme()
 
     const options: Options = {...(Options || {}),
         AllowedSubtypes: {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})},
@@ -59,7 +56,8 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
         renderType: Options.returnType ?? 'array',
         getError: (error: string, item: AnyItem) => {
            return GetError(error, item, {...Errors(), ...(Options.Errors ?? {})})
-        }
+        },
+        muiTheme: Options.muiTheme ?? GciTheme ?? defaultTheme
     }
 
     const [submit, setSubmit] = useState(<Submit items={ items } options={options} results={RenderedItem(items, options.renderType)} ></Submit>)
@@ -80,7 +78,7 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
     },[item])
 
     return <>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={options.muiTheme}>
             { items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options}/>) }
             {/*<Submit Items={ RenderedItem(items) } ></Submit>*/}
             { submit }

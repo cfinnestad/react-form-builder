@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {EmailSubtype, FieldProps, isEmail} from "../../Items";
-import {FormHelperText, Stack, TextField} from "@mui/material";
+import {FormHelperText, InputLabel, Stack, TextField} from "@mui/material";
 import {EmailValidate} from "./index";
 
 const EmailST = (fieldProps: FieldProps ) => {
@@ -31,14 +31,17 @@ const EmailST = (fieldProps: FieldProps ) => {
     }
 
     return <>
-        <Stack spacing={2}>
-            <div>{item.label} {item.required && <span>*</span>}</div>
+        <Stack spacing={.5}>
+            <InputLabel
+                required = {item.required ?? false}
+                error={item.errorText != null}
+            >
+                {item.label}
+            </InputLabel>
             <TextField
                 id={item.id}
                 error={item.errorText !== undefined}
                 required={item.required ?? false}
-                size='small'
-                fullWidth={true}
                 name={item.name}
                 type="text"
                 defaultValue={item.value}
