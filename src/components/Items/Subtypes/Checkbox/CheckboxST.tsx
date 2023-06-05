@@ -1,13 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {CheckboxSubtype, FieldProps, isCheckbox, isField} from "../../Items";
 import {
-    Box,
     Checkbox,
     FormControlLabel,
     FormGroup,
     FormHelperText,
-    FormLabel,
-    Stack
+    InputLabel, Stack
 } from "@mui/material";
 import {CheckboxValidate} from "./index";
 
@@ -37,9 +35,15 @@ const CheckboxST = (fieldProps: FieldProps ) => {
         setItem(itm);
     }
 
-    return (
-        <Stack spacing={2}>
-            <div>{item.label} {item.required && <span>*</span>}</div>
+    return <>
+        <Stack>
+            <InputLabel
+                required={item.required ?? false}
+                error={item.errorText != null}
+                sx={{marginBottom: -1}}
+            >
+                {item.label}
+            </InputLabel>
             <FormGroup row={item.inLine}>
                 {item.options.map((option,index) =>
                     <FormControlLabel
@@ -53,12 +57,15 @@ const CheckboxST = (fieldProps: FieldProps ) => {
                     />
                 )}
             </FormGroup>
-            <FormHelperText error={item.errorText !== undefined}>
+            <FormHelperText
+                sx={{marginTop: -1}}
+                error={item.errorText !== undefined}
+            >
                 {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
                 {item.errorText}
             </FormHelperText>
         </Stack>
-    )
+    </>
 }
 
 export default CheckboxST

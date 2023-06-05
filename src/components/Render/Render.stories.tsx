@@ -13,9 +13,10 @@ import {
     TextSubtype,
     RadioSubtype,
     SelectSubtype,
-    PhoneSubtype
+    PhoneSubtype, AutocompleteSubtype
 } from "../Items";
 import {Submit} from "./StoriesSubmit";
+import {TestTheme} from "../../shared/themes/TestTheme";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta = {
@@ -73,6 +74,15 @@ export const Primary: Story = {
                     } as EqFilter,
                     subtype: 'Text'
                 } as TextSubtype,
+                {
+                    id: 'autocompleteId1',
+                    type: 'Field',
+                    name: 'autocompleteName1',
+                    required: false,
+                    label: 'Autocomplete 1',
+                    deprecated: false,
+                    subtype: 'Autocomplete'
+                } as AutocompleteSubtype,
                 {
                     id: 'number1',
                     type: 'Field',
@@ -198,11 +208,9 @@ export const Primary: Story = {
             ],
         Submit: Submit,
         Options: {
-            returnType: 'flatobject'
+            returnType: 'flatobject',
+            muiTheme: TestTheme
         }
-
-
-
     }
 }
 

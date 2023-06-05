@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {FieldProps, isText, TextSubtype} from "../../Items";
-import {FormHelperText, TextField, Stack} from "@mui/material";
+import {FormHelperText, TextField, Stack, InputLabel} from "@mui/material";
 import {TextValidate} from "./index";
 
 const TextST = (fieldProps: FieldProps ) => {
@@ -30,14 +30,17 @@ const TextST = (fieldProps: FieldProps ) => {
     }
 
     return <>
-        <Stack spacing={2}>
-            <div>{item.label} {item.required && <span>*</span>}</div>
+        <Stack spacing={.5}>
+            <InputLabel
+                required={item.required ?? false}
+                error={item.errorText != null}
+            >
+                {item.label}
+            </InputLabel>
             <TextField
                 id={item.id}
                 error={item.errorText !== undefined}
                 required={item.required ?? false}
-                size='small'
-                fullWidth={true}
                 name={item.name}
                 multiline={item.multiline ?? false}
                 type="text"

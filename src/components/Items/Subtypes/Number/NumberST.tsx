@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {FieldProps, isNumber, NumberSubtype} from "../../Items";
-import {FormHelperText, Stack, TextField} from "@mui/material";
+import {FormHelperText, InputLabel, Stack, TextField} from "@mui/material";
 import {NumberValidate} from "./index";
 
 const NumberST = (fieldProps: FieldProps ) => {
@@ -36,18 +36,20 @@ const NumberST = (fieldProps: FieldProps ) => {
     }
 
     return <>
-        <Stack spacing={2}>
-            <div>{item.label} {item.required && <span>*</span>}</div>
+        <Stack spacing={.5}>
+            <InputLabel
+                required = {item.required ?? false}
+                error={item.errorText != null}
+            >
+                {item.label}
+            </InputLabel>
             <TextField
                 id={item.id}
                 error={item.errorText != null}
-                size='small'
-                fullWidth={true}
                 name={item.name}
                 multiline={false}
                 type="text"
                 inputProps={{pattern: '\d*'}}
-                required={item.required ?? false}
                 defaultValue={item.value ?? ''}
                 onChange={onChange}
             />

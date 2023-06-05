@@ -6,14 +6,11 @@ import {
     RadioSubtype
 } from "../../Items";
 import {
-    Box,
     FormControlLabel,
-    FormGroup,
     FormHelperText,
-    FormLabel,
+    InputLabel,
     Radio,
-    RadioGroup,
-    Stack
+    RadioGroup, Stack
 } from "@mui/material";
 import {RadioValidate} from "./index";
 
@@ -53,9 +50,15 @@ const RadioST = (fieldProps: FieldProps ) => {
         setItem(itm);
     }
 
-    return (
-        <Stack spacing={2}>
-            <div>{item.label} {item.required && <span>*</span>}</div>
+    return <>
+        <Stack>
+            <InputLabel
+                required={item.required ?? false}
+                error={item.errorText != null}
+                sx={{marginBottom: -1}}
+            >
+                {item.label}
+            </InputLabel>
             <RadioGroup row={item.inLine}>
                 {item.options.map((option,index) =>
                     <FormControlLabel
@@ -69,12 +72,15 @@ const RadioST = (fieldProps: FieldProps ) => {
                     />
                 )}
             </RadioGroup>
-            <FormHelperText error={item.errorText !== undefined}>
+            <FormHelperText
+                sx={{marginTop: -1}}
+                error={item.errorText !== undefined}
+            >
                 {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
                 {item.errorText}
             </FormHelperText>
         </Stack>
-    )
+    </>
 }
 
 export default RadioST

@@ -6,7 +6,6 @@ import {
     FormHelperText,
     InputLabel,
     MenuItem,
-    OutlinedInput,
     Select,
     SelectChangeEvent,
     Stack
@@ -53,9 +52,14 @@ function SelectST(fieldProps: FieldProps) {
 
     if (item.multiples) {
         return (
-            <Stack spacing={2}>
-                <div>{item.label} {item.required && <span>*</span>}</div>
-                <FormControl sx={{ m: 1, minWidth: 250 }}>
+            <Stack spacing={.5}>
+                <InputLabel
+                    required = {item.required ?? false}
+                    error={item.errorText != null}
+                >
+                    {item.label}
+                </InputLabel>
+                <FormControl sx={{ minWidth: 250 }}>
                     <Select
                         id={item.id}
                         multiple={item.multiples}
@@ -84,16 +88,24 @@ function SelectST(fieldProps: FieldProps) {
                             )
                         }
                     </Select>
-                    <FormHelperText>{item.helperText}</FormHelperText>
+                    <FormHelperText error={item.errorText !== undefined} sx={{marginLeft: 0}}>
+                        {(item.helperText !== undefined) ? <>{item.helperText}<br /></> : ''}
+                        {item.errorText}
+                    </FormHelperText>
                 </FormControl>
             </Stack>
         );
     }
     else {
         return (
-            <Stack spacing={2}>
-                <div>{item.label} {item.required && <span>*</span>}</div>
-                <FormControl sx={{ m: 1, minWidth: 250 }}>
+            <Stack spacing={.5}>
+                <InputLabel
+                    required = {item.required ?? false}
+                    error={item.errorText != null}
+                >
+                    {item.label}
+                </InputLabel>
+                <FormControl sx={{ minWidth: 250 }}>
                     <Select
                         error={item.errorText !== undefined}
                         id={item.id}
@@ -120,7 +132,7 @@ function SelectST(fieldProps: FieldProps) {
                             )
                         }
                     </Select>
-                    <FormHelperText error={item.errorText !== undefined}>
+                    <FormHelperText error={item.errorText !== undefined} sx={{marginLeft: 0}}>
                         {(item.helperText !== undefined) ? <>{item.helperText}<br /></> : ''}
                         {item.errorText}
                     </FormHelperText>

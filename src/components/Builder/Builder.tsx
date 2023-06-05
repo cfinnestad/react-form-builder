@@ -13,6 +13,7 @@ import onDragEnd from "./OnDragEnd";
 import {closestCenter, DndContext, useSensor, PointerSensor, KeyboardSensor} from "@dnd-kit/core";
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import Errors, {ErrorType, GetError} from "../Errors/Errors";
+import {Theme, useTheme} from "@mui/material/styles";
 
 export type BuilderOptions = {
     Actions?: ActionFC[],
@@ -25,7 +26,8 @@ export type BuilderOptions = {
     Errors?: ErrorType,
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[]
-    }
+    },
+    muiTheme?: Theme
 }
 
 export type Options = {
@@ -41,7 +43,8 @@ export type Options = {
     getError: (error: string, item: AnyItem) => string|undefined,
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[]
-    },
+    }
+    muiTheme: Theme,
     custom?: {[key:string]: any}
 }
 
@@ -64,6 +67,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         useSensor(PointerSensor),
         useSensor(KeyboardSensor)
     ]
+    const defaultTheme = useTheme()
     useEffect(() => {
         if(SetItems) {
             SetItems(items)
@@ -87,7 +91,8 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         setModal: setModal,
         getError: (error: string, item: AnyItem) => {
             return GetError(error, item, {...Errors(), ...(Options?.Errors ?? {})})
-        }
+        },
+        muiTheme: Options?.muiTheme ?? defaultTheme
     }
 
     // const activeItem = useMemo(

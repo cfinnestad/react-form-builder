@@ -37,7 +37,7 @@ const BooleanST = (fieldProps: FieldProps ) => {
     }
 
     return <>
-        <FormGroup sx = {{ paddingX: 2}}>
+        <FormGroup>
             <FormControlLabel required={item.required ?? false} control=
                 {<Checkbox
                     checked={item.value ?? false}
