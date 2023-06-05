@@ -14,7 +14,6 @@ import {closestCenter, DndContext, useSensor, PointerSensor, KeyboardSensor} fro
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import Errors, {ErrorType, GetError} from "../Errors/Errors";
 import {Theme, useTheme} from "@mui/material/styles";
-import {GciTheme} from "../../shared/themes/GciTheme";
 
 export type BuilderOptions = {
     Actions?: ActionFC[],
@@ -91,7 +90,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         getError: (error: string, item: AnyItem) => {
             return GetError(error, item, {...Errors(), ...(Options?.Errors ?? {})})
         },
-        muiTheme: Options?.muiTheme ?? GciTheme ?? defaultTheme
+        muiTheme: Options?.muiTheme ?? defaultTheme
     }
 
     // const activeItem = useMemo(

@@ -8,7 +8,6 @@ import DefaultSubtypes, {AllowedSubtypes} from "../Items/Subtypes/DefaultSubType
 import Filter from "../Filter/Filter";
 import Errors, {ErrorType, GetError} from "../Errors/Errors";
 import {ThemeProvider} from "@mui/material";
-import {GciTheme} from "../../shared/themes/GciTheme";
 import {Theme, useTheme} from "@mui/material/styles";
 
 export type SubmitProps = {
@@ -57,7 +56,7 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
         getError: (error: string, item: AnyItem) => {
            return GetError(error, item, {...Errors(), ...(Options.Errors ?? {})})
         },
-        muiTheme: Options.muiTheme ?? GciTheme ?? defaultTheme
+        muiTheme: Options.muiTheme ?? defaultTheme
     }
 
     const [submit, setSubmit] = useState(<Submit items={ items } options={options} results={RenderedItem(items, options.renderType)} ></Submit>)

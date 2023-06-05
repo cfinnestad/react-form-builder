@@ -1,11 +1,11 @@
 import {createTheme} from "@mui/material";
 
-export const GciTheme = createTheme({
+export const TestTheme = createTheme({
     components: {
         MuiInputLabel: {
             styleOverrides: {
                 root: {
-                    fontFamily: 'Gotham-Bold'
+                    fontFamily: 'Sans-Serif'
                 }
             },
             defaultProps: {
@@ -62,15 +62,16 @@ export const GciTheme = createTheme({
         },
     },
     typography: {
-        fontFamily: 'Gotham-Book',
+        fontFamily: 'Sans-Serif',
         fontWeightMedium: 600,
         body1: {
-            fontFamily: 'Gotham-Book'
+            fontFamily: 'Sans-Serif'
         },
         caption: {
             // FormHelperText
-            fontFamily: 'Gotham-Bold',
+            fontFamily: 'Sans-Serif',
             fontSize: '0.625rem',
+            fontWeight: 'bold'
         },
     }
 })
