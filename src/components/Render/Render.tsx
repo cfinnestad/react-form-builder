@@ -66,7 +66,7 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
 
     useEffect(() => {
         console.log('items')
-        // setSubmit(Submit({items: items, options: options, results: RenderedItem(items, options.renderType)} ) )
+        setSubmit(Submit({items: items, options: options, results: RenderedItem(items, options.renderType)} ) )
         if(SetItems) {
             SetItems(items)
         }
@@ -78,8 +78,8 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
     return <>
         <ThemeProvider theme={options.muiTheme}>
             { items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options}/>) }
-            <Submit items={items} options={options} results={ RenderedItem(items, options.renderType) }></Submit>
-            {/*{ submit }*/}
+            {/*<Submit items={items} options={options} results={ RenderedItem(items, options.renderType) }></Submit>*/}
+            { submit }
         </ThemeProvider>
     </>
 }
