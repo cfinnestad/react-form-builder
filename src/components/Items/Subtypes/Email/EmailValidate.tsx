@@ -1,5 +1,5 @@
 import {FieldItem, isEmail} from "../../Items";
-import {Options} from "../../../Builder/Builder";
+import {Options} from "../../../Builder";
 
 const EmailValidate = (item: FieldItem, options: Options): boolean => {
     item.errorText = undefined

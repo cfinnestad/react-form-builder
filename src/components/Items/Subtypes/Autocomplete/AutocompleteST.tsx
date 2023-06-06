@@ -96,7 +96,7 @@ const AutocompleteST = (fieldProps: FieldProps) => {
                     }
                 }}
                 onInputChange={(event, value) => {
-                    console.log('onInputChange', value)
+                    // console.log('onInputChange', value)
                     setSearchTerm(value)
                 }}
                 renderInput={(params) =>

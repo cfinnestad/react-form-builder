@@ -65,14 +65,12 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
 
 
     useEffect(() => {
-        console.log('items', items)
         setSubmit(Submit({items: items, options: options, results: RenderedItem(items, options.renderType)} ) )
         if(SetItems) {
             SetItems(items)
         }
     }, [items])
     useEffect(()=>{
-        console.log('setItem: ', item)
         setItems(SetItem(item, items))
     },[item])
 

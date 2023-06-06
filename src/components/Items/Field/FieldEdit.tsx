@@ -14,10 +14,10 @@ export const FieldEdit = (FieldProps: ItemProps) => {
     useEffect(() => {
         const itm = {...item}
         setItem(itm)
-        console.log('TEST', itm)
+        // console.log('TEST', itm)
     },[item])
-    console.log('FE',FieldProps.item)
-    console.log('AS',FieldProps.options.AllowedSubtypes[item.subtype])
+    // console.log('FE',FieldProps.item)
+    // console.log('AS',FieldProps.options.AllowedSubtypes[item.subtype])
     const data = FieldProps.options.AllowedSubtypes[item.subtype].EditFC(FieldProps as FieldProps)
     // TODO add field-level items to be edited.
     return <>
