@@ -39,7 +39,7 @@ export type RenderOptions = {
 }
 
 const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
-    const [items, setItems] = SetItems === undefined ? useState<AnyItem[]>(Items) : [Items, SetItems]
+    const [items, setItems] = useState<AnyItem[]>(Items || [])
     const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
 
     const defaultTheme = useTheme()
@@ -69,7 +69,7 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
         if(SetItems) {
             SetItems(items)
         }
-    }, [JSON.stringify(items)])
+    }, [items])
     useEffect(()=>{
         setItems(SetItem(item, items))
     },[item])

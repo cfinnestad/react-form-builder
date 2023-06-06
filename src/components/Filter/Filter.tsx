@@ -7,9 +7,9 @@ import {
     isGtFilter, isLteFilter, isLtFilter,
     isInFilter,
     isNotFilter,
-    isOrFilter
-} from "../Items/Items";
-import GetItem from "../Items/GetItem";
+    isOrFilter,
+    GetItem
+} from "../Items";
 
 const Filter = (item: AnyItem, items: AnyItem[], filter: FilterType|undefined): boolean => {
     if (filter == undefined) {
@@ -22,16 +22,17 @@ const Filter = (item: AnyItem, items: AnyItem[], filter: FilterType|undefined): 
             if (isEqFilter(filter)) {
                 if(relatedField.value instanceof Array) {
                     // @ts-ignore
-                    return relatedField.value.includes(filter.value)
+                    return relatedField.value.includes(filter.value ?? undefined)
                 } else {
-                    return relatedField.value == filter.value
+                    return relatedField.value == filter.value ?? undefined
                 }
             }
-            if (isGtFilter(filter))  {
+            if (isGtFilter(filter) && filter.value !== undefined)  {
 
                 if(relatedField.value instanceof Array) {
                     let result = false
                     relatedField.value.map(curValue => {
+                        // @ts-ignore
                         result ||= (curValue > filter.value)
                     })
                 } else {
@@ -43,6 +44,7 @@ const Filter = (item: AnyItem, items: AnyItem[], filter: FilterType|undefined): 
                 if(relatedField.value instanceof Array) {
                     let result = false
                     relatedField.value.map(curValue => {
+                        // @ts-ignore
                         result ||= (curValue >= filter.value)
                     })
                 } else {
@@ -54,6 +56,7 @@ const Filter = (item: AnyItem, items: AnyItem[], filter: FilterType|undefined): 
                 if(relatedField.value instanceof Array) {
                     let result = false
                     relatedField.value.map(curValue => {
+                        // @ts-ignore
                         result ||= (curValue < filter.value)
                     })
                 } else {
@@ -65,6 +68,7 @@ const Filter = (item: AnyItem, items: AnyItem[], filter: FilterType|undefined): 
                 if(relatedField.value instanceof Array) {
                     let result = false
                     relatedField.value.map(curValue => {
+                        // @ts-ignore
                         result ||= (curValue <= filter.value)
                     })
                 } else {
@@ -77,6 +81,7 @@ const Filter = (item: AnyItem, items: AnyItem[], filter: FilterType|undefined): 
                     //@ts-ignore
                     return filter.value.some(r=> relatedField.value.includes(r))
                 } else {
+                    // @ts-ignore
                     return filter.value.some(r => r === relatedField.value)
                 }
             }
