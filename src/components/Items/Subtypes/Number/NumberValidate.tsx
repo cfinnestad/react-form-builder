@@ -7,7 +7,6 @@ const NumberValidate = (item: FieldItem, options: Options): boolean => {
         item.errorText = options.getError('invalidType', item)
     } else if(item.required && !item.value) {
         item.errorText = options.getError('required', item)
-        return false
     } else if (item.value && isNaN(item.value)) {     // input is not a number
         item.errorText = options.getError('number', item)
     } else if (item.value !== undefined && item?.min !== undefined && item.value < item?.min  ) {

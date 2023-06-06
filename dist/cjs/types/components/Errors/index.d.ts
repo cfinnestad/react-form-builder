@@ -1,1 +1,1 @@
-export { default } from './Errors';
+export { default, ErrorType } from './Errors';
