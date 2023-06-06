@@ -1,5 +1,5 @@
-import {Options} from "../Builder/Builder";
-import {AnyItem, isField, isFieldFilter} from "./Items";
+import {Options} from "../Builder";
+import {AnyItem, isField} from "./Items";
 import Filter from "../Filter";
 
 const ValidateFields = (items: AnyItem[], options: Options): boolean => {
@@ -11,6 +11,7 @@ const ValidateFields = (items: AnyItem[], options: Options): boolean => {
                 if (ValidateFC !== undefined) {
                     result =  ValidateFC(item, options) && result // we want to run all the validations, so they have to happen before the && result
                 }
+                console.log("Validate Field: ", item.id, 'Value:', item.value, 'result:', result )
             }
         }
     }
