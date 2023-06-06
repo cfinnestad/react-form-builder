@@ -9,7 +9,7 @@ const EmailValidate = (item: FieldItem, options: Options): boolean => {
         item.errorText = options.getError('required', item)
     } else if (item.value !== undefined && item.maxLength !== undefined && item.value.length > item.maxLength) {
         item.errorText = options.getError('maxLength', item)
-    } else if (item.value !== undefined && !item.value.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
+    } else if (item.value !== undefined && !item.value.match(/^([-!#-'*+/-9=?A-Z^-~]+(\.[-!#-'*+/-9=?A-Z^-~]+)*|"([]!#-[^-~ \t]|(\\[\t -~]))+")@([-!#-'*+/-9=?A-Z^-~]+(\.[-!#-'*+/-9=?A-Z^-~]+)*|\[[\t -Z^-~]*])$/)) {
         item.errorText = options.getError('email', item)
     }
     if(item.errorText === undefined) {
