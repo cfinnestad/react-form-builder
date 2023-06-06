@@ -39,7 +39,7 @@ export type RenderOptions = {
 }
 
 const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
-    const [items, setItems] = useState<AnyItem[]>(Items || [])
+    const [items, setItems] = SetItems === undefined ? useState<AnyItem[]>(Items) : [Items, SetItems]
     const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
 
     const defaultTheme = useTheme()
