@@ -5,30 +5,24 @@ import phoneValidate from "./PhoneValidate";
 import {Box, FormHelperText, InputLabel, Stack} from "@mui/material";
 import {useTheme} from "@mui/material/styles";
 
-const PhoneST = (fieldProps: FieldProps ) => {
-    if (!isPhone(fieldProps.item) ) {
+const PhoneST = ({item, options}: FieldProps ) => {
+    if (!isPhone(item) ) {
         return <></>
     }
 
-    const [item, setItem] = useState(fieldProps.item as PhoneSubtype)
-
-    useEffect(()=>{
-        if (!fieldProps.options.IsBuild) {
-            fieldProps.options.SetItem(item)
-        }
-    },[item])
-
     const onChange = (e: string | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const itm = {...item}
+        const itm = {...item} as PhoneSubtype
         
         itm.value = (typeof e === 'string') ? e.toString() : e.target.value
 
         if(item.value === undefined) {
             delete item.value
         }
-        phoneValidate(itm, fieldProps.options)
-        
-        setItem(itm)
+        phoneValidate(itm, options)
+
+        if (!options.IsBuild) {
+            options.SetItem(itm)
+        }
     }
 
     return <>

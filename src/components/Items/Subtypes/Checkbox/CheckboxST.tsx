@@ -9,30 +9,26 @@ import {
 } from "@mui/material";
 import {CheckboxValidate} from "./index";
 
-const CheckboxST = (fieldProps: FieldProps ) => {
+const CheckboxST = ({item, options}: FieldProps ) => {
 
-    if (!isField(fieldProps.item) || !isCheckbox(fieldProps.item) ) {
+    if (!isField(item) || !isCheckbox(item) ) {
         return <></>
     }
 
-    const [item, setItem] = useState(fieldProps.item as CheckboxSubtype)
-
-    const itm = {...item};
-    useEffect(() => {
-        if(!fieldProps.options.IsBuild) {
-            fieldProps.options.SetItem(item)
-        }
-    }, [item])
 
     function onChange(index: number){
+        const itm = {...item} as CheckboxSubtype;
         itm.options[index].selected = !itm.options[index].selected;
         itm.value = itm.options.filter(i => {return i.selected ?? false}).map(i => {return i.value ?? i.label});
         if (itm.value?.length === 0) {
             itm.value = undefined
             delete itm.value
         }
-        CheckboxValidate(itm, fieldProps.options)
-        setItem(itm);
+        CheckboxValidate(itm, options)
+
+        if (!options.IsBuild) {
+            options.SetItem(itm)
+        }
     }
 
     return <>

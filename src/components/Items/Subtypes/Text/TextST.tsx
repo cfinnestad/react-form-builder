@@ -3,30 +3,25 @@ import {FieldProps, isText, TextSubtype} from "../../Items";
 import {FormHelperText, TextField, Stack, InputLabel} from "@mui/material";
 import {TextValidate} from "./index";
 
-const TextST = (fieldProps: FieldProps ) => {
+const TextST = ({item, options}: FieldProps ) => {
 
-    if (!isText(fieldProps.item) ) {
+    if (!isText(item) ) {
         return <></>
     }
 
-    const [item, setItem] = useState(fieldProps.item as TextSubtype)
-
-    useEffect(()=>{
-        if (!fieldProps.options.IsBuild) {
-            fieldProps.options.SetItem(item)
-        }
-    },[item])
-
     const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const val = event.target.value || undefined
-        const itm = {...item}
+        const itm = {...item} as TextSubtype
 
         itm.value = val
         if(itm.value === undefined) {
             delete itm.value
         }
-        TextValidate(itm, fieldProps.options)
-        setItem(itm)
+        TextValidate(itm, options)
+        
+        if (!options.IsBuild) {
+            options.SetItem(itm)
+        }
     }
 
     return <>

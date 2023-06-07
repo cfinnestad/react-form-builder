@@ -25,11 +25,10 @@ const MenuProps = {
     }
 };
 
-function SelectST(fieldProps: FieldProps) {
+function SelectST({item, options}: FieldProps) {
     const theme = useTheme();
-    const [item, setItem] = useState(fieldProps.item as SelectSubtype);
     const handleChange = (event: SelectChangeEvent<string | string[]>) => {
-        const itm = { ...item };
+        const itm = { ...item } as SelectSubtype
         const { target: { value } } = event;
 
         if (itm.multiples)
@@ -37,17 +36,19 @@ function SelectST(fieldProps: FieldProps) {
         else
             itm.value = event.target.value;
 
-        SelectValidate(itm, fieldProps.options);
-        setItem(itm);
+        SelectValidate(itm, options);
+        if (!options.IsBuild) {
+            options.SetItem(itm)
+        }
     };
 
     useEffect(() => {
-        if (!fieldProps.options.IsBuild) {
-            fieldProps.options.SetItem(item);
+        if (!options.IsBuild) {
+            options.SetItem(item);
         }
     }, [item]);
 
-    if (!isSelect(fieldProps.item))
+    if (!isSelect(item))
         return <></>
 
     if (item.multiples) {

@@ -3,22 +3,14 @@ import {FieldProps, isNumber, NumberSubtype} from "../../Items";
 import {FormHelperText, InputLabel, Stack, TextField} from "@mui/material";
 import {NumberValidate} from "./index";
 
-const NumberST = (fieldProps: FieldProps ) => {
-    if (!isNumber(fieldProps.item) ) {
+const NumberST = ({item, options}: FieldProps ) => {
+    if (!isNumber(item) ) {
         return <></>
     }
 
-    const [item, setItem] = useState(fieldProps.item as NumberSubtype)
-
-    useEffect(()=>{
-        if (!fieldProps.options.IsBuild) {
-            fieldProps.options.SetItem(item)
-        }
-    },[item])
-
     const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const val = event.target.value ?? undefined
-        const itm = {...item}
+        const itm = {...item} as NumberSubtype
 
         const parsed = (val != null && val !== '' && !isNaN(+val))
             ? Number(val)
@@ -26,13 +18,15 @@ const NumberST = (fieldProps: FieldProps ) => {
 
         // @ts-ignore
         itm.value = val
-        NumberValidate(itm, fieldProps.options)
+        NumberValidate(itm, options)
         itm.value = parsed
         if(item.value === undefined) {
             delete item.value
         }
 
-        setItem(itm)
+        if (!options.IsBuild) {
+            options.SetItem(itm)
+        }
     }
 
     return <>

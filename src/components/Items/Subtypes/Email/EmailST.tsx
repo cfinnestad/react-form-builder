@@ -46,7 +46,6 @@ const EmailST = ({item, options}: FieldProps ) => {
                 {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
                 {item.errorText}
             </FormHelperText>
-            <div>EmailST: {new Date().toLocaleString() + ""} <pre>{JSON.stringify(item,null,4)}</pre></div>
         </Stack>
     </>
 }

@@ -14,22 +14,14 @@ import {
 } from "@mui/material";
 import {RadioValidate} from "./index";
 
-const RadioST = (fieldProps: FieldProps ) => {
+const RadioST = ({item, options}: FieldProps ) => {
 
-    if (!isField(fieldProps.item) || !isRadio(fieldProps.item) ) {
+    if (!isField(item) || !isRadio(item) ) {
         return <></>
     }
 
-    const [item, setItem] = useState(fieldProps.item as RadioSubtype)
-
-    const itm = {...item};
-    useEffect(() => {
-        if(!fieldProps.options.IsBuild) {
-            fieldProps.options.SetItem(item)
-        }
-    }, [item])
-
     function onChange(index: number){
+        const itm = {...item} as RadioSubtype
         const curVal = itm.options[index].selected
         itm.options.map((option, index) => {
             itm.options[index].selected = false;
@@ -45,9 +37,11 @@ const RadioST = (fieldProps: FieldProps ) => {
             itm.value = value[0]
         }
 
-        RadioValidate(itm, fieldProps.options)
+        RadioValidate(itm, options)
 
-        setItem(itm);
+        if (!options.IsBuild) {
+            options.SetItem(itm)
+        }
     }
 
     return <>

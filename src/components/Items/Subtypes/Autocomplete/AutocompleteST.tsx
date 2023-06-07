@@ -1,19 +1,18 @@
 import React, {useEffect, useRef, useState, JSX} from "react";
 import {Autocomplete, FormHelperText, InputLabel, Stack, TextField} from "@mui/material";
-import {FieldProps, Option, isAutocomplete} from "../../Items";
+import {FieldProps, Option, isAutocomplete, AutocompleteSubtype} from "../../Items";
 import AutocompleteValidate from "./AutocompleteValidate";
 import {useTheme} from "@mui/material/styles";
 
 
 export type FilterOptionsFunc = (input?: string) => (Promise<Option[]> | Option[])
 
-const AutocompleteST = (fieldProps: FieldProps) => {
+const AutocompleteST = ({item, options}: FieldProps) => {
 
-    if (!isAutocomplete(fieldProps.item) ) {
+    if (!isAutocomplete(item) ) {
         return <></>
     }
 
-    const [item, setItem] = useState(fieldProps.item)
     const [searchTerm, setSearchTerm] = useState('')
     const [choices, setChoices] = useState<Option[]>([])
 
@@ -22,7 +21,7 @@ const AutocompleteST = (fieldProps: FieldProps) => {
     // Initialize filterOptions to use passed-in searchableOptions function. Otherwise, fall back to static Option list from schema.
     useEffect(() => {
         if (item.searchableOptionsName != null) {
-            const getChoicesUnsafe = fieldProps.options.searchableOptions?.[item.searchableOptionsName]
+            const getChoicesUnsafe = options.searchableOptions?.[item.searchableOptionsName]
             if ( getChoicesUnsafe != null && typeof getChoicesUnsafe === 'function') {
                 filterOptions.current = getChoicesUnsafe
             } else {
@@ -40,12 +39,6 @@ const AutocompleteST = (fieldProps: FieldProps) => {
         }
     }, [])
 
-    useEffect(()=>{
-        if (!fieldProps.options.IsBuild) {
-            fieldProps.options.SetItem(item)
-        }
-    },[item])
-
     // Debounce call to getChoices
     useEffect( () => {
         const getData = setTimeout(async () => {
@@ -57,7 +50,7 @@ const AutocompleteST = (fieldProps: FieldProps) => {
     }, [searchTerm])
 
     const onAutocompleteChange = (event: React.SyntheticEvent, value: unknown, reason: string)=> {
-        const itm = {...item}
+        const itm = {...item} as AutocompleteSubtype
 
         // try using value.value, but fallback to value. If freeSolo + autoSelect are enabled, and user leaves free text in input.
         // itm.value = item.allowAnyInput ? (value as Option)?.value ?? value as string : (value as Option)?.value
@@ -67,8 +60,11 @@ const AutocompleteST = (fieldProps: FieldProps) => {
             delete itm.value;
         }
 
-        AutocompleteValidate(itm, fieldProps.options)
-        setItem(itm)
+        AutocompleteValidate(itm, options)
+
+        if (!options.IsBuild) {
+            options.SetItem(itm)
+        }
     }
 
     return <>

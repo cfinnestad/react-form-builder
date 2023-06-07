@@ -56,7 +56,6 @@ export const ShowItem = ({item, items, options}: ShowItemsProps) => {
         }
         return <>
             <ItemFC {...itemProps}/>
-            <div>item: {new Date().toLocaleString() + ""}</div>
         </>
 
 }

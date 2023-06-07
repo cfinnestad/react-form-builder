@@ -7,22 +7,14 @@ import {
 import {Checkbox, FormControlLabel, FormGroup, FormHelperText} from "@mui/material";
 import {BooleanValidate} from "./index";
 
-const BooleanST = (fieldProps: FieldProps ) => {
+const BooleanST = ({item, options}: FieldProps ) => {
 
-    if (!isField(fieldProps.item) || !isBoolean(fieldProps.item) ) {
+    if (!isBoolean(item) ) {
         return <></>
     }
 
-    const [item, setItem] = useState(fieldProps.item as BooleanSubtype)
-
-    const itm = {...item};
-    useEffect(() => {
-        if(!fieldProps.options.IsBuild) {
-            fieldProps.options.SetItem(item)
-        }
-    }, [item])
-
     function onChange(){
+        const itm = {...item} as BooleanSubtype;
         itm.value = !itm.value;
 
         if(!itm.value)
@@ -31,9 +23,11 @@ const BooleanST = (fieldProps: FieldProps ) => {
             delete itm.value
         }
 
-        BooleanValidate(itm, fieldProps.options)
+        BooleanValidate(itm, options)
 
-        setItem(itm);
+        if(!options.IsBuild) {
+            options.SetItem(itm)
+        }
     }
 
     return <>
