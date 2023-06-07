@@ -99,7 +99,6 @@ export const DefaultOptionSelected: Story = {
             {
                 ...Basic.args.Items[0],
                 helperText: 'One option preselected on render',
-                value: ['Option 3'],
                 options: [
                     { label: 'Option 1' },
                     { label: 'Option 2' },

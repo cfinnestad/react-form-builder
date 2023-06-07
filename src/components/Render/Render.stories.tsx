@@ -129,12 +129,33 @@ export const Primary: Story = {
                     ]
                 } as GroupItem,
                 {
+                    id: 'Select_Multiples',
+                    type: 'Field',
+                    name: 'Select_Multiples',
+                    subtype: 'Select',
+                    label: 'Select',
+                    multiples: true,
+                    helperText: 'Select helper text test',
+                    options: [
+                        {
+                            selected: true,
+                            label: 'Second',
+                            value: 'second value'
+                        },
+                        {
+                            label: 'Third',
+                        },
+                        {
+                            label: 'Fourth',
+                        },
+                    ]
+                } as SelectSubtype,
+                {
                     id: 'Select',
                     type: 'Field',
                     name: 'Select',
                     subtype: 'Select',
-                    value: ['second value'],
-                    label: 'Checkbox',
+                    label: 'Select',
                     multiples: true,
                     helperText: 'Select helper text test',
                     options: [
@@ -144,7 +165,6 @@ export const Primary: Story = {
                         {
                             selected: true,
                             label: 'Second',
-                            value: 'second value'
                         }
                     ]
                 } as SelectSubtype,
@@ -153,7 +173,6 @@ export const Primary: Story = {
                     type: 'Field',
                     name: 'Checkbox',
                     subtype: 'Checkbox',
-                    value: ['second value'],
                     label: 'Checkbox',
                     helperText: 'Checkbox helper text test',
                     options: [
@@ -192,7 +211,6 @@ export const Primary: Story = {
                     name: 'Radio-1',
                     subtype: 'Radio',
                     inLine: true,
-                    value: 'Radio 2 value',
                     helperText: 'Radio helper text',
                     options: [
                         {

@@ -1,8 +1,7 @@
-import React, {useEffect, useRef, useState, JSX} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Autocomplete, FormHelperText, InputLabel, Stack, TextField} from "@mui/material";
 import {FieldProps, Option, isAutocomplete, AutocompleteSubtype} from "../../Items";
 import AutocompleteValidate from "./AutocompleteValidate";
-import {useTheme} from "@mui/material/styles";
 
 
 export type FilterOptionsFunc = (input?: string) => (Promise<Option[]> | Option[])

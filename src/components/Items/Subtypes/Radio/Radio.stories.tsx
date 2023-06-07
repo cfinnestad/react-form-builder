@@ -118,7 +118,6 @@ export const filter: Story = {
                 id: "radio2",
                 name: "radio2",
                 label: "Radio 2",
-                value: 'Option 3',
                 options: [
                     { label: 'Option 1' },
                     { label: 'Option 2' },
