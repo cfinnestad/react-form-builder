@@ -3,31 +3,26 @@ import {EmailSubtype, FieldProps, isEmail} from "../../Items";
 import {FormHelperText, InputLabel, Stack, TextField} from "@mui/material";
 import {EmailValidate} from "./index";
 
-const EmailST = (fieldProps: FieldProps ) => {
+const EmailST = ({item, options}: FieldProps ) => {
 
-    if (!isEmail(fieldProps.item) ) {
+    if (!isEmail(item) ) {
         return <></>
     }
 
-    const [item, setItem] = useState(fieldProps.item as EmailSubtype)
-
-    useEffect(()=>{
-        if (!fieldProps.options.IsBuild) {
-            fieldProps.options.SetItem(item)
-        }
-    },[item])
 
     const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const val = event.target.value || undefined
         const itm = {...item}
 
         itm.value = val
-        if(itm.value === undefined) {
+        if (itm.value === undefined) {
             delete itm.value
         }
 
-        EmailValidate(itm, fieldProps.options)
-        setItem(itm)
+        EmailValidate(itm, options)
+        if (!options.IsBuild) {
+            options.SetItem(itm)
+        }
     }
 
     return <>
