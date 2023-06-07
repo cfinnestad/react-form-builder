@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
-import {EmailSubtype, FieldProps, isEmail} from "../../Items";
+import {AnyItem, EmailSubtype, FieldProps, isEmail} from "../../Items";
 import {FormHelperText, InputLabel, Stack, TextField} from "@mui/material";
 import {EmailValidate} from "./index";
 
@@ -12,7 +12,7 @@ const EmailST = ({item, options}: FieldProps ) => {
 
     const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const val = event.target.value || undefined
-        const itm = {...item}
+        const itm = {...item} as EmailSubtype
 
         itm.value = val
         if (itm.value === undefined) {
@@ -46,6 +46,7 @@ const EmailST = ({item, options}: FieldProps ) => {
                 {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
                 {item.errorText}
             </FormHelperText>
+            <div>EmailST: {new Date().toLocaleString() + ""} <pre>{JSON.stringify(item,null,4)}</pre></div>
         </Stack>
     </>
 }
