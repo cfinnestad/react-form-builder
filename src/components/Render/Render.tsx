@@ -79,6 +79,7 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
             { items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options}/>) }
             {/*<Submit items={items} options={options} results={ RenderedItem(items, options.renderType) }></Submit>*/}
             { submit }
+            <div>Render: {new Date().toLocaleString() + ""}</div>
         </ThemeProvider>
     </>
 }
