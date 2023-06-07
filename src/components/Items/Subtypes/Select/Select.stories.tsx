@@ -36,7 +36,6 @@ export const Basic: Story = {
                 id: 'selectTest',
                 name: 'select1',
                 label: 'Select an Option',
-                value: '',
                 options: [
                     { label: 'Option 1' },
                     { label: 'Option 2' },
@@ -72,7 +71,6 @@ export const HelperText: Story = {
                 name: 'select1',
                 label: 'Select an Option',
                 helperText: 'Helper text to describe your field',
-                value: '',
                 options: [
                     { label: 'Option 1' },
                     { label: 'Option 2' },
@@ -105,7 +103,6 @@ export const Required: Story = {
                 label: 'Select an Option',
                 helperText: 'Note the asterisk by the label',
                 required: true,
-                value: '',
                 options: [
                     { label: 'Option 1' },
                     { label: 'Option 2' },
@@ -137,7 +134,6 @@ export const DefaultOptionSelected: Story = {
                 name: 'select1',
                 label: 'Select an Option',
                 helperText: 'One option preselected on render',
-                value: 'Option 3',
                 options: [
                     { label: 'Option 1' },
                     { label: 'Option 2' },
@@ -171,7 +167,6 @@ export const SelectMultipleOptions: Story = {
                 label: 'Select Multiple Options',
                 helperText: 'Ability to select multiple options',
                 multiples: true,
-                value: [],
                 options: [
                     { label: 'Option 1' },
                     { label: 'Option 2' },
@@ -208,7 +203,6 @@ export const DefaultOptionsSelected: Story = {
                 label: 'Select Multiple Options',
                 helperText: 'Multiple options preselected on render',
                 multiples: true,
-                value: ['Option 1', 'Option 3', 'Option 4', 'Option 7'],
                 options: [
                     { label: 'Option 1', selected: true },
                     { label: 'Option 2' },

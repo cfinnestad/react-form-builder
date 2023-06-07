@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction, useEffect, useState, JSX} from 'react';
-import {AnyItem, isField, isGroup, isHidden, Option} from "../Items";
+import {AnyItem, FieldItem, isCheckbox, isField, isGroup, isHidden, isRadio, isSelect, Option} from "../Items";
 import ShowItem from "../Items/ShowItem";
 import { Options } from '../Builder'
 import SetItem from "../Items/SetItem";
@@ -83,6 +83,24 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
     </>
 }
 
+const getValue = (item: FieldItem): string|number|boolean|string[]|undefined => {
+    let value = item.value ?? undefined
+
+    if (isRadio(item)) {
+        value = item.options.filter(option => option.selected === true).map(option => option.value ?? option.label)[0] ?? undefined
+    } else if(isCheckbox(item)) {
+        value = item.options.filter(option => option.selected === true).map(option => option.value ?? option.label)
+    } else if(isSelect(item)) {
+        if (item.multiples) {
+            value = item.options.filter(option => option.selected === true).map(option => option.value ?? option.label)
+        } else {
+            value = item.options.filter(option => option.selected === true).map(option => option.value ?? option.label)[0] ?? undefined
+        }
+    }
+
+    return value
+}
+
 export const RenderedObject = ( items: AnyItem[] ): {} => {
     let result: Record<string, any> = {}
 
@@ -94,13 +112,12 @@ export const RenderedObject = ( items: AnyItem[] ): {} => {
             } else if (isHidden(item)) {
                 result[item.name] = item.value
             } else if (isField(item)) {
-                result[item.name] = item.value
+                result[item.name] = getValue(item)
             }
         }
     }
 
     return result
-
 }
 
 export const RenderedFlatObject = ( items: AnyItem[]): {} => {
@@ -113,13 +130,12 @@ export const RenderedFlatObject = ( items: AnyItem[]): {} => {
             } else if (isHidden(item)) {
                 result[item.id] = item.value
             } else if (isField(item)) {
-                result[item.id] = item.value
+                result[item.id] = getValue(item)
             }
         }
     }
 
     return result
-
 }
 
 export const RenderedArray = ( items: AnyItem[]): {} | [] => {
@@ -141,14 +157,13 @@ export const RenderedArray = ( items: AnyItem[]): {} | [] => {
             } else if (isField(item)) {
                 result.push({
                     name: item.name,
-                    value: item.value
+                    value: getValue(item)
                 })
             }
         }
     }
 
     return result
-
 }
 
 export const RenderedFlatArray = ( items: AnyItem[]): object[] => {
@@ -167,26 +182,22 @@ export const RenderedFlatArray = ( items: AnyItem[]): object[] => {
             } else if (isField(item)) {
                 result.push({
                     name: item.id,
-                    value: item.value
+                    value: getValue(item)
                 })
             }
         }
-
     }
 
     return result
-
 }
 
 const RenderedItem = ( items: AnyItem[], returnType: RenderOptions['returnType'] ): Array<Object> | Object => {
-
     switch(returnType) {
         case 'object': return RenderedObject(items);
         case 'flatobject': return RenderedFlatObject(items);
         case 'flatarray': return RenderedFlatArray(items);
         default: return RenderedArray(items);
     }
-
 }
 
 export default Render

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
     Box,
     Chip,
@@ -31,22 +31,24 @@ function SelectST({item, options}: FieldProps) {
         const itm = { ...item } as SelectSubtype
         const { target: { value } } = event;
 
-        if (itm.multiples)
-            itm.value = typeof value === 'string' ? value.split(',') : value;
-        else
-            itm.value = event.target.value;
+        if (itm.multiples) {
+            console.log('pre item', itm)
+            itm.options.forEach((option) => {
+                option.selected = value.includes(option.label)
+            })
+            console.log('post item', itm)
+        } else {
+            itm.options.forEach((option) => {
+                option.selected = option.label === value
+            });
+        }
 
+        console.log('item', itm)
         SelectValidate(itm, options);
         if (!options.IsBuild) {
             options.SetItem(itm)
         }
     };
-
-    useEffect(() => {
-        if (!options.IsBuild) {
-            options.SetItem(item);
-        }
-    }, [item]);
 
     if (!isSelect(item))
         return <></>
@@ -56,7 +58,7 @@ function SelectST({item, options}: FieldProps) {
             <Stack spacing={.5}>
                 <InputLabel
                     required = {item.required ?? false}
-                    error={item.errorText != null}
+                    error={item.errorText !== undefined}
                 >
                     {item.label}
                 </InputLabel>
@@ -64,7 +66,7 @@ function SelectST({item, options}: FieldProps) {
                     <Select
                         id={item.id}
                         multiple={item.multiples}
-                        value={item.value as string[]}
+                        value={item.options.filter(option => option.selected).map(option => option.label)}
                         autoWidth
                         onChange={handleChange}
                         renderValue={(selected) => (
@@ -82,7 +84,7 @@ function SelectST({item, options}: FieldProps) {
                                     key={option.label}
                                     value={option.label}
                                     selected={option.selected}
-                                    style={getStyles(option.label, item.value as string[], theme)}
+                                    style={getStyles(option.label, item.options.filter(option => option.selected).map(option => option.label), theme)}
                                 >
                                     {option.label}
                                 </MenuItem>
@@ -110,7 +112,7 @@ function SelectST({item, options}: FieldProps) {
                     <Select
                         error={item.errorText !== undefined}
                         id={item.id}
-                        value={item.value as string}
+                        value={item.options.filter(option => option.selected).map(option => option.value ?? option.label)[0] ?? ''}
                         autoWidth
                         onChange={handleChange}
                     >

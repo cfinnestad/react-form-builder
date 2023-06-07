@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {
     FieldProps,
     isField,
@@ -29,13 +29,13 @@ const RadioST = ({item, options}: FieldProps ) => {
 
         itm.options[index].selected = itm.required ? true : !curVal
 
-        const value = itm.options.filter(i => {return i.selected ?? false}).map(i => {return i.value ?? i.label});
-        if (value.length === 0) {
-            itm.value = undefined
-            delete itm.value
-        } else {
-            itm.value = value[0]
-        }
+        // const value = itm.options.filter(i => {return i.selected ?? false}).map(i => {return i.value ?? i.label});
+        // if (value.length === 0) {
+        //     itm.value = undefined
+        //     delete itm.value
+        // } else {
+        //     itm.value = value[0]
+        // }
 
         RadioValidate(itm, options)
 

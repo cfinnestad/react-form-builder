@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {CheckboxSubtype, FieldProps, isCheckbox, isField} from "../../Items";
 import {
     Checkbox,
@@ -19,11 +19,11 @@ const CheckboxST = ({item, options}: FieldProps ) => {
     function onChange(index: number){
         const itm = {...item} as CheckboxSubtype;
         itm.options[index].selected = !itm.options[index].selected;
-        itm.value = itm.options.filter(i => {return i.selected ?? false}).map(i => {return i.value ?? i.label});
-        if (itm.value?.length === 0) {
-            itm.value = undefined
-            delete itm.value
-        }
+        // itm.value = itm.options.filter(i => {return i.selected ?? false}).map(i => {return i.value ?? i.label});
+        // if (itm.value?.length === 0) {
+        //     itm.value = undefined
+        //     delete itm.value
+        // }
         CheckboxValidate(itm, options)
 
         if (!options.IsBuild) {
