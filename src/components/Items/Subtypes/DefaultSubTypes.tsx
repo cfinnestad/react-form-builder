@@ -10,6 +10,7 @@ import {
     TextSubtype,
     AutocompleteSubtype,
     PhoneSubtype,
+    DateSubtype,
 } from "../Items";
 import {BooleanEdit, BooleanST, BooleanValidate} from "./Boolean";
 import {TextEdit, TextST, TextValidate} from "./Text";
@@ -20,6 +21,7 @@ import {RadioEdit, RadioST, RadioValidate} from "./Radio";
 import {SelectEdit, SelectST, SelectValidate} from "./Select";
 import {AutocompleteEdit, AutocompleteST, AutocompleteValidate} from "./Autocomplete"
 import {PhoneEdit, PhoneST, PhoneValidate} from "./Phone";
+import {DateEdit, DateST, DateValidate} from "./Date";
 
 
 export type AllowedSubtypes = {
@@ -99,6 +101,18 @@ const DefaultSubtypes = (): AllowedSubtypes => {
             SubtypeFC: BooleanST,
             EditFC: BooleanEdit,
             ValidateFC: BooleanValidate,
+        },
+        Date: {
+            Subtype: {
+                id: 'date1',
+                type: 'Field',
+                label: 'Date',
+                name: 'date-1',
+                subtype: 'Date',
+            } as DateSubtype,
+            SubtypeFC: DateST,
+            EditFC: DateEdit,
+            ValidateFC: DateValidate,
         },
         Radio: {
             Subtype: {
