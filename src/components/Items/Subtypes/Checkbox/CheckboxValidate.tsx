@@ -1,11 +1,11 @@
-import {CheckboxSubtype, FieldItem, isCheckbox} from "../../Items";
-import {Options} from "../../../Builder/Builder";
+import {FieldItem, isCheckbox} from "../../Items";
+import {Options} from "../../../Builder";
 
 const CheckboxValidate = (item: FieldItem, options: Options): boolean => {
     item.errorText = undefined
     if(!isCheckbox(item)) {
         item.errorText = options.getError('invalidType', item)
-    } else if(item.required && !item.value) {
+    } else if(item.required && item.options.filter(option => option.selected).length === 0) {
         item.errorText = options.getError('required', item)
     }
     if(item.errorText === undefined) {
