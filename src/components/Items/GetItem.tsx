@@ -1,6 +1,6 @@
-import {AnyItem, FieldItem, isField, isGroup} from "./Items";
+import {AnyItem, FieldItem, HiddenItem, isField, isGroup, isHidden} from "./Items";
 
-const GetItem = (id: string|number, items:AnyItem[]): FieldItem|undefined => {
+const GetItem = (id: string|number, items:AnyItem[]): FieldItem|HiddenItem|undefined => {
     for(let i=0; i < items.length; i++) {
         const item = items[i]
         if (isGroup(item)) {
@@ -9,7 +9,7 @@ const GetItem = (id: string|number, items:AnyItem[]): FieldItem|undefined => {
                 return groupItem
             }
         }
-        if (isField(item) && (id === item.id)) {
+        if ((isField(item) || isHidden(item)) && (id === item.id)) {
             return item
         }
     }
