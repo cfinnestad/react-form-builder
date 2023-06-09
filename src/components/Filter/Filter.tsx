@@ -30,7 +30,7 @@ const Filter = (item: AnyItem, items: AnyItem[], filter: FilterType|undefined): 
                     // @ts-ignore
                     return value.includes(filter.value ?? undefined)
                 } else {
-                    return value === filter.value ?? undefined
+                    return value === (filter.value ?? undefined)
                 }
             }
             if (isGtFilter(filter) && filter.value !== undefined)  {
