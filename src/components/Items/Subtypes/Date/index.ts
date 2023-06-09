@@ -8,3 +8,6 @@ export const dateFormat = (value: Dayjs) => {
     return dayjs(value).format('MM/DD/YYYY')
 }
 
+export const dateCmp = (val: string | null, cmp: string, which: string) => {
+    return dayjs(val)[which](dayjs(cmp))
+}

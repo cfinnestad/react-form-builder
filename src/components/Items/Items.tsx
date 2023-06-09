@@ -194,9 +194,9 @@ export type PhoneSubtype = FieldItem & {
 
 export type DateSubtype = FieldItem & {
     subtype: 'Date',
-    value?: string | any, // the "any" type gets around a TDate error in the DatePicker
-    minDate?: string | any,
-    maxDate?: string | any,
+    value?: string,
+    minDate?: string,
+    maxDate?: string,
     minDateOffsetDays?: number,
     minDateOffsetMonths?: number,
     minDateOffsetYears?: number,
