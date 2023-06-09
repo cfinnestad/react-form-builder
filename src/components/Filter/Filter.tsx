@@ -10,6 +10,7 @@ import {
     isOrFilter,
     GetItem
 } from "../Items";
+import GetValue from "../Items/GetValue";
 
 const Filter = (item: AnyItem, items: AnyItem[], filter: FilterType|undefined): boolean => {
     if (filter == undefined) {
@@ -19,70 +20,71 @@ const Filter = (item: AnyItem, items: AnyItem[], filter: FilterType|undefined): 
     if (isFieldFilter(filter)) {
         const relatedField = GetItem(filter.fieldId, items)
         if (relatedField !== undefined) {
+            const value = GetValue(relatedField)
             if (isEqFilter(filter)) {
-                if(relatedField.value instanceof Array) {
+                if(value instanceof Array) {
                     // @ts-ignore
-                    return relatedField.value.includes(filter.value ?? undefined)
+                    return value.includes(filter.value ?? undefined)
                 } else {
-                    return relatedField.value == filter.value ?? undefined
+                    return value === filter.value ?? undefined
                 }
             }
             if (isGtFilter(filter) && filter.value !== undefined)  {
 
-                if(relatedField.value instanceof Array) {
+                if(value instanceof Array) {
                     let result = false
-                    relatedField.value.map(curValue => {
+                    value.map(curValue => {
                         // @ts-ignore
                         result ||= (curValue > filter.value)
                     })
                 } else {
                     // @ts-ignore
-                    return relatedField.value > filter.value
+                    return value > filter.value
                 }
             }
             if (isGteFilter(filter)) {
-                if(relatedField.value instanceof Array) {
+                if(value instanceof Array) {
                     let result = false
-                    relatedField.value.map(curValue => {
+                    value.map(curValue => {
                         // @ts-ignore
                         result ||= (curValue >= filter.value)
                     })
                 } else {
                     // @ts-ignore
-                    return relatedField.value >= filter.value
+                    return value >= filter.value
                 }
             }
             if (isLtFilter(filter)) {
-                if(relatedField.value instanceof Array) {
+                if(value instanceof Array) {
                     let result = false
-                    relatedField.value.map(curValue => {
+                    value.map(curValue => {
                         // @ts-ignore
                         result ||= (curValue < filter.value)
                     })
                 } else {
                     // @ts-ignore
-                    return relatedField.value < filter.value
+                    return value < filter.value
                 }
             }
             if (isLteFilter(filter)) {
-                if(relatedField.value instanceof Array) {
+                if(value instanceof Array) {
                     let result = false
-                    relatedField.value.map(curValue => {
+                    value.map(curValue => {
                         // @ts-ignore
                         result ||= (curValue <= filter.value)
                     })
                 } else {
                     // @ts-ignore
-                    return relatedField.value <= filter.value
+                    return value <= filter.value
                 }
             }
             if (isInFilter(filter)) {
-                if(relatedField.value instanceof Array) {
+                if(value instanceof Array) {
                     //@ts-ignore
-                    return filter.value.some(r=> relatedField.value.includes(r))
+                    return filter.value.some(r=> value.includes(r))
                 } else {
                     // @ts-ignore
-                    return filter.value.some(r => r === relatedField.value)
+                    return filter.value.some(r => r === value)
                 }
             }
         }
