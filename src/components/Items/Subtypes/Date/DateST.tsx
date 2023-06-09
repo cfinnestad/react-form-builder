@@ -68,7 +68,7 @@ const DateST = ({item, options}: FieldProps ) => {
 
             options.SetItem(itm)
         }
-    }, [item])
+    }, [])
 
     return <>
         <Stack spacing={2}>
