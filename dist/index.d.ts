@@ -217,7 +217,7 @@ type AllowedItems = {
 
 declare const ValidateFields: (items: AnyItem[], options: Options) => boolean;
 
-declare const GetItem: (id: string | number, items: AnyItem[]) => FieldItem | undefined;
+declare const GetItem: (id: string | number, items: AnyItem[]) => FieldItem | HiddenItem | undefined;
 
 declare const SetItem: (item: AnyItem, items: AnyItem[]) => AnyItem[];
 
