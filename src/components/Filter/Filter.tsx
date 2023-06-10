@@ -17,14 +17,11 @@ const Filter = (item: AnyItem, items: AnyItem[], filter: FilterType|undefined): 
         return true
     }
 
-    console.log('filter', filter)
     if (isFieldFilter(filter)) {
         const relatedField = GetItem(filter.fieldId, items)
-        console.log('RelatedField', relatedField)
         if (relatedField !== undefined) {
             const value = GetValue(relatedField)
 
-            console.log('RelatedField Value', value)
             if (isEqFilter(filter)) {
                 if(value instanceof Array) {
                     // @ts-ignore
