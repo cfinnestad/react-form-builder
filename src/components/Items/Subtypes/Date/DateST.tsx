@@ -32,39 +32,47 @@ const DateST = ({item, options}: FieldProps ) => {
         if (!options.IsBuild) {
             const itm = {...item} as DateSubtype
 
-            const getOffset = (offset: number, unit: ManipulateType) => {
-                if (offset < 0) return dateFormat(dayjs(today()).subtract(-offset, unit))
-                else return dateFormat(dayjs(today()).add(offset, unit))
+            const getOffset = (offset: number, unit: ManipulateType, start?: string) => {
+                if (!start) start = today()
+                if (offset < 0) return dateFormat(dayjs(start).subtract(-offset, unit))
+                else return dateFormat(dayjs(start).add(offset, unit))
             }
             const today = () => {
                 return dateFormat(dayjs())
             }
 
-            let latestMin = itm.minDate ?? undefined
-            let earliestMax = itm.maxDate ?? undefined
-
             let offsets = {
-                minDateOffsetDays: "d",
-                minDateOffsetMonths: "M",
-                minDateOffsetYears: "y",
-                maxDateOffsetDays: "d",
-                maxDateOffsetMonths: "M",
-                maxDateOffsetYears: "y"
+                min: {
+                    minDateOffsetDays: "d",
+                    minDateOffsetMonths: "M",
+                    minDateOffsetYears: "y"
+                },
+                max: {
+                    maxDateOffsetDays: "d",
+                    maxDateOffsetMonths: "M",
+                    maxDateOffsetYears: "y"
+                }
             }
 
-            for (let key in offsets) {
-                let unit = offsets[key] as ManipulateType
-                let isMin = key.startsWith("min")
-                let offsetDate = getOffset(itm[key], unit)
+            for (let group in offsets) {
+                let running = null
 
-                if (itm[key] && isMin && (!latestMin || dateCmp(offsetDate, latestMin, "isAfter")))
-                    latestMin = offsetDate
-                else if (itm[key] && !isMin && (!earliestMax || dateCmp(offsetDate, earliestMax, "isBefore")))
-                    earliestMax = offsetDate
+                // cumulatively apply all offsets from each group
+                for (let key in offsets[group]) {
+                    if (itm[key]) {
+                        let unit = offsets[group][key] as ManipulateType
+                        running = getOffset(itm[key], unit, running)
+                    }
+                }
+
+                // set min or max if the offsets are narrower
+                if (running) {
+                    if (group === "min" && (!itm.minDate || dateCmp(running, itm.minDate, "isAfter")))
+                        itm.minDate = running
+                    else if (group === "max" && (!itm.maxDate || dateCmp(running, itm.maxDate, "isBefore")))
+                        itm.maxDate = running
+                }
             }
-
-            itm.minDate = latestMin
-            itm.maxDate = earliestMax
 
             options.SetItem(itm)
         }
