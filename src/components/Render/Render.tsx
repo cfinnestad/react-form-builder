@@ -7,7 +7,7 @@ import DefaultItems, {AllowedItems} from "../Items/DefaultItems";
 import DefaultSubtypes, {AllowedSubtypes} from "../Items/Subtypes/DefaultSubTypes";
 import Filter from "../Filter/Filter";
 import Errors, {ErrorType, GetError} from "../Errors/Errors";
-import {ThemeProvider} from "@mui/material";
+import {List, ListItem, Stack, ThemeProvider} from "@mui/material";
 import {Theme, useTheme} from "@mui/material/styles";
 import GetValue from "../Items/GetValue";
 
@@ -77,8 +77,13 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
 
     return <>
         <ThemeProvider theme={options.muiTheme}>
-            { items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options}/>) }
-            {/*<Submit items={items} options={options} results={ RenderedItem(items, options.renderType) }></Submit>*/}
+            <Stack>
+                <List dense sx={{padding: 0}}>
+                    <ListItem sx={{display: 'block', padding: '0px'}}>
+                        { items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options}/>) }
+                    </ListItem>
+                </List>
+            </Stack>
             { submit }
         </ThemeProvider>
     </>

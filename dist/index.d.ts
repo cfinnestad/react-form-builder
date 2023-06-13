@@ -152,9 +152,13 @@ type DateSubtype = FieldItem & {
     subtype: 'Date';
     value?: string;
     minDate?: string;
-    minDateOffsetDays?: number;
     maxDate?: string;
+    minDateOffsetDays?: number;
+    minDateOffsetMonths?: number;
+    minDateOffsetYears?: number;
     maxDateOffsetDays?: number;
+    maxDateOffsetMonths?: number;
+    maxDateOffsetYears?: number;
 };
 type BooleanSubtype = FieldItem & {
     subtype: 'Boolean';
