@@ -19,7 +19,7 @@ const ItemGroup = ({item, items, options}: ItemProps) => {
     if (item.deprecated) return <></>
     return <>
         <Stack>
-            <Typography variant="body1" sx={{marginBottom: -1}}>{item.label}</Typography>
+            <Typography sx={{marginBottom: -1, fontWeight: 'bold', fontSize: '1.25rem'}}>{item.label}</Typography>
             <List dense sx={{padding: 0}}>
                 <ListItem sx={{display: 'block', padding: '0px'}}>
                     {item.items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options}/>)}
