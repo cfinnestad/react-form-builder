@@ -50,11 +50,22 @@ export const Primary: Story = {
         Items:
             [
                 {
-                    id: 'text1',
+                    id: 'first_name',
                     type: 'Field',
-                    name: 'text1',
+                    name: 'first_name',
                     required: true,
-                    label: 'Type "show"',
+                    label: 'First Name (Type "show")',
+                    deprecated: false,
+                    subtype: 'Text',
+                    maxLength: 10,
+                    minLength: 2
+                } as TextSubtype,
+                {
+                    id: 'last_name',
+                    type: 'Field',
+                    name: 'last_name',
+                    required: true,
+                    label: 'Last Name',
                     deprecated: false,
                     subtype: 'Text',
                     maxLength: 10,
@@ -69,7 +80,7 @@ export const Primary: Story = {
                     deprecated: false,
                     filter: {
                         comparison: "=",
-                        fieldId: "text1",
+                        fieldId: "first_name",
                         value: 'show'
                     } as EqFilter,
                     subtype: 'Text'
