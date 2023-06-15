@@ -77,7 +77,6 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
 
     return <>
         <ThemeProvider theme={options.muiTheme}>
-            <form autoComplete="off">
             <Stack>
                 <List dense sx={{padding: 0}}>
                     <ListItem sx={{display: 'block', padding: '0px'}}>
@@ -86,7 +85,6 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
                 </List>
             </Stack>
             { submit }
-            </form>
         </ThemeProvider>
     </>
 }
