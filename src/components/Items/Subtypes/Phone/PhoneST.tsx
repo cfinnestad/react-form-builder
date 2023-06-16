@@ -59,7 +59,7 @@ const PhoneST = ({item, options}: FieldProps ) => {
                     disableDropdown = {true}
                     onlyCountries = {['us']}
                     placeholder = {item.placeholder ?? ''}
-                    InputProps = {{ disableUnderline: true }}
+                    InputProps = {{ id: item.id, disableUnderline: true }}
                     error={item.errorText != null}
                 />
             </Box>

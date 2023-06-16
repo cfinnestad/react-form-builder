@@ -1,7 +1,13 @@
 import {isNumber, FieldItem} from "../../Items";
-import {Options} from "../../../Builder/Builder";
+import {Options} from "../../../Builder";
 
 const NumberValidate = (item: FieldItem, options: Options): boolean => {
+    const element = document.getElementById(item.id)
+    if (element === undefined) {
+        console.log('Could not find element by ID')
+    }
+    // @ts-ignore
+    item.value = document.getElementById(item.id)?.value
     item.errorText = undefined
     if (!isNumber(item)){
         item.errorText = options.getError('invalidType', item)

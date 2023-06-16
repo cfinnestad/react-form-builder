@@ -1,8 +1,14 @@
 import {FieldItem, isAutocomplete} from "../../Items";
-import {Options} from "../../../Builder/Builder"
+import {Options} from "../../../Builder"
 
 
 const ServiceCityValidate = (item: FieldItem, options: Options): boolean => {
+    const element = document.getElementById(item.id)
+    if (element === undefined) {
+        console.log('Could not find element by ID')
+    }
+    // @ts-ignore
+    item.value = document.getElementById(item.id)?.value
     item.errorText = undefined
     if (!isAutocomplete(item)){
         item.errorText = options.getError('invalidType', item)

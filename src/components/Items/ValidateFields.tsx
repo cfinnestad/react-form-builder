@@ -11,12 +11,10 @@ const ValidateFields = (items: AnyItem[], options: Options): boolean => {
                 if (ValidateFC !== undefined) {
                     result =  ValidateFC(item, options) && result // we want to run all the validations, so they have to happen before the && result
                 }
-
-                // console.log("Validate Field: ", item.id, 'Value:', item.value, 'result:', result )
+                options.SetItem({...item})
             }
         }
     }
-    options.setItems(items)
     return result
 }
 
