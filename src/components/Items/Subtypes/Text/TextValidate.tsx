@@ -1,5 +1,5 @@
-import {TextSubtype, isText, FieldItem} from "../../Items";
-import {Options} from "../../../Builder/Builder";
+import {isText, FieldItem} from "../../Items";
+import {Options} from "../../../Builder";
 
 const TextValidate = (item: FieldItem, options: Options): boolean => {
     const element = document.getElementById(item.id)

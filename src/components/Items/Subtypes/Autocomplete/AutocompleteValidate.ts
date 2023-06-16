@@ -1,5 +1,5 @@
 import {FieldItem, isAutocomplete} from "../../Items";
-import {Options} from "../../../Builder/Builder"
+import {Options} from "../../../Builder"
 
 
 const ServiceCityValidate = (item: FieldItem, options: Options): boolean => {

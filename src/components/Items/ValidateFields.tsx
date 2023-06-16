@@ -1,11 +1,10 @@
 import {Options} from "../Builder";
 import {AnyItem, isField} from "./Items";
 import Filter from "../Filter";
-import setItem from "./SetItem";
 
 const ValidateFields = (items: AnyItem[], options: Options): boolean => {
     let result = true
-    for (const [key, item] of items.entries()) {
+    for (const item of items) {
         if (isField(item)) {
             if(Filter(item, items, item.filter)) {
                 const ValidateFC = options.AllowedSubtypes[item.subtype]?.ValidateFC ?? undefined
@@ -13,7 +12,6 @@ const ValidateFields = (items: AnyItem[], options: Options): boolean => {
                     result =  ValidateFC(item, options) && result // we want to run all the validations, so they have to happen before the && result
                 }
                 options.SetItem({...item})
-                // console.log("Validate Field: ", item.id, 'Value:', item.value, 'result:', result )
             }
         }
     }

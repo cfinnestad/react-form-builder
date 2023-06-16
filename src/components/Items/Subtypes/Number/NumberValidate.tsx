@@ -1,5 +1,5 @@
 import {isNumber, FieldItem} from "../../Items";
-import {Options} from "../../../Builder/Builder";
+import {Options} from "../../../Builder";
 
 const NumberValidate = (item: FieldItem, options: Options): boolean => {
     const element = document.getElementById(item.id)
