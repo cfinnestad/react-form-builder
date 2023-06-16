@@ -75,7 +75,7 @@ const AutocompleteST = ({item, options}: FieldProps) => {
                 {item.label}
             </InputLabel>
             <Autocomplete
-                id={item.id}
+                id={item.id + '-ac'}
                 // freeSolo={item.allowAnyInput ?? false}   // TODO: implement allowAnyInput
                 // autoSelect={item.allowAnyInput ?? false}
                 onChange={onAutocompleteChange}
@@ -97,6 +97,7 @@ const AutocompleteST = ({item, options}: FieldProps) => {
                 renderInput={(params) =>
                     <TextField
                         {...params}
+                        id={item.id}
                         type="text"
                         name={item.name}
                         required={item.required}

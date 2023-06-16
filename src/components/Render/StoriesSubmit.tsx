@@ -2,6 +2,8 @@ import {RenderedArray, RenderedFlatArray, RenderedFlatObject, RenderedObject, Su
 import {Button, ButtonGroup} from "@mui/material";
 import ValidateFields from "../Items/ValidateFields";
 import React from "react";
+import {AnyItem, isField, isGroup} from "../Items";
+import { Options } from '../Builder';
 
 export const Submit = ({ items, options }: SubmitProps) => {
     return <ButtonGroup>

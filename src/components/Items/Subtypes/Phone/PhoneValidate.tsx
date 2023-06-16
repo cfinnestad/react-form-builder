@@ -2,6 +2,12 @@ import {FieldItem, isPhone} from "../../Items";
 import {Options} from "../../../Builder/Builder";
 
 const PhoneValidate = (item: FieldItem, options: Options): boolean => {
+    const element = document.getElementById(item.id)
+    if (element === undefined) {
+        console.log('Could not find element by ID')
+    }
+    // @ts-ignore
+    item.value = document.getElementById(item.id)?.value
     item.errorText = undefined
     if (!isPhone(item)){
         item.errorText = options.getError('invalidType', item)

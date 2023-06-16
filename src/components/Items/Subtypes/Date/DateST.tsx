@@ -6,6 +6,15 @@ import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs'
 import {LocalizationProvider, DatePicker} from '@mui/x-date-pickers';
 import dayjs, {ManipulateType} from 'dayjs'
 
+const offsetDays = {
+    DateOffsetDays: "d",
+    DateOffsetMonths: "M",
+    DateOffsetYears: "y"
+}
+const offsets = [
+    'min',
+    'max',
+]
 const DateST = ({item, options}: FieldProps ) => {
 
     if (!isDate(item) ) {
@@ -41,27 +50,29 @@ const DateST = ({item, options}: FieldProps ) => {
                 return dateFormat(dayjs())
             }
 
-            let offsets = {
-                min: {
-                    minDateOffsetDays: "d",
-                    minDateOffsetMonths: "M",
-                    minDateOffsetYears: "y"
-                },
-                max: {
-                    maxDateOffsetDays: "d",
-                    maxDateOffsetMonths: "M",
-                    maxDateOffsetYears: "y"
-                }
-            }
+            // let offsets = {
+            //     min: {
+            //         DateOffsetDays: "d",
+            //         DateOffsetMonths: "M",
+            //         DateOffsetYears: "y"
+            //     },
+            //     max: {
+            //         DateOffsetDays: "d",
+            //         DateOffsetMonths: "M",
+            //         DateOffsetYears: "y"
+            //     }
+            // } as Offsets
 
-            for (let group in offsets) {
-                let running = null
+            for (const group in offsets) {
+                let running = undefined
 
                 // cumulatively apply all offsets from each group
-                for (let key in offsets[group]) {
-                    if (itm[key]) {
-                        let unit = offsets[group][key] as ManipulateType
-                        running = getOffset(itm[key], unit, running)
+                for (const type in offsetDays) {
+                    const key = group + type as keyof DateSubtype
+                    const value = itm[key]
+                    if (typeof value === 'number') {
+                        let unit = offsetDays[type as keyof typeof offsetDays] as ManipulateType
+                        running = getOffset(value, unit, running)
                     }
                 }
 
@@ -83,16 +94,16 @@ const DateST = ({item, options}: FieldProps ) => {
             <div>{item.label} {item.required && <span>*</span>}</div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
-                    id={item.id}
-                    error={item.errorText !== undefined}
-                    required={item.required ?? false}
-                    name={item.name}
                     value={item.value ?? null as any}
                     onChange={onChange}
                     minDate={item.minDate ?? null as any}
                     maxDate={item.maxDate ?? null as any}
                     renderInput={(params) => <TextField
                         {...params}
+                        name={item.name}
+                        required={item.required ?? false}
+                        error={item.errorText !== undefined}
+                        id={item.id}
                         multiline={false}
                         fullWidth={true}
                         size='small'

@@ -3,6 +3,12 @@ import {Options} from "../../../Builder/Builder";
 import {dateCmp} from "./index";
 
 const DateValidate = (item: FieldItem, options: Options): boolean => {
+    const element = document.getElementById(item.id)
+    if (element === undefined) {
+        console.log('Could not find element by ID')
+    }
+    // @ts-ignore
+    item.value = document.getElementById(item.id)?.value
     item.errorText = undefined
 
     if (!isDate(item)) {
