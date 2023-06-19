@@ -55,6 +55,17 @@ export const DefaultValue: Story = {
         ]
     }
 }
+export const DefaultToday: Story = {
+    args: {
+        ...Basic.args,
+        Items: [
+            {
+                ...Basic.args.Items[0],
+                value: "today"
+            } as DateSubtype
+        ]
+    }
+}
 
 export const HelperText: Story = {
     args: {

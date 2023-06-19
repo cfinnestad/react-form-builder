@@ -6,7 +6,7 @@ import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs'
 import {LocalizationProvider, DatePicker} from '@mui/x-date-pickers';
 import dayjs, {ManipulateType} from 'dayjs'
 
-const offsetDays = {
+const offsetUnits = {
     DateOffsetDays: "d",
     DateOffsetMonths: "M",
     DateOffsetYears: "y"
@@ -15,11 +15,18 @@ const offsets = [
     'min',
     'max',
 ]
+
+const today = () => {
+    return dateFormat(dayjs())
+}
+
 const DateST = ({item, options}: FieldProps ) => {
 
     if (!isDate(item) ) {
         return <></>
     }
+
+    if (item.value === "today") item.value = today()
 
     const onChange = (value: string | null) => {
         const itm = {...item} as DateSubtype
@@ -46,41 +53,25 @@ const DateST = ({item, options}: FieldProps ) => {
                 if (offset < 0) return dateFormat(dayjs(start).subtract(-offset, unit))
                 else return dateFormat(dayjs(start).add(offset, unit))
             }
-            const today = () => {
-                return dateFormat(dayjs())
-            }
-
-            // let offsets = {
-            //     min: {
-            //         DateOffsetDays: "d",
-            //         DateOffsetMonths: "M",
-            //         DateOffsetYears: "y"
-            //     },
-            //     max: {
-            //         DateOffsetDays: "d",
-            //         DateOffsetMonths: "M",
-            //         DateOffsetYears: "y"
-            //     }
-            // } as Offsets
 
             for (const group in offsets) {
                 let running = undefined
 
                 // cumulatively apply all offsets from each group
-                for (const type in offsetDays) {
-                    const key = group + type as keyof DateSubtype
+                for (const type in offsetUnits) {
+                    const key = offsets[group] + type as keyof DateSubtype
                     const value = itm[key]
                     if (typeof value === 'number') {
-                        let unit = offsetDays[type as keyof typeof offsetDays] as ManipulateType
+                        let unit = offsetUnits[type as keyof typeof offsetUnits] as ManipulateType
                         running = getOffset(value, unit, running)
                     }
                 }
 
                 // set min or max if the offsets are narrower
                 if (running) {
-                    if (group === "min" && (!itm.minDate || dateCmp(running, itm.minDate, "isAfter")))
+                    if (offsets[group] === "min" && (!itm.minDate || dateCmp(running, itm.minDate, "isAfter")))
                         itm.minDate = running
-                    else if (group === "max" && (!itm.maxDate || dateCmp(running, itm.maxDate, "isBefore")))
+                    else if (offsets[group] === "max" && (!itm.maxDate || dateCmp(running, itm.maxDate, "isBefore")))
                         itm.maxDate = running
                 }
             }
