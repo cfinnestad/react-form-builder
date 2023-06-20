@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Render from '../../../Render/Render';
-import {CheckboxSubtype, EqFilter} from "../../Items";
+import {CheckboxSubtype, EqFilter, SubmitItem} from "../../Items";
 import {Submit} from "../../../Render/StoriesSubmit";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -41,11 +41,18 @@ export const Basic: Story = {
                     { label: 'Option 2' },
                     { label: 'Option 3' }
                 ]
-            } as CheckboxSubtype
+            } as CheckboxSubtype,
+            {
+                type: 'Submit',
+                id: 'submit1',
+                label: 'Submit',
+                submitElementName: 'default'
+            } as SubmitItem
         ],
-        Submit: Submit,
         Options: {
-            returnType: 'flatobject'
+            submitElements: {
+                'default': Submit
+            }
         }
     }
 }
@@ -62,7 +69,10 @@ export const HelperText: Story = {
                     { label: 'Option 2' },
                     { label: 'Option 3' }
                 ]
-            } as CheckboxSubtype
+            } as CheckboxSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ]
     }
 }
@@ -75,7 +85,10 @@ export const Required: Story = {
                 ...Basic.args.Items[0],
                 helperText: 'Note the asterisk by the label',
                 required: true,
-            } as CheckboxSubtype
+            } as CheckboxSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ]
     }
 }
@@ -87,7 +100,11 @@ export const inline: Story = {
             {
                 ...Basic.args.Items[0],
                 inLine: true,
-            } as CheckboxSubtype
+            } as CheckboxSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
+
         ]
     }
 }
@@ -105,7 +122,10 @@ export const DefaultOptionSelected: Story = {
                     { label: 'Option 3', selected: true },
                     { label: 'Option 4' }
                 ]
-            } as CheckboxSubtype
+            } as CheckboxSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ]
     }
 }
@@ -124,7 +144,10 @@ export const DefaultOptionsSelected: Story = {
                     { label: 'Option 3' },
                     { label: 'Option 4', selected: true },
                 ]
-            } as CheckboxSubtype
+            } as CheckboxSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ]
     }
 }
@@ -151,7 +174,10 @@ export const filter: Story = {
                     fieldId: "checkbox1",
                     value: "Option 2"
                 } as EqFilter
-            } as CheckboxSubtype
+            } as CheckboxSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ]
     }
 }

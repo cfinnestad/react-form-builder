@@ -8,7 +8,7 @@ const DateValidate = (item: FieldItem, options: Options): boolean => {
         console.log('Could not find element by ID')
     }
     // @ts-ignore
-    item.value = document.getElementById(item.id)?.value
+    if (!item.value) item.value = document.getElementById(item.id)?.value
     item.errorText = undefined
 
     if (!isDate(item)) {

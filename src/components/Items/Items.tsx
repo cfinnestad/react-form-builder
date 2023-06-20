@@ -111,6 +111,12 @@ export type HTMLItem = BaseItem & {
     content: string,
 }
 
+export type SubmitItem = BaseItem & {
+    type: 'Submit',
+    submitElementName?: string,
+    label?: string
+}
+
 export type GroupItem = NamedItem & {
     type: 'Group',
     label: string,
@@ -234,12 +240,14 @@ export type BaseItemProps = {
 export type FieldProps = BaseItemProps & { item: FieldItem }
 export type GroupProps = BaseItemProps & { item: GroupItem }
 export type HTMLProps = BaseItemProps & { item: HTMLItem }
+export type SubmitProps = BaseItemProps & { item: SubmitItem }
 export type HiddenProps = BaseItemProps & { item: HiddenItem }
 export type ItemProps =
     | BaseItemProps
     | GroupProps
     | HiddenProps
     | HTMLProps
+    | SubmitProps
     | FieldProps
 
 
@@ -247,6 +255,7 @@ export function isGroup(item: AnyItem): item is GroupItem { return item.type ===
 export function isHidden(item: AnyItem): item is HiddenItem { return item.type === "Hidden" }
 export function isField(item: AnyItem): item is FieldItem { return item.type === "Field" }
 export function isHtml(item: AnyItem): item is HTMLItem { return item.type === "HTML" }
+export function isSubmit(item: AnyItem): item is SubmitItem { return item.type === 'Submit' }
 export function isSelect(item: AnyItem): item is SelectSubtype { return isField(item) && item.subtype === "Select"}
 export function isRadio(item: AnyItem): item is RadioSubtype { return isField(item) && item.subtype === "Radio"}
 export function isCheckbox(item: AnyItem): item is CheckboxSubtype { return isField(item) && item.subtype === "Checkbox"}

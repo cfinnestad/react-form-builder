@@ -1,5 +1,5 @@
 import React from "react";
-import {FieldItem, GroupItem, HiddenItem, HTMLItem, ItemType} from "./Items";
+import {FieldItem, GroupItem, HiddenItem, HTMLItem, ItemType, SubmitItem} from "./Items";
 import Field from "./Field/Field";
 import FieldEdit from "./Field/FieldEdit";
 import Hidden from "./Hidden/Hidden"
@@ -8,6 +8,8 @@ import {ItemGroupEdit} from "./Group";
 import ItemGroup from "./Group/ItemGroup";
 import Html from "./Html/Html";
 import HtmlEdit from "./Html/HtmlEdit";
+import Submit from "./Submit";
+import SubmitEdit from "./Submit/SubmitEdit";
 
 
 export type AllowedItems = {
@@ -47,6 +49,16 @@ const DefaultItems = (): AllowedItems => {
             }  as HTMLItem,
             ItemFC: Html,
             EditFC: HtmlEdit
+        },
+        Submit: {
+            Item: {
+                id: 'Submit',
+                type: 'Submit',
+                name: 'Submit-1',
+                submitElementName: 'default'
+            } as SubmitItem,
+            ItemFC: Submit,
+            EditFC: SubmitEdit
         },
         Group: {
             Item: {

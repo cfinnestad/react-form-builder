@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import {BooleanSubtype, EqFilter} from "../../Items";
+import {BooleanSubtype, EqFilter, SubmitItem} from "../../Items";
 import {Submit} from "../../../Render/StoriesSubmit";
 import {Render} from "../../../index";
 
@@ -35,11 +35,18 @@ export const Basic: Story = {
                 id: 'boolean1',
                 name: 'boolean1',
                 label: 'Boolean',
-            } as BooleanSubtype
+            } as BooleanSubtype,
+            {
+                type: 'Submit',
+                id: 'submit1',
+                label: 'Submit',
+                submitElementName: 'default'
+            } as SubmitItem
         ],
-        Submit: Submit,
         Options: {
-            returnType: 'flatobject'
+            submitElements: {
+                'default': Submit
+            }
         }
     }
 }
@@ -51,7 +58,10 @@ export const DefaultValue: Story = {
             {
                 ...Basic.args.Items[0],
                 value: true
-            } as BooleanSubtype
+            } as BooleanSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ]
     }
 }
@@ -63,7 +73,10 @@ export const HelperText: Story = {
             {
                 ...Basic.args.Items[0],
                 helperText: 'Helper Text'
-            } as BooleanSubtype
+            } as BooleanSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ]
     }
 }
@@ -75,7 +88,10 @@ export const Required: Story = {
             {
                 ...Basic.args.Items[0],
                 required: true,
-            } as BooleanSubtype
+            } as BooleanSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
@@ -96,7 +112,10 @@ export const Filter: Story = {
                     comparison: '=',
                     fieldId: 'boolean1'
                 } as EqFilter
-            } as BooleanSubtype
+            } as BooleanSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }

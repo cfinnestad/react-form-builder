@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import {EqFilter, DateSubtype} from "../../Items";
+import {EqFilter, DateSubtype, SubmitItem} from "../../Items";
 import {Render} from "../../../index";
 import {Submit} from "../../../Render/StoriesSubmit";
 
@@ -35,11 +35,18 @@ export const Basic: Story = {
                 id: 'date1',
                 name: 'date1',
                 label: 'Date 1'
-            } as DateSubtype
+            } as DateSubtype,
+            {
+                type: 'Submit',
+                id: 'submit1',
+                label: 'Submit',
+                submitElementName: 'default'
+            } as SubmitItem
         ],
-        Submit: Submit,
         Options: {
-            returnType: 'flatobject'
+            submitElements: {
+                'default': Submit
+            }
         }
     }
 }
@@ -51,6 +58,20 @@ export const DefaultValue: Story = {
             {
                 ...Basic.args.Items[0],
                 value: "06/06/2023"
+            } as DateSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
+        ]
+    }
+}
+export const DefaultToday: Story = {
+    args: {
+        ...Basic.args,
+        Items: [
+            {
+                ...Basic.args.Items[0],
+                value: "today"
             } as DateSubtype
         ]
     }
@@ -63,7 +84,10 @@ export const HelperText: Story = {
             {
                 ...Basic.args.Items[0],
                 helperText: 'Helper Text'
-            } as DateSubtype
+            } as DateSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ]
     }
 }
@@ -75,7 +99,10 @@ export const Required: Story = {
             {
                 ...Basic.args.Items[0],
                 required: true
-            } as DateSubtype
+            } as DateSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
@@ -87,29 +114,40 @@ export const MinDate: Story = {
             {
                 ...Basic.args.Items[0],
                 minDate: "06/02/2023"
-            } as DateSubtype
+            } as DateSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
 export const MaxDate: Story = {
     args: {
-        ...Basic.args,Items: [
+        ...Basic.args,
+        Items: [
             {
                 ...Basic.args.Items[0],
                 maxDate: "06/07/2023"
-            } as DateSubtype
+            } as DateSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
 
 export const MinAndMaxDate: Story = {
     args: {
-        ...Basic.args,Items: [
+        ...Basic.args,
+        Items: [
             {
                 ...Basic.args.Items[0],
                 minDate: "06/04/2023",
                 maxDate: "06/08/2023"
-            } as DateSubtype
+            } as DateSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
@@ -122,7 +160,10 @@ export const MinDateOffsetDays: Story = {
                 ...Basic.args.Items[0],
                 minDateOffsetDays: 2,
                 helperText: '2 days from now or later'
-            } as DateSubtype
+            } as DateSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
@@ -134,7 +175,10 @@ export const MaxDateOffsetDays: Story = {
                 ...Basic.args.Items[0],
                 maxDateOffsetDays: -3,
                 helperText: '3 days before now or earlier'
-            } as DateSubtype
+            } as DateSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
@@ -147,7 +191,10 @@ export const MinDateOffsetMonths: Story = {
                 ...Basic.args.Items[0],
                 minDateOffsetMonths: -1,
                 helperText: '1 month before now or later'
-            } as DateSubtype
+            } as DateSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
@@ -159,7 +206,10 @@ export const MaxDateOffsetMonths: Story = {
                 ...Basic.args.Items[0],
                 maxDateOffsetMonths: 4,
                 helperText: '4 months from now or earlier'
-            } as DateSubtype
+            } as DateSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
@@ -172,7 +222,10 @@ export const MinDateOffsetYears: Story = {
                 ...Basic.args.Items[0],
                 minDateOffsetYears: 2,
                 helperText: '2 years from now or later'
-            } as DateSubtype
+            } as DateSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
@@ -184,27 +237,35 @@ export const MaxDateOffsetYears: Story = {
                 ...Basic.args.Items[0],
                 maxDateOffsetYears: -1,
                 helperText: '1 year before now or earlier'
-            } as DateSubtype
+            } as DateSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
 
 export const MinAndMaxAndOffsets: Story = {
     args: {
-        ...Basic.args,Items: [
+        ...Basic.args,
+        Items: [
             {
                 ...Basic.args.Items[0],
                 minDate: "06/02/2022",
                 maxDate: "06/18/2023",
                 minDateOffsetDays: -3,
                 maxDateOffsetDays: 3
-            } as DateSubtype
+            } as DateSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
 export const MultipleOffsets: Story = {
     args: {
-        ...Basic.args,Items: [
+        ...Basic.args,
+        Items: [
             {
                 ...Basic.args.Items[0],
                 minDateOffsetDays: -3,
@@ -213,7 +274,10 @@ export const MultipleOffsets: Story = {
                 maxDateOffsetMonths: 2,
                 minDateOffsetYears: -1,
                 maxDateOffsetYears: 1
-            } as DateSubtype
+            } as DateSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
@@ -236,7 +300,10 @@ export const Filter: Story = {
                     fieldId: 'date1',
                     value: "06/06/2023"
                 } as EqFilter
-            } as DateSubtype
+            } as DateSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
