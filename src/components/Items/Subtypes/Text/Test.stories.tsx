@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import {EqFilter, TextSubtype} from "../../Items";
+import {EqFilter, SubmitItem, TextSubtype} from "../../Items";
 import {Render} from "../../../index";
 import {Submit} from "../../../Render/StoriesSubmit";
 
@@ -35,11 +35,18 @@ export const Basic: Story = {
                 id: 'text1',
                 name: 'text1',
                 label: 'Text 1'
-            } as TextSubtype
+            } as TextSubtype,
+            {
+                type: 'Submit',
+                id: 'submit1',
+                label: 'Submit',
+                submitElementName: 'default'
+            } as SubmitItem
         ],
-        Submit: Submit,
         Options: {
-            returnType: 'flatobject'
+            submitElements: {
+                'default': Submit
+            }
         }
     }
 }
@@ -51,7 +58,10 @@ export const DefaultValue: Story = {
             {
                 ...Basic.args.Items[0],
                 value: 'This'
-            } as TextSubtype
+            } as TextSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ]
     }
 }
@@ -63,7 +73,10 @@ export const HelperText: Story = {
             {
                 ...Basic.args.Items[0],
                 helperText: 'Helper Text'
-            } as TextSubtype
+            } as TextSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ]
     }
 }
@@ -75,18 +88,25 @@ export const MinLength: Story = {
             {
                 ...Basic.args.Items[0],
                 minLength: 2
-            } as TextSubtype
+            } as TextSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
 
 export const MaxLength: Story = {
     args: {
-        ...Basic.args,Items: [
+        ...Basic.args,
+        Items: [
             {
                 ...Basic.args.Items[0],
                 maxLength: 4,
-            } as TextSubtype
+            } as TextSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
@@ -98,7 +118,10 @@ export const Required: Story = {
             {
                 ...Basic.args.Items[0],
                 required: true,
-            } as TextSubtype
+            } as TextSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
@@ -120,7 +143,10 @@ export const Filter: Story = {
                     fieldId: 'text1',
                     value: 'show'
                 } as EqFilter
-            } as TextSubtype
+            } as TextSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }

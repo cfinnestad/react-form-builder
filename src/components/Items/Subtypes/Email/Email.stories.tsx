@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import {EmailSubtype, EqFilter, RadioSubtype} from "../../Items";
+import {EmailSubtype, EqFilter, RadioSubtype, SubmitItem} from "../../Items";
 import {Submit} from "../../../Render/StoriesSubmit";
 import {Render} from "../../../index";
 
@@ -35,11 +35,18 @@ export const Basic: Story = {
                 id: 'email1',
                 name: 'email1',
                 label: 'Email',
-            } as EmailSubtype
+            } as EmailSubtype,
+            {
+                type: 'Submit',
+                id: 'submit1',
+                label: 'Submit',
+                submitElementName: 'default'
+            } as SubmitItem
         ],
-        Submit: Submit,
         Options: {
-            returnType: 'flatobject'
+            submitElements: {
+                'default': Submit
+            }
         }
     }
 }
@@ -51,7 +58,10 @@ export const DefaultValue: Story = {
             {
                 ...Basic.args.Items[0],
                 value: 'test@test.com'
-            } as EmailSubtype
+            } as EmailSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ]
     }
 }
@@ -63,18 +73,25 @@ export const HelperText: Story = {
             {
                 ...Basic.args.Items[0],
                 helperText: 'Helper Text'
-            } as EmailSubtype
+            } as EmailSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ]
     }
 }
 
 export const MaxLength: Story = {
     args: {
-        ...Basic.args,Items: [
+        ...Basic.args,
+        Items: [
             {
                 ...Basic.args.Items[0],
                 maxLength: 4,
-            } as EmailSubtype
+            } as EmailSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
@@ -86,7 +103,10 @@ export const Required: Story = {
             {
                 ...Basic.args.Items[0],
                 required: true,
-            } as EmailSubtype
+            } as EmailSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
@@ -112,7 +132,10 @@ export const Filter: Story = {
                     fieldId: 'radio1',
                     value: 'Show'
                 } as EqFilter
-            } as EmailSubtype
+            } as EmailSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }

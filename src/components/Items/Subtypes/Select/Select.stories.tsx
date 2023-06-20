@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Render from '../../../Render/Render';
-import { EqFilter, SelectSubtype } from "../../Items";
+import {EqFilter, HTMLItem, SelectSubtype, SubmitItem} from "../../Items";
 import { Submit } from "../../../Render/StoriesSubmit";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -51,11 +51,18 @@ export const Basic: Story = {
                     comparison: '=',
                     value: 'Option 2' // test for second item in options list
                 } as EqFilter
-            }
+            } as HTMLItem,
+            {
+                type: 'Submit',
+                id: 'submit1',
+                label: 'Submit',
+                submitElementName: 'default'
+            } as SubmitItem
         ],
-        Submit: Submit,
         Options: {
-            returnType: 'flatobject'
+            submitElements: {
+                'default': Submit
+            }
         }
     }
 }
@@ -86,6 +93,9 @@ export const HelperText: Story = {
                     comparison: '=',
                     value: 'Option 2'
                 } as EqFilter
+            } as HTMLItem,
+            {
+                ...Basic.args.Items[2]
             }
         ]
     }
@@ -118,6 +128,9 @@ export const Required: Story = {
                     comparison: '=',
                     value: 'Option 2'
                 } as EqFilter
+            } as HTMLItem,
+            {
+                ...Basic.args.Items[2]
             }
         ]
     }
@@ -150,6 +163,9 @@ export const DefaultOptionSelected: Story = {
                     comparison: '=',
                     value: 'Option 2'
                 } as EqFilter
+            } as HTMLItem,
+            {
+                ...Basic.args.Items[2]
             }
         ]
     }
@@ -186,6 +202,9 @@ export const SelectMultipleOptions: Story = {
                     comparison: '=',
                     value: 'Option 2'
                 } as EqFilter
+            } as HTMLItem,
+            {
+                ...Basic.args.Items[2]
             }
         ]
     }
@@ -222,6 +241,9 @@ export const DefaultOptionsSelected: Story = {
                     comparison: '=',
                     value: 'Option 2'
                 } as EqFilter
+            } as HTMLItem,
+            {
+                ...Basic.args.Items[2]
             }
         ]
     }

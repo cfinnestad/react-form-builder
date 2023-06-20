@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Render from '../../../Render/Render';
-import {EqFilter, RadioSubtype} from "../../Items";
+import {EqFilter, RadioSubtype, SubmitItem} from "../../Items";
 import {Submit} from "../../../Render/StoriesSubmit";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -41,11 +41,18 @@ export const Basic: Story = {
                     { label: 'Option 2' },
                     { label: 'Option 3' }
                 ]
-            } as RadioSubtype
+            } as RadioSubtype,
+            {
+                type: 'Submit',
+                id: 'submit1',
+                label: 'Submit',
+                submitElementName: 'default'
+            } as SubmitItem
         ],
-        Submit: Submit,
         Options: {
-            returnType: 'flatobject'
+            submitElements: {
+                'default': Submit
+            }
         }
     }
 }
@@ -57,7 +64,10 @@ export const HelperText: Story = {
             {
                 ...Basic.args.Items[0],
                 helperText: 'Helper text to describe your field',
-            } as RadioSubtype
+            } as RadioSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ]
     }
 }
@@ -69,7 +79,10 @@ export const Required: Story = {
             {
                 ...Basic.args.Items[0],
                 required: true,
-            } as RadioSubtype
+            } as RadioSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ]
     }
 }
@@ -81,7 +94,10 @@ export const inline: Story = {
             {
                 ...Basic.args.Items[0],
                 inLine: true,
-            } as RadioSubtype
+            } as RadioSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ]
     }
 }
@@ -100,7 +116,10 @@ export const DefaultOptionSelected: Story = {
                     { label: 'Option 3', selected: true },
                     { label: 'Option 4' }
                 ]
-            } as RadioSubtype
+            } as RadioSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ]
     }
 }
@@ -128,7 +147,10 @@ export const filter: Story = {
                     fieldId: "radio1",
                     value: "Option 2"
                 } as EqFilter
-            } as RadioSubtype
+            } as RadioSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ]
     }
 }

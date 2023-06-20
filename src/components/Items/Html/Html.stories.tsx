@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import {BooleanSubtype, EqFilter, HTMLItem} from "../Items";
+import {BooleanSubtype, EqFilter, HTMLItem, SubmitItem} from "../Items";
 import {Submit} from "../../Render/StoriesSubmit";
 import {Render} from "../../index";
 
@@ -32,11 +32,18 @@ export const Basic: Story = {
                 type: 'HTML',
                 id: 'html1',
                 content: '<h2>My Content</h2>'
-            } as HTMLItem
+            } as HTMLItem,
+            {
+                type: 'Submit',
+                id: 'submit1',
+                label: 'Submit',
+                submitElementName: 'default'
+            } as SubmitItem
         ],
-        Submit: Submit,
         Options: {
-            returnType: 'flatobject'
+            submitElements: {
+                'default': Submit
+            }
         }
     }
 }
@@ -59,7 +66,13 @@ export const Filter: Story = {
                     fieldId: 'boolean1',
                     value: true
                 } as EqFilter
-            } as HTMLItem
+            } as HTMLItem,
+            {
+                type: 'Submit',
+                id: 'submit1',
+                label: 'Submit',
+                submitElementName: 'default'
+            } as SubmitItem
         ],
     }
 }
