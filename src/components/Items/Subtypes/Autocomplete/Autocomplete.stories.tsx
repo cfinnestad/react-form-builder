@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from "react";
 import {AutocompleteSubtype, Option, SubmitItem} from "../../Items";
-import Render from "../../../Render/Render";
+import Render, {RenderOptions} from "../../../Render/Render";
 import {Submit} from "../../../Render/StoriesSubmit";
 import {faker} from "@faker-js/faker";
 
@@ -34,7 +34,7 @@ export const Basic: Story = {
             {
                 type: 'Field',
                 subtype: 'Autocomplete',
-                id: 'autocompleteCitiesId',
+                id: 'autocompleteBasicId',
                 name: 'autocompleteCitiesName',
                 searchableOptionsName: 'exampleCities',
                 // Defaults to use searchableOptionsName
@@ -70,36 +70,31 @@ export const Basic: Story = {
             },
             submitElements: {
                 'default': Submit
-            }
+            } as RenderOptions
         }
     }
 }
 
-// export const AllowAnyInput: Story = {
-//     args: {
-//         Items: [
-//             {
-//                 type: 'Field',
-//                 subtype: 'Autocomplete',
-//                 id: 'autocompleteTestId',
-//                 name: 'autocompleteTestName',
-//                 searchableOptionsName: 'exampleCities',
-//                 allowAnyInput: true,
-//                 label: 'Service City',
-//                 value: undefined,
-//             } as AutocompleteSubtype
-//         ],
-//         Submit: Submit,
-//         Options: {
-//             searchableOptions: {
-//                 exampleCities: (input) => input != null
-//                     ? exampleCities.filter(city => city.value?.toLowerCase().includes(input))
-//                     : []
-//             },
-//             returnType: 'flatobject'
-//         }
-//     }
-// }
+export const AllowAnyInput: Story = {
+    args: {
+        ...Basic.args,
+        Items: [
+            {
+                type: 'Field',
+                subtype: 'Autocomplete',
+                id: 'autocompleteAnyInput',
+                name: 'autocompleteTestName',
+                searchableOptionsName: 'exampleCities',
+                allowAnyInput: true,
+                label: 'Service City',
+                value: 'Testing'
+            } as AutocompleteSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
+        ]
+    }
+}
 
 export const Required: Story = {
     args: {
@@ -108,7 +103,7 @@ export const Required: Story = {
             {
                 type: 'Field',
                 subtype: 'Autocomplete',
-                id: 'autocompleteTestId',
+                id: 'autocompleteRequiredId',
                 name: 'autocompleteTestName',
                 searchableOptionsName: 'exampleCities',
                 label: 'Example Cities - Required',
