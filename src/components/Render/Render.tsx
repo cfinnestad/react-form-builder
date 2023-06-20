@@ -10,18 +10,12 @@ import Errors, {ErrorType, GetError} from "../Errors/Errors";
 import {List, ListItem, Stack, ThemeProvider} from "@mui/material";
 import {Theme, useTheme} from "@mui/material/styles";
 import GetValue from "../Items/GetValue";
-
-export type SubmitProps = {
-    items: AnyItem[],
-    options: Options,
-    results: Array<Object> | Object
-}
+import {SubmitButtonProps} from "../Items/Submit/Submit";
 
 export type RenderProps = {
     Items: AnyItem[],
     SetItems?: Dispatch<SetStateAction<AnyItem[]>>,
     Options: RenderOptions,
-    Submit: ( props: SubmitProps ) => JSX.Element
 }
 
 export type RenderOptions = {
@@ -30,16 +24,18 @@ export type RenderOptions = {
     AllowedSubtypes?: AllowedSubtypes,
     AdditionalSubtypes?: AllowedSubtypes,
     onSave?: (Items: AnyItem[]) => void,
-    returnType?: 'object' | 'flatobject' | 'array' | 'flatarray',
     Errors?: ErrorType,
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[]
     },
+    submitElements?: {
+        [key: string]: (props: SubmitButtonProps) => JSX.Element
+    }
     muiTheme?: Theme,
     custom?: {[key:string]: any}
 }
 
-const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
+const Render = ({ Items, SetItems, Options }: RenderProps ) => {
     const [items, setItems] = useState<AnyItem[]>(Items || [])
     const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
 
@@ -51,22 +47,13 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
         IsBuild: false,
         SetItem: setItem,
         setItems: setItems,
-        renderType: Options.returnType ?? 'array',
         getError: (error: string, item: AnyItem) => {
            return GetError(error, item, {...Errors(), ...(Options.Errors ?? {})})
         },
         muiTheme: Options.muiTheme ?? defaultTheme
     }
 
-    const [submit, setSubmit] = useState(<Submit items={ items } options={options} results={RenderedItem(items, options.renderType)} ></Submit>)
-
-    // const AllowedSubtypes: AllowedSubtypes = {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})}
-    // const AllowedItems: AllowedItems = {...(Options?.AllowedItems || DefaultItems()), ...(Options?.AdditionalItems || {})}
-
-
-
     useEffect(() => {
-        setSubmit(Submit({items: items, options: options, results: RenderedItem(items, options.renderType)} ) )
         if(SetItems) {
             SetItems(items)
         }
@@ -84,7 +71,6 @@ const Render = ({ Items, SetItems, Options, Submit}: RenderProps ) => {
                     </ListItem>
                 </List>
             </Stack>
-            { submit }
         </ThemeProvider>
     </>
 }
@@ -177,15 +163,6 @@ export const RenderedFlatArray = ( items: AnyItem[]): object[] => {
     }
 
     return result
-}
-
-const RenderedItem = ( items: AnyItem[], returnType: RenderOptions['returnType'] ): Array<Object> | Object => {
-    switch(returnType) {
-        case 'object': return RenderedObject(items);
-        case 'flatobject': return RenderedFlatObject(items);
-        case 'flatarray': return RenderedFlatArray(items);
-        default: return RenderedArray(items);
-    }
 }
 
 export default Render

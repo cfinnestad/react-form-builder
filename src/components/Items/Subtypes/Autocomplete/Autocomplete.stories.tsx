@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from "react";
-import {AutocompleteSubtype, Option} from "../../Items";
+import {AutocompleteSubtype, Option, SubmitItem} from "../../Items";
 import Render from "../../../Render/Render";
 import {Submit} from "../../../Render/StoriesSubmit";
 import {faker} from "@faker-js/faker";
@@ -54,16 +54,23 @@ export const Basic: Story = {
                 ],
                 label: 'Example Cities',
                 value: undefined,
-            } as AutocompleteSubtype
+            } as AutocompleteSubtype,
+            {
+                type: 'Submit',
+                id: 'submit1',
+                label: 'Submit',
+                submitElementName: 'default'
+            } as SubmitItem
         ],
-        Submit: Submit,
         Options: {
             searchableOptions: {
                 exampleCities: (input) => input != null
                     ? exampleCities.filter(city => city.value?.toLowerCase().includes(input))
                     : []
             },
-            returnType: 'flatobject'
+            submitElements: {
+                'default': Submit
+            }
         }
     }
 }
@@ -96,6 +103,7 @@ export const Basic: Story = {
 
 export const Required: Story = {
     args: {
+        ...Basic.args,
         Items: [
             {
                 type: 'Field',
@@ -106,22 +114,17 @@ export const Required: Story = {
                 label: 'Example Cities - Required',
                 required: true,
                 value: undefined,
-            } as AutocompleteSubtype
-        ],
-        Submit: Submit,
-        Options: {
-            searchableOptions: {
-                exampleCities: (input) => input != null
-                    ? exampleCities.filter(city => city.value?.toLowerCase().includes(input))
-                    : []
-            },
-            returnType: 'flatobject'
-        }
+            } as AutocompleteSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
+        ]
     }
 }
 
 export const WithStaticOptions: Story = {
     args: {
+        ...Basic.args,
         Items: [
             {
                 type: 'Field',
@@ -169,12 +172,11 @@ export const WithStaticOptions: Story = {
                 ],
                 label: 'Colors',
                 value: undefined,
-            } as AutocompleteSubtype
-        ],
-        Submit: Submit,
-        Options: {
-            returnType: 'flatobject'
-        }
+            } as AutocompleteSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
+        ]
     }
 }
 

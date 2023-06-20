@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import {BooleanSubtype, EqFilter, GroupItem, TextSubtype} from "../Items";
+import {BooleanSubtype, EqFilter, GroupItem, SubmitItem, TextSubtype} from "../Items";
 import {Submit} from "../../Render/StoriesSubmit";
 import {Render} from "../../index";
 
@@ -52,11 +52,18 @@ export const Basic: Story = {
                         label: 'Text',
                     } as TextSubtype
                 ]
-            } as GroupItem
+            } as GroupItem,
+            {
+                type: 'Submit',
+                id: 'submit1',
+                label: 'Submit',
+                submitElementName: 'default'
+            } as SubmitItem
         ],
-        Submit: Submit,
         Options: {
-            returnType: 'flatobject'
+            submitElements: {
+                'default': Submit
+            }
         }
     }
 }
@@ -92,7 +99,13 @@ export const Nested: Story = {
                     } as GroupItem
                 ]
 
-            } as GroupItem
+            } as GroupItem,
+            {
+                type: 'Submit',
+                id: 'submit1',
+                label: 'Submit',
+                submitElementName: 'default'
+            } as SubmitItem
         ]
     }
 }
@@ -114,7 +127,13 @@ export const Filter: Story = {
                     fieldId: 'boolean1',
                     value: true
                 } as EqFilter
-            } as GroupItem
+            } as GroupItem,
+            {
+                type: 'Submit',
+                id: 'submit1',
+                label: 'Submit',
+                submitElementName: 'default'
+            } as SubmitItem
         ],
     }
 }

@@ -13,7 +13,7 @@ import {
     TextSubtype,
     RadioSubtype,
     SelectSubtype,
-    PhoneSubtype, AutocompleteSubtype
+    PhoneSubtype, AutocompleteSubtype, SubmitItem
 } from "../Items";
 import {Submit} from "./StoriesSubmit";
 import {TestTheme} from "../../shared/themes/TestTheme";
@@ -233,12 +233,19 @@ export const Primary: Story = {
                             selected: true
                         }
                     ]
-                } as RadioSubtype
+                } as RadioSubtype,
+                {
+                    type: 'Submit',
+                    id: 'submit1',
+                    label: 'Submit',
+                    submitElementName: 'default'
+                } as SubmitItem
             ],
-        Submit: Submit,
         Options: {
-            returnType: 'flatobject',
-            muiTheme: TestTheme
+            muiTheme: TestTheme,
+            submitElements: {
+                'default': Submit
+            }
         }
     }
 }

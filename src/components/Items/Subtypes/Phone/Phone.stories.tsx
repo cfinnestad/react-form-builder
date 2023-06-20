@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import {EqFilter, PhoneSubtype} from "../../Items";
+import {EqFilter, PhoneSubtype, SubmitItem} from "../../Items";
 import {Submit} from "../../../Render/StoriesSubmit";
 import {Render} from "../../../index";
 
@@ -36,11 +36,18 @@ export const Basic: Story = {
                 label: 'Phone',
                 subtype: 'Phone',
                 placeholder: '(555) 555-5555'
-            } as PhoneSubtype
+            } as PhoneSubtype,
+            {
+                type: 'Submit',
+                id: 'submit1',
+                label: 'Submit',
+                submitElementName: 'default'
+            } as SubmitItem
         ],
-        Submit: Submit,
         Options: {
-            returnType: 'flatobject'
+            submitElements: {
+                'default': Submit
+            }
         }
     }
 }
@@ -52,7 +59,10 @@ export const HelperText: Story = {
             {
                 ...Basic.args.Items[0],
                 helperText: 'Helper Text'
-            } as PhoneSubtype
+            } as PhoneSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ]
     }
 }
@@ -64,7 +74,10 @@ export const Required: Story = {
             {
                 ...Basic.args.Items[0],
                 required: true,
-            } as PhoneSubtype
+            } as PhoneSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }
@@ -86,7 +99,10 @@ export const Filter: Story = {
                     fieldId: 'phone1',
                     value: '(555) 555-5555'
                 } as EqFilter
-            } as PhoneSubtype
+            } as PhoneSubtype,
+            {
+                ...Basic.args.Items[1]
+            }
         ],
     }
 }

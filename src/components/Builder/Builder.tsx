@@ -1,4 +1,4 @@
-import React, {Dispatch, FC, SetStateAction, useEffect, useState} from "react";
+import React, {JSX, Dispatch, FC, SetStateAction, useEffect, useState} from "react";
 import Actions, {ActionFC, ActionProps} from "../Actions/Actions";
 import DefaultItems, {AllowedItems} from "../Items/DefaultItems";
 import ShowItem from "../Items/ShowItem";
@@ -14,6 +14,7 @@ import {closestCenter, DndContext, useSensor, PointerSensor, KeyboardSensor} fro
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import Errors, {ErrorType, GetError} from "../Errors/Errors";
 import {Theme, useTheme} from "@mui/material/styles";
+import {SubmitButtonProps} from "../Render";
 
 export type BuilderOptions = {
     Actions?: ActionFC[],
@@ -39,10 +40,12 @@ export type Options = {
     setItems: Dispatch<SetStateAction<AnyItem[]>>,
     setModal?: Dispatch<SetStateAction<JSX.Element>>,
     IsBuild: boolean,
-    renderType?: 'object' | 'flatobject' | 'array' | 'flatarray',
     getError: (error: string, item: AnyItem) => string|undefined,
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[]
+    },
+    submitElements?: {
+        [key: string]: (props: SubmitButtonProps) => JSX.Element
     }
     muiTheme: Theme,
     custom?: {[key:string]: any}
