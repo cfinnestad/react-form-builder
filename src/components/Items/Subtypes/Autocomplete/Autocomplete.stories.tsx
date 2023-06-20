@@ -34,7 +34,7 @@ export const Basic: Story = {
             {
                 type: 'Field',
                 subtype: 'Autocomplete',
-                id: 'autocompleteCitiesId',
+                id: 'autocompleteBasicId',
                 name: 'autocompleteCitiesName',
                 searchableOptionsName: 'exampleCities',
                 // Defaults to use searchableOptionsName
@@ -68,31 +68,31 @@ export const Basic: Story = {
     }
 }
 
-// export const AllowAnyInput: Story = {
-//     args: {
-//         Items: [
-//             {
-//                 type: 'Field',
-//                 subtype: 'Autocomplete',
-//                 id: 'autocompleteTestId',
-//                 name: 'autocompleteTestName',
-//                 searchableOptionsName: 'exampleCities',
-//                 allowAnyInput: true,
-//                 label: 'Service City',
-//                 value: undefined,
-//             } as AutocompleteSubtype
-//         ],
-//         Submit: Submit,
-//         Options: {
-//             searchableOptions: {
-//                 exampleCities: (input) => input != null
-//                     ? exampleCities.filter(city => city.value?.toLowerCase().includes(input))
-//                     : []
-//             },
-//             returnType: 'flatobject'
-//         }
-//     }
-// }
+export const AllowAnyInput: Story = {
+    args: {
+        Items: [
+            {
+                type: 'Field',
+                subtype: 'Autocomplete',
+                id: 'autocompleteAnyInput',
+                name: 'autocompleteTestName',
+                searchableOptionsName: 'exampleCities',
+                allowAnyInput: true,
+                label: 'Service City',
+                value: 'Testing'
+            } as AutocompleteSubtype
+        ],
+        Submit: Submit,
+        Options: {
+            searchableOptions: {
+                exampleCities: (input) => input !== undefined
+                    ? exampleCities.filter(city => city.value?.toLowerCase().includes(input))
+                    : []
+            },
+            returnType: 'flatobject'
+        }
+    }
+}
 
 export const Required: Story = {
     args: {
@@ -100,19 +100,20 @@ export const Required: Story = {
             {
                 type: 'Field',
                 subtype: 'Autocomplete',
-                id: 'autocompleteTestId',
+                id: 'autocompleteRequiredId',
                 name: 'autocompleteTestName',
                 searchableOptionsName: 'exampleCities',
                 label: 'Example Cities - Required',
                 required: true,
-                value: undefined,
             } as AutocompleteSubtype
         ],
         Submit: Submit,
         Options: {
             searchableOptions: {
                 exampleCities: (input) => input != null
-                    ? exampleCities.filter(city => city.value?.toLowerCase().includes(input))
+                    ? exampleCities.filter(city => {
+                        return city.value?.toLowerCase().includes(input)
+                    })
                     : []
             },
             returnType: 'flatobject'

@@ -2,10 +2,10 @@ import {FieldItem, isAutocomplete} from "../../Items";
 import {Options} from "../../../Builder"
 
 
-const ServiceCityValidate = (item: FieldItem, options: Options): boolean => {
+const AutocompleteValidate = (item: FieldItem, options: Options): boolean => {
     const element = document.getElementById(item.id)
     if (element === undefined) {
-        console.log('Could not find element by ID')
+        console.error('Could not find element by ID')
     }
     // @ts-ignore
     item.value = document.getElementById(item.id)?.value
@@ -21,4 +21,4 @@ const ServiceCityValidate = (item: FieldItem, options: Options): boolean => {
     return !item.errorText
 }
 
-export default ServiceCityValidate
+export default AutocompleteValidate
