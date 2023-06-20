@@ -3,7 +3,7 @@ import type { StoryObj } from '@storybook/react';
 import { DateSubtype } from "../../Items";
 declare const meta: {
     title: string;
-    component: ({ Items, SetItems, Options, Submit }: import("../../../index").RenderProps) => React.JSX.Element;
+    component: ({ Items, SetItems, Options }: import("../../../index").RenderProps) => React.JSX.Element;
     tags: string[];
     argTypes: {
         Items: DateSubtype[];
@@ -13,6 +13,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 export declare const Basic: Story;
 export declare const DefaultValue: Story;
+export declare const DefaultToday: Story;
 export declare const HelperText: Story;
 export declare const Required: Story;
 export declare const MinDate: Story;

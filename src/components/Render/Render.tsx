@@ -10,7 +10,7 @@ import Errors, {ErrorType, GetError} from "../Errors/Errors";
 import {List, ListItem, Stack, ThemeProvider} from "@mui/material";
 import {Theme, useTheme} from "@mui/material/styles";
 import GetValue from "../Items/GetValue";
-import {SubmitButtonProps} from "../Items/Submit/Submit";
+import {SubmitButtonProps} from "../Items";
 
 export type RenderProps = {
     Items: AnyItem[],

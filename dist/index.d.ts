@@ -1,4 +1,4 @@
-import React, { JSX as JSX$1, FC, Dispatch, SetStateAction } from 'react';
+import { JSX, FC, Dispatch, SetStateAction } from 'react';
 import { Theme } from '@mui/material/styles';
 
 declare const validateItem: (Item: object, index: number) => string[];
@@ -81,6 +81,11 @@ type HiddenItem = NamedItem & {
 type HTMLItem = BaseItem & {
     type: 'HTML';
     content: string;
+};
+type SubmitItem = BaseItem & {
+    type: 'Submit';
+    submitElementName?: string;
+    label?: string;
 };
 type GroupItem = NamedItem & {
     type: 'Group';
@@ -167,13 +172,13 @@ type BooleanSubtype = FieldItem & {
 type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype | AutocompleteSubtype;
 type ItemType = {
     Item: AnyItem;
-    ItemFC: (props: ItemProps) => JSX$1.Element;
-    EditFC: (props: ItemProps) => JSX$1.Element;
+    ItemFC: (props: ItemProps) => JSX.Element;
+    EditFC: (props: ItemProps) => JSX.Element;
 };
 type FieldType = {
     Subtype: FieldItem;
-    SubtypeFC: (props: FieldProps) => JSX$1.Element;
-    EditFC: (props: FieldProps) => JSX$1.Element;
+    SubtypeFC: (props: FieldProps) => JSX.Element;
+    EditFC: (props: FieldProps) => JSX.Element;
     ValidateFC?: (item: FieldItem, options: Options) => boolean;
 };
 type BaseItemProps = {
@@ -190,14 +195,18 @@ type GroupProps = BaseItemProps & {
 type HTMLProps = BaseItemProps & {
     item: HTMLItem;
 };
+type SubmitProps = BaseItemProps & {
+    item: SubmitItem;
+};
 type HiddenProps = BaseItemProps & {
     item: HiddenItem;
 };
-type ItemProps = BaseItemProps | GroupProps | HiddenProps | HTMLProps | FieldProps;
+type ItemProps = BaseItemProps | GroupProps | HiddenProps | HTMLProps | SubmitProps | FieldProps;
 declare function isGroup(item: AnyItem): item is GroupItem;
 declare function isHidden(item: AnyItem): item is HiddenItem;
 declare function isField(item: AnyItem): item is FieldItem;
 declare function isHtml(item: AnyItem): item is HTMLItem;
+declare function isSubmit(item: AnyItem): item is SubmitItem;
 declare function isSelect(item: AnyItem): item is SelectSubtype;
 declare function isRadio(item: AnyItem): item is RadioSubtype;
 declare function isCheckbox(item: AnyItem): item is CheckboxSubtype;
@@ -224,6 +233,13 @@ declare const ValidateFields: (items: AnyItem[], options: Options) => boolean;
 declare const GetItem: (id: string | number, items: AnyItem[]) => FieldItem | HiddenItem | undefined;
 
 declare const SetItem: (item: AnyItem, items: AnyItem[]) => AnyItem[];
+
+type SubmitButtonProps = {
+    items: AnyItem[];
+    options: Options;
+    label?: string;
+};
+type SubmitButtonElement = (props: SubmitButtonProps) => JSX.Element;
 
 type AllowedSubtypes = {
     [key: string]: FieldType;
@@ -257,10 +273,12 @@ type Options = {
     setItems: Dispatch<SetStateAction<AnyItem[]>>;
     setModal?: Dispatch<SetStateAction<JSX.Element>>;
     IsBuild: boolean;
-    renderType?: 'object' | 'flatobject' | 'array' | 'flatarray';
     getError: (error: string, item: AnyItem) => string | undefined;
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
+    };
+    submitElements?: {
+        [key: string]: (props: SubmitButtonProps) => JSX.Element;
     };
     muiTheme: Theme;
     custom?: {
@@ -279,18 +297,12 @@ type BuilderProps = {
         [key: string]: any;
     };
 };
-declare const Builder: ({ Items, SetItems, Options }: BuilderProps) => React.JSX.Element;
+declare const Builder: ({ Items, SetItems, Options }: BuilderProps) => JSX.Element;
 
-type SubmitProps = {
-    items: AnyItem[];
-    options: Options;
-    results: Array<Object> | Object;
-};
 type RenderProps = {
     Items: AnyItem[];
     SetItems?: Dispatch<SetStateAction<AnyItem[]>>;
     Options: RenderOptions;
-    Submit: (props: SubmitProps) => JSX$1.Element;
 };
 type RenderOptions = {
     AllowedItems?: AllowedItems;
@@ -298,20 +310,22 @@ type RenderOptions = {
     AllowedSubtypes?: AllowedSubtypes;
     AdditionalSubtypes?: AllowedSubtypes;
     onSave?: (Items: AnyItem[]) => void;
-    returnType?: 'object' | 'flatobject' | 'array' | 'flatarray';
     Errors?: ErrorType;
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
+    };
+    submitElements?: {
+        [key: string]: (props: SubmitButtonProps) => JSX.Element;
     };
     muiTheme?: Theme;
     custom?: {
         [key: string]: any;
     };
 };
-declare const Render: ({ Items, SetItems, Options, Submit }: RenderProps) => JSX$1.Element;
+declare const Render: ({ Items, SetItems, Options }: RenderProps) => JSX.Element;
 declare const RenderedObject: (items: AnyItem[]) => {};
 declare const RenderedFlatObject: (items: AnyItem[]) => {};
 declare const RenderedArray: (items: AnyItem[]) => {} | [];
 declare const RenderedFlatArray: (items: AnyItem[]) => object[];
 
-export { AndFilter, AnyItem, AutocompleteSubtype, BaseItem, BaseItemProps, BooleanSubtype, Builder, BuilderOptions, BuilderProps, CheckboxSubtype, DateSubtype, EmailSubtype, EqFilter, ErrorType, Errors, FieldFilter, FieldItem, FieldProps, FieldType, FilterType, GetItem, GroupItem, GroupProps, GtFilter, GteFilter, HTMLItem, HTMLProps, HiddenItem, HiddenProps, InFilter, ItemProps, ItemType, LtFilter, LteFilter, NamedItem, NotFilter, NumberSubtype, Option, OptionSubtype, Options, OrFilter, PhoneSubtype, RadioSubtype, Render, RenderOptions, RenderProps, RenderedArray, RenderedFlatArray, RenderedFlatObject, RenderedObject, SelectSubtype, SetItem, SubmitProps, TextSubtype, ValidateFields, isAndFilter, isAutocomplete, isBoolean, isCheckbox, isDate, isEmail, isEqFilter, isField, isFieldFilter, isGroup, isGtFilter, isGteFilter, isHidden, isHtml, isInFilter, isLtFilter, isLteFilter, isNotFilter, isNumber, isOrFilter, isPhone, isRadio, isSelect, isText, validateItem };
+export { AndFilter, AnyItem, AutocompleteSubtype, BaseItem, BaseItemProps, BooleanSubtype, Builder, BuilderOptions, BuilderProps, CheckboxSubtype, DateSubtype, EmailSubtype, EqFilter, ErrorType, Errors, FieldFilter, FieldItem, FieldProps, FieldType, FilterType, GetItem, GroupItem, GroupProps, GtFilter, GteFilter, HTMLItem, HTMLProps, HiddenItem, HiddenProps, InFilter, ItemProps, ItemType, LtFilter, LteFilter, NamedItem, NotFilter, NumberSubtype, Option, OptionSubtype, Options, OrFilter, PhoneSubtype, RadioSubtype, Render, RenderOptions, RenderProps, RenderedArray, RenderedFlatArray, RenderedFlatObject, RenderedObject, SelectSubtype, SetItem, SubmitButtonElement, SubmitButtonProps, SubmitItem, SubmitProps, TextSubtype, ValidateFields, isAndFilter, isAutocomplete, isBoolean, isCheckbox, isDate, isEmail, isEqFilter, isField, isFieldFilter, isGroup, isGtFilter, isGteFilter, isHidden, isHtml, isInFilter, isLtFilter, isLteFilter, isNotFilter, isNumber, isOrFilter, isPhone, isRadio, isSelect, isSubmit, isText, validateItem };

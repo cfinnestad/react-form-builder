@@ -3,7 +3,7 @@ import type { StoryObj } from '@storybook/react';
 import { RadioSubtype } from "../../Items";
 declare const meta: {
     title: string;
-    component: ({ Items, SetItems, Options, Submit }: import("../../../Render/Render").RenderProps) => React.JSX.Element;
+    component: ({ Items, SetItems, Options }: import("../../../Render/Render").RenderProps) => React.JSX.Element;
     tags: string[];
     argTypes: {
         Items: RadioSubtype[];

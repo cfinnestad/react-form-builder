@@ -1,20 +1,14 @@
 import { Dispatch, SetStateAction, JSX } from 'react';
 import { AnyItem, Option } from "../Items";
-import { Options } from '../Builder';
 import { AllowedItems } from "../Items/DefaultItems";
 import { AllowedSubtypes } from "../Items/Subtypes/DefaultSubTypes";
 import { ErrorType } from "../Errors/Errors";
 import { Theme } from "@mui/material/styles";
-export type SubmitProps = {
-    items: AnyItem[];
-    options: Options;
-    results: Array<Object> | Object;
-};
+import { SubmitButtonProps } from "../Items";
 export type RenderProps = {
     Items: AnyItem[];
     SetItems?: Dispatch<SetStateAction<AnyItem[]>>;
     Options: RenderOptions;
-    Submit: (props: SubmitProps) => JSX.Element;
 };
 export type RenderOptions = {
     AllowedItems?: AllowedItems;
@@ -22,17 +16,19 @@ export type RenderOptions = {
     AllowedSubtypes?: AllowedSubtypes;
     AdditionalSubtypes?: AllowedSubtypes;
     onSave?: (Items: AnyItem[]) => void;
-    returnType?: 'object' | 'flatobject' | 'array' | 'flatarray';
     Errors?: ErrorType;
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
+    };
+    submitElements?: {
+        [key: string]: (props: SubmitButtonProps) => JSX.Element;
     };
     muiTheme?: Theme;
     custom?: {
         [key: string]: any;
     };
 };
-declare const Render: ({ Items, SetItems, Options, Submit }: RenderProps) => JSX.Element;
+declare const Render: ({ Items, SetItems, Options }: RenderProps) => JSX.Element;
 export declare const RenderedObject: (items: AnyItem[]) => {};
 export declare const RenderedFlatObject: (items: AnyItem[]) => {};
 export declare const RenderedArray: (items: AnyItem[]) => {} | [];

@@ -3,7 +3,7 @@ import type { StoryObj } from '@storybook/react';
 import { PhoneSubtype } from "../../Items";
 declare const meta: {
     title: string;
-    component: ({ Items, SetItems, Options, Submit }: import("../../../index").RenderProps) => React.JSX.Element;
+    component: ({ Items, SetItems, Options }: import("../../../index").RenderProps) => React.JSX.Element;
     tags: string[];
     argTypes: {
         Items: PhoneSubtype[];

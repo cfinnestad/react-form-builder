@@ -70,8 +70,8 @@ export const Basic: Story = {
             },
             submitElements: {
                 'default': Submit
-            } as RenderOptions
-        }
+            }
+        } as RenderOptions
     }
 }
 

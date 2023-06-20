@@ -2,7 +2,7 @@ import React, {JSX, Dispatch, FC, SetStateAction, useEffect, useState} from "rea
 import Actions, {ActionFC, ActionProps} from "../Actions/Actions";
 import DefaultItems, {AllowedItems} from "../Items/DefaultItems";
 import ShowItem from "../Items/ShowItem";
-import {AnyItem, Option} from "../Items";
+import {AnyItem, Option, SubmitButtonProps} from "../Items";
 import {Box, Grid} from "@mui/material";
 import DefaultSubtypes, {AllowedSubtypes} from "../Items/Subtypes/DefaultSubTypes";
 import Transfer from "../Actions/Transfer/Transfer";
@@ -14,7 +14,6 @@ import {closestCenter, DndContext, useSensor, PointerSensor, KeyboardSensor} fro
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import Errors, {ErrorType, GetError} from "../Errors/Errors";
 import {Theme, useTheme} from "@mui/material/styles";
-import {SubmitButtonProps} from "../Render";
 
 export type BuilderOptions = {
     Actions?: ActionFC[],

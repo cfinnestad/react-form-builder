@@ -1,7 +1,7 @@
-import React, { Dispatch, FC, SetStateAction } from "react";
+import { JSX, Dispatch, FC, SetStateAction } from "react";
 import { ActionFC, ActionProps } from "../Actions/Actions";
 import { AllowedItems } from "../Items/DefaultItems";
-import { AnyItem, Option } from "../Items";
+import { AnyItem, Option, SubmitButtonProps } from "../Items";
 import { AllowedSubtypes } from "../Items/Subtypes/DefaultSubTypes";
 import { ErrorType } from "../Errors/Errors";
 import { Theme } from "@mui/material/styles";
@@ -28,10 +28,12 @@ export type Options = {
     setItems: Dispatch<SetStateAction<AnyItem[]>>;
     setModal?: Dispatch<SetStateAction<JSX.Element>>;
     IsBuild: boolean;
-    renderType?: 'object' | 'flatobject' | 'array' | 'flatarray';
     getError: (error: string, item: AnyItem) => string | undefined;
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
+    };
+    submitElements?: {
+        [key: string]: (props: SubmitButtonProps) => JSX.Element;
     };
     muiTheme: Theme;
     custom?: {
@@ -50,5 +52,5 @@ export type BuilderProps = {
         [key: string]: any;
     };
 };
-declare const Builder: ({ Items, SetItems, Options }: BuilderProps) => React.JSX.Element;
+declare const Builder: ({ Items, SetItems, Options }: BuilderProps) => JSX.Element;
 export default Builder;

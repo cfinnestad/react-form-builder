@@ -1,1 +1,1 @@
-export {default, RenderedArray, RenderedFlatArray, RenderedFlatObject, RenderedObject, RenderProps, RenderOptions, SubmitButtonProps} from './Render'
+export {default, RenderedArray, RenderedFlatArray, RenderedFlatObject, RenderedObject, RenderProps, RenderOptions} from './Render'
