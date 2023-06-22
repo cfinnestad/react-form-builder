@@ -209,6 +209,7 @@ export type DateSubtype = FieldItem & {
     maxDateOffsetDays?: number,
     maxDateOffsetMonths?: number,
     maxDateOffsetYears?: number,
+    dateFormat?: string,
 }
 
 export type BooleanSubtype = FieldItem & {

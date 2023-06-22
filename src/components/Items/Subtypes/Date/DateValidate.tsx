@@ -8,7 +8,8 @@ const DateValidate = (item: FieldItem, options: Options): boolean => {
         console.log('Could not find element by ID')
     }
     // @ts-ignore
-    if (!item.value) item.value = document.getElementById(item.id)?.value
+    const elemVal = document.getElementById(item.id)?.value
+    if (elemVal && !item.value) item.value = elemVal
     item.errorText = undefined
 
     if (!isDate(item)) {
@@ -17,10 +18,17 @@ const DateValidate = (item: FieldItem, options: Options): boolean => {
         item.errorText = options.getError('required', item)
     } else if (item.value !== undefined) {
 
-        if (item.value === "Invalid Date") item.errorText = options.getError('value', item)
+        if (item.value === "Invalid Date") item.errorText = options.getError('invalidDate', item)
 
-        else if (item.minDate && dateCmp(item.value, item.minDate, "isBefore")) item.errorText = options.getError('minDate', item)
-        else if (item.maxDate && dateCmp(item.value, item.maxDate, "isAfter")) item.errorText = options.getError('maxDate', item)
+        else {
+            let minErr = false, maxErr = false
+            if (item.minDate && dateCmp(item.value, item.minDate, "isBefore")) minErr = true
+            if (item.maxDate && dateCmp(item.value, item.maxDate, "isAfter")) maxErr = true
+
+            if (item.minDate && item.maxDate && (minErr || maxErr)) item.errorText = options.getError('dateRange', item)
+            else if (minErr) item.errorText = options.getError('minDate', item)
+            else if (maxErr) item.errorText = options.getError('maxDate', item)
+        }
 
     }
 
