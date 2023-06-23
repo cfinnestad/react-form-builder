@@ -15,7 +15,7 @@ const offsets = [
     'min',
     'max',
 ]
-
+const defaultFormat = "M/D/YY"
 const today = () => {
     return dateFormat(dayjs())
 }
@@ -27,6 +27,7 @@ const DateST = ({item, options}: FieldProps ) => {
     }
 
     if (item.value === "today") item.value = today()
+    if (!item.dateFormat) item.dateFormat = defaultFormat
 
     const onChange = (value: string | null) => {
         const itm = {...item} as DateSubtype
@@ -89,6 +90,8 @@ const DateST = ({item, options}: FieldProps ) => {
                     onChange={onChange}
                     minDate={item.minDate ?? null as any}
                     maxDate={item.maxDate ?? null as any}
+                    inputFormat={item.dateFormat}
+                    disableMaskedInput={true}
                     renderInput={(params) => <TextField
                         {...params}
                         name={item.name}
