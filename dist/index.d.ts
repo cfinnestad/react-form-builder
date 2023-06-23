@@ -164,6 +164,7 @@ type DateSubtype = FieldItem & {
     maxDateOffsetDays?: number;
     maxDateOffsetMonths?: number;
     maxDateOffsetYears?: number;
+    dateFormat?: string;
 };
 type BooleanSubtype = FieldItem & {
     subtype: 'Boolean';

@@ -14,6 +14,7 @@ type Story = StoryObj<typeof meta>;
 export declare const Basic: Story;
 export declare const DefaultValue: Story;
 export declare const DefaultToday: Story;
+export declare const DateFormat: Story;
 export declare const HelperText: Story;
 export declare const Required: Story;
 export declare const MinDate: Story;
