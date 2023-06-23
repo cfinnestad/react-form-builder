@@ -1,5 +1,4 @@
-import {FieldItem, isPhone} from "../../Items";
-import {Options} from "../../../Builder";
+import {FieldItem, isPhone, Options} from "../../Items";
 
 const PhoneValidate = (item: FieldItem, options: Options): boolean => {
     const element = document.getElementById(item.id)

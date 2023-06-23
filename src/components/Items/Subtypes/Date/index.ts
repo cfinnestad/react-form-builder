@@ -9,5 +9,6 @@ export const dateFormat = (value: Dayjs) => {
 }
 
 export const dateCmp = (val: string | null, cmp: string, which: string) => {
+    // @ts-ignore
     return dayjs(val)[which](dayjs(cmp))
 }

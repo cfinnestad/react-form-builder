@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { AnyItem } from "../Items/Items";
+import { AnyItem } from "../Items";
 type UpdateItemProps = {
     Item: AnyItem;
     Items: AnyItem[];

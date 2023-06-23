@@ -2,7 +2,6 @@ import React from "react";
 import {
     BooleanSubtype,
     FieldProps, isBoolean,
-    isField,
 } from "../../Items";
 import {Checkbox, FormControlLabel, FormGroup, FormHelperText} from "@mui/material";
 import {BooleanValidate} from "./index";

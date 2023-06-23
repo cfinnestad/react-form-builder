@@ -1,1 +1,1 @@
-export { default, BuilderProps, BuilderOptions, Options } from './Builder';
+export { default, BuilderProps, BuilderOptions } from './Builder';

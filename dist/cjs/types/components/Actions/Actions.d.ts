@@ -1,6 +1,5 @@
 import React, { FC } from "react";
-import { AnyItem } from "../Items/Items";
-import { Options } from "../Builder/Builder";
+import { AnyItem, Options } from "../Items";
 export interface ActionProps {
     Items: AnyItem[];
     Options: Options;

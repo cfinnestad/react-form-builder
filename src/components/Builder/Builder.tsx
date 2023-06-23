@@ -1,10 +1,10 @@
-import React, {JSX, Dispatch, FC, SetStateAction, useEffect, useState} from "react";
+import React, {Dispatch, FC, SetStateAction, useEffect, useState} from "react";
 import Actions, {ActionFC, ActionProps} from "../Actions/Actions";
-import DefaultItems, {AllowedItems} from "../Items/DefaultItems";
+import DefaultItems from "../Items/DefaultItems";
 import ShowItem from "../Items/ShowItem";
-import {AnyItem, Option, SubmitButtonProps} from "../Items";
+import {AllowedItems, AllowedSubtypes, AnyItem, Option, Options} from "../Items";
 import {Box, Grid} from "@mui/material";
-import DefaultSubtypes, {AllowedSubtypes} from "../Items/Subtypes/DefaultSubTypes";
+import DefaultSubtypes from "../Items/Subtypes/DefaultSubTypes";
 import Transfer from "../Actions/Transfer/Transfer";
 import Save from "../Actions/Save/Save";
 import Clear from "../Actions/Clear/Clear";
@@ -28,26 +28,6 @@ export type BuilderOptions = {
         [key: string]: (input?: string) => Promise<Option[]> | Option[]
     },
     muiTheme?: Theme
-}
-
-export type Options = {
-    Actions?: FC<ActionProps>[],
-    AllowedItems: AllowedItems,
-    AllowedSubtypes: AllowedSubtypes,
-    onSave?: (Items: AnyItem[]) => void,
-    SetItem: Dispatch<SetStateAction<AnyItem>>,
-    setItems: Dispatch<SetStateAction<AnyItem[]>>,
-    setModal?: Dispatch<SetStateAction<JSX.Element>>,
-    IsBuild: boolean,
-    getError: (error: string, item: AnyItem) => string|undefined,
-    searchableOptions?: {
-        [key: string]: (input?: string) => Promise<Option[]> | Option[]
-    },
-    submitElements?: {
-        [key: string]: (props: SubmitButtonProps) => JSX.Element
-    }
-    muiTheme: Theme,
-    custom?: {[key:string]: any}
 }
 
 export type BuilderProps = {

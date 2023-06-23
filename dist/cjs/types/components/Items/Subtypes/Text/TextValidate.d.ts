@@ -1,4 +1,3 @@
-import { FieldItem } from "../../Items";
-import { Options } from "../../../Builder";
+import { FieldItem, Options } from "../../Items";
 declare const TextValidate: (item: FieldItem, options: Options) => boolean;
 export default TextValidate;

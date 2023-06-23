@@ -1,6 +1,5 @@
 import { JSX } from "react";
-import { AnyItem, ItemProps } from "../Items";
-import { Options } from "../../Builder";
+import { AnyItem, ItemProps, Options } from "../Items";
 export type SubmitButtonProps = {
     items: AnyItem[];
     options: Options;

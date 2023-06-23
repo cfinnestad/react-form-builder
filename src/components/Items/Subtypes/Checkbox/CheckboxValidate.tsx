@@ -1,5 +1,4 @@
-import {FieldItem, isCheckbox} from "../../Items";
-import {Options} from "../../../Builder";
+import {FieldItem, isCheckbox, Options} from "../../Items";
 
 const CheckboxValidate = (item: FieldItem, options: Options): boolean => {
     item.errorText = undefined

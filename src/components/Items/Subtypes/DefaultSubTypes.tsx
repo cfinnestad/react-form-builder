@@ -3,14 +3,13 @@ import {
     CheckboxSubtype,
     BooleanSubtype,
     EmailSubtype,
-    FieldType,
     NumberSubtype,
     RadioSubtype,
     SelectSubtype,
     TextSubtype,
     AutocompleteSubtype,
     PhoneSubtype,
-    DateSubtype,
+    DateSubtype, AllowedSubtypes,
 } from "../Items";
 import {BooleanEdit, BooleanST, BooleanValidate} from "./Boolean";
 import {TextEdit, TextST, TextValidate} from "./Text";
@@ -22,11 +21,6 @@ import {SelectEdit, SelectST, SelectValidate} from "./Select";
 import {AutocompleteEdit, AutocompleteST, AutocompleteValidate} from "./Autocomplete"
 import {PhoneEdit, PhoneST, PhoneValidate} from "./Phone";
 import {DateEdit, DateST, DateValidate} from "./Date";
-
-
-export type AllowedSubtypes = {
-    [key: string]: FieldType,
-}
 
 const DefaultSubtypes = (): AllowedSubtypes => {
     return {

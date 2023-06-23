@@ -1,7 +1,5 @@
 import { Dispatch, SetStateAction, JSX } from 'react';
-import { AnyItem, Option } from "../Items";
-import { AllowedItems } from "../Items/DefaultItems";
-import { AllowedSubtypes } from "../Items/Subtypes/DefaultSubTypes";
+import { AnyItem, Option, AllowedItems, AllowedSubtypes } from "../Items";
 import { ErrorType } from "../Errors/Errors";
 import { Theme } from "@mui/material/styles";
 import { SubmitButtonProps } from "../Items";

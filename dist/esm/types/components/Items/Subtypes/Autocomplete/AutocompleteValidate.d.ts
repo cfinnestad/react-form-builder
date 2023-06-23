@@ -1,4 +1,3 @@
-import { FieldItem } from "../../Items";
-import { Options } from "../../../Builder";
+import { FieldItem, Options } from "../../Items";
 declare const AutocompleteValidate: (item: FieldItem, options: Options) => boolean;
 export default AutocompleteValidate;

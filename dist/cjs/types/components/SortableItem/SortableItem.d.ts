@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import type { PropsWithChildren } from "react";
 import type { UniqueIdentifier } from "@dnd-kit/core";
-import "./SortableItem.css";
+import "./SortableItem.scss";
 interface Props {
     id: UniqueIdentifier;
 }

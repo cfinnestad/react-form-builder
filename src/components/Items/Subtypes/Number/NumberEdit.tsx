@@ -1,8 +1,8 @@
 import React, {ChangeEvent, Dispatch, SetStateAction, useState} from "react";
 import {FieldItem, FieldProps, NumberSubtype} from "../../Items";
-import {TextField, Checkbox, FormGroup, FormControlLabel} from "@mui/material";
-import ShowErrors from "../ShowErrors";
-import subtypeEdit from "../SubtypeEdit";
+// import {TextField, Checkbox, FormGroup, FormControlLabel} from "@mui/material";
+// import ShowErrors from "../ShowErrors";
+// import subtypeEdit from "../SubtypeEdit";
 
 export const NumberEdit = ({item, items, options}: FieldProps ) => {
     // const [valueError, setValueError] = useState( false)

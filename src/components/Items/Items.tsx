@@ -1,6 +1,35 @@
-import React, {JSX} from "react";
-import {Options} from "../Builder/Builder";
+import React, {Dispatch, FC, JSX, SetStateAction} from "react";
+import {ActionProps} from "../Actions";
+import {SubmitButtonProps} from "./Submit";
+import {Theme} from "@mui/material/styles";
 
+export type AllowedSubtypes = {
+    [key: string]: FieldType,
+}
+
+export type AllowedItems = {
+    [key: string]: ItemType,
+}
+
+export type Options = {
+    Actions?: FC<ActionProps>[],
+    AllowedItems: AllowedItems,
+    AllowedSubtypes: AllowedSubtypes,
+    onSave?: (Items: AnyItem[]) => void,
+    SetItem: Dispatch<SetStateAction<AnyItem>>,
+    setItems: Dispatch<SetStateAction<AnyItem[]>>,
+    setModal?: Dispatch<SetStateAction<JSX.Element>>,
+    IsBuild: boolean,
+    getError: (error: string, item: AnyItem) => string|undefined,
+    searchableOptions?: {
+        [key: string]: (input?: string) => Promise<Option[]> | Option[]
+    },
+    submitElements?: {
+        [key: string]: (props: SubmitButtonProps) => JSX.Element
+    }
+    muiTheme: Theme,
+    custom?: {[key:string]: any}
+}
 
 export const validateItem = (Item: object, index: number): string[] => {
     const messages: string[] = []

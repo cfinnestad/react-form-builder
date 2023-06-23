@@ -1,6 +1,5 @@
-import {AnyItem, GroupItem} from "../Items/Items";
+import {AnyItem, GroupItem, Options} from "../Items";
 import {v4 as uuid} from "uuid";
-import {Options} from "./Builder";
 import {Active, DragEndEvent} from "@dnd-kit/core";
 import findDragItem, {DragItem} from "../Items/findDragItem";
 

@@ -1,4 +1,3 @@
-import { Options } from "../Builder";
-import { AnyItem } from "./Items";
+import { AnyItem, Options } from "./Items";
 declare const ValidateFields: (items: AnyItem[], options: Options) => boolean;
 export default ValidateFields;

@@ -1,5 +1,5 @@
 import React from "react";
-import {FieldItem, GroupItem, HiddenItem, HTMLItem, ItemType, SubmitItem} from "./Items";
+import {AllowedItems, FieldItem, GroupItem, HiddenItem, HTMLItem, SubmitItem} from "./Items";
 import Field from "./Field/Field";
 import FieldEdit from "./Field/FieldEdit";
 import Hidden from "./Hidden/Hidden"
@@ -10,11 +10,6 @@ import Html from "./Html/Html";
 import HtmlEdit from "./Html/HtmlEdit";
 import Submit from "./Submit";
 import SubmitEdit from "./Submit/SubmitEdit";
-
-
-export type AllowedItems = {
-    [key: string]: ItemType,
-}
 
 const DefaultItems = (): AllowedItems => {
     return {

@@ -1,5 +1,4 @@
-import {Options} from "../Builder";
-import {AnyItem, isField} from "./Items";
+import {AnyItem, isField, Options} from "./Items";
 import Filter from "../Filter";
 
 const ValidateFields = (items: AnyItem[], options: Options): boolean => {

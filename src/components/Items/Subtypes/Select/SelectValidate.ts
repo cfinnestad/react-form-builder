@@ -1,5 +1,4 @@
-import {FieldItem, isSelect} from "../../Items";
-import {Options} from "../../../Builder";
+import {FieldItem, isSelect, Options} from "../../Items";
 
 const SelectValidate = (item: FieldItem, options: Options): boolean => {
     item.errorText = undefined

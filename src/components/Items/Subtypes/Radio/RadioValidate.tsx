@@ -1,5 +1,4 @@
-import {FieldItem, isRadio} from "../../Items";
-import {Options} from "../../../Builder";
+import {FieldItem, isRadio, Options} from "../../Items";
 
 const RadioValidate = (item: FieldItem, options: Options): boolean => {
     item.errorText = undefined

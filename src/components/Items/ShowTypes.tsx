@@ -1,9 +1,8 @@
 import React from "react";
-import {AllowedItems} from "./DefaultItems";
 import {Draggable, DraggableProvided, DraggableStateSnapshot} from "react-beautiful-dnd";
 import {Card, Typography} from "@mui/material";
 import styled from 'styled-components';
-import {AnyItem} from "./Items";
+import {AnyItem, AllowedItems} from "./Items";
 
 interface ShowTypesProps {
     AllowedItems: AllowedItems

@@ -1,5 +1,4 @@
-import {FieldItem, isEmail} from "../../Items";
-import {Options} from "../../../Builder";
+import {FieldItem, isEmail, Options} from "../../Items";
 
 const EmailValidate = (item: FieldItem, options: Options): boolean => {
     const element = document.getElementById(item.id)

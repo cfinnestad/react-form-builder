@@ -1,5 +1,4 @@
-import {BooleanSubtype, FieldItem, isBoolean} from "../../Items";
-import {Options} from "../../../Builder/Builder";
+import {FieldItem, isBoolean, Options} from "../../Items";
 
 const BooleanValidate = (item: FieldItem, options: Options): boolean => {
     item.errorText = undefined

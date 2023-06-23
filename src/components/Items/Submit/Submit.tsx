@@ -1,8 +1,7 @@
 import React, {JSX, useEffect, useRef} from "react";
-import {AnyItem, isSubmit, ItemProps} from "../Items";
+import {AnyItem, isSubmit, ItemProps, Options} from "../Items";
 import {RenderedFlatObject} from "../../Render";
 import {Button} from "@mui/material";
-import {Options} from "../../Builder";
 
 export type SubmitButtonProps = {
     items: AnyItem[],
@@ -14,7 +13,7 @@ export type SubmitButtonElement = (props: SubmitButtonProps) => JSX.Element
 const Submit = ({item, items, options}: ItemProps) => {
     if(!isSubmit(item)) return <></>
 
-    const defaultSubmit = ({items, options, label}: SubmitButtonProps) => {
+    const defaultSubmit = ({items}: SubmitButtonProps) => {
         return <>
             <Button type="submit" onClick={ () => alert(JSON.stringify(RenderedFlatObject(items), null, 4)) }>{item.label}</Button>
         </>

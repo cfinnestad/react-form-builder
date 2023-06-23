@@ -1,5 +1,4 @@
-import {isDate, FieldItem} from "../../Items";
-import {Options} from "../../../Builder";
+import {isDate, FieldItem, Options} from "../../Items";
 import {dateCmp} from "./index";
 
 const DateValidate = (item: FieldItem, options: Options): boolean => {

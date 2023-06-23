@@ -1,4 +1,3 @@
-import { FieldItem } from "../../Items";
-import { Options } from "../../../Builder/Builder";
+import { FieldItem, Options } from "../../Items";
 declare const BooleanValidate: (item: FieldItem, options: Options) => boolean;
 export default BooleanValidate;

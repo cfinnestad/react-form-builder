@@ -1,6 +1,3 @@
-import { ItemType } from "./Items";
-export type AllowedItems = {
-    [key: string]: ItemType;
-};
+import { AllowedItems } from "./Items";
 declare const DefaultItems: () => AllowedItems;
 export default DefaultItems;

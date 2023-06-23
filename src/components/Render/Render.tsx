@@ -1,10 +1,9 @@
 import React, {Dispatch, SetStateAction, useEffect, useState, JSX} from 'react';
-import {AnyItem, isField, isGroup, isHidden, Option} from "../Items";
+import {AnyItem, isField, isGroup, isHidden, Option, Options, AllowedItems, AllowedSubtypes} from "../Items";
 import ShowItem from "../Items/ShowItem";
-import { Options } from '../Builder'
 import SetItem from "../Items/SetItem";
-import DefaultItems, {AllowedItems} from "../Items/DefaultItems";
-import DefaultSubtypes, {AllowedSubtypes} from "../Items/Subtypes/DefaultSubTypes";
+import DefaultItems from "../Items/DefaultItems";
+import DefaultSubtypes from "../Items/Subtypes/DefaultSubTypes";
 import Filter from "../Filter/Filter";
 import Errors, {ErrorType, GetError} from "../Errors/Errors";
 import {List, ListItem, Stack, ThemeProvider} from "@mui/material";

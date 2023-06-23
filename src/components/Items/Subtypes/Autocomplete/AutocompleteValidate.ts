@@ -1,5 +1,4 @@
-import {FieldItem, isAutocomplete} from "../../Items";
-import {Options} from "../../../Builder"
+import {FieldItem, isAutocomplete, Options} from "../../Items";
 
 
 const AutocompleteValidate = (item: FieldItem, options: Options): boolean => {
