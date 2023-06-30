@@ -1,6 +1,15 @@
 import type {Meta, StoryObj} from '@storybook/react';
 
 import Builder from './Builder';
+import {
+    AutocompleteSubtype, BooleanSubtype, CheckboxSubtype,
+    EmailSubtype,
+    EqFilter,
+    GroupItem, HTMLItem,
+    NumberSubtype,
+    PhoneSubtype, RadioSubtype, SelectSubtype, SubmitItem,
+    TextSubtype
+} from "../Items";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta = {
@@ -32,32 +41,196 @@ export const Primary: Story = {
         Items:
             [
                 {
-                    id: 'testItem1',
+                    id: 'first_name',
                     type: 'Field',
-                    name: 'text1',
-                    required: false,
-                    label: 'Text 1',
+                    name: 'first_name',
+                    required: true,
+                    label: 'First Name (Type "show")',
                     deprecated: false,
-                    subtype: 'Text'
-                },
+                    subtype: 'Text',
+                    maxLength: 10,
+                    minLength: 2
+                } as TextSubtype,
                 {
-                    id: 'testItem2',
+                    id: 'last_name',
+                    type: 'Field',
+                    name: 'last_name',
+                    required: true,
+                    label: 'Last Name',
+                    deprecated: false,
+                    subtype: 'Text',
+                    maxLength: 10,
+                    minLength: 2
+                } as TextSubtype,
+                {
+                    id: 'text2',
                     type: 'Field',
                     name: 'text2',
-                    required: false,
+                    required: true,
                     label: 'Text 2',
                     deprecated: false,
+                    filter: {
+                        comparison: "=",
+                        fieldId: "first_name",
+                        value: 'show'
+                    } as EqFilter,
                     subtype: 'Text'
-                },
+                } as TextSubtype,
                 {
-                    id: 'testItem3',
+                    id: 'autocompleteId1',
                     type: 'Field',
-                    name: 'text3',
+                    name: 'autocompleteName1',
                     required: false,
-                    label: 'Text 3',
+                    label: 'Autocomplete 1',
                     deprecated: false,
-                    subtype: 'Text'
-                }
+                    subtype: 'Autocomplete'
+                } as AutocompleteSubtype,
+                {
+                    id: 'number1',
+                    type: 'Field',
+                    name: 'number1',
+                    required: true,
+                    label: 'Number 1',
+                    subtype: 'Number',
+                    min: 12,
+                    max: 5000,
+                    helperText: 'Helper text',
+                } as NumberSubtype,
+                {
+                    id: 'phone1',
+                    type: 'Field',
+                    name: 'phone1',
+                    required: true,
+                    label: 'Phone 1',
+                    subtype: 'Phone',
+                    helperText: 'Helper text',
+                    placeholder: '(555) 555-5555',
+                } as PhoneSubtype,
+                {
+                    id: 'group1',
+                    type: 'Group',
+                    name: 'group1',
+                    label: 'Testing Group',
+                    items: [
+                        {
+                            id: 'group1_text3',
+                            type: 'Field',
+                            name: 'text3',
+                            label: 'Text 3',
+                            subtype: 'Text'
+                        } as TextSubtype,
+                        {
+                            id: 'group1_email1',
+                            type: 'Field',
+                            name: 'email1',
+                            required: true,
+                            label: 'Email',
+                            subtype: 'Email',
+                            maxLength: 255,
+                        } as EmailSubtype,
+                    ]
+                } as GroupItem,
+                {
+                    id: 'Select_Multiples',
+                    type: 'Field',
+                    name: 'Select_Multiples',
+                    subtype: 'Select',
+                    label: 'Select',
+                    multiples: true,
+                    helperText: 'Select helper text test',
+                    options: [
+                        {
+                            selected: true,
+                            label: 'Second',
+                            value: 'second value'
+                        },
+                        {
+                            label: 'Third',
+                        },
+                        {
+                            label: 'Fourth',
+                        },
+                    ]
+                } as SelectSubtype,
+                {
+                    id: 'Select',
+                    type: 'Field',
+                    name: 'Select',
+                    subtype: 'Select',
+                    label: 'Select',
+                    multiples: true,
+                    helperText: 'Select helper text test',
+                    options: [
+                        {
+                            label: 'First',
+                        },
+                        {
+                            selected: true,
+                            label: 'Second',
+                        }
+                    ]
+                } as SelectSubtype,
+                {
+                    id: 'Checkbox',
+                    type: 'Field',
+                    name: 'Checkbox',
+                    subtype: 'Checkbox',
+                    label: 'Checkbox',
+                    helperText: 'Checkbox helper text test',
+                    options: [
+                        {
+                            label: 'First',
+                        },
+                        {
+                            selected: true,
+                            label: 'Second',
+                            value: 'second value'
+                        }
+                    ]
+                } as CheckboxSubtype,
+                {
+                    id: "HTML1",
+                    type: "HTML",
+                    content: "<h4>Hello</h4>",
+                    filter: {
+                        fieldId: "Checkbox",
+                        comparison: "=",
+                        value: "First"
+                    } as EqFilter
+                } as HTMLItem,
+                {
+                    id: 'boolean1',
+                    type: 'Field',
+                    label: 'Boolean Label',
+                    name: 'Boolean',
+                    subtype: 'Boolean',
+                    helperText: 'This is the boolean helper text',
+                } as BooleanSubtype,
+                {
+                    id: 'radio1',
+                    type: 'Field',
+                    label: 'Radio1',
+                    name: 'Radio-1',
+                    subtype: 'Radio',
+                    inLine: true,
+                    helperText: 'Radio helper text',
+                    options: [
+                        {
+                            label: 'Radio 1',
+                        },
+                        {
+                            label: 'Radio 2',
+                            value: 'Radio 2 value',
+                            selected: true
+                        }
+                    ]
+                } as RadioSubtype,
+                {
+                    type: 'Submit',
+                    id: 'submit1',
+                    label: 'Submit',
+                    submitElementName: 'default'
+                } as SubmitItem
             ],
     }
 }
