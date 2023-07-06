@@ -296,3 +296,4 @@ export function isDate(item: AnyItem): item is DateSubtype { return isField(item
 export function isBoolean(item: AnyItem): item is BooleanSubtype { return isField(item) && item.subtype === "Boolean"}
 export function isAutocomplete(item: AnyItem): item is AutocompleteSubtype { return isField(item) && item.subtype === "Autocomplete"}
 export function isPhone(item: AnyItem): item is PhoneSubtype { return isField(item) && item.subtype === "Phone"}
+export function isOption(item: AnyItem): item is OptionSubtype { return isField(item) && item.hasOwnProperty('options')}
