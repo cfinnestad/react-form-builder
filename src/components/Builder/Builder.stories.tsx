@@ -6,10 +6,13 @@ import {
     EmailSubtype,
     EqFilter,
     GroupItem, HTMLItem,
-    NumberSubtype,
+    NumberSubtype, Option,
     PhoneSubtype, RadioSubtype, SelectSubtype, SubmitItem,
     TextSubtype
 } from "../Items";
+import {Submit} from "../Render/StoriesSubmit";
+import {RenderOptions} from "../Render";
+import {faker} from "@faker-js/faker";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta = {
@@ -232,5 +235,24 @@ export const Primary: Story = {
                     submitElementName: 'default'
                 } as SubmitItem
             ],
+        Options: {
+            searchableOptions: {
+                exampleCities: (input) => input != null
+                    ? exampleCities.filter(city => city.value?.toLowerCase().includes(input))
+                    : []
+            },
+            submitElements: {
+                'default': Submit
+            }
+        } as RenderOptions
     }
+}
+
+const exampleCities: Option[] = []
+for (let x = 0; x < 50; x++) {
+    const city = faker.location.city()
+    exampleCities.push({
+        label: city,
+        value: city.toLowerCase()
+    })
 }

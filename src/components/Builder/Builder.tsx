@@ -50,14 +50,6 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         useSensor(KeyboardSensor)
     ]
     const defaultTheme = useTheme()
-    useEffect(() => {
-        if(SetItems) {
-            SetItems(items)
-        }
-    }, [items])
-    useEffect(()=>{
-        setItems(SetItem(item, items))
-    },[item])
 
     // const AllowedSubtypes: AllowedSubtypes = {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})}
     // const AllowedItems:AllowedItems = {...(Options?.AllowedItems || DefaultItems()), ...(Options?.AdditionalItems || {})}
@@ -76,6 +68,15 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         },
         muiTheme: Options?.muiTheme ?? defaultTheme
     }
+    useEffect(() => {
+        if(SetItems) {
+            SetItems(items)
+        }
+    }, [items])
+    useEffect(()=>{
+        console.log('ITEM',item)
+        setItems(SetItem(item, items))
+    },[item])
 
     // const activeItem = useMemo(
     //     () => items.find((item) => item.id === active?.id),

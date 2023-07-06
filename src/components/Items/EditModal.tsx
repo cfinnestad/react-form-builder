@@ -12,6 +12,7 @@ const EditModal = (itemProps: ItemProps) => {
     return <>
         <Dialog
             maxWidth="lg"
+            fullWidth={true}
             open={true}
             onClose={Close}
             aria-labelledby="example-modal-sizes-title-lg"
