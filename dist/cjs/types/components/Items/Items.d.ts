@@ -246,3 +246,4 @@ export declare function isDate(item: AnyItem): item is DateSubtype;
 export declare function isBoolean(item: AnyItem): item is BooleanSubtype;
 export declare function isAutocomplete(item: AnyItem): item is AutocompleteSubtype;
 export declare function isPhone(item: AnyItem): item is PhoneSubtype;
+export declare function isOption(item: AnyItem): item is OptionSubtype;
