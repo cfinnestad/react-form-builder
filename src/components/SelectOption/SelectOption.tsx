@@ -22,7 +22,7 @@ const SelectOption = ({id, option, setOption, options, label, none}:SelectOption
                 labelId={id+"-label"}
                 id={id}
                 value={option}
-                label="Label"
+                label={label}
                 onChange={handleChange}
             >
                 { none === undefined ? '' : <MenuItem value=''>{none}</MenuItem>}
