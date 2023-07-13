@@ -1,4 +1,4 @@
-import React, { JSX, FC, Dispatch, SetStateAction } from 'react';
+import { JSX, FC, Dispatch, SetStateAction } from 'react';
 import { Theme } from '@mui/material/styles';
 
 type SubmitButtonProps = {
@@ -283,6 +283,9 @@ type BuilderOptions = {
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
     };
+    submitElements?: {
+        [key: string]: (props: SubmitButtonProps) => JSX.Element;
+    };
     muiTheme?: Theme;
 };
 type BuilderProps = {
@@ -297,7 +300,7 @@ type BuilderProps = {
         [key: string]: any;
     };
 };
-declare const Builder: ({ Items, SetItems, Options }: BuilderProps) => React.JSX.Element;
+declare const Builder: ({ Items, SetItems, Options }: BuilderProps) => JSX.Element;
 
 type RenderProps = {
     Items: AnyItem[];
