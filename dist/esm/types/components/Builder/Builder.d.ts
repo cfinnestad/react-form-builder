@@ -1,6 +1,6 @@
-import React, { Dispatch, FC, SetStateAction } from "react";
+import { Dispatch, FC, JSX, SetStateAction } from "react";
 import { ActionFC, ActionProps } from "../Actions/Actions";
-import { AllowedItems, AllowedSubtypes, AnyItem, Option } from "../Items";
+import { AllowedItems, AllowedSubtypes, AnyItem, Option, SubmitButtonProps } from "../Items";
 import { ErrorType } from "../Errors/Errors";
 import { Theme } from "@mui/material/styles";
 export type BuilderOptions = {
@@ -14,6 +14,9 @@ export type BuilderOptions = {
     Errors?: ErrorType;
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
+    };
+    submitElements?: {
+        [key: string]: (props: SubmitButtonProps) => JSX.Element;
     };
     muiTheme?: Theme;
 };
@@ -29,5 +32,5 @@ export type BuilderProps = {
         [key: string]: any;
     };
 };
-declare const Builder: ({ Items, SetItems, Options }: BuilderProps) => React.JSX.Element;
+declare const Builder: ({ Items, SetItems, Options }: BuilderProps) => JSX.Element;
 export default Builder;
