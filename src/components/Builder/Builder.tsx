@@ -1,8 +1,8 @@
-import React, {Dispatch, FC, SetStateAction, useEffect, useState} from "react";
+import React, {Dispatch, FC, JSX, SetStateAction, useEffect, useState} from "react";
 import Actions, {ActionFC, ActionProps} from "../Actions/Actions";
 import DefaultItems from "../Items/DefaultItems";
 import ShowItem from "../Items/ShowItem";
-import {AllowedItems, AllowedSubtypes, AnyItem, Option, Options} from "../Items";
+import {AllowedItems, AllowedSubtypes, AnyItem, Option, Options, SubmitButtonProps} from "../Items";
 import {Box, Grid} from "@mui/material";
 import DefaultSubtypes from "../Items/Subtypes/DefaultSubTypes";
 import Transfer from "../Actions/Transfer/Transfer";
@@ -27,6 +27,9 @@ export type BuilderOptions = {
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[]
     },
+    submitElements?: {
+        [key: string]: (props: SubmitButtonProps) => JSX.Element
+    }
     muiTheme?: Theme
 }
 
