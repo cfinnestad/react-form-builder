@@ -34,7 +34,7 @@ export const ShowItem = ({item, items, options}: ShowItemsProps) => {
             }
 
             return (
-                <SortableItem id={item.id}>
+                <SortableItem key={item.id} id={item.id}>
                     <DragHandle>
                         <FormatLineSpacingRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
                     </DragHandle>
