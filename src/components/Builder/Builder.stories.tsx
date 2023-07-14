@@ -131,6 +131,28 @@ export const Primary: Story = {
                             subtype: 'Email',
                             maxLength: 255,
                         } as EmailSubtype,
+                        {
+                            id: 'group2',
+                            type: 'Group',
+                            name: 'group2',
+                            label: 'Testing Group Two',
+                            items: [
+                                {
+                                    id: 'group2_text1',
+                                    type: 'Field',
+                                    name: 'text1',
+                                    label: 'Text 1',
+                                    subtype: 'Text'
+                                } as TextSubtype,
+                                {
+                                    id: 'group2_text2',
+                                    type: 'Field',
+                                    name: 'text2',
+                                    label: 'Text 2',
+                                    subtype: 'Text'
+                                } as TextSubtype,
+                            ]
+                        } as GroupItem
                     ]
                 } as GroupItem,
                 {
