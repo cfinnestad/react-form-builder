@@ -12,7 +12,6 @@ export type validateNameChangeResponse = {
 // Find 'item' in 'items' and return the items array from the group it belongs to.
 // Non-grouped items should return top-level 'items' array.
 export const getSiblingItems = (item: AnyItem, items: AnyItem[]): AnyItem[] => {
-    console.log('getGroup', item, items)
     for(const i of items) {
         if (item.id === i.id) {
             return items
