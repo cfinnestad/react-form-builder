@@ -11,7 +11,7 @@ import {
     Stack
 } from '@mui/material';
 import { Theme, useTheme } from '@mui/material/styles';
-import { FieldProps, isSelect, SelectSubtype } from '../../Items';
+import {FieldProps, isSelect, Option, SelectSubtype} from '../../Items';
 import { SelectValidate } from "./index";
 
 const ITEM_HEIGHT = 48;
@@ -29,6 +29,7 @@ function SelectST({item, options}: FieldProps) {
     const theme = useTheme();
     const handleChange = (event: SelectChangeEvent<string | string[]>) => {
         const itm = { ...item } as SelectSubtype
+        itm.options = itm.options.map(option => { return {...option} as Option})
         const { target: { value } } = event;
 
         if (itm.multiples) {
