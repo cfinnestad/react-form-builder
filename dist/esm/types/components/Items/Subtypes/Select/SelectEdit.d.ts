@@ -1,3 +1,4 @@
 import React from 'react';
-declare const SelectEdit: () => React.JSX.Element;
+import { FieldProps } from "../../Items";
+declare const SelectEdit: ({ item, options }: FieldProps) => React.JSX.Element;
 export default SelectEdit;

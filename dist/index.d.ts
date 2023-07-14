@@ -263,6 +263,13 @@ declare const GetItem: (id: string | number, items: AnyItem[]) => FieldItem | Hi
 
 declare const SetItem: (item: AnyItem, items: AnyItem[]) => AnyItem[];
 
+type validateNameChangeResponse = {
+    validName?: string;
+    errors?: string[];
+};
+declare const getSiblingItems: (item: AnyItem, items: AnyItem[]) => AnyItem[];
+declare const validateNameChange: (props: ItemProps, newName?: string) => validateNameChangeResponse;
+
 interface ActionProps {
     Items: AnyItem[];
     Options: Options;
@@ -334,4 +341,4 @@ declare const RenderedFlatObject: (items: AnyItem[]) => {};
 declare const RenderedArray: (items: AnyItem[]) => {} | [];
 declare const RenderedFlatArray: (items: AnyItem[]) => object[];
 
-export { AllowedItems, AllowedSubtypes, AndFilter, AnyItem, AutocompleteSubtype, BaseItem, BaseItemProps, BooleanSubtype, Builder, BuilderOptions, BuilderProps, CheckboxSubtype, DateSubtype, EmailSubtype, EqFilter, ErrorType, Errors, FieldFilter, FieldItem, FieldProps, FieldType, FilterType, GetItem, GroupItem, GroupProps, GtFilter, GteFilter, HTMLItem, HTMLProps, HiddenItem, HiddenProps, InFilter, ItemProps, ItemType, LtFilter, LteFilter, MultiplesSubtype, NamedItem, NotFilter, NumberSubtype, Option, OptionSubtype, Options, OrFilter, PhoneSubtype, RadioSubtype, Render, RenderOptions, RenderProps, RenderedArray, RenderedFlatArray, RenderedFlatObject, RenderedObject, SelectSubtype, SetItem, SubmitButtonElement, SubmitButtonProps, SubmitItem, SubmitProps, TextSubtype, ValidateFields, isAndFilter, isAutocomplete, isBoolean, isCheckbox, isDate, isEmail, isEqFilter, isField, isFieldFilter, isGroup, isGtFilter, isGteFilter, isHidden, isHtml, isInFilter, isLtFilter, isLteFilter, isMultiples, isNotFilter, isNumber, isOption, isOrFilter, isPhone, isRadio, isSelect, isSubmit, isText, validateItem };
+export { AllowedItems, AllowedSubtypes, AndFilter, AnyItem, AutocompleteSubtype, BaseItem, BaseItemProps, BooleanSubtype, Builder, BuilderOptions, BuilderProps, CheckboxSubtype, DateSubtype, EmailSubtype, EqFilter, ErrorType, Errors, FieldFilter, FieldItem, FieldProps, FieldType, FilterType, GetItem, GroupItem, GroupProps, GtFilter, GteFilter, HTMLItem, HTMLProps, HiddenItem, HiddenProps, InFilter, ItemProps, ItemType, LtFilter, LteFilter, MultiplesSubtype, NamedItem, NotFilter, NumberSubtype, Option, OptionSubtype, Options, OrFilter, PhoneSubtype, RadioSubtype, Render, RenderOptions, RenderProps, RenderedArray, RenderedFlatArray, RenderedFlatObject, RenderedObject, SelectSubtype, SetItem, SubmitButtonElement, SubmitButtonProps, SubmitItem, SubmitProps, TextSubtype, ValidateFields, getSiblingItems, isAndFilter, isAutocomplete, isBoolean, isCheckbox, isDate, isEmail, isEqFilter, isField, isFieldFilter, isGroup, isGtFilter, isGteFilter, isHidden, isHtml, isInFilter, isLtFilter, isLteFilter, isMultiples, isNotFilter, isNumber, isOption, isOrFilter, isPhone, isRadio, isSelect, isSubmit, isText, validateItem, validateNameChange };
