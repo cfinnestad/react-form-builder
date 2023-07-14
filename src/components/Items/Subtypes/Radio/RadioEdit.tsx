@@ -7,7 +7,9 @@ const RadioEdit = ({ item, options }: FieldProps) => {
     if (!isRadio(item))
         return <></>;
 
+    // Handles state for the edit modal
     const [value, setValue] = useState(item.inLine ? 'inline' : 'vertical');
+    // Handles state for the builder
     const [layout, setLayout] = useState(item.inLine || false);
     useEffect(() => {
         const radio = { ...item } as RadioSubtype;
@@ -20,7 +22,9 @@ const RadioEdit = ({ item, options }: FieldProps) => {
     }, [layout]);
 
     const layoutClickHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        // Update the modal so the user has a good experience when choosing the default selected option
         setValue((event.target as HTMLInputElement).value);
+        // Update the builder to reflect the user's choice for default selected option
         setLayout(!layout);
     }
 
