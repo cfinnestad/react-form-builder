@@ -86,15 +86,15 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     //     [items, active?.id]
     // );
 
-    useEffect(() => {
-        if(SetItems) {
-            SetItems(items)
-        }
-    }, [items])
-
-    useEffect(()=>{
-        setItems(SetItem(item, items))
-    },[item])
+    // useEffect(() => {
+    //     if(SetItems) {
+    //         SetItems(items)
+    //     }
+    // }, [items])
+    //
+    // useEffect(()=>{
+    //     setItems(SetItem(item, items))
+    // },[item])
 
     return <div className='builder'>
         <Actions Items={items} Options={options}/>
