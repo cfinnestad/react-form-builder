@@ -176,10 +176,13 @@ export type OptionSubtype = FieldItem & {
     options: Option[],
 }
 
-export type SelectSubtype = OptionSubtype & {
+export type MultiplesSubtype = OptionSubtype & {
+    multiples: boolean,
+}
+
+export type SelectSubtype = MultiplesSubtype & {
     subtype: 'Select',
     value?: string | string[],
-    multiples: boolean,
 }
 
 export type RadioSubtype = OptionSubtype & {
@@ -297,3 +300,4 @@ export function isBoolean(item: AnyItem): item is BooleanSubtype { return isFiel
 export function isAutocomplete(item: AnyItem): item is AutocompleteSubtype { return isField(item) && item.subtype === "Autocomplete"}
 export function isPhone(item: AnyItem): item is PhoneSubtype { return isField(item) && item.subtype === "Phone"}
 export function isOption(item: AnyItem): item is OptionSubtype { return isField(item) && item.hasOwnProperty('options')}
+export function isMultiples(item: AnyItem): item is MultiplesSubtype { return isField(item) && item.hasOwnProperty('multiples')}

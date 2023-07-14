@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react'
-import {isAutocomplete, isCheckbox, isSelect, Option, OptionSubtype, Options as BuildOptions} from '../Items'
-import {Button, ButtonGroup} from "@mui/material";
+import {Option, OptionSubtype, Options as BuildOptions, MultiplesSubtype, isMultiples} from '../Items'
+import {Button, ButtonGroup, Checkbox, FormControl, FormControlLabel} from "@mui/material";
 import {closestCenter, DndContext, DragEndEvent, KeyboardSensor, PointerSensor, useSensor} from "@dnd-kit/core";
 import {arrayMove, SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import {DragHandle, SortableItem} from '../SortableItem';
 import OptionItem from "./OptionItem";
 import SelectOption from "../SelectOption/SelectOption";
 import FormatLineSpacingRoundedIcon from "@mui/icons-material/FormatLineSpacingRounded";
+import {uuid} from "uuidv4";
 
 export enum SelectedType {
     None,
@@ -17,90 +18,154 @@ export type OptionsProps = {
     item: OptionSubtype,
     options: BuildOptions,
     selectedType?: SelectedType,
-    useSearchableOptions?: boolean
+    useSearchableOptions?: boolean,
+    useMultiples?: boolean,
 }
-
 export type OptionItemType = {
     id: string,
-    option: Option
+    option: Option,
 }
 
-const Options = (props: OptionsProps) => {
-    const [searchableOption, setSearchableOption] = useState(props.item.searchableOptionsName)
-    const searchableOptions = Object.keys(props.options)
-    const [item, setItem] = useState(props.item as OptionSubtype)
-    const selectedType = props.selectedType ?? (
-        isAutocomplete(item) ? SelectedType.None : (
-            (isCheckbox(item) || (isSelect(item) && item.multiples)) ? SelectedType.Multiple : SelectedType.Single
-        )
-    )
-    const [optionItems, setOptionItems] = useState(item.options.map((option, index) => { return {id: "o" + index.toString(), option: option} as OptionItemType}))
+const Options = ({item,options,selectedType,useSearchableOptions,useMultiples}: OptionsProps) => {
+    const [searchableOptionsName, setSearchableOptionsName] = useState(item.searchableOptionsName)
+    const searchableOptions = Object.keys(options.searchableOptions ?? [] as string[])
+    const [type, setType] = useState(selectedType)
+    const [multiples, setMultiples] = useState( isMultiples(item) ? (item.multiples ?? false) : false )
+    const [itemOptions, setItemOptions] = useState(item.options.map(option => {
+        return {
+            id: uuid(),
+            option: {...option, selected: option.selected ?? false} as Option
+        } as OptionItemType
+    }))
     const sensors = [
         useSensor(PointerSensor),
         useSensor(KeyboardSensor)
     ]
 
     useEffect(()=>{
-        props.options.SetItem(item)
-    },[item])
+        if (useMultiples) {
+            const itm = {...item} as MultiplesSubtype
+            itm.multiples = multiples
+            setType(multiples ? SelectedType.Multiple : SelectedType.Single)
+            options.SetItem(itm)
+            if(!multiples) {
+                let firstSet = false
+                const opts = itemOptions.map(optionItem => {
+                    const opt = {...optionItem, option: {...optionItem.option}} as OptionItemType
+                    if (!firstSet && optionItem.option.selected) {
+                        firstSet = true
+                    } else {
+                        opt.option.selected = false
+                    }
+                    return opt
+                })
+                setItemOptions(opts)
+            }
+        }
+    }, [multiples])
 
     useEffect(()=>{
             const itm = {...item} as OptionSubtype
-            itm.options = optionItems.map(optionItem => optionItem.option)
+            itm.options = itemOptions.map(itemOption => {
+                const opt = {...itemOption.option} as Option
+                if (!opt.selected) {
+                    delete opt.selected
+                }
+                return opt
+            })
             console.log('options',itm.options)
-            setItem(itm)
-    }, [optionItems])
+            options.SetItem(itm)
+    }, [itemOptions])
 
     useEffect(()=>{
-        if (item.searchableOptionsName !== searchableOption) {
-            const itm = {...item}
-            itm.searchableOptionsName = searchableOption
-            setItem(itm)
-            if (searchableOption !== undefined) {
+        if (item.searchableOptionsName !== searchableOptionsName) {
+            const itm = {...item, searchableOptionsName: searchableOptionsName}
+            if (searchableOptionsName !== undefined) {
                 itm.options = []
-                setOptionItems(itm.options.map((option, index) => {
-                    return {id: "o" + index.toString(), option: option}
-                }))
-            } else if (itm.options.length === 0) {
-                itm.options = [{label: "Option 1"}, {label: "Option 2"}]
-                setOptionItems(itm.options.map((option, index) => {
-                    return {id: "o" + index.toString(), option: option}
+                setItemOptions([])
+            } else if (itemOptions.length === 0) {
+                itm.options = [{label: "Option 1"}, {label: "Option 2"}] as Option[]
+                setItemOptions(itm.options.map((option) => {
+                    const opt = {...option} as Option
+                    opt.selected = opt.selected ?? false
+                    return {id: uuid(), option: opt} as OptionItemType
                 }))
             }
+
+            options.SetItem(itm)
         }
-    },[searchableOption])
+    },[searchableOptionsName])
 
     const addOption = () => {
-        const num = optionItems.length + 1
-        const opts = [...optionItems , {id: "o"+num.toString(), option:{label:"Option " + num.toString()} as Option}]
-        setOptionItems(opts)
+        let num = itemOptions.length
+        let label = ""
+        do {
+            num++
+            label = "Option " + num.toString()
+        } while (itemOptions.filter(itemOption => itemOption.option.label === label).length > 0)
+        setItemOptions([...itemOptions, {id: uuid(), option:{label: label, selected: false}}] )
     }
 
     const deleteOption = (id: string) => {
-        setOptionItems(optionItems.filter((optionItem) => optionItem.id !== id))
+        const opts = [...itemOptions]
+        const index = opts.findIndex(opt => opt.id === id)
+        delete opts[index]
+        setItemOptions(opts)
     }
 
     function handleDragEnd(event: DragEndEvent) {
         const {active, over} = event;
-
+        const itmOptions = [...itemOptions]
         if (!over) return;
         if (active.id !== over.id) {
-            const from = optionItems.findIndex(x => x.id === active.id)
-            const to = optionItems.findIndex(x => x.id === over.id)
-            setOptionItems(arrayMove(optionItems, from, to));
+            const from = itemOptions.findIndex(itemOption => itemOption.id === active.id)
+            const to = itemOptions.findIndex(itemOption => itemOption.id === over.id)
+            console.log('from: ', from)
+            console.log('to: ', to)
+            setItemOptions(arrayMove(itmOptions, from, to));
         }
     }
 
+    const onClickMultiples = () => {
+        setMultiples(!multiples)
+    }
+
+    const onChangeSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const optionId = event.target.value
+        console.log('optionId: ', optionId)
+        if (type === SelectedType.None) {
+            return;
+        }
+        const newOptions = itemOptions.map((optionItem) => {
+            const opt = {...optionItem.option} as Option
+            if (type === SelectedType.Single && optionItem.id !== optionId) {
+                console.log('Unselecting: ', optionItem)
+                opt.selected = false
+            } else if (optionItem.id === optionId){
+                opt.selected = !opt.selected
+            }
+            return {...optionItem, option:opt} as OptionItemType
+        })
+        console.log('newOptions: ',newOptions)
+        setItemOptions(newOptions)
+    }
+
     return <>
-        { props.useSearchableOptions
+        { useSearchableOptions
             ? <SelectOption
                 id={item.id+'searchable-option'}
                 label="Searchable Option"
-                option={searchableOption}
-                setOption={setSearchableOption}
+                option={searchableOptionsName}
+                setOption={setSearchableOptionsName}
                 options={searchableOptions}
                 none={'Use Listed Options'}/>
             : <></>
+        }
+        { useMultiples
+            ? <div><FormControl>
+                <FormControlLabel control={<Checkbox checked={multiples} onClick={onClickMultiples}/>} label="Multiples"/>
+            </FormControl><br/></div>
+            : ''
         }
         <ButtonGroup>
             <Button onClick={addOption}>Add</Button>
@@ -111,16 +176,25 @@ const Options = (props: OptionsProps) => {
             onDragEnd={handleDragEnd}
         >
             <SortableContext
-                items={optionItems.map((x) => x.id)}
+                items={itemOptions.map((optionItem) => optionItem.id)}
                 strategy={verticalListSortingStrategy}
             >
 
-                {optionItems.map((optionItem)=> <SortableItem key={optionItem.id} id={optionItem.id}>
+                {itemOptions.map((optionItem)=> <SortableItem key={optionItem.id} id={optionItem.id}>
                     <DragHandle>
                         <FormatLineSpacingRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
                     </DragHandle>
-                    <OptionItem options={optionItems} setOptions={setOptionItems} selectedType={selectedType} optionId={optionItem.id}/>
-                    { item.options.length > 2 ? <Button onClick={() => deleteOption(optionItem.id)} sx={{display: "inline", color:'red'}}>X</Button> : '' }
+                    { type !== SelectedType.None
+                        ? <Checkbox
+                            checked={optionItem.option.selected}
+                            onChange={onChangeSelected}
+                            value={optionItem.id}
+                            sx={{display: "inline"}}
+                          />
+                        : ''
+                    }
+                    <OptionItem options={itemOptions} setOptions={setItemOptions} optionId={optionItem.id}/>
+                    { itemOptions.length > 2 ? <Button onClick={() => deleteOption(optionItem.id)} sx={{display: "inline", color:'red'}}>X</Button> : '' }
                 </SortableItem>)}
             </SortableContext>
         </DndContext>
