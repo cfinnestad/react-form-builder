@@ -138,10 +138,12 @@ export type OptionSubtype = FieldItem & {
     searchableOptionsName?: string;
     options: Option[];
 };
-export type SelectSubtype = OptionSubtype & {
+export type MultiplesSubtype = OptionSubtype & {
+    multiples: boolean;
+};
+export type SelectSubtype = MultiplesSubtype & {
     subtype: 'Select';
     value?: string | string[];
-    multiples: boolean;
 };
 export type RadioSubtype = OptionSubtype & {
     subtype: 'Radio';
@@ -247,3 +249,4 @@ export declare function isBoolean(item: AnyItem): item is BooleanSubtype;
 export declare function isAutocomplete(item: AnyItem): item is AutocompleteSubtype;
 export declare function isPhone(item: AnyItem): item is PhoneSubtype;
 export declare function isOption(item: AnyItem): item is OptionSubtype;
+export declare function isMultiples(item: AnyItem): item is MultiplesSubtype;

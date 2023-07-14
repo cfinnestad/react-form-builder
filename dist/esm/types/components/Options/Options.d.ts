@@ -10,10 +10,11 @@ export type OptionsProps = {
     options: BuildOptions;
     selectedType?: SelectedType;
     useSearchableOptions?: boolean;
+    useMultiples?: boolean;
 };
 export type OptionItemType = {
     id: string;
     option: Option;
 };
-declare const Options: (props: OptionsProps) => React.JSX.Element;
+declare const Options: ({ item, options, selectedType, useSearchableOptions, useMultiples }: OptionsProps) => React.JSX.Element;
 export default Options;
