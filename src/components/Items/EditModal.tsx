@@ -16,6 +16,7 @@ const EditModal = (itemProps: ItemProps) => {
             open={true}
             onClose={Close}
             aria-labelledby="example-modal-sizes-title-lg"
+            disableEnforceFocus={true}
         >
             <DialogTitle>Edit {(itemProps.item as NamedItem)?.name} {itemProps.item.type} ({itemProps.item.id}) </DialogTitle>
             <DialogContent>

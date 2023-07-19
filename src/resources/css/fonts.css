@@ -1,0 +1,25 @@
+@font-face {
+    font-family: 'Gotham-Medium';
+    src: url('../fonts/Gotham-Medium.woff');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Gotham-Light';
+    src: url('../fonts/Gotham-Light.otf');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Gotham-Book';
+    src: url('../fonts/Gotham-Book.woff');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Trailblazer-Light';
+    src: url('../fonts/trailblazerh-light.woff');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Trailblazer-Bold';
+    src: url('../fonts/trailblazerh-demibold.woff');
+    font-weight: normal;
+}
