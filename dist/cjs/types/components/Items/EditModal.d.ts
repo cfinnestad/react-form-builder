@@ -1,4 +1,7 @@
 import React from "react";
 import { ItemProps } from "./Items";
-declare const EditModal: (itemProps: ItemProps) => React.JSX.Element;
+type EditModalProps = ItemProps & {
+    showModal: boolean;
+};
+declare const EditModal: (itemProps: EditModalProps) => React.JSX.Element;
 export default EditModal;
