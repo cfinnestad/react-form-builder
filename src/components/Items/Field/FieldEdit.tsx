@@ -36,11 +36,11 @@ export const FieldEdit = ({item, items, options}: ItemProps) => {
         const itm = { ...item }
         itm.subtype = subtype
         const defaults = options.AllowedSubtypes[subtype].Subtype
-        const fieldIndex: (keyof FieldItem)[] = ['id', 'type', 'label', 'name', 'subtype', 'required', 'deprecated']
+        const fieldIndex: (keyof FieldItem)[] = ['id', 'name', 'type', 'filter', 'custom', 'required', 'label', 'deprecated', 'helperText', 'subtype']
 
-        // grab field-specific properties from ITEM
+        // grab item and field specific properties from 'item'
         const fieldProps = pick(itm, fieldIndex)
-        // grab subtype-specific properties from DEFAULTS | Doesn't always have all defaults
+        // grab subtype specific properties from 'defaults'
         const subtypeDefaults = omit(defaults, fieldIndex)
 
         return { ...fieldProps, ...subtypeDefaults } as FieldItem
