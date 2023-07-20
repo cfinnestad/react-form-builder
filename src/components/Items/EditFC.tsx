@@ -1,5 +1,5 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
-import {AnyItem, GroupItem, isGroup, ItemProps, NamedItem} from "./Items";
+import React, {ChangeEvent, useState} from "react";
+import {AnyItem, isGroup, ItemProps, NamedItem} from "./Items";
 import {FormGroup, FormHelperText, Stack, TextField} from "@mui/material";
 import {ShowErrors} from "./Subtypes";
 
@@ -36,8 +36,8 @@ export const validateNameChange = (props: ItemProps, newName?: string): validate
     const otherNames = getSiblingItems(item, items)
         .filter(itm => {
             if (!isNamedItem(itm)) return false
-            if (itm.id === item.id) return false
-            return true
+            return itm.id !== item.id;
+
         })
         .flatMap(itm => { if (isNamedItem(itm)) return itm.name })
 
@@ -57,25 +57,20 @@ function isNamedItem(item: AnyItem): item is NamedItem {
     return 'name' in item && item.name !== undefined
 }
 
-const NamedItemEdit = (ItemProps: ItemProps) => {
-    if(!isNamedItem(ItemProps.item)) {
+const NamedItemEdit = ({item, items, options}: ItemProps) => {
+    if(!isNamedItem(item)) {
         return <></>
     }
 
-    const [item, setItem] = useState(ItemProps.item)
     const [nameError, setNameError] = useState(false)
     const [nameErrors, setNameErrors] = useState([] as string[])
     const [validNameHint, setValidNameHint] = useState<string>()
-
-    useEffect(() => {
-        ItemProps.options.SetItem(item)
-    }, [item])
 
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (!isNamedItem(item)) return
 
         const { target: { value } } = event;
-        const {validName, errors} = validateNameChange({...ItemProps, item: item}, value)
+        const {validName, errors} = validateNameChange({item: item, items: items, options: options}, value)
 
         if (errors !== undefined) {
             setNameError(true)
@@ -95,7 +90,8 @@ const NamedItemEdit = (ItemProps: ItemProps) => {
 
             setNameError(false)
             setNameErrors([])
-            setItem(itm)
+
+            options.SetItem(itm)
         }
     }
 

@@ -14,6 +14,7 @@ import {closestCenter, DndContext, useSensor, PointerSensor, KeyboardSensor} fro
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import Errors, {ErrorType, GetError} from "../Errors/Errors";
 import {Theme, useTheme} from "@mui/material/styles";
+import EditModal from "../Items/EditModal";
 
 export type BuilderOptions = {
     Actions?: ActionFC[],
@@ -46,7 +47,7 @@ export type BuilderProps = {
 
 const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     const [items, setItems] = useState<AnyItem[]>(Items || [])
-    const [modal, setModal] = useState( <></>)
+    const [modal, setModal] = useState( false )
     const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
     const sensors = [
         useSensor(PointerSensor),
@@ -54,10 +55,6 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     ]
     const defaultTheme = useTheme()
 
-    // const AllowedSubtypes: AllowedSubtypes = {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})}
-    // const AllowedItems:AllowedItems = {...(Options?.AllowedItems || DefaultItems()), ...(Options?.AdditionalItems || {})}
-    // const MyActions:ActionFC[] = [Transfer, Save, Clear]
-        //{...(Options?.Actions || [Transfer, Save, Clear]), ...(Options?.ActionsAppend || [] as FC<ActionProps>[])}
     const options:Options = {...(Options || {}),
         Actions: [Transfer, Save, Clear],
         AllowedSubtypes: {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})},
@@ -80,21 +77,6 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         console.log('ITEM',item)
         setItems(SetItem(item, items))
     },[item])
-
-    // const activeItem = useMemo(
-    //     () => items.find((item) => item.id === active?.id),
-    //     [items, active?.id]
-    // );
-
-    // useEffect(() => {
-    //     if(SetItems) {
-    //         SetItems(items)
-    //     }
-    // }, [items])
-    //
-    // useEffect(()=>{
-    //     setItems(SetItem(item, items))
-    // },[item])
 
     return <div className='builder'>
         <Actions Items={items} Options={options}/>
@@ -132,7 +114,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                     </Grid>
                 </Grid>
             </DndContext>
-            {modal}
+            <EditModal showModal={modal} item={item} items={items} options={options}></EditModal>
         </Box>
 
     </div>
