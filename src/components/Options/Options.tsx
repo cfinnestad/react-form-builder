@@ -1,13 +1,12 @@
-import React, {useEffect, useState} from 'react'
-import {Option, OptionSubtype, Options as BuildOptions, MultiplesSubtype, isMultiples} from '../Items'
-import {Button, ButtonGroup, Checkbox, FormControl, FormControlLabel} from "@mui/material";
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react'
+import {Option} from '../Items'
+import {Button, ButtonGroup, Checkbox} from "@mui/material";
 import {closestCenter, DndContext, DragEndEvent, KeyboardSensor, PointerSensor, useSensor} from "@dnd-kit/core";
 import {arrayMove, SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import {DragHandle, SortableItem} from '../SortableItem';
 import OptionItem from "./OptionItem";
-import SelectOption from "../SelectOption/SelectOption";
 import FormatLineSpacingRoundedIcon from "@mui/icons-material/FormatLineSpacingRounded";
-import {uuid} from "uuidv4";
+import {v4} from 'uuid'
 
 export enum SelectedType {
     None,
@@ -15,25 +14,19 @@ export enum SelectedType {
     Multiple,
 }
 export type OptionsProps = {
-    item: OptionSubtype,
-    options: BuildOptions,
-    selectedType?: SelectedType,
-    useSearchableOptions?: boolean,
-    useMultiples?: boolean,
+    options: Option[],
+    setOptions: Dispatch<SetStateAction<Option[]>>,
+    selectedType: SelectedType,
 }
 export type OptionItemType = {
     id: string,
     option: Option,
 }
 
-const Options = ({item,options,selectedType,useSearchableOptions,useMultiples}: OptionsProps) => {
-    const [searchableOptionsName, setSearchableOptionsName] = useState(item.searchableOptionsName)
-    const searchableOptions = Object.keys(options.searchableOptions ?? [] as string[])
-    const [type, setType] = useState(selectedType)
-    const [multiples, setMultiples] = useState( isMultiples(item) ? (item.multiples ?? false) : false )
-    const [itemOptions, setItemOptions] = useState(item.options.map(option => {
+const Options = ({options,setOptions,selectedType}: OptionsProps) => {
+    const [itemOptions, setItemOptions] = useState(options.map(option => {
         return {
-            id: uuid(),
+            id: v4(),
             option: {...option, selected: option.selected ?? false} as Option
         } as OptionItemType
     }))
@@ -43,58 +36,27 @@ const Options = ({item,options,selectedType,useSearchableOptions,useMultiples}: 
     ]
 
     useEffect(()=>{
-        if (useMultiples) {
-            const itm = {...item} as MultiplesSubtype
-            itm.multiples = multiples
-            setType(multiples ? SelectedType.Multiple : SelectedType.Single)
-            options.SetItem(itm)
-            if(!multiples) {
-                let firstSet = false
-                const opts = itemOptions.map(optionItem => {
-                    const opt = {...optionItem, option: {...optionItem.option}} as OptionItemType
-                    if (!firstSet && optionItem.option.selected) {
-                        firstSet = true
-                    } else {
-                        opt.option.selected = false
-                    }
-                    return opt
-                })
-                setItemOptions(opts)
+        const opts = itemOptions.map(itemOption => {
+            const opt = {...itemOption.option} as Option
+            if (!opt.selected) {
+                delete opt.selected
             }
+            return opt
+        })
+        console.log('opts', opts)
+        if (JSON.stringify(opts) !== JSON.stringify(options)) {
+            setOptions(opts)
         }
-    }, [multiples])
-
-    useEffect(()=>{
-            const itm = {...item} as OptionSubtype
-            itm.options = itemOptions.map(itemOption => {
-                const opt = {...itemOption.option} as Option
-                if (!opt.selected) {
-                    delete opt.selected
-                }
-                return opt
-            })
-            console.log('options',itm.options)
-            options.SetItem(itm)
     }, [itemOptions])
 
     useEffect(()=>{
-        if (item.searchableOptionsName !== searchableOptionsName) {
-            const itm = {...item, searchableOptionsName: searchableOptionsName}
-            if (searchableOptionsName !== undefined) {
-                itm.options = []
-                setItemOptions([])
-            } else if (itemOptions.length === 0) {
-                itm.options = [{label: "Option 1"}, {label: "Option 2"}] as Option[]
-                setItemOptions(itm.options.map((option) => {
-                    const opt = {...option} as Option
-                    opt.selected = opt.selected ?? false
-                    return {id: uuid(), option: opt} as OptionItemType
-                }))
-            }
-
-            options.SetItem(itm)
-        }
-    },[searchableOptionsName])
+        setItemOptions(options.map((option,index) => {
+            return {
+                ...itemOptions[index]??{id: v4()},
+                option: {...option, selected: option.selected ?? false} as Option
+            } as OptionItemType
+        }))
+    },[options])
 
     const addOption = () => {
         let num = itemOptions.length
@@ -103,13 +65,12 @@ const Options = ({item,options,selectedType,useSearchableOptions,useMultiples}: 
             num++
             label = "Option " + num.toString()
         } while (itemOptions.filter(itemOption => itemOption.option.label === label).length > 0)
-        setItemOptions([...itemOptions, {id: uuid(), option:{label: label, selected: false}}] )
+        setItemOptions([...itemOptions, {id: v4(), option:{label: label, selected: false}}] )
     }
 
     const deleteOption = (id: string) => {
-        const opts = [...itemOptions]
-        const index = opts.findIndex(opt => opt.id === id)
-        delete opts[index]
+        const opts = itemOptions.filter(opt => opt.id !== id)
+        console.log('opts')
         setItemOptions(opts)
     }
 
@@ -126,19 +87,15 @@ const Options = ({item,options,selectedType,useSearchableOptions,useMultiples}: 
         }
     }
 
-    const onClickMultiples = () => {
-        setMultiples(!multiples)
-    }
-
     const onChangeSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
         const optionId = event.target.value
         console.log('optionId: ', optionId)
-        if (type === SelectedType.None) {
+        if (selectedType === SelectedType.None) {
             return;
         }
         const newOptions = itemOptions.map((optionItem) => {
             const opt = {...optionItem.option} as Option
-            if (type === SelectedType.Single && optionItem.id !== optionId) {
+            if (selectedType === SelectedType.Single && optionItem.id !== optionId) {
                 console.log('Unselecting: ', optionItem)
                 opt.selected = false
             } else if (optionItem.id === optionId){
@@ -151,22 +108,6 @@ const Options = ({item,options,selectedType,useSearchableOptions,useMultiples}: 
     }
 
     return <>
-        { useSearchableOptions
-            ? <SelectOption
-                id={item.id+'searchable-option'}
-                label="Searchable Option"
-                option={searchableOptionsName}
-                setOption={setSearchableOptionsName}
-                options={searchableOptions}
-                none={'Use Listed Options'}/>
-            : <></>
-        }
-        { useMultiples
-            ? <div><FormControl>
-                <FormControlLabel control={<Checkbox checked={multiples} onClick={onClickMultiples}/>} label="Multiples"/>
-            </FormControl><br/></div>
-            : ''
-        }
         <ButtonGroup>
             <Button onClick={addOption}>Add</Button>
         </ButtonGroup>
@@ -184,7 +125,7 @@ const Options = ({item,options,selectedType,useSearchableOptions,useMultiples}: 
                     <DragHandle>
                         <FormatLineSpacingRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
                     </DragHandle>
-                    { type !== SelectedType.None
+                    { selectedType !== SelectedType.None
                         ? <Checkbox
                             checked={optionItem.option.selected}
                             onChange={onChangeSelected}

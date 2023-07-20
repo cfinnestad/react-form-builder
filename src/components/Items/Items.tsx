@@ -177,7 +177,7 @@ export type OptionSubtype = FieldItem & {
 }
 
 export type MultiplesSubtype = OptionSubtype & {
-    multiples: boolean,
+    multiples?: boolean,
 }
 
 export type SelectSubtype = MultiplesSubtype & {

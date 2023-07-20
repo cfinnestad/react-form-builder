@@ -183,7 +183,6 @@ export const Primary: Story = {
                     name: 'Select',
                     subtype: 'Select',
                     label: 'Select',
-                    multiples: true,
                     helperText: 'Select helper text test',
                     options: [
                         {
@@ -192,6 +191,7 @@ export const Primary: Story = {
                         {
                             selected: true,
                             label: 'Second',
+                            value: '2'
                         }
                     ]
                 } as SelectSubtype,
