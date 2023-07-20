@@ -43,9 +43,20 @@ const Options = ({options,setOptions,selectedType}: OptionsProps) => {
             }
             return opt
         })
-        console.log('opts',opts)
-        setOptions(opts)
+        console.log('opts', opts)
+        if (JSON.stringify(opts) !== JSON.stringify(options)) {
+            setOptions(opts)
+        }
     }, [itemOptions])
+
+    useEffect(()=>{
+        setItemOptions(options.map((option,index) => {
+            return {
+                ...itemOptions[index]??{id: v4()},
+                option: {...option, selected: option.selected ?? false} as Option
+            } as OptionItemType
+        }))
+    },[options])
 
     const addOption = () => {
         let num = itemOptions.length
@@ -58,9 +69,7 @@ const Options = ({options,setOptions,selectedType}: OptionsProps) => {
     }
 
     const deleteOption = (id: string) => {
-        const opts = [...itemOptions]
-        const index = opts.findIndex(opt => opt.id === id)
-        delete opts[index]
+        const opts = itemOptions.filter(opt => opt.id !== id)
         console.log('opts')
         setItemOptions(opts)
     }

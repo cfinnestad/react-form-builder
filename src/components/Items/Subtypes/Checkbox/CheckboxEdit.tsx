@@ -13,18 +13,19 @@ const CheckboxEdit = ({item, options}: FieldProps) => {
 
 
     const onClickInline = () => {
-        // const st = {...item} as CheckboxSubtype
-        // if (st.inLine) {
-        //     st.inLine = true
-        // } else {
-        //     delete st.inLine
-        // }
-        options.SetItem({...item})
+        const st = {...item} as CheckboxSubtype
+        console.log('item.inline',st.inLine)
+        if (!st.inLine) {
+            st.inLine = true
+        } else {
+            delete st.inLine
+        }
+        options.SetItem(st)
     }
 
     return <>
         <FormControl>
-            <FormControlLabel control={<Checkbox checked={item.inLine} onClick={onClickInline}/>} label="Inline"/>
+            <FormControlLabel control={<Checkbox checked={item.inLine ?? false} onClick={onClickInline}/>} label="Inline"/>
         </FormControl><br/>
         <Options options={itemOptions} setOptions={setItemOptions} selectedType={SelectedType.Multiple}/>
     </>
