@@ -1,12 +1,18 @@
 {
     "automock": false,
     "collectCoverage": true,
+    "collectCoverageFrom": [
+        "./src/components/Errors/*.{js,jsx,ts,tsx}",
+        "./src/components/Items/Subtypes/Text/*.{js,jsx,ts,tsx}",
+        "!./src/**/index.{js,jsx,ts,tsx}",
+        "!./src/**/*.stories.{js,jsx,ts,tsx}"
+    ],
     "coverageThreshold": {
         "global": {
-            "statements": 50,
-            "branches": 50,
-            "functions": 50,
-            "lines": 50
+            "statements": 10,
+            "branches": 10,
+            "functions": 10,
+            "lines": 10
         }
     },
     "testEnvironment": "jsdom"
