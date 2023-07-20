@@ -8,16 +8,15 @@ import {
     FormHelperText, InputLabel,
     MenuItem,
     Select,
-    SelectChangeEvent, Stack,
+    SelectChangeEvent,
     TextField
 } from "@mui/material";
 import {omit, pick} from "lodash";
 
-export const FieldEdit = (FieldProps: ItemProps) => {
-    if (!isField(FieldProps.item)) return <></>
+export const FieldEdit = ({item, items, options}: ItemProps) => {
+    if (!isField(item)) return <></>
 
-    const [item, setItem] = useState(FieldProps.item)
-    const [subtype, setSubtype] = useState(FieldProps.item.subtype)
+    const [subtype, setSubtype] = useState(item.subtype)
 
     const subtypeInit = useRef(false)
     const subtypeOptions = Object.keys(DefaultSubtypes())
@@ -26,20 +25,17 @@ export const FieldEdit = (FieldProps: ItemProps) => {
         // Don't run getSubtypeDefaults on first render. Trust that existing subtype fields are correct.
         if(subtypeInit.current) {
             const fieldItem = getSubtypeDefaults(item, subtype)
-            setItem(fieldItem)
+            // setItem(fieldItem)
+            options.SetItem(fieldItem)
         } else {
             subtypeInit.current = true
         }
     }, [subtype])
 
-    useEffect(() => {
-        FieldProps.options.SetItem(item)
-    }, [item])
-
     const getSubtypeDefaults = (item: FieldProps['item'], subtype: string) => {
         const itm = { ...item }
         itm.subtype = subtype
-        const defaults = FieldProps.options.AllowedSubtypes[subtype].Subtype
+        const defaults = options.AllowedSubtypes[subtype].Subtype
         const fieldIndex: (keyof FieldItem)[] = ['id', 'type', 'label', 'name', 'subtype', 'required', 'deprecated']
 
         // grab field-specific properties from ITEM
@@ -61,7 +57,7 @@ export const FieldEdit = (FieldProps: ItemProps) => {
                 delete itm.required
             }
 
-            setItem(itm)
+            options.SetItem(itm)
         },
         deprecated: (event: ChangeEvent<HTMLInputElement>) => {
             const itm = { ...item }
@@ -72,7 +68,8 @@ export const FieldEdit = (FieldProps: ItemProps) => {
                 itm.deprecated = undefined
                 delete itm.deprecated
             }
-            setItem(itm)
+
+            options.SetItem(itm)
         },
         subtype: (event: SelectChangeEvent) => {
             const { target: { value } } = event;
@@ -82,13 +79,15 @@ export const FieldEdit = (FieldProps: ItemProps) => {
             const itm = { ...item }
             const { target: { value } } = event;
             itm.label = value
-            setItem(itm)
+
+            options.SetItem(itm)
         },
         helperText: (event: ChangeEvent<HTMLInputElement>) => {
             const itm = { ...item }
             const { target: { value } } = event;
             itm.helperText = value
-            setItem(itm)
+
+            options.SetItem(itm)
         }
     }
 
@@ -148,12 +147,12 @@ export const FieldEdit = (FieldProps: ItemProps) => {
             </FormHelperText>
         </FormControl>
 
-        { Object.entries(FieldProps.options.AllowedSubtypes).map(([key, value]) => {
+        { Object.entries(options.AllowedSubtypes).map(([key, value]) => {
             return subtype === key &&
                 <value.EditFC
                     item={item}
-                    items={FieldProps.items}
-                    options={FieldProps.options}
+                    items={items}
+                    options={options}
                 ></value.EditFC>
         })}
 

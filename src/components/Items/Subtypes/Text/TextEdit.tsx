@@ -1,24 +1,19 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, {ChangeEvent, useState} from "react";
 import {FieldProps, isText} from "../../Items";
 import {TextField, Checkbox, FormGroup, FormControlLabel, FormHelperText} from "@mui/material";
 import ShowErrors from "../ShowErrors";
 
-export const TextEdit = (FieldProps: FieldProps ) => {
-    if (!isText(FieldProps.item)){
+export const TextEdit = ({item, items, options}: FieldProps ) => {
+    if (!isText(item)){
         return <></>
     }
 
-    const [item, setItem] = useState(FieldProps.item)
     const [valueError, setValueError] = useState( false)
     const [valueErrors, setValueErrors] = useState( [] as string[])
     const [minLengthError, setMinLengthError] = useState({error: false})
     const [minLengthErrors, setMinLengthErrors] = useState( [] as string[])
     const [maxLengthError, setMaxLengthError] = useState( false)
     const [maxLengthErrors, setMaxLengthErrors] = useState( [] as string[])
-
-    useEffect(() => {
-        FieldProps.options.SetItem(item)
-    }, [item])
 
     const onChangeMinLength = (event: ChangeEvent<HTMLInputElement>) => {
 
@@ -36,7 +31,7 @@ export const TextEdit = (FieldProps: FieldProps ) => {
             }
         }
 
-        setItem({...item, minLength: value})
+        options.SetItem({...item, minLength: value})
         setMinLengthError({error: false})
         setMinLengthErrors([]);
     }
@@ -55,7 +50,8 @@ export const TextEdit = (FieldProps: FieldProps ) => {
                 return
             }
         }
-        setItem({...item, maxLength: value})
+
+        options.SetItem({...item, maxLength: value})
         setMaxLengthError(false);
         setMaxLengthErrors([]);
     }
@@ -81,7 +77,7 @@ export const TextEdit = (FieldProps: FieldProps ) => {
         }
         setValueError(false)
         setValueErrors([])
-        setItem(itm)
+        options.SetItem(itm)
     }
 
     const onClickMultiline = (event: ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +88,7 @@ export const TextEdit = (FieldProps: FieldProps ) => {
         } else {
             st.multiline = true
         }
-        setItem(st)
+        options.SetItem(st)
     }
 
     return <>
