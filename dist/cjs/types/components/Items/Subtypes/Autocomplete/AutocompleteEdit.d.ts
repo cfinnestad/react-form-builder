@@ -1,3 +1,4 @@
 import React from 'react';
-declare const AutocompleteEdit: () => React.JSX.Element;
+import { FieldProps } from "../../Items";
+declare const AutocompleteEdit: ({ item, options }: FieldProps) => React.JSX.Element;
 export default AutocompleteEdit;
