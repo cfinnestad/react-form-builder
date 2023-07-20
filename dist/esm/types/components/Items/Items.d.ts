@@ -15,7 +15,7 @@ export type Options = {
     onSave?: (Items: AnyItem[]) => void;
     SetItem: Dispatch<SetStateAction<AnyItem>>;
     setItems: Dispatch<SetStateAction<AnyItem[]>>;
-    setModal?: Dispatch<SetStateAction<JSX.Element>>;
+    setModal?: Dispatch<SetStateAction<boolean>>;
     IsBuild: boolean;
     getError: (error: string, item: AnyItem) => string | undefined;
     searchableOptions?: {
