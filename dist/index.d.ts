@@ -145,7 +145,7 @@ type OptionSubtype = FieldItem & {
     options: Option[];
 };
 type MultiplesSubtype = OptionSubtype & {
-    multiples: boolean;
+    multiples?: boolean;
 };
 type SelectSubtype = MultiplesSubtype & {
     subtype: 'Select';

@@ -139,7 +139,7 @@ export type OptionSubtype = FieldItem & {
     options: Option[];
 };
 export type MultiplesSubtype = OptionSubtype & {
-    multiples: boolean;
+    multiples?: boolean;
 };
 export type SelectSubtype = MultiplesSubtype & {
     subtype: 'Select';
