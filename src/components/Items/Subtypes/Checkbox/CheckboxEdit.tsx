@@ -1,33 +1,32 @@
 import React, {useEffect, useState} from "react";
-import {CheckboxSubtype, FieldProps, isCheckbox} from "../../Items";
+import {CheckboxSubtype, FieldProps, isCheckbox, OptionSubtype} from "../../Items";
 import Options, {SelectedType} from "../../../Options/Options";
 import {Checkbox, FormControl, FormControlLabel} from "@mui/material";
 
 const CheckboxEdit = ({item, options}: FieldProps) => {
     if (!isCheckbox(item)) return <></>
-    const [inline, setInline] = useState(item.inLine || false)
+    const [itemOptions, setItemOptions] = useState(item.options)
 
     useEffect(()=>{
+        options.SetItem({...item,options:itemOptions} as OptionSubtype)
+    },[itemOptions])
 
-        const st = {...item} as CheckboxSubtype
-        if (inline) {
-            st.inLine = true
-        } else {
-            delete st.inLine
-        }
-        options.SetItem(st)
-    },[inline])
 
     const onClickInline = () => {
-        setInline(!inline)
-
+        // const st = {...item} as CheckboxSubtype
+        // if (st.inLine) {
+        //     st.inLine = true
+        // } else {
+        //     delete st.inLine
+        // }
+        options.SetItem({...item})
     }
 
     return <>
         <FormControl>
             <FormControlLabel control={<Checkbox checked={item.inLine} onClick={onClickInline}/>} label="Inline"/>
         </FormControl><br/>
-        <Options item={item} options={options} selectedType={SelectedType.Multiple}/>
+        <Options options={itemOptions} setOptions={setItemOptions} selectedType={SelectedType.Multiple}/>
     </>
 }
 
