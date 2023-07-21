@@ -7,10 +7,13 @@ const RadioEdit = ({ item, options }: FieldProps) => {
     if (!isRadio(item))
         return <></>;
 
-    // Handles state for the edit modal
+    // Handles layout state for the edit modal
     const [value, setValue] = useState(item.inLine ? 'inline' : 'vertical');
-    // Handles state for the builder
+    // Handles layout state for the builder
     const [layout, setLayout] = useState(item.inLine || false);
+    // Handles choices state for the builder
+    const [itemOptions, setItemOptions] = useState(item.options);
+
     useEffect(() => {
         const radio = { ...item } as RadioSubtype;
         if (layout)
@@ -20,6 +23,10 @@ const RadioEdit = ({ item, options }: FieldProps) => {
 
         options.SetItem(radio);
     }, [layout]);
+
+    useEffect(() => {
+        options.SetItem({ ...item, options: itemOptions })
+    }, [itemOptions]);
 
     const layoutClickHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         // Update the modal so the user has a good experience when choosing the default selected option
@@ -54,8 +61,8 @@ const RadioEdit = ({ item, options }: FieldProps) => {
 
             <FormLabel id="control-options-group">Choices</FormLabel>
             <Options
-                item={item}
-                options={options}
+                options={itemOptions}
+                setOptions={setItemOptions}
                 selectedType={SelectedType.Single}
             />
         </Stack>
