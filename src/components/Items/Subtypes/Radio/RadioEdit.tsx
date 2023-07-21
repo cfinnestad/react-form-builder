@@ -36,7 +36,7 @@ const RadioEdit = ({ item, options }: FieldProps) => {
     }
 
     return (
-        <Stack spacing={3}>
+        <>
             <FormControl>
                 <FormLabel id="control-layout-radio-buttons-group">Layout</FormLabel>
                 <RadioGroup
@@ -65,7 +65,7 @@ const RadioEdit = ({ item, options }: FieldProps) => {
                 setOptions={setItemOptions}
                 selectedType={SelectedType.Single}
             />
-        </Stack>
+        </>
     );
 }
 
