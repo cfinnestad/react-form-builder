@@ -8,13 +8,13 @@ const SubmitEdit = ({item, options}: ItemProps) => {
 
     const [stateItem, setStateItem] = useState(item)
     const [submitElement, setSubmitElement] = useState(item.submitElementName)
-    const submitElements = Object.keys(options.submitElements)
+    const submitElements = Object.keys(options.submitElements ?? {})
 
     useEffect( ()=>{
         options.SetItem(stateItem)
 
         if (stateItem.submitElementName !== submitElement) {
-            options.SetItem({...stateItem, submitElementName: submitElement})
+            options.SetItem({...stateItem, submitElementName: submitElement} as SubmitItem)
         }
     }, [stateItem, submitElement])
 
