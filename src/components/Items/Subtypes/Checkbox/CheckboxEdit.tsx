@@ -1,34 +1,72 @@
-import React, {useEffect, useState} from "react";
-import {CheckboxSubtype, FieldProps, isCheckbox, OptionSubtype} from "../../Items";
-import Options, {SelectedType} from "../../../Options/Options";
-import {Checkbox, FormControl, FormControlLabel} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { CheckboxSubtype, FieldProps, isCheckbox, OptionSubtype } from "../../Items";
+import Options, { SelectedType } from "../../../Options/Options";
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
 
-const CheckboxEdit = ({item, options}: FieldProps) => {
-    if (!isCheckbox(item)) return <></>
-    const [itemOptions, setItemOptions] = useState(item.options)
+const CheckboxEdit = ({ item, options }: FieldProps) => {
+    if (!isCheckbox(item))
+        return <></>;
 
-    useEffect(()=>{
-        options.SetItem({...item,options:itemOptions} as OptionSubtype)
-    },[itemOptions])
+    // Handles layout state for the edit modal
+    const [value, setValue] = useState(item.inLine ? 'inline' : 'vertical');
+    // Handles layout state for the builder
+    const [layout, setLayout] = useState(item.inLine || false);
+    // Handles choices state for the builder
+    const [itemOptions, setItemOptions] = useState(item.options);
 
+    useEffect(() => {
+        const checkbox = { ...item } as CheckboxSubtype;
+        if (layout)
+            checkbox.inLine = true;
+        else
+            delete checkbox.inLine;
 
-    const onClickInline = () => {
-        const st = {...item} as CheckboxSubtype
-        console.log('item.inline',st.inLine)
-        if (!st.inLine) {
-            st.inLine = true
-        } else {
-            delete st.inLine
-        }
-        options.SetItem(st)
+        options.SetItem(checkbox);
+    }, [layout]);
+
+    useEffect(() => {
+        options.SetItem({ ...item, options: itemOptions } as OptionSubtype)
+    }, [itemOptions]);
+
+    const layoutClickHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        // Update the modal so the user has a good expereince when choosing the default selected option
+        setValue((event.target as HTMLInputElement).value);
+        // Update the builder to reflect the user's choice for default selected option
+        setLayout(!layout);
     }
 
-    return <>
-        <FormControl>
-            <FormControlLabel control={<Checkbox checked={item.inLine ?? false} onClick={onClickInline}/>} label="Inline"/>
-        </FormControl><br/>
-        <Options options={itemOptions} setOptions={setItemOptions} selectedType={SelectedType.Multiple}/>
-    </>
+    return (
+        <>
+            <FormControl>
+                <FormLabel id="control-layout-radio-buttons-group">Layout</FormLabel>
+                <RadioGroup
+                    row
+                    aria-labelledby="control-layout-radio-buttons-group"
+                    name="layout-radio-buttons-group"
+                    value={value}
+                    onChange={layoutClickHandler}
+                >
+                    <FormControlLabel
+                        control={<Radio />}
+                        value="inline"
+                        label="Inline"
+                    />
+                    <FormControlLabel
+                        control={<Radio />}
+                        value="vertical"
+                        label="Vertical"
+                    />
+                </RadioGroup>
+            </FormControl>
+
+            <FormLabel id="control-options-group">Choices</FormLabel>
+            <Options
+                options={itemOptions}
+                setOptions={setItemOptions}
+                selectedType={SelectedType.Multiple}
+            />
+        </>
+    );
 }
 
-export default CheckboxEdit
+export default CheckboxEdit;
