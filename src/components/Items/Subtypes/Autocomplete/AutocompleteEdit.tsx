@@ -1,7 +1,7 @@
 import React from 'react';
-import {FieldProps} from "../../Items";
+import {AutocompleteProps} from "../../Items";
 
-const AutocompleteEdit = ({item, options}: FieldProps) => {
+const AutocompleteEdit = ({item, options}: AutocompleteProps) => {
     const searchableOptions = Object.keys(options.searchableOptions ?? [] as string[])
     return (
         <></>

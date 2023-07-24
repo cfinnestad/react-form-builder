@@ -1,13 +1,9 @@
 import React, {ChangeEvent} from "react";
-import {FieldProps, isNumber, NumberSubtype} from "../../Items";
+import {NumberProps, NumberSubtype} from "../../Items";
 import {FormHelperText, InputLabel, Stack, TextField} from "@mui/material";
 import {NumberValidate} from "./index";
 
-const NumberST = ({item, options}: FieldProps ) => {
-    if (!isNumber(item) ) {
-        return <></>
-    }
-
+const NumberST = ({item, options}: NumberProps ) => {
     const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const val = event.target.value ?? undefined
         const itm = {...item} as NumberSubtype

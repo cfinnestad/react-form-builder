@@ -1,11 +1,9 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
-import {isSubmit, ItemProps, SubmitItem} from "../Items";
+import {SubmitItem, SubmitProps} from "../Items";
 import {TextField, Stack} from "@mui/material";
 import SelectOption from "../../SelectOption/SelectOption";
 
-const SubmitEdit = ({item, options}: ItemProps) => {
-    if (!isSubmit(item)) return <></>
-
+const SubmitEdit = ({item, options}: SubmitProps) => {
     const [stateItem, setStateItem] = useState(item)
     const [submitElement, setSubmitElement] = useState(item.submitElementName)
     const submitElements = Object.keys(options.submitElements ?? {})

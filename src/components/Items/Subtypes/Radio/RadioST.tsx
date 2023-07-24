@@ -1,8 +1,6 @@
 import React from "react";
 import {
-    FieldProps,
-    isField,
-    isRadio,
+    RadioProps,
     RadioSubtype
 } from "../../Items";
 import {
@@ -14,11 +12,7 @@ import {
 } from "@mui/material";
 import {RadioValidate} from "./index";
 
-const RadioST = ({item, options}: FieldProps ) => {
-
-    if (!isField(item) || !isRadio(item) ) {
-        return <></>
-    }
+const RadioST = ({item, options}: RadioProps ) => {
 
     function onChange(index: number){
         const itm = {...item} as RadioSubtype

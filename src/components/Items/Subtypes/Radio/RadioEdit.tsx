@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { FieldProps, isRadio, RadioSubtype } from "../../Items";
+import {RadioProps, RadioSubtype} from "../../Items";
 import Options, { SelectedType } from "../../../Options/Options";
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack } from "@mui/material";
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
 
-const RadioEdit = ({ item, options }: FieldProps) => {
-    if (!isRadio(item))
-        return <></>;
-
+const RadioEdit = ({ item, options }: RadioProps) => {
     // Handles layout state for the edit modal
     const [value, setValue] = useState(item.inLine ? 'inline' : 'vertical');
     // Handles layout state for the builder

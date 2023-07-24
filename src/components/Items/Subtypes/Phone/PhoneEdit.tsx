@@ -1,7 +1,7 @@
 import React from "react";
-import {FieldProps} from "../../Items";
+import {PhoneProps} from "../../Items";
 
-export const PhoneEdit = ({}: FieldProps ) => {
+export const PhoneEdit = ({}: PhoneProps ) => {
     return <></>
 }
 

@@ -1,15 +1,9 @@
 import React, {ChangeEvent} from "react";
-import {EmailSubtype, FieldProps, isEmail} from "../../Items";
+import {EmailProps, EmailSubtype} from "../../Items";
 import {FormHelperText, InputLabel, Stack, TextField} from "@mui/material";
 import {EmailValidate} from "./index";
 
-const EmailST = ({item, options}: FieldProps ) => {
-
-    if (!isEmail(item) ) {
-        return <></>
-    }
-
-
+const EmailST = ({item, options}: EmailProps ) => {
     const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const val = event.target.value || undefined
         const itm = {...item} as EmailSubtype

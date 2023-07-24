@@ -1,11 +1,10 @@
 import React from "react";
-import {isGroup, ItemProps} from "../Items";
+import {GroupProps} from "../Items";
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import ShowItem from "../ShowItem";
 import {List, ListItem, Stack, Typography} from "@mui/material";
 
-const ItemGroup = ({item, items, options}: ItemProps) => {
-    if (!isGroup(item)) return <></>
+const ItemGroup = ({item, items, options}: GroupProps) => {
     if (options.IsBuild) {
         return <>
             <Typography variant="h5">{item.label}</Typography>

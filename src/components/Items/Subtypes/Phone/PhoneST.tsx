@@ -1,14 +1,10 @@
 import React, {ChangeEvent} from "react";
-import {FieldProps, isPhone, PhoneSubtype} from "../../Items";
+import {PhoneProps, PhoneSubtype} from "../../Items";
 import MuiPhoneNumber from 'mui-phone-number';
 import phoneValidate from "./PhoneValidate";
 import {Box, FormHelperText, InputLabel, Stack} from "@mui/material";
 
-const PhoneST = ({item, options}: FieldProps ) => {
-    if (!isPhone(item) ) {
-        return <></>
-    }
-
+const PhoneST = ({item, options}: PhoneProps ) => {
     const onChange = (e: string | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const itm = {...item} as PhoneSubtype
         

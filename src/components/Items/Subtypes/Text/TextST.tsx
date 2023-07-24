@@ -1,14 +1,9 @@
 import React, {ChangeEvent} from "react";
-import {FieldProps, isText, TextSubtype} from "../../Items";
+import {TextProps, TextSubtype} from "../../Items";
 import {FormHelperText, TextField, Stack, InputLabel} from "@mui/material";
 import {TextValidate} from "./index";
 
-const TextST = ({item, options}: FieldProps ) => {
-
-    if (!isText(item) ) {
-        return <></>
-    }
-
+const TextST = ({item, options}: TextProps ) => {
     const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const val = event.target.value || undefined
         const itm = {...item} as TextSubtype

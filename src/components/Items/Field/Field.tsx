@@ -1,12 +1,8 @@
 import React from "react";
-import {FieldProps, isField, ItemProps} from "../Items";
+import {FieldProps} from "../Items";
 import {Box} from "@mui/material";
 
-const Field = (fieldProps: ItemProps) => {
-    if(!isField(fieldProps.item)) {
-        return <></>
-    }
-
+const Field = (fieldProps: FieldProps) => {
     if(!fieldProps.options.IsBuild) {
         if (fieldProps.item.deprecated) return <></>
     }

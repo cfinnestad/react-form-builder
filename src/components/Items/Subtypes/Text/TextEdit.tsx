@@ -1,13 +1,9 @@
 import React, {ChangeEvent, useState} from "react";
-import {FieldProps, isText} from "../../Items";
+import {TextProps} from "../../Items";
 import {TextField, Checkbox, FormGroup, FormControlLabel, FormHelperText} from "@mui/material";
 import ShowErrors from "../ShowErrors";
 
-export const TextEdit = ({item, items, options}: FieldProps ) => {
-    if (!isText(item)){
-        return <></>
-    }
-
+export const TextEdit = ({item, items, options}: TextProps ) => {
     const [valueError, setValueError] = useState( false)
     const [valueErrors, setValueErrors] = useState( [] as string[])
     const [minLengthError, setMinLengthError] = useState({error: false})

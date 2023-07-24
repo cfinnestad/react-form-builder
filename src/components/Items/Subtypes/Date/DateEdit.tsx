@@ -1,7 +1,7 @@
 import React from "react";
-import {FieldProps} from "../../Items";
+import {DateProps} from "../../Items";
 
-export const DateEdit = ({}: FieldProps ) => {
+export const DateEdit = ({}: DateProps ) => {
     return <></>
 }
 
