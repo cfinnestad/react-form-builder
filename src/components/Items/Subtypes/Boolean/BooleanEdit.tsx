@@ -1,7 +1,7 @@
 import React from "react";
-import {FieldProps} from "../../Items";
+import {BooleanProps} from "../../Items";
 
-const BooleanEdit = (fieldProps: FieldProps) => {
+const BooleanEdit = (fieldProps: BooleanProps) => {
     return (
         <></>
     );

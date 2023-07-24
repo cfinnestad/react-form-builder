@@ -1,5 +1,5 @@
 import React from "react";
-import {HiddenItem, ItemProps} from "../Items";
+import {HiddenItem, HiddenProps} from "../Items";
 import {TextField} from "@mui/material";
 
 // TODO Use IsBuild parameter
@@ -8,7 +8,7 @@ import {TextField} from "@mui/material";
 // Still needs to render, just dont show
 
 
-const Hidden = (fieldProps: ItemProps) => {
+const Hidden = (fieldProps: HiddenProps) => {
     const item = fieldProps.item as HiddenItem
     if (fieldProps.options.IsBuild) return <TextField label='Hidden Field' type={"text"} id={fieldProps.item.id} name={item.name} disabled={true} value={item.value}/>
     if (item.deprecated) return <></>

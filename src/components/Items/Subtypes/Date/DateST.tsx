@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {FieldProps, isDate, DateSubtype} from "../../Items";
+import {DateSubtype, DateProps} from "../../Items";
 import {FormHelperText, TextField, Stack} from "@mui/material";
 import {DateValidate, dateFormat, dateCmp} from "./index";
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs'
@@ -20,11 +20,7 @@ const today = () => {
     return dateFormat(dayjs())
 }
 
-const DateST = ({item, options}: FieldProps ) => {
-
-    if (!isDate(item) ) {
-        return <></>
-    }
+const DateST = ({item, options}: DateProps ) => {
 
     if (item.value === "today") item.value = today()
     if (!item.dateFormat) item.dateFormat = defaultFormat

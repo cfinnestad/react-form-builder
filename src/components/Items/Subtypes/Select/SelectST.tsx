@@ -11,7 +11,7 @@ import {
     Stack
 } from '@mui/material';
 import { Theme, useTheme } from '@mui/material/styles';
-import {FieldProps, isSelect, Option, SelectSubtype} from '../../Items';
+import {Option, SelectProps, SelectSubtype} from '../../Items';
 import { SelectValidate } from "./index";
 
 const ITEM_HEIGHT = 48;
@@ -25,7 +25,7 @@ const MenuProps = {
     }
 };
 
-function SelectST({item, options}: FieldProps) {
+function SelectST({item, options}: SelectProps) {
     const theme = useTheme();
     const handleChange = (event: SelectChangeEvent<string | string[]>) => {
         const itm = { ...item } as SelectSubtype
@@ -50,9 +50,6 @@ function SelectST({item, options}: FieldProps) {
             options.SetItem(itm)
         }
     };
-
-    if (!isSelect(item))
-        return <></>
 
     if (item.multiples) {
         return (

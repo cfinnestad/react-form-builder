@@ -275,6 +275,16 @@ export type GroupProps = BaseItemProps & { item: GroupItem }
 export type HTMLProps = BaseItemProps & { item: HTMLItem }
 export type SubmitProps = BaseItemProps & { item: SubmitItem }
 export type HiddenProps = BaseItemProps & { item: HiddenItem }
+export type SelectProps = FieldProps & { item : SelectSubtype }
+export type RadioProps = FieldProps & { item : RadioSubtype }
+export type CheckboxProps = FieldProps & { item : CheckboxSubtype }
+export type TextProps = FieldProps & { item : TextSubtype }
+export type EmailProps = FieldProps & { item : EmailSubtype }
+export type NumberProps = FieldProps & { item : NumberSubtype }
+export type DateProps = FieldProps & { item : DateSubtype }
+export type BooleanProps = FieldProps & { item : BooleanSubtype }
+export type AutocompleteProps = FieldProps & { item : AutocompleteSubtype }
+export type PhoneProps = FieldProps & { item : PhoneSubtype }
 export type ItemProps =
     | BaseItemProps
     | GroupProps
@@ -282,6 +292,16 @@ export type ItemProps =
     | HTMLProps
     | SubmitProps
     | FieldProps
+    | SelectProps
+    | RadioProps
+    | CheckboxProps
+    | TextProps
+    | EmailProps
+    | NumberProps
+    | DateProps
+    | BooleanProps
+    | AutocompleteProps
+    | PhoneProps
 
 
 export function isGroup(item: AnyItem): item is GroupItem { return item.type === "Group" }

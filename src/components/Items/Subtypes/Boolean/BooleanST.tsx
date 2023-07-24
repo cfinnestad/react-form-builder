@@ -1,16 +1,9 @@
 import React from "react";
-import {
-    BooleanSubtype,
-    FieldProps, isBoolean,
-} from "../../Items";
+import {BooleanProps, BooleanSubtype} from "../../Items";
 import {Checkbox, FormControlLabel, FormGroup, FormHelperText} from "@mui/material";
 import {BooleanValidate} from "./index";
 
-const BooleanST = ({item, options}: FieldProps ) => {
-
-    if (!isBoolean(item) ) {
-        return <></>
-    }
+const BooleanST = ({item, options}: BooleanProps ) => {
 
     function onChange(){
         const itm = {...item} as BooleanSubtype;

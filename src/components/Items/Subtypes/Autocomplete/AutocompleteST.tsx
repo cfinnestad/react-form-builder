@@ -1,16 +1,12 @@
 import React, {SyntheticEvent, useEffect, useRef, useState} from "react";
 import {Autocomplete, FormHelperText, InputLabel, Stack, TextField} from "@mui/material";
-import {FieldProps, Option, isAutocomplete, AutocompleteSubtype} from "../../Items";
+import {Option, AutocompleteSubtype, AutocompleteProps} from "../../Items";
 import AutocompleteValidate from "./AutocompleteValidate";
 
 
 export type FilterOptionsFunc = (input?: string) => (Promise<Option[]> | Option[])
 
-const AutocompleteST = ({item, options}: FieldProps) => {
-
-    if (!isAutocomplete(item) ) {
-        return <></>
-    }
+const AutocompleteST = ({item, options}: AutocompleteProps) => {
     const element = document.getElementById(item.id)
     if (element === undefined) {
         console.log('Could not find element by ID')

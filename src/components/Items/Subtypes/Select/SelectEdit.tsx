@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {FieldProps, isSelect, MultiplesSubtype, OptionSubtype} from "../../Items";
+import {MultiplesSubtype, OptionSubtype, SelectProps} from "../../Items";
 import Options, {SelectedType} from "../../../Options/Options";
 import {Checkbox, FormControl, FormControlLabel} from "@mui/material";
 
-const SelectEdit = ({item, options}: FieldProps) => {
-    if (!isSelect(item)) return <></>
+const SelectEdit = ({item, options}: SelectProps) => {
     const [itemOptions, setItemOptions] = useState(item.options)
 
     useEffect(()=>{

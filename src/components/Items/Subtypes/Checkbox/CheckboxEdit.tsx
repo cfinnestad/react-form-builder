@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { CheckboxSubtype, FieldProps, isCheckbox, OptionSubtype } from "../../Items";
+import { CheckboxSubtype, OptionSubtype, CheckboxProps } from "../../Items";
 import Options, { SelectedType } from "../../../Options/Options";
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
 
-const CheckboxEdit = ({ item, options }: FieldProps) => {
-    if (!isCheckbox(item))
-        return <></>;
 
+const CheckboxEdit = ({ item, options }: CheckboxProps) => {
     // Handles layout state for the edit modal
     const [value, setValue] = useState(item.inLine ? 'inline' : 'vertical');
     // Handles layout state for the builder

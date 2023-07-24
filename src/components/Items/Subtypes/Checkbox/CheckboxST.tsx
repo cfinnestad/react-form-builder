@@ -1,5 +1,5 @@
 import React from "react";
-import {CheckboxSubtype, FieldProps, isCheckbox, isField} from "../../Items";
+import {CheckboxProps, CheckboxSubtype} from "../../Items";
 import {
     Checkbox,
     FormControlLabel,
@@ -9,13 +9,7 @@ import {
 } from "@mui/material";
 import {CheckboxValidate} from "./index";
 
-const CheckboxST = ({item, options}: FieldProps ) => {
-
-    if (!isField(item) || !isCheckbox(item) ) {
-        return <></>
-    }
-
-
+const CheckboxST = ({item, options}: CheckboxProps ) => {
     function onChange(index: number){
         const itm = {...item} as CheckboxSubtype;
         itm.options[index].selected = !itm.options[index].selected;

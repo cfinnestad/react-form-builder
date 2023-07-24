@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
-import {FieldItem, FieldProps, isField, ItemProps} from "../Items";
+import {FieldItem, FieldProps} from "../Items";
 import DefaultSubtypes from "../Subtypes/DefaultSubTypes";
 import {
     Checkbox,
@@ -13,9 +13,7 @@ import {
 } from "@mui/material";
 import {omit, pick} from "lodash";
 
-export const FieldEdit = ({item, items, options}: ItemProps) => {
-    if (!isField(item)) return <></>
-
+export const FieldEdit = ({item, items, options}: FieldProps) => {
     const [subtype, setSubtype] = useState(item.subtype)
 
     const subtypeInit = useRef(false)

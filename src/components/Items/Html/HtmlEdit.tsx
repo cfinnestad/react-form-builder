@@ -1,10 +1,8 @@
 import React, {useEffect, useState, useRef} from "react";
-import {isHtml, ItemProps, HTMLItem} from "../Items";
+import {HTMLItem, HTMLProps} from "../Items";
 import {Editor} from "@tinymce/tinymce-react";
 
-const HtmlEdit = ({item, options}: ItemProps) => {
-    if (!isHtml(item)) return <></>
-
+const HtmlEdit = ({item, options}: HTMLProps) => {
     const [stateItem, setStateItem] = useState(item)
 
     const editorRef = useRef(null);
