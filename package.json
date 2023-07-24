@@ -7,7 +7,7 @@
     "test": "jest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "postinstall": "node ./postinstall.js"
+    "tinymceinstall": "node ./tinymceinstall.js"
   },
   "repository": {
     "type": "git",
