@@ -1,4 +1,4 @@
 import React from "react";
-import { FieldProps } from "../../Items";
-declare const BooleanST: ({ item, options }: FieldProps) => React.JSX.Element;
+import { BooleanProps } from "../../Items";
+declare const BooleanST: ({ item, options }: BooleanProps) => React.JSX.Element;
 export default BooleanST;

@@ -1,4 +1,4 @@
 import React from "react";
-import { ItemProps } from "../Items";
-declare const HtmlEdit: ({ item, options }: ItemProps) => React.JSX.Element;
+import { HTMLProps } from "../Items";
+declare const HtmlEdit: ({ item, options }: HTMLProps) => React.JSX.Element;
 export default HtmlEdit;

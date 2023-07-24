@@ -1,5 +1,5 @@
 import React from "react";
-import { FieldProps, Option } from "../../Items";
+import { Option, AutocompleteProps } from "../../Items";
 export type FilterOptionsFunc = (input?: string) => (Promise<Option[]> | Option[]);
-declare const AutocompleteST: ({ item, options }: FieldProps) => React.JSX.Element;
+declare const AutocompleteST: ({ item, options }: AutocompleteProps) => React.JSX.Element;
 export default AutocompleteST;

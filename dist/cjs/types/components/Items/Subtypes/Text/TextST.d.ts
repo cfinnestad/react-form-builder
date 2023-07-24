@@ -1,4 +1,4 @@
 import React from "react";
-import { FieldProps } from "../../Items";
-declare const TextST: ({ item, options }: FieldProps) => React.JSX.Element;
+import { TextProps } from "../../Items";
+declare const TextST: ({ item, options }: TextProps) => React.JSX.Element;
 export default TextST;

@@ -232,7 +232,37 @@ export type SubmitProps = BaseItemProps & {
 export type HiddenProps = BaseItemProps & {
     item: HiddenItem;
 };
-export type ItemProps = BaseItemProps | GroupProps | HiddenProps | HTMLProps | SubmitProps | FieldProps;
+export type SelectProps = FieldProps & {
+    item: SelectSubtype;
+};
+export type RadioProps = FieldProps & {
+    item: RadioSubtype;
+};
+export type CheckboxProps = FieldProps & {
+    item: CheckboxSubtype;
+};
+export type TextProps = FieldProps & {
+    item: TextSubtype;
+};
+export type EmailProps = FieldProps & {
+    item: EmailSubtype;
+};
+export type NumberProps = FieldProps & {
+    item: NumberSubtype;
+};
+export type DateProps = FieldProps & {
+    item: DateSubtype;
+};
+export type BooleanProps = FieldProps & {
+    item: BooleanSubtype;
+};
+export type AutocompleteProps = FieldProps & {
+    item: AutocompleteSubtype;
+};
+export type PhoneProps = FieldProps & {
+    item: PhoneSubtype;
+};
+export type ItemProps = BaseItemProps | GroupProps | HiddenProps | HTMLProps | SubmitProps | FieldProps | SelectProps | RadioProps | CheckboxProps | TextProps | EmailProps | NumberProps | DateProps | BooleanProps | AutocompleteProps | PhoneProps;
 export declare function isGroup(item: AnyItem): item is GroupItem;
 export declare function isHidden(item: AnyItem): item is HiddenItem;
 export declare function isField(item: AnyItem): item is FieldItem;

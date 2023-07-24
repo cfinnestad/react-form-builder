@@ -1,4 +1,4 @@
 import React from "react";
-import { ItemProps } from "../Items";
-declare const Html: (fieldProps: ItemProps) => React.JSX.Element;
+import { HTMLProps } from "../Items";
+declare const Html: (fieldProps: HTMLProps) => React.JSX.Element;
 export default Html;

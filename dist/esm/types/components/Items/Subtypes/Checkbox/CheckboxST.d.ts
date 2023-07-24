@@ -1,4 +1,4 @@
 import React from "react";
-import { FieldProps } from "../../Items";
-declare const CheckboxST: ({ item, options }: FieldProps) => React.JSX.Element;
+import { CheckboxProps } from "../../Items";
+declare const CheckboxST: ({ item, options }: CheckboxProps) => React.JSX.Element;
 export default CheckboxST;

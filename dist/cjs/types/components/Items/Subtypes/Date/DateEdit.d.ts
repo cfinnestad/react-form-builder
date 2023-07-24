@@ -1,4 +1,4 @@
 import React from "react";
-import { FieldProps } from "../../Items";
-export declare const DateEdit: ({}: FieldProps) => React.JSX.Element;
+import { DateProps } from "../../Items";
+export declare const DateEdit: ({}: DateProps) => React.JSX.Element;
 export default DateEdit;

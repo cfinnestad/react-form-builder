@@ -1,4 +1,4 @@
 import React from "react";
-import { ItemProps } from "../Items";
-declare const ItemGroup: ({ item, items, options }: ItemProps) => React.JSX.Element;
+import { GroupProps } from "../Items";
+declare const ItemGroup: ({ item, items, options }: GroupProps) => React.JSX.Element;
 export default ItemGroup;

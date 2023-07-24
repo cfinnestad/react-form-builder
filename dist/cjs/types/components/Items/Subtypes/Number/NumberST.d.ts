@@ -1,4 +1,4 @@
 import React from "react";
-import { FieldProps } from "../../Items";
-declare const NumberST: ({ item, options }: FieldProps) => React.JSX.Element;
+import { NumberProps } from "../../Items";
+declare const NumberST: ({ item, options }: NumberProps) => React.JSX.Element;
 export default NumberST;

@@ -1,4 +1,4 @@
 import React from "react";
-import { FieldProps } from "../../Items";
-export declare const PhoneEdit: ({}: FieldProps) => React.JSX.Element;
+import { PhoneProps } from "../../Items";
+export declare const PhoneEdit: ({}: PhoneProps) => React.JSX.Element;
 export default PhoneEdit;
