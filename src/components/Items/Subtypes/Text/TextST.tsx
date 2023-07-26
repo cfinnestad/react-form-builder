@@ -24,6 +24,7 @@ const TextST = ({item, options}: TextProps ) => {
             <InputLabel
                 required={item.required ?? false}
                 error={item.errorText != null}
+                role="label"
             >
                 {item.label}
             </InputLabel>

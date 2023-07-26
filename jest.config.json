@@ -3,7 +3,7 @@
     "collectCoverage": true,
     "collectCoverageFrom": [
         "./src/components/Errors/*.{js,jsx,ts,tsx}",
-        "./src/components/Items/Subtypes/Text/*.{js,jsx,ts,tsx}",
+        "./src/components/Items/Subtypes/{Radio,Text}/*.{js,jsx,ts,tsx}",
         "!./src/**/index.{js,jsx,ts,tsx}",
         "!./src/**/*.stories.{js,jsx,ts,tsx}"
     ],
@@ -15,5 +15,11 @@
             "lines": 10
         }
     },
+    "moduleNameMapper": {
+        "\\.(css|sass|scss|less)$": "identity-obj-proxy"
+    },
+    "setupFilesAfterEnv": [
+        "@testing-library/jest-dom/extend-expect"
+    ],
     "testEnvironment": "jsdom"
 }

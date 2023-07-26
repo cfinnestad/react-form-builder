@@ -2,7 +2,7 @@ import TextValidate from "./TextValidate";
 
 let item, options;
 
-describe("TextValidate", () => {
+describe("Confirm validations for TextValidate", () => {
     beforeEach(() => {
         item = {
             errorText: "",
@@ -20,8 +20,8 @@ describe("TextValidate", () => {
         };
     });
 
-    test("Item is not a text field", () => {
-        item = { ...item, subtype: "radio" };
+    test("Item is not a text field type", () => {
+        item = { ...item, subtype: "Radio" };
         const result = TextValidate(item, options);
         expect(result).toBe(false);
     });

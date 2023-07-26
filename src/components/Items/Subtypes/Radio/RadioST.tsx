@@ -23,14 +23,6 @@ const RadioST = ({item, options}: RadioProps ) => {
 
         itm.options[index].selected = itm.required ? true : !curVal
 
-        // const value = itm.options.filter(i => {return i.selected ?? false}).map(i => {return i.value ?? i.label});
-        // if (value.length === 0) {
-        //     itm.value = undefined
-        //     delete itm.value
-        // } else {
-        //     itm.value = value[0]
-        // }
-
         RadioValidate(itm, options)
 
         if (!options.IsBuild) {
@@ -44,6 +36,7 @@ const RadioST = ({item, options}: RadioProps ) => {
                 required={item.required ?? false}
                 error={item.errorText != null}
                 sx={{marginBottom: -1}}
+                role="label"
             >
                 {item.label}
             </InputLabel>
@@ -54,9 +47,11 @@ const RadioST = ({item, options}: RadioProps ) => {
                             <Radio
                                 checked={option.selected ?? false}
                                 onClick={() => onChange(index)}
+                                data-testid={`radio-button-${index + 1}`}
                             />
                         }
                         label={option.label}
+                        key={option.label}
                     />
                 )}
             </RadioGroup>
