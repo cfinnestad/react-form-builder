@@ -15,5 +15,11 @@
             "lines": 10
         }
     },
+    "moduleNameMapper": {
+        "\\.(css|sass|scss|less)$": "identity-obj-proxy"
+    },
+    "setupFilesAfterEnv": [
+        "@testing-library/jest-dom/extend-expect"
+    ],
     "testEnvironment": "jsdom"
 }
