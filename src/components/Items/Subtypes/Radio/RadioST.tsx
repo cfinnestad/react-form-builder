@@ -1,7 +1,6 @@
 import React from "react";
 import {
-    RadioProps,
-    RadioSubtype
+    RadioProps
 } from "../../Items";
 import {
     FormControlLabel,
@@ -11,11 +10,12 @@ import {
     RadioGroup, Stack
 } from "@mui/material";
 import {RadioValidate} from "./index";
+import {cloneDeep} from "lodash";
 
 const RadioST = ({item, options}: RadioProps ) => {
 
     function onChange(index: number){
-        const itm = {...item} as RadioSubtype
+        const itm = cloneDeep(item)
         const curVal = itm.options[index].selected
         itm.options.map((option, index) => {
             itm.options[index].selected = false;
