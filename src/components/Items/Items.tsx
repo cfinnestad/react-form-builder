@@ -200,6 +200,7 @@ export type CheckboxSubtype = OptionSubtype & {
 export type AutocompleteSubtype = OptionSubtype & {
     subtype: 'Autocomplete',
     allowAnyInput?: boolean,
+    useQuery?: boolean,
     value?: string
 }
 

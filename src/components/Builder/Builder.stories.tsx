@@ -83,6 +83,7 @@ export const Primary: Story = {
                     id: 'autocompleteId1',
                     type: 'Field',
                     name: 'autocompleteName1',
+                    useQuery: true,
                     required: false,
                     label: 'Autocomplete 1',
                     deprecated: false,
