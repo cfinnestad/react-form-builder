@@ -2,12 +2,6 @@ import React from "react";
 import {HiddenItem, HiddenProps} from "../Items";
 import {TextField} from "@mui/material";
 
-// TODO Use IsBuild parameter
-// If true, render as text field
-// If false, render as hidden field
-// Still needs to render, just dont show
-
-
 const Hidden = (fieldProps: HiddenProps) => {
     const item = fieldProps.item as HiddenItem
     if (fieldProps.options.IsBuild) return <TextField label='Hidden Field' type={"text"} id={fieldProps.item.id} name={item.name} disabled={true} value={item.value}/>

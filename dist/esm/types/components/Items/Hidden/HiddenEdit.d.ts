@@ -1,3 +1,4 @@
 import React from "react";
-declare const HiddenEdit: () => React.JSX.Element;
+import { HiddenProps } from "../Items";
+declare const HiddenEdit: ({ item, options }: HiddenProps) => React.JSX.Element;
 export default HiddenEdit;

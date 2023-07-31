@@ -6,6 +6,7 @@ import {
     EmailSubtype,
     EqFilter,
     GroupItem, HTMLItem,
+    HiddenItem,
     NumberSubtype, Option,
     PhoneSubtype, RadioSubtype, SelectSubtype, SubmitItem,
     TextSubtype
@@ -110,6 +111,12 @@ export const Primary: Story = {
                     helperText: 'Helper text',
                     placeholder: '(555) 555-5555',
                 } as PhoneSubtype,
+                {
+                    id: 'hidden1',
+                    name: 'hidden1',
+                    type: 'Hidden',
+                    value: 'hidden'
+                } as HiddenItem,
                 {
                     id: 'group1',
                     type: 'Group',
