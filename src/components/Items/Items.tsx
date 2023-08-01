@@ -233,8 +233,11 @@ export type PhoneSubtype = FieldItem & {
 export type DateSubtype = FieldItem & {
     subtype: 'Date',
     value?: string,
+    defaultToday?: boolean,
     minDate?: string,
     maxDate?: string,
+    minDateComputed?: string,
+    maxDateComputed?: string,
     minDateOffsetDays?: number,
     minDateOffsetMonths?: number,
     minDateOffsetYears?: number,

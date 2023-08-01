@@ -5,6 +5,7 @@ import Render from './Render';
 import {
     BooleanSubtype,
     CheckboxSubtype,
+    DateSubtype,
     EmailSubtype,
     EqFilter,
     GroupItem,
@@ -207,6 +208,14 @@ export const Primary: Story = {
                         value: "First"
                     } as EqFilter
                 } as HTMLItem,
+                {
+                    id: "date1",
+                    type: 'Field',
+                    name: 'date1',
+                    label: 'Date',
+                    subtype: 'Date',
+                    helperText: 'Helper text'
+                } as DateSubtype,
                 {
                     id: 'boolean1',
                     type: 'Field',

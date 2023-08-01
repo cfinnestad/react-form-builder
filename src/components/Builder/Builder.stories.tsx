@@ -2,7 +2,7 @@ import type {Meta, StoryObj} from '@storybook/react';
 
 import Builder from './Builder';
 import {
-    AutocompleteSubtype, BooleanSubtype, CheckboxSubtype,
+    AutocompleteSubtype, BooleanSubtype, CheckboxSubtype, DateSubtype,
     EmailSubtype,
     EqFilter,
     GroupItem, HTMLItem,
@@ -231,12 +231,20 @@ export const Primary: Story = {
                     } as EqFilter
                 } as HTMLItem,
                 {
+                    id: "date1",
+                    type: 'Field',
+                    name: 'date1',
+                    label: 'Date',
+                    subtype: 'Date',
+                    helperText: 'Helper text'
+                } as DateSubtype,
+                {
                     id: 'boolean1',
                     type: 'Field',
                     label: 'Boolean Label',
                     name: 'Boolean',
                     subtype: 'Boolean',
-                    helperText: 'This is the boolean helper text',
+                    helperText: 'This is the boolean helper text'
                 } as BooleanSubtype,
                 {
                     id: 'radio1',
