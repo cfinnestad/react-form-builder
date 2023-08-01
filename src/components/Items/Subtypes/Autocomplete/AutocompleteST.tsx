@@ -18,7 +18,10 @@ const AutocompleteST = ({item, options}: AutocompleteProps) => {
 
     // Initialize filterOptions to use passed-in searchableOptions function. Otherwise, fall back to static Option list from schema.
     useEffect(() => {
-        if (item.searchableOptionsName != null) {
+        console.log("freesolo: ", item.allowAnyInput ? undefined:false);
+        console.log("autoselect: ", !(item.allowAnyInput ?? false));
+        console.log("searchacbleOptionsName: ", item.searchableOptionsName)
+        if (item.searchableOptionsName !== undefined) {
             const getChoicesUnsafe = options.searchableOptions?.[item.searchableOptionsName]
             if ( getChoicesUnsafe !== undefined && typeof getChoicesUnsafe === 'function') {
                 filterOptions.current = getChoicesUnsafe
@@ -28,27 +31,33 @@ const AutocompleteST = ({item, options}: AutocompleteProps) => {
             }
         } else {
             filterOptions.current = (input) => {
-                return (item.options ?? []).filter(option =>
+                return (item.options).filter(option =>
                     input !== undefined
                         ? option.value?.toLowerCase().includes(input) || option.label.toLowerCase().includes(input)
                         : false
                 )
             }
         }
-    }, [])
+    }, [item.searchableOptionsName, item.options, item.allowAnyInput])
 
     // Debounce call to getChoices
     useEffect( () => {
+        console.log("searchTerm: ", searchTerm);
+
         const getData = setTimeout(async () => {
             const choices = await filterOptions.current(searchTerm?.toLowerCase() ?? '')
+            console.log("choices: ", choices);
             setChoices(choices.sort((a, b) => a.label.localeCompare(b.label)))
-            const itm = {...item}
-            itm.options = choices.sort((a, b) => a.label.localeCompare(b.label))
-            options.SetItem(itm)
         }, 500)
 
         return () => clearTimeout(getData)
     }, [searchTerm])
+
+    useEffect( () => {
+        // if(item.value !== searchTerm){
+            setSearchTerm(item.value);
+        // }
+    },[item])
 
     const onInputChange = (event: SyntheticEvent<Element, Event>, value: string) => {
         const itm = {...item} as AutocompleteSubtype
@@ -99,8 +108,9 @@ const AutocompleteST = ({item, options}: AutocompleteProps) => {
                 {item.label}
             </InputLabel>
             <Autocomplete
+                //clearOnBlur={false}
                 id={item.id}
-                freeSolo={item.allowAnyInput ?? false}
+                freeSolo={item.allowAnyInput ? undefined:false}
                 autoSelect={!(item.allowAnyInput ?? false)}
                 onChange={onAutocompleteChange}
                 onInputChange={onInputChange}

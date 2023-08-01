@@ -84,11 +84,12 @@ export const Primary: Story = {
                     id: 'autocompleteId1',
                     type: 'Field',
                     name: 'autocompleteName1',
-                    useQuery: true,
                     required: false,
                     label: 'Autocomplete 1',
                     deprecated: false,
-                    subtype: 'Autocomplete'
+                    subtype: 'Autocomplete',
+                    allowAnyInput: true,
+                    options: []
                 } as AutocompleteSubtype,
                 {
                     id: 'number1',
@@ -269,6 +270,9 @@ export const Primary: Story = {
             searchableOptions: {
                 exampleCities: (input) => input != null
                     ? exampleCities.filter(city => city.value?.toLowerCase().includes(input))
+                    : [],
+                exampleOtherCities: (input) => input != null
+                    ? exampleCities.filter(city => city.value?.toUpperCase().includes(input))
                     : []
             },
             submitElements: {
