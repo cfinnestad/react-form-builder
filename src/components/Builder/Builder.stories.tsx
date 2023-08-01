@@ -89,7 +89,7 @@ export const Primary: Story = {
                     deprecated: false,
                     subtype: 'Autocomplete',
                     allowAnyInput: true,
-                    options: []
+                    options: [],
                 } as AutocompleteSubtype,
                 {
                     id: 'number1',

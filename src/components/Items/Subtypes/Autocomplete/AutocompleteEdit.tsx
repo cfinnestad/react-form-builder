@@ -1,19 +1,14 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
-import {AutocompleteProps, AutocompleteSubtype, CheckboxSubtype, OptionSubtype, SubmitItem} from "../../Items";
+import React, {useEffect, useState} from 'react';
+import {AutocompleteProps, AutocompleteSubtype, OptionSubtype} from "../../Items";
 import SelectOption from "../../../SelectOption/SelectOption";
 import {
     Checkbox,
-    FormControl,
     FormControlLabel,
     FormGroup, FormHelperText,
     FormLabel,
-    Radio,
-    RadioGroup,
     Stack,
-    TextField
 } from "@mui/material";
-import Options, {SelectedType} from "../../../Options/Options";
-import {cloneDeep} from "lodash";
+import Options from "../../../Options/Options";
 
 const AutocompleteEdit = ({item, options}: AutocompleteProps) => {
     const [searchableOption, setSearchableOption] = useState(item.searchableOptionsName)
@@ -68,6 +63,7 @@ const AutocompleteEdit = ({item, options}: AutocompleteProps) => {
                         <Options
                             options={item.options ?? []}
                             setOptions={setItemOptions}
+                            selectedType='Single'
                         />
                     </>
                 :""}
