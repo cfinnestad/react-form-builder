@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useState} from "react";
-import {DateProps} from "../../Items";
-import {dateFormat, defaultFormat, getComputed} from "./index";
+import {DateProps, DateSubtype} from "../../Items";
+import {dateCmp, dateFormat, defaultFormat, getComputed} from "./index";
 import {Checkbox, FormControlLabel, FormGroup, FormHelperText, TextField} from "@mui/material";
 import ShowErrors from "../ShowErrors";
 import dayjs from 'dayjs'
@@ -8,74 +8,82 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 
 export const DateEdit = ({item, options}: DateProps ) => {
-    const [valueError, setValueError] = useState(false)
-    const [valueErrors, setValueErrors] = useState([] as string[])
-
-    const [minDateError, setMinDateError] = useState(false)
-    const [minDateErrors, setMinDateErrors] = useState([] as string[])
-    const [maxDateError, setMaxDateError] = useState(false)
-    const [maxDateErrors, setMaxDateErrors] = useState([] as string[])
-
-    const [minDateOffsetDaysError, setMinDateOffsetDaysError] = useState(false)
-    const [minDateOffsetDaysErrors, setMinDateOffsetDaysErrors] = useState([] as string[])
-    const [minDateOffsetMonthsError, setMinDateOffsetMonthsError] = useState(false)
-    const [minDateOffsetMonthsErrors, setMinDateOffsetMonthsErrors] = useState([] as string[])
-    const [minDateOffsetYearsError, setMinDateOffsetYearsError] = useState(false)
-    const [minDateOffsetYearsErrors, setMinDateOffsetYearsErrors] = useState([] as string[])
-
-    const [maxDateOffsetDaysError, setMaxDateOffsetDaysError] = useState(false)
-    const [maxDateOffsetDaysErrors, setMaxDateOffsetDaysErrors] = useState([] as string[])
-    const [maxDateOffsetMonthsError, setMaxDateOffsetMonthsError] = useState(false)
-    const [maxDateOffsetMonthsErrors, setMaxDateOffsetMonthsErrors] = useState([] as string[])
-    const [maxDateOffsetYearsError, setMaxDateOffsetYearsError] = useState(false)
-    const [maxDateOffsetYearsErrors, setMaxDateOffsetYearsErrors] = useState([] as string[])
-
-    const [sharedMinErrors, setSharedMinErrors] = useState([] as string[])
-    const [sharedMaxErrors, setSharedMaxErrors] = useState([] as string[])
-
-    const [sharedMinOffsetErrors, setSharedMinOffsetErrors] = useState([] as string[])
-    const [sharedMaxOffsetErrors, setSharedMaxOffsetErrors] = useState([] as string[])
-
     if (!item.dateFormat) item.dateFormat = defaultFormat
 
-    const comboError = 'This combination of settings excludes all dates'
+    // declare master error object
+    let errors = {}
 
-    const clearErrors = (section: string[]) => {
-        if (section.indexOf("default") !== -1) {
-            setValueError(false)
-            setValueErrors([])
+    // populate errors by field with default state and function pointers
+    const errorSetup = (errors: object, fields: string[]) => {
+        for (let f in fields) {
+            let which = fields[f]
+
+            errors[which] = {}
+
+            let [boolVal, boolFunc] = useState(false)
+            errors[which]["status"] = boolVal
+            errors[which]["setStatus"] = boolFunc
+
+            let [strVal, strFunc] = useState([] as string[])
+            errors[which]["message"] = strVal
+            errors[which]["setMessage"] = strFunc
+
+            //console.log("setup", which, JSON.stringify(errors[which]))
         }
+    }
 
-        if (section.indexOf("minmax") !== -1) {
-            setMinDateError(false)
-            setMinDateErrors([])
+    // assign incoming data to master error store
+    const errorHandler = (errors: object, which: string, msg: string | null = null) => {
+        errors[which]["status"] = (msg !== null)
+        errors[which]["setStatus"](errors[which]["status"])
 
-            setMaxDateError(false)
-            setMaxDateErrors([])
-        }
+        errors[which]["message"] = (msg) ? [msg] : []
+        errors[which]["setMessage"](errors[which]["message"])
 
-        if (section.indexOf("offsets") !== -1) {
-            setMinDateOffsetDaysError(false)
-            setMinDateOffsetDaysErrors([])
-            setMinDateOffsetMonthsError(false)
-            setMinDateOffsetMonthsErrors([])
-            setMinDateOffsetYearsError(false)
-            setMinDateOffsetYearsErrors([])
+        //console.log("handle", which, JSON.stringify(errors[which]))
+    }
 
-            setMaxDateOffsetDaysError(false)
-            setMaxDateOffsetDaysErrors([])
-            setMaxDateOffsetMonthsError(false)
-            setMaxDateOffsetMonthsErrors([])
-            setMaxDateOffsetYearsError(false)
-            setMaxDateOffsetYearsErrors([])
-        }
+    // initialize errors from corresponding fields
+    errorSetup(errors, [
+        "value",
+        "minDate",
+        "maxDate",
+        "minDateOffsetDays",
+        "minDateOffsetMonths",
+        "minDateOffsetYears",
+        "maxDateOffsetDays",
+        "maxDateOffsetMonths",
+        "maxDateOffsetYears",
+        "sharedMin",
+        "sharedMax",
+        "sharedMinOffset",
+        "sharedMaxOffset"
+    ])
 
-        if (section.indexOf("shared") !== -1) {
-            setSharedMinErrors([])
-            setSharedMaxErrors([])
+    // deal with errors caused by multiple incompatible field values
+    const handleCombo = (itm: DateSubtype, which: string) => {
+        const calcItm = getComputed(itm)
 
-            setSharedMinOffsetErrors([])
-            setSharedMaxOffsetErrors([])
+        const comboError = 'This combination of settings excludes all dates.'
+
+        // use a computed item to see if the possible date range would be empty
+        const badRange = (calcItm.minDateComputed && calcItm.maxDateComputed
+            && dateCmp(calcItm.minDateComputed, calcItm.maxDateComputed, "isAfter"))
+
+        // loop through fields and toggle errors for populated and shared
+        for (let field in errors) {
+            if (badRange) {
+
+                // set shared error if applicable
+                if (field.startsWith("shared")) {
+                    if ((field === "sharedMin" && (itm.minDate || which === "minDate"))
+                        || (field === "sharedMax" && (itm.maxDate || which === "maxDate"))
+                        || (field.endsWith("Offset") && which.indexOf("Offset") !== -1))
+                        errorHandler(errors, field, comboError)
+
+                } else if (itm[field]) errorHandler(errors, field, "") // flag the field with no message
+
+            } else errorHandler(errors, field) // clear it
         }
     }
 
@@ -85,12 +93,11 @@ export const DateEdit = ({item, options}: DateProps ) => {
 
         if (value === undefined) {
             delete itm.defaultToday
+
         } else {
             itm.defaultToday = value
             delete itm.value
         }
-
-        clearErrors(["default"])
 
         options.SetItem(itm)
     }
@@ -100,49 +107,23 @@ export const DateEdit = ({item, options}: DateProps ) => {
 
         if (value) {
             itm[which] = dateFormat(dayjs(value))
-            const tempitm = getComputed(itm)
 
-            if (which === "value" && itm.value === "Invalid Date") {
-                setValueError(true)
-                setValueErrors(['Default Value is not valid'])
-            } else if (which === "minDate" && itm.minDate === "Invalid Date") {
-                setMinDateError(true)
-                setMinDateErrors(['Min Date is not valid'])
-            } else if (which === "maxDate" && itm.maxDate === "Invalid Date") {
-                setMaxDateError(true)
-                setMaxDateErrors(['Max Date is not valid'])
-            } else if (which === "minDate" && itm.minDate && itm.maxDate && itm.minDate > itm.maxDate) {
-                setMinDateError(true)
-                setMinDateErrors(['Min Date must be before Max Date'])
-            } else if (which === "maxDate" && itm.minDate && itm.maxDate && itm.minDate > itm.maxDate) {
-                setMaxDateError(true)
-                setMaxDateErrors(['Max Date must be after Min Date'])
-
-            } else if (tempitm.minDateComputed && tempitm.maxDateComputed && tempitm.minDateComputed > tempitm.maxDateComputed) {
-                if (which.startsWith("min")) {
-                    setMinDateError(true)
-                    setSharedMinErrors([comboError])
-                } else {
-                    setMaxDateError(true)
-                    setSharedMaxErrors([comboError])
-                }
-
+            if (itm[which] === "Invalid Date") {
+                errorHandler(errors, which, which + " is not valid.")
             } else {
-
-                if (which === "value") clearErrors(["default"])
-                else clearErrors(["minmax", "offsets", "shared"])
+                errorHandler(errors, which)
             }
 
         } else {
             delete itm[which]
-
-            if (which === "value") clearErrors(["default"])
-            else clearErrors(["minmax", "offsets", "shared"])
+            errorHandler(errors, which)
         }
 
-        const newitm = getComputed(itm)
+        // if it's not a specific field error, check the computed dates
+        if (which !== "value" && !errors[which]["status"]) handleCombo(itm, which)
 
-        options.SetItem(newitm)
+        const newItm = getComputed(itm)
+        options.SetItem(newItm)
     }
 
     const onChangeOffset = (event: ChangeEvent<HTMLInputElement>, which: string) => {
@@ -151,61 +132,29 @@ export const DateEdit = ({item, options}: DateProps ) => {
 
         if (value || value === "0") {
 
+            // integers only
             if (Number.isNaN(value)
                 || value.startsWith("0")
-                || parseInt(value).toString().length !== value.length
-                || value.indexOf(".") > -1) {
+                || value.indexOf(".") > -1
+                || parseInt(value).toString().length !== value.length) {
 
-                if (which === "minDateOffsetDays") {
-                    setMinDateOffsetDaysError(true)
-                    setMinDateOffsetDaysErrors(['Min Offset Days is not valid'])
-                } else if (which === "minDateOffsetMonths") {
-                    setMinDateOffsetMonthsError(true)
-                    setMinDateOffsetMonthsErrors(['Min Offset Months is not valid'])
-                } else if (which === "minDateOffsetYears") {
-                    setMinDateOffsetYearsError(true)
-                    setMinDateOffsetYearsErrors(['Min Offset Years is not valid'])
-                } else if (which === "maxDateOffsetDays") {
-                    setMaxDateOffsetDaysError(true)
-                    setMaxDateOffsetDaysErrors(['Max Offset Days is not valid'])
-                } else if (which === "maxDateOffsetMonths") {
-                    setMaxDateOffsetMonthsError(true)
-                    setMaxDateOffsetMonthsErrors(['Max Offset Months is not valid'])
-                } else if (which === "maxDateOffsetYears") {
-                    setMaxDateOffsetYearsError(true)
-                    setMaxDateOffsetYearsErrors(['Max Offset Years is not valid'])
-                }
+                errorHandler(errors, which, which + " is not valid.")
 
             } else {
                 itm[which] = parseInt(value)
-                const tempitm = getComputed(itm)
-
-                if (tempitm.minDateComputed && tempitm.maxDateComputed && tempitm.minDateComputed > tempitm.maxDateComputed) {
-                    if (which === "minDateOffsetDays") setMinDateOffsetDaysError(true)
-                    else if (which === "minDateOffsetMonths") setMinDateOffsetMonthsError(true)
-                    else if (which === "minDateOffsetYears") setMinDateOffsetYearsError(true)
-                    else if (which === "maxDateOffsetDays") setMaxDateOffsetDaysError(true)
-                    else if (which === "maxDateOffsetMonths") setMaxDateOffsetMonthsError(true)
-                    else if (which === "maxDateOffsetYears") setMaxDateOffsetYearsError(true)
-
-                    if (which.startsWith("min")) setSharedMinOffsetErrors([comboError])
-                    else setSharedMaxOffsetErrors([comboError])
-
-                } else {
-
-                    clearErrors(["minmax", "offsets", "shared"])
-                }
+                errorHandler(errors, which)
             }
 
         } else {
             delete itm[which]
-
-            clearErrors(["minmax", "offsets", "shared"])
+            errorHandler(errors, which)
         }
 
-        const newitm = getComputed(itm)
+        // if it's not a specific field error, check the computed dates
+        if (!errors[which]["status"]) handleCombo(itm, which)
 
-        options.SetItem(newitm)
+        const newItm = getComputed(itm)
+        options.SetItem(newItm)
     }
 
     // offset entry fields below are intentionally of type text, not number, for better validation
@@ -234,12 +183,12 @@ export const DateEdit = ({item, options}: DateProps ) => {
                         id={item.id}
                         multiline={false}
                         fullWidth={true}
-                        error={valueError}
+                        error={errors['value']['status']}
                         size='small'
                         type='text' />}
                 />
             </LocalizationProvider>
-            <ShowErrors errors={valueErrors}/>
+            <ShowErrors errors={errors['value']['message']} />
         </FormGroup>
 
         <FormHelperText sx={{marginTop: -1}}>Enter the earliest and/or latest date(s) that can be chosen.</FormHelperText>
@@ -258,13 +207,13 @@ export const DateEdit = ({item, options}: DateProps ) => {
                         id={item.id}
                         multiline={false}
                         fullWidth={true}
-                        error={minDateError}
+                        error={errors['minDate']['status']}
                         size='small'
                         type='text' />}
                 />
             </LocalizationProvider>
-            <ShowErrors errors={sharedMinErrors}/>
-            <ShowErrors errors={minDateErrors}/>
+            <ShowErrors errors={errors['minDate']['message']} />
+            <ShowErrors errors={errors['sharedMin']['message']} />
         </FormGroup>
 
         <FormGroup>
@@ -281,19 +230,19 @@ export const DateEdit = ({item, options}: DateProps ) => {
                         id={item.id}
                         multiline={false}
                         fullWidth={true}
-                        error={maxDateError}
+                        error={errors['maxDate']['status']}
                         size='small'
                         type='text' />}
                 />
             </LocalizationProvider>
-            <ShowErrors errors={sharedMaxErrors}/>
-            <ShowErrors errors={maxDateErrors}/>
+            <ShowErrors errors={errors['maxDate']['message']} />
+            <ShowErrors errors={errors['sharedMax']['message']} />
         </FormGroup>
 
         <FormHelperText sx={{marginTop: -1}}>
             Enter a positive or negative integer in any of the below fields.
             This will set the date limits relative to today.
-            If both offsets and Min/Max are set, the narrowest range will apply.
+            If both offsets and min/max dates are set, the narrowest range will apply.
         </FormHelperText>
 
         <FormGroup>
@@ -306,10 +255,10 @@ export const DateEdit = ({item, options}: DateProps ) => {
                         type="text"
                         defaultValue={item.minDateOffsetDays || undefined}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'minDateOffsetDays')}
-                        error={minDateOffsetDaysError}
+                        error={errors['minDateOffsetDays']['status']}
                         sx={{marginRight: "10px"}}
                     />
-                    <ShowErrors errors={minDateOffsetDaysErrors}/>
+                    <ShowErrors errors={errors['minDateOffsetDays']['message']} />
                 </div>
                 <div className={"inline-block"} style={{ verticalAlign: 'top' }}>
                     <TextField
@@ -319,10 +268,10 @@ export const DateEdit = ({item, options}: DateProps ) => {
                         type="text"
                         defaultValue={item.minDateOffsetMonths || undefined}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'minDateOffsetMonths')}
-                        error={minDateOffsetMonthsError}
+                        error={errors['minDateOffsetMonths']['status']}
                         sx={{marginRight: "10px"}}
                     />
-                    <ShowErrors errors={minDateOffsetMonthsErrors}/>
+                    <ShowErrors errors={errors['minDateOffsetMonths']['message']} />
                 </div>
                 <div className={"inline-block"} style={{ verticalAlign: 'top' }}>
                     <TextField
@@ -332,13 +281,13 @@ export const DateEdit = ({item, options}: DateProps ) => {
                         type="text"
                         defaultValue={item.minDateOffsetYears || undefined}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'minDateOffsetYears')}
-                        error={minDateOffsetYearsError}
+                        error={errors['minDateOffsetYears']['status']}
                         sx={{marginRight: "10px"}}
                     />
-                    <ShowErrors errors={minDateOffsetYearsErrors}/>
+                    <ShowErrors errors={errors['minDateOffsetYears']['message']} />
                 </div>
             </div>
-            <ShowErrors errors={sharedMinOffsetErrors}/>
+            <ShowErrors errors={errors['sharedMinOffset']['message']} />
         </FormGroup>
 
         <FormGroup>
@@ -351,10 +300,10 @@ export const DateEdit = ({item, options}: DateProps ) => {
                         type="text"
                         defaultValue={item.maxDateOffsetDays || undefined}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'maxDateOffsetDays')}
-                        error={maxDateOffsetDaysError}
+                        error={errors['maxDateOffsetDays']['status']}
                         sx={{marginRight: "10px"}}
                     />
-                    <ShowErrors errors={maxDateOffsetDaysErrors}/>
+                    <ShowErrors errors={errors['maxDateOffsetDays']['message']} />
                 </div>
                 <div className={"inline-block"} style={{ verticalAlign: 'top' }}>
                     <TextField
@@ -364,10 +313,10 @@ export const DateEdit = ({item, options}: DateProps ) => {
                         type="text"
                         defaultValue={item.maxDateOffsetMonths || undefined}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'maxDateOffsetMonths')}
-                        error={maxDateOffsetMonthsError}
+                        error={errors['maxDateOffsetMonths']['status']}
                         sx={{marginRight: "10px"}}
                     />
-                    <ShowErrors errors={maxDateOffsetMonthsErrors}/>
+                    <ShowErrors errors={errors['maxDateOffsetMonths']['message']} />
                 </div>
                 <div className={"inline-block"} style={{ verticalAlign: 'top' }}>
                     <TextField
@@ -377,13 +326,13 @@ export const DateEdit = ({item, options}: DateProps ) => {
                         type="text"
                         defaultValue={item.maxDateOffsetYears || undefined}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'maxDateOffsetYears')}
-                        error={maxDateOffsetYearsError}
+                        error={errors['maxDateOffsetYears']['status']}
                         sx={{marginRight: "10px"}}
                     />
-                    <ShowErrors errors={maxDateOffsetYearsErrors}/>
+                    <ShowErrors errors={errors['maxDateOffsetYears']['message']} />
                 </div>
             </div>
-            <ShowErrors errors={sharedMaxOffsetErrors}/>
+            <ShowErrors errors={errors['sharedMaxOffset']['message']} />
         </FormGroup>
 
         <FormHelperText sx={{marginTop: -1}}>
