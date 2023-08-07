@@ -73,7 +73,7 @@ export const DefaultToday: Story = {
             {
                 ...Basic.args.Items[0],
                 id: "dateDefaultToday",
-                value: "today"
+                defaultToday: true
             } as DateSubtype,
             {
                 ...Basic.args.Items[1]
