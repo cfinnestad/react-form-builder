@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useState} from "react";
 import {DateProps, DateSubtype} from "../../Items";
 import {dateCmp, dateFormat, defaultFormat, getComputed} from "./index";
-import {Checkbox, FormControlLabel, FormGroup, FormHelperText, TextField} from "@mui/material";
+import {Checkbox, FormControlLabel, FormGroup, FormHelperText, Grid, TextField} from "@mui/material";
 import ShowErrors from "../ShowErrors";
 import dayjs from 'dayjs'
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
@@ -60,8 +60,16 @@ export const DateEdit = ({item, options}: DateProps ) => {
         "sharedMaxOffset"
     ])
 
+    // associate fields with their shared error groups
+    const groups = {
+        "sharedMin": ["minDate"],
+        "sharedMax": ["maxDate"],
+        "sharedMinOffset": ["minDateOffsetDays", "minDateOffsetMonths", "minDateOffsetYears"],
+        "sharedMaxOffset": ["maxDateOffsetDays", "maxDateOffsetMonths", "maxDateOffsetYears"]
+    }
+
     // deal with errors caused by multiple incompatible field values
-    const handleCombo = (itm: DateSubtype, which: string) => {
+    const handleCombo = (itm: DateSubtype, groups: object) => {
         const calcItm = getComputed(itm)
 
         const comboError = 'This combination of settings excludes all dates.'
@@ -76,14 +84,20 @@ export const DateEdit = ({item, options}: DateProps ) => {
 
                 // set shared error if applicable
                 if (field.startsWith("shared")) {
-                    if ((field === "sharedMin" && (itm.minDate || which === "minDate"))
-                        || (field === "sharedMax" && (itm.maxDate || which === "maxDate"))
-                        || (field.endsWith("Offset") && which.indexOf("Offset") !== -1))
-                        errorHandler(errors, field, comboError)
 
-                } else if (itm[field]) errorHandler(errors, field, "") // flag the field with no message
+                    // toggle it based on which fields are populated
+                    let allEmpty = true
+                    for (let f in groups[field]) {
+                        if (itm[groups[field][f]]) allEmpty = false
+                    }
+                    if (allEmpty) errorHandler(errors, field)
+                    else errorHandler(errors, field, comboError)
 
-            } else errorHandler(errors, field) // clear it
+                } else if (itm[field] && errors[field]["message"].length === 0)
+                    errorHandler(errors, field, "") // flag the field with no message
+
+            } else if (field.startsWith("shared") || errors[field]["message"].length === 0)
+                errorHandler(errors, field) // clear it if there's not another error
         }
     }
 
@@ -120,7 +134,7 @@ export const DateEdit = ({item, options}: DateProps ) => {
         }
 
         // if it's not a specific field error, check the computed dates
-        if (which !== "value" && !errors[which]["status"]) handleCombo(itm, which)
+        if (which !== "value") handleCombo(itm, groups)
 
         const newItm = getComputed(itm)
         options.SetItem(newItm)
@@ -151,7 +165,7 @@ export const DateEdit = ({item, options}: DateProps ) => {
         }
 
         // if it's not a specific field error, check the computed dates
-        if (!errors[which]["status"]) handleCombo(itm, which)
+        handleCombo(itm, groups)
 
         const newItm = getComputed(itm)
         options.SetItem(newItm)
@@ -247,92 +261,96 @@ export const DateEdit = ({item, options}: DateProps ) => {
 
         <FormGroup>
             <div>
-                <div className={"inline-block"} style={{ verticalAlign: 'top' }}>
-                    <TextField
-                        size='small'
-                        fullWidth={false}
-                        label='Min Offset Days'
-                        type="text"
-                        defaultValue={item.minDateOffsetDays || undefined}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'minDateOffsetDays')}
-                        error={errors['minDateOffsetDays']['status']}
-                        sx={{marginRight: "10px"}}
-                    />
-                    <ShowErrors errors={errors['minDateOffsetDays']['message']} />
-                </div>
-                <div className={"inline-block"} style={{ verticalAlign: 'top' }}>
-                    <TextField
-                        size='small'
-                        fullWidth={false}
-                        label='Min Offset Months'
-                        type="text"
-                        defaultValue={item.minDateOffsetMonths || undefined}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'minDateOffsetMonths')}
-                        error={errors['minDateOffsetMonths']['status']}
-                        sx={{marginRight: "10px"}}
-                    />
-                    <ShowErrors errors={errors['minDateOffsetMonths']['message']} />
-                </div>
-                <div className={"inline-block"} style={{ verticalAlign: 'top' }}>
-                    <TextField
-                        size='small'
-                        fullWidth={false}
-                        label='Min Offset Years'
-                        type="text"
-                        defaultValue={item.minDateOffsetYears || undefined}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'minDateOffsetYears')}
-                        error={errors['minDateOffsetYears']['status']}
-                        sx={{marginRight: "10px"}}
-                    />
-                    <ShowErrors errors={errors['minDateOffsetYears']['message']} />
-                </div>
+                <Grid container spacing={2}>
+                    <Grid item md={4} sm={12}>
+                        <TextField
+                            size='small'
+                            fullWidth={true}
+                            label='Min Offset Days'
+                            type="text"
+                            defaultValue={item.minDateOffsetDays || undefined}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'minDateOffsetDays')}
+                            error={errors['minDateOffsetDays']['status']}
+                            sx={{marginRight: "10px"}}
+                        />
+                        <ShowErrors errors={errors['minDateOffsetDays']['message']} />
+                    </Grid>
+                    <Grid item md={4} sm={12}>
+                        <TextField
+                            size='small'
+                            fullWidth={true}
+                            label='Min Offset Months'
+                            type="text"
+                            defaultValue={item.minDateOffsetMonths || undefined}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'minDateOffsetMonths')}
+                            error={errors['minDateOffsetMonths']['status']}
+                            sx={{marginRight: "10px"}}
+                        />
+                        <ShowErrors errors={errors['minDateOffsetMonths']['message']} />
+                    </Grid>
+                    <Grid item md={4} sm={12}>
+                        <TextField
+                            size='small'
+                            fullWidth={true}
+                            label='Min Offset Years'
+                            type="text"
+                            defaultValue={item.minDateOffsetYears || undefined}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'minDateOffsetYears')}
+                            error={errors['minDateOffsetYears']['status']}
+                            sx={{marginRight: "10px"}}
+                        />
+                        <ShowErrors errors={errors['minDateOffsetYears']['message']} />
+                    </Grid>
+                </Grid>
+                <ShowErrors errors={errors['sharedMinOffset']['message']} />
             </div>
-            <ShowErrors errors={errors['sharedMinOffset']['message']} />
         </FormGroup>
 
         <FormGroup>
             <div>
-                <div className={"inline-block"} style={{ verticalAlign: 'top' }}>
-                    <TextField
-                        size='small'
-                        fullWidth={false}
-                        label='Max Offset Days'
-                        type="text"
-                        defaultValue={item.maxDateOffsetDays || undefined}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'maxDateOffsetDays')}
-                        error={errors['maxDateOffsetDays']['status']}
-                        sx={{marginRight: "10px"}}
-                    />
-                    <ShowErrors errors={errors['maxDateOffsetDays']['message']} />
-                </div>
-                <div className={"inline-block"} style={{ verticalAlign: 'top' }}>
-                    <TextField
-                        size='small'
-                        fullWidth={false}
-                        label='Max Offset Months'
-                        type="text"
-                        defaultValue={item.maxDateOffsetMonths || undefined}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'maxDateOffsetMonths')}
-                        error={errors['maxDateOffsetMonths']['status']}
-                        sx={{marginRight: "10px"}}
-                    />
-                    <ShowErrors errors={errors['maxDateOffsetMonths']['message']} />
-                </div>
-                <div className={"inline-block"} style={{ verticalAlign: 'top' }}>
-                    <TextField
-                        size='small'
-                        fullWidth={false}
-                        label='Max Offset Years'
-                        type="text"
-                        defaultValue={item.maxDateOffsetYears || undefined}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'maxDateOffsetYears')}
-                        error={errors['maxDateOffsetYears']['status']}
-                        sx={{marginRight: "10px"}}
-                    />
-                    <ShowErrors errors={errors['maxDateOffsetYears']['message']} />
-                </div>
+                <Grid container spacing={2}>
+                    <Grid item md={4} sm={12}>
+                        <TextField
+                            size='small'
+                            fullWidth={true}
+                            label='Max Offset Days'
+                            type="text"
+                            defaultValue={item.maxDateOffsetDays || undefined}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'maxDateOffsetDays')}
+                            error={errors['maxDateOffsetDays']['status']}
+                            sx={{marginRight: "10px"}}
+                        />
+                        <ShowErrors errors={errors['maxDateOffsetDays']['message']} />
+                    </Grid>
+                    <Grid item md={4} sm={12}>
+                        <TextField
+                            size='small'
+                            fullWidth={true}
+                            label='Max Offset Months'
+                            type="text"
+                            defaultValue={item.maxDateOffsetMonths || undefined}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'maxDateOffsetMonths')}
+                            error={errors['maxDateOffsetMonths']['status']}
+                            sx={{marginRight: "10px"}}
+                        />
+                        <ShowErrors errors={errors['maxDateOffsetMonths']['message']} />
+                    </Grid>
+                    <Grid item md={4} sm={12}>
+                        <TextField
+                            size='small'
+                            fullWidth={true}
+                            label='Max Offset Years'
+                            type="text"
+                            defaultValue={item.maxDateOffsetYears || undefined}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'maxDateOffsetYears')}
+                            error={errors['maxDateOffsetYears']['status']}
+                            sx={{marginRight: "10px"}}
+                        />
+                        <ShowErrors errors={errors['maxDateOffsetYears']['message']} />
+                    </Grid>
+                </Grid>
+                <ShowErrors errors={errors['sharedMaxOffset']['message']} />
             </div>
-            <ShowErrors errors={errors['sharedMaxOffset']['message']} />
         </FormGroup>
 
         <FormHelperText sx={{marginTop: -1}}>
