@@ -1,7 +1,8 @@
 import React, {ChangeEvent, useState} from "react";
-import {AnyItem, isGroup, ItemProps, NamedItem} from "./Items";
+import {AnyItem, FieldItem, FilterType, HiddenItem, isGroup, ItemProps, NamedItem} from "./Items";
 import {FormGroup, FormHelperText, Stack, TextField} from "@mui/material";
 import {ShowErrors} from "./Subtypes";
+import FilterEdit, {FilterEditProps} from "../Filter/FilterEdit";
 
 
 export type validateNameChangeResponse = {
@@ -66,6 +67,12 @@ const NamedItemEdit = ({item, items, options}: ItemProps) => {
     const [nameErrors, setNameErrors] = useState([] as string[])
     const [validNameHint, setValidNameHint] = useState<string>()
 
+
+    const setFilter = (...[filter, index]: Parameters<FilterEditProps["setFilter"]>) => {
+        console.log('SetFilter...', filter)
+        options.SetItem({ ...item, filter: filter } )
+    }
+
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (!isNamedItem(item)) return
 
@@ -115,6 +122,13 @@ const NamedItemEdit = ({item, items, options}: ItemProps) => {
             { validNameHint !== undefined ? <FormHelperText>{validNameHint}</FormHelperText> : <></> }
             <ShowErrors errors={nameErrors}/>
         </FormGroup>
+
+        <FilterEdit
+            fieldItems={items.filter(item => item.type === 'Field' || item.type === 'Hidden') as (FieldItem|HiddenItem)[]}
+            filter={item.filter}
+            setFilter={setFilter}
+        ></FilterEdit>
+
     </>
 }
 

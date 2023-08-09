@@ -223,7 +223,7 @@ const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
                                         key={option.label}
                                         value={option.value ?? option.label}
                                         selected={item.value?.includes(option.value ?? option.label)}
-                                        style={multiples?undefined:getStyles(option.label, item.options.filter(option => option.selected).map(option => option.label), theme)}
+                                        // style={multiples?undefined:getStyles(option.label, item.options.filter(option => option.selected).map(option => option.label), theme)}
                                     >
                                         {option.label}
                                     </MenuItem>
@@ -256,3 +256,5 @@ const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
         </Stack>
     </>
 }
+
+export default FilterEdit
