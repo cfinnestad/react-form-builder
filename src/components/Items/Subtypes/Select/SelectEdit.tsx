@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {MultiplesSubtype, OptionSubtype, SelectProps} from "../../Items";
 import Options, {SelectedType} from "../../../Options/Options";
-import {Checkbox, FormControl, FormControlLabel} from "@mui/material";
+import {Checkbox, FormControl, FormControlLabel, FormHelperText} from "@mui/material";
 
 const SelectEdit = ({item, options}: SelectProps) => {
     const [itemOptions, setItemOptions] = useState(item.options)
@@ -13,6 +13,17 @@ const SelectEdit = ({item, options}: SelectProps) => {
     useEffect(()=>{
         setItemOptions(item.options)
     },[item])
+
+    const onClickEditable = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.checked || undefined
+        const itm = {...item}
+        if (value === undefined) {
+            delete itm.editable
+        } else {
+            itm.editable = true
+        }
+        options.SetItem(itm)
+    }
 
     const onClickMultiples = () => {
         const itm = {...item} as MultiplesSubtype
@@ -33,6 +44,13 @@ const SelectEdit = ({item, options}: SelectProps) => {
     }
 
     return <>
+        <FormControl>
+            <FormControlLabel
+                control={<Checkbox defaultChecked={item.editable || false} onChange={onClickEditable}/>}
+                label="Editable"
+            />
+            <FormHelperText sx={{marginTop: -1, marginLeft: 0}}>Enable editing in backend.</FormHelperText>
+        </FormControl>
         <div><FormControl>
             <FormControlLabel control={<Checkbox defaultChecked={item.multiples??false} onClick={onClickMultiples}/>} label="Multiples"/>
         </FormControl></div>
