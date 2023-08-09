@@ -14,7 +14,10 @@ import {
     TextSubtype,
     RadioSubtype,
     SelectSubtype,
-    PhoneSubtype, AutocompleteSubtype, SubmitItem, Option
+    PhoneSubtype,
+    AutocompleteSubtype,
+    SubmitItem,
+    Option
 } from "../Items";
 import {Submit} from "./StoriesSubmit";
 import {TestTheme} from "../../shared/themes/TestTheme";
