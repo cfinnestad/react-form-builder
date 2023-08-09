@@ -1,5 +1,5 @@
 import React from "react";
-import {CheckboxProps, CheckboxSubtype} from "../../Items";
+import {CheckboxProps} from "../../Items";
 import {
     Checkbox,
     FormControlLabel,
@@ -8,16 +8,13 @@ import {
     InputLabel, Stack
 } from "@mui/material";
 import {CheckboxValidate} from "./index";
+import {cloneDeep} from "lodash";
 
 const CheckboxST = ({item, options}: CheckboxProps ) => {
     function onChange(index: number){
-        const itm = {...item} as CheckboxSubtype;
+        const itm = cloneDeep(item)
         itm.options[index].selected = !itm.options[index].selected;
-        // itm.value = itm.options.filter(i => {return i.selected ?? false}).map(i => {return i.value ?? i.label});
-        // if (itm.value?.length === 0) {
-        //     itm.value = undefined
-        //     delete itm.value
-        // }
+
         CheckboxValidate(itm, options)
 
         if (!options.IsBuild) {

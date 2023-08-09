@@ -5,7 +5,7 @@ import {ActionProps} from "../Actions";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 
-const jsonSpacing = 3
+const jsonSpacing = 2
 
 const Transfer = ({Items, Options}: ActionProps) => {
     let text = JSON.stringify(Items, null, jsonSpacing)
@@ -37,7 +37,8 @@ const Transfer = ({Items, Options}: ActionProps) => {
     const Open = () => {
         setModal(
             <Dialog
-                maxWidth="lg"
+                maxWidth="md"
+                fullWidth={true}
                 open={true}
                 onClose={Close}
                 aria-labelledby="example-modal-sizes-title-lg"
@@ -45,7 +46,7 @@ const Transfer = ({Items, Options}: ActionProps) => {
                 <DialogTitle>Export JSON Definition</DialogTitle>
                 <DialogContent>
                     {/*<TextField type="hidden" value={itemsText}/>*/}
-                    <TextField id='transfer-text' variant="standard" multiline minRows={15} error={invalidJSON} defaultValue={itemsText}
+                    <TextField id='transfer-text' fullWidth={true} variant="standard" multiline minRows={15} error={invalidJSON} defaultValue={itemsText}
                                onChange={SaveText}/>
                     {invalidJSON ?? <p>JSON is invalid</p>}
                 </DialogContent>

@@ -1,3 +1,4 @@
 import React from "react";
-declare const EmailEdit: () => React.JSX.Element;
+import { EmailProps } from "../../Items";
+declare const EmailEdit: ({ item, options }: EmailProps) => React.JSX.Element;
 export default EmailEdit;

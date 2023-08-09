@@ -15,7 +15,7 @@ const Errors = (): ErrorType => {
         mustCheck: 'You are required to check this',
         number: 'Must be a valid number',
         invalidType: 'Wrong validator used for field subtype: "{subtype}"',
-        invalidPhone: 'Value must be a valid 10 digit phone number',
+        invalidPhone: 'Value must be a valid phone number',
         dateRange: 'Date must be between {minDate} and {maxDate}',
         minDate: 'Date must be {minDate} or after',
         maxDate: 'Date must be {maxDate} or before',

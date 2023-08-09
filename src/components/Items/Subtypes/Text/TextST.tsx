@@ -35,7 +35,7 @@ const TextST = ({item, options}: TextProps ) => {
                 name={item.name}
                 multiline={item.multiline ?? false}
                 type="text"
-                defaultValue={item.value}
+                value={item.value ?? ''}
                 onChange={onChange}
             />
             <FormHelperText error={item.errorText !== undefined}>

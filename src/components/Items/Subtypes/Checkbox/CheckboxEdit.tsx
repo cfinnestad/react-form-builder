@@ -27,7 +27,7 @@ const CheckboxEdit = ({ item, options }: CheckboxProps) => {
     }, [itemOptions]);
 
     const layoutClickHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        // Update the modal so the user has a good expereince when choosing the default selected option
+        // Update the modal so the user has a good experience when choosing the default selected option
         setValue((event.target as HTMLInputElement).value);
         // Update the builder to reflect the user's choice for default selected option
         setLayout(!layout);
