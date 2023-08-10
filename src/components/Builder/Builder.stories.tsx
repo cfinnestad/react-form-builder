@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react';
 
-import Builder from './Builder';
+import Builder, {BuilderOptions} from './Builder';
 import {
     AutocompleteSubtype, BooleanSubtype, CheckboxSubtype, DateSubtype,
     EmailSubtype,
@@ -12,8 +12,9 @@ import {
     TextSubtype
 } from "../Items";
 import {Submit} from "../Render/StoriesSubmit";
-import {RenderOptions} from "../Render";
 import {faker} from "@faker-js/faker";
+import Preview from "../Actions/Preview/Preview";
+import {Clear, Save, Transfer} from "../Actions";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta = {
@@ -285,8 +286,10 @@ export const Primary: Story = {
             },
             submitElements: {
                 'default': Submit
-            }
-        } as RenderOptions
+            },
+            Actions:[Save, Clear, Transfer],
+            ActionsAppend: [Preview]
+        } as BuilderOptions
     }
 }
 

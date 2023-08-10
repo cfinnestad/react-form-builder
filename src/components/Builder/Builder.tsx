@@ -56,7 +56,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     const defaultTheme = useTheme()
 
     const options:Options = {...(Options || {}),
-        Actions: [Transfer, Save, Clear],
+        Actions: [...(Options?.Actions ?? [Transfer,Save,Clear]), ...(Options?.ActionsAppend ?? [])],
         AllowedSubtypes: {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})},
         AllowedItems: {...(Options?.AllowedItems || DefaultItems()), ...(Options?.AdditionalItems || {})},
         IsBuild: true,
