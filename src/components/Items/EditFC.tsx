@@ -129,7 +129,7 @@ const EditFC = (ItemProps: ItemProps) => {
             />
             <NamedItemEdit {...ItemProps} />
             <FilterEdit
-                fieldItems={ItemProps.items.filter(item => item.type === 'Field' || item.type === 'Hidden') as (FieldItem|HiddenItem)[]}
+                fieldItems={ItemProps.items.filter(item => (item.type === 'Field' || item.type === 'Hidden') && item.id !== ItemProps.item.id) as (FieldItem|HiddenItem)[]}
                 filter={ItemProps.item.filter}
                 setFilter={setFilter}
             ></FilterEdit>

@@ -9,11 +9,10 @@ import {
     FieldFilter,
     isComparisonFilter,
     isFieldFilter,
-    isInFilter, isNotFilter, GetItem, isAutocomplete, isNumber, isBoolean, HiddenItem, isText, isEmail
+    isInFilter, isNotFilter, GetItem, isAutocomplete, isNumber, isBoolean, HiddenItem, isText, isEmail, isPhone, isDate
 } from "../Items";
-import {Box, Button, Chip, MenuItem, Select, SelectChangeEvent, Stack} from "@mui/material";
+import {Box, Button, Chip, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Stack} from "@mui/material";
 import {cloneDeep, isArray, isString} from "lodash";
-import {getStyles, SelectValidate} from "../Items/Subtypes/Select";
 import FilterMultipleInputs from "./FilterMultipleInputs";
 import FilterInput from "./FilterInput";
 
@@ -50,12 +49,13 @@ const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
     const changeRelatedField = (event: SelectChangeEvent<string>) => {
 
         const { value } = event.target;
-        let cureFilter = undefined
+        let curFilter = undefined
         if (filter !== undefined && isFieldFilter(filter)) {
-            cureFilter = cloneDeep(filter)
-            cureFilter.fieldId = value
+            curFilter = cloneDeep(filter)
+            curFilter.fieldId = value
             const item = GetItem(value, fieldItems)
-            cureFilter.value = item === undefined ? undefined : getDefaultValue(item)
+            curFilter.value = item === undefined ? undefined : getDefaultValue(item)
+            setFilter(curFilter,index)
         }
     }
 
@@ -152,14 +152,14 @@ const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
         const { target: { value } } = event;
 
         if (filter !== undefined && isFieldFilter(filter)) {
-            const curFilter = {...filter}
+            const curFilter = {...filter} as FieldFilter
             if ((isArray(value) && value.length === 0) || value === '') {
                 delete curFilter.value
             } else {
                 curFilter.value = value
             }
+            setFilter(curFilter, index)
         }
-
     };
 
     let fields = <></>
@@ -179,43 +179,59 @@ const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
                 //TODO make sure all types are handled
                 if(isAutocomplete(item) || isText(item)) {
                     if (multiples) {
-                        field = <FilterMultipleInputs values={filter.value ?? []} setValues={setValue} type='text' label={item.name}/>
+                        field = <FilterMultipleInputs values={filter.value ?? []} setValues={setValue} type='text'/>
                     } else {
-                        field = <FilterInput value={filter.value as string|undefined} setValue={setValue} type='text' label={item.name}/>
+                        field = <FilterInput value={filter.value as string|undefined} setValue={setValue} type='text'/>
                     }
                 } else if(isNumber(item)) {
                     if (multiples) {
-                        field = <FilterMultipleInputs values={filter.value ?? []} setValues={setValue} type='number' label={item.name}/>
+                        field = <FilterMultipleInputs values={filter.value ?? []} setValues={setValue} type='number'/>
                     } else {
-                        field = <FilterInput value={filter.value as number|undefined} setValue={setValue} type='number' label={item.name}/>
+                        field = <FilterInput value={filter.value as number|undefined} setValue={setValue} type='number'/>
+                    }
+                } else if(isPhone(item)) {
+                    if (multiples) {
+                        field = <FilterMultipleInputs values={filter.value ?? []} setValues={setValue} type='phone'/>
+                    } else {
+                        field = <FilterInput value={filter.value as string|undefined} setValue={setValue} type='phone'/>
                     }
                 } else if(isEmail(item)) {
                     if (multiples) {
-                        field = <FilterMultipleInputs values={filter.value ?? []} setValues={setValue} type='email' label={item.name}/>
+                        field = <FilterMultipleInputs values={filter.value ?? []} setValues={setValue} type='email'/>
                     } else {
-                        field = <FilterInput value={filter.value as string|undefined} setValue={setValue} type='email' label={item.name}/>
+                        field = <FilterInput value={filter.value as string|undefined} setValue={setValue} type='email'/>
+                    }
+                } else if(isDate(item)) {
+                    if (multiples) {
+                        field = <FilterMultipleInputs values={filter.value ?? []} setValues={setValue} type='date'/>
+                    } else {
+                        field = <FilterInput value={filter.value as string|undefined} setValue={setValue} type='date'/>
                     }
                 } else if(isBoolean(item)) {
                     if (multiples) {
-                        field = <FilterMultipleInputs values={filter.value ?? []} setValues={setValue} type='checkbox' label={item.name}/>
+                        field = <FilterMultipleInputs values={filter.value ?? []} setValues={setValue} type='checkbox'/>
                     } else {
-                        field = <FilterInput value={filter.value as boolean|undefined} setValue={setValue} type='checkbox' label={item.name}/>
+                        field = <FilterInput value={filter.value as boolean|undefined} setValue={setValue} type='checkbox'/>
                     }
                 } else if(isOption(item)) {
+                    const val = multiples
+                        ? (typeof filter.value === 'string' ? [filter.value] : (filter.value === undefined ? [] : filter.value as string[]))
+                        : filter.value as string
                     field = <>
                         <Select
                             id={item.id}
+                            size='small'
                             multiple={multiples}
-                            value={filter.value ?? multiples ? [] : ''}
+                            value={val}
                             autoWidth
                             onChange={changeOption}
-                            renderValue={multiples ? undefined : (selected) => (
+                            renderValue={multiples ? (selected) => (
                                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                    {selected.map((value) => (
-                                        <Chip key={value} label={value} />
+                                    {(typeof selected === 'string' ? [selected] : selected).map((value) => (
+                                        <Chip key={value} label={item.options.find(option => value === (option.value ?? option.label))?.label} />
                                     ))}
                                 </Box>
-                            )}
+                            ) : undefined}
                         >
                             {
                                 item.options.map(option =>
@@ -234,24 +250,37 @@ const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
                 }
             }
             fields = <>
-                <Select value={filter.fieldId} label='Related Field' onChange={changeRelatedField}>
-                    {fieldItems.map(item => <MenuItem value={item.id}>{item.id.split('_').join(' ')}</MenuItem>)}
-                </Select>
+                <FormControl>
+                    <InputLabel id="related-field-label">Related Field</InputLabel>
+                    <Select
+                        value={filter.fieldId}
+                        labelId='related-field-label'
+                        label='Related Field'
+                        onChange={changeRelatedField}
+                        size='small'>
+                        {fieldItems.map(item => <MenuItem value={item.id}>{item.id.split('_').join(' ')}</MenuItem>)}
+                    </Select>
+                </FormControl>
                 {field}
             </>
         }
     }
 
     return <>
-        <Stack spacing={.5}>
-            <Select
-                value={filter?.comparison || ''}
-                label='Comparison'
-                onChange={changeComparison}
-            >
-                <MenuItem value=''>Remove Filter</MenuItem>
-                { ['=','>','>=','<','<=','in','and','or','not'].map(option => <MenuItem value={option}>{option}</MenuItem>)}
-            </Select>
+        <Stack spacing={2}>
+            <FormControl>
+                <InputLabel id="comparison-label">Comparison</InputLabel>
+                <Select
+                    value={filter?.comparison || ''}
+                    labelId='comparison-label'
+                    label='Comparison'
+                    size='small'
+                    onChange={changeComparison}
+                >
+                    <MenuItem value=''>Remove Filter</MenuItem>
+                    { ['=','>','>=','<','<=','in','and','or','not'].map(option => <MenuItem value={option}>{option}</MenuItem>)}
+                </Select>
+            </FormControl>
             {fields}
         </Stack>
     </>
