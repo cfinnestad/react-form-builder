@@ -49,6 +49,7 @@ export const validateItem = (Item: object, index: number): string[] => {
 
 export type BaseItem = {
     id: string,
+    prevId?: string,
     type: string,
     filter?: FilterType,
     ClassName?: string,
@@ -237,8 +238,11 @@ export type PhoneSubtype = FieldItem & {
 export type DateSubtype = FieldItem & {
     subtype: 'Date',
     value?: string,
+    defaultToday?: boolean,
     minDate?: string,
     maxDate?: string,
+    minDateComputed?: string,
+    maxDateComputed?: string,
     minDateOffsetDays?: number,
     minDateOffsetMonths?: number,
     minDateOffsetYears?: number,

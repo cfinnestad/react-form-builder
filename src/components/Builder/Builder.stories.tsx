@@ -1,19 +1,28 @@
 import type {Meta, StoryObj} from '@storybook/react';
 
-import Builder from './Builder';
+import Builder, {BuilderOptions} from './Builder';
 import {
-    AutocompleteSubtype, BooleanSubtype, CheckboxSubtype,
+    AutocompleteSubtype,
+    BooleanSubtype,
+    CheckboxSubtype,
+    DateSubtype,
     EmailSubtype,
     EqFilter,
-    GroupItem, HTMLItem,
+    GroupItem,
+    HTMLItem,
     HiddenItem,
-    NumberSubtype, Option,
-    PhoneSubtype, RadioSubtype, SelectSubtype, SubmitItem,
+    NumberSubtype,
+    Option,
+    PhoneSubtype,
+    RadioSubtype,
+    SelectSubtype,
+    SubmitItem,
     TextSubtype
 } from "../Items";
 import {Submit} from "../Render/StoriesSubmit";
-import {RenderOptions} from "../Render";
 import {faker} from "@faker-js/faker";
+import Preview from "../Actions/Preview/Preview";
+import {Clear, Save, Transfer} from "../Actions";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta = {
@@ -87,7 +96,9 @@ export const Primary: Story = {
                     required: false,
                     label: 'Autocomplete 1',
                     deprecated: false,
-                    subtype: 'Autocomplete'
+                    subtype: 'Autocomplete',
+                    allowAnyInput: true,
+                    options: [],
                 } as AutocompleteSubtype,
                 {
                     id: 'number1',
@@ -231,12 +242,32 @@ export const Primary: Story = {
                     } as EqFilter
                 } as HTMLItem,
                 {
+                    id: "date1",
+                    type: 'Field',
+                    name: 'date1',
+                    label: 'Date',
+                    subtype: 'Date',
+                    helperText: 'Helper text'
+                } as DateSubtype,
+                {
+                    id: "date2",
+                    type: 'Field',
+                    name: 'date2',
+                    label: 'Date Filter',
+                    subtype: 'Date',
+                    filter: {
+                        fieldId: "date1",
+                        comparison: "=",
+                        value: "08/07/2023"
+                    } as EqFilter
+                } as DateSubtype,
+                {
                     id: 'boolean1',
                     type: 'Field',
                     label: 'Boolean Label',
                     name: 'Boolean',
                     subtype: 'Boolean',
-                    helperText: 'This is the boolean helper text',
+                    helperText: 'This is the boolean helper text'
                 } as BooleanSubtype,
                 {
                     id: 'radio1',
@@ -268,12 +299,17 @@ export const Primary: Story = {
             searchableOptions: {
                 exampleCities: (input) => input != null
                     ? exampleCities.filter(city => city.value?.toLowerCase().includes(input))
+                    : [],
+                exampleOtherCities: (input) => input != null
+                    ? exampleCities.filter(city => city.value?.toUpperCase().includes(input))
                     : []
             },
             submitElements: {
                 'default': Submit
-            }
-        } as RenderOptions
+            },
+            Actions:[Save, Clear, Transfer],
+            ActionsAppend: [Preview]
+        } as BuilderOptions
     }
 }
 

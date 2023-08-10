@@ -4,52 +4,44 @@ import {TextField, Checkbox, FormGroup, FormControlLabel, FormHelperText} from "
 import ShowErrors from "../ShowErrors";
 
 export const TextEdit = ({item, items, options}: TextProps ) => {
-    const [valueError, setValueError] = useState( false)
-    const [valueErrors, setValueErrors] = useState( [] as string[])
-    const [minLengthError, setMinLengthError] = useState({error: false})
-    const [minLengthErrors, setMinLengthErrors] = useState( [] as string[])
-    const [maxLengthError, setMaxLengthError] = useState( false)
-    const [maxLengthErrors, setMaxLengthErrors] = useState( [] as string[])
+    const [valueError, setValueError] = useState<string | undefined>(undefined)
+    const [minLengthError, setMinLengthError] = useState<string | undefined>(undefined)
+    const [maxLengthError, setMaxLengthError] = useState<string | undefined>(undefined)
 
     const onChangeMinLength = (event: ChangeEvent<HTMLInputElement>) => {
-
         const value = event.target.value === '' ? undefined : parseInt(event.target.value)
+
         if (value !== undefined) {
             if (value < 0) {
-                setMinLengthError({error: true})
-                setMinLengthErrors(['minLength must be a positive number'])
+                setMinLengthError('minLength must be a positive number')
                 return
             }
             if (item.maxLength && (value > item.maxLength)) {
-                setMinLengthError({error: true})
-                setMinLengthErrors(['Min Length must not be greater than Max Length'])
+                setMinLengthError('Min Length must not be greater than Max Length')
                 return
             }
         }
 
-        options.SetItem({...item, minLength: value})
-        setMinLengthError({error: false})
-        setMinLengthErrors([]);
+        options.SetItem({ ...item, minLength: value })
+        setMinLengthError(undefined)
     }
 
     const onChangeMaxLength = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value === '' ? undefined : parseInt(event.target.value)
+
         if (value !== undefined) {
             if (value < 1) {
-                setMaxLengthError(true)
-                setMaxLengthErrors(['Max Length must be greater the 0'])
+                setMaxLengthError('Max Length must be greater the 0')
                 return
             }
             if (item.minLength && (value < item.minLength)) {
-                setMaxLengthError(true)
-                setMaxLengthErrors(['Max Length must not be less than Min Length '])
+                setMaxLengthError('Max Length must not be less than Min Length')
                 return
             }
         }
 
-        options.SetItem({...item, maxLength: value})
-        setMaxLengthError(false);
-        setMaxLengthErrors([]);
+        options.SetItem({ ...item, maxLength: value })
+        setMaxLengthError(undefined)
     }
 
     const onChangeValue = (event: ChangeEvent<HTMLInputElement>) => {
@@ -58,33 +50,31 @@ export const TextEdit = ({item, items, options}: TextProps ) => {
 
         if (value) {
             if (item.minLength !== undefined && value.length < (item.minLength || 0)) {
-                setValueError(true)
-                setValueErrors([item.label + ' must be at least ' + item.minLength + ' charters long'])
+                setValueError(item.label + ' must be at least ' + item.minLength + ' characters long')
                 return
             }
             if (item.maxLength !== undefined && value.length > (item.maxLength || 0)) {
-                setValueError(true)
-                setValueErrors([item.label + ' cannot exceed ' + item.maxLength + ' charters'])
+                setValueError(item.label + ' cannot exceed ' + item.maxLength + ' characters')
                 return
             }
             itm.value = value
         } else {
             delete itm.value
         }
-        setValueError(false)
-        setValueErrors([])
+
         options.SetItem(itm)
+        setValueError(undefined)
     }
 
     const onClickMultiline = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.checked || undefined
-        const st = {...item}
+        const itm = {...item}
         if (value === undefined) {
-            delete st.multiline
+            delete itm.multiline
         } else {
-            st.multiline = true
+            itm.multiline = true
         }
-        options.SetItem(st)
+        options.SetItem(itm)
     }
 
     return <>
@@ -94,11 +84,11 @@ export const TextEdit = ({item, items, options}: TextProps ) => {
                 fullWidth={true}
                 label='Value'
                 type="text"
-                error={valueError}
+                error={valueError !== undefined}
                 defaultValue={item.value}
                 onChange={onChangeValue}
             />
-            <ShowErrors errors={valueErrors}/>
+            <ShowErrors errors={valueError ? [valueError] : []}/>
         </FormGroup>
 
         <FormGroup>
@@ -112,29 +102,25 @@ export const TextEdit = ({item, items, options}: TextProps ) => {
         <FormGroup>
             <TextField
                 size='small'
-                fullWidth={true}
                 label='Min Length'
                 type="number"
-                inputProps={{"min": (item.maxLength || 0)}}
-                error={minLengthError.error}
+                error={minLengthError !== undefined}
                 defaultValue={item.minLength}
                 onChange={onChangeMinLength}
             />
-            <ShowErrors errors={minLengthErrors}/>
+            <ShowErrors errors={minLengthError ? [minLengthError] : []}/>
         </FormGroup>
 
         <FormGroup>
             <TextField
                 size='small'
-                fullWidth={true}
                 label='Max Length'
                 type="number"
-                inputProps={{"min": (item.minLength || 1)}}
-                error={maxLengthError}
+                error={maxLengthError !== undefined}
                 defaultValue={item.maxLength}
                 onChange={onChangeMaxLength}
             />
-            <ShowErrors errors={maxLengthErrors}/>
+            <ShowErrors errors={maxLengthError ? [maxLengthError] : []}/>
         </FormGroup>
     </>
 

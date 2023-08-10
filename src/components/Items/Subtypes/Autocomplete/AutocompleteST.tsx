@@ -3,22 +3,17 @@ import {Autocomplete, FormHelperText, InputLabel, Stack, TextField} from "@mui/m
 import {Option, AutocompleteSubtype, AutocompleteProps} from "../../Items";
 import AutocompleteValidate from "./AutocompleteValidate";
 
-
 export type FilterOptionsFunc = (input?: string) => (Promise<Option[]> | Option[])
 
 const AutocompleteST = ({item, options}: AutocompleteProps) => {
-    const element = document.getElementById(item.id)
-    if (element === undefined) {
-        console.log('Could not find element by ID')
-    }
     const [searchTerm, setSearchTerm] = useState<string|undefined>(item.value)
     const [choices, setChoices] = useState<Option[]>(item.value ? [{label: item.value, selected:true}] : [])
 
-    const filterOptions = useRef<FilterOptionsFunc>((input?: string) => []) //
+    const filterOptions = useRef<FilterOptionsFunc>((input?: string) => [])
 
     // Initialize filterOptions to use passed-in searchableOptions function. Otherwise, fall back to static Option list from schema.
     useEffect(() => {
-        if (item.searchableOptionsName != null) {
+        if (item.searchableOptionsName !== undefined) {
             const getChoicesUnsafe = options.searchableOptions?.[item.searchableOptionsName]
             if ( getChoicesUnsafe !== undefined && typeof getChoicesUnsafe === 'function') {
                 filterOptions.current = getChoicesUnsafe
@@ -28,41 +23,34 @@ const AutocompleteST = ({item, options}: AutocompleteProps) => {
             }
         } else {
             filterOptions.current = (input) => {
-                return (item.options ?? []).filter(option =>
+                return (item.options).filter(option =>
                     input !== undefined
                         ? option.value?.toLowerCase().includes(input) || option.label.toLowerCase().includes(input)
                         : false
                 )
             }
         }
-    }, [])
+    }, [item.searchableOptionsName, item.options, item.allowAnyInput])
 
     // Debounce call to getChoices
     useEffect( () => {
         const getData = setTimeout(async () => {
             const choices = await filterOptions.current(searchTerm?.toLowerCase() ?? '')
             setChoices(choices.sort((a, b) => a.label.localeCompare(b.label)))
-            const itm = {...item}
-            itm.options = choices.sort((a, b) => a.label.localeCompare(b.label))
-            options.SetItem(itm)
         }, 500)
 
         return () => clearTimeout(getData)
     }, [searchTerm])
 
+    useEffect( () => {
+        setSearchTerm(item.value);
+    },[item])
+
     const onInputChange = (event: SyntheticEvent<Element, Event>, value: string) => {
         const itm = {...item} as AutocompleteSubtype
-
-        console.log('#value', value)
         itm.value = value || undefined
-        if (itm.searchableOptionsName && itm.allowAnyInput && ((itm.options ?? [])[0]?.label ?? '') !== value) {
-            if (value === undefined) {
-                itm.options=[]
-            } else {
-                itm.options = [{label: value} as Option]
-            }
-            AutocompleteValidate(itm, options)
-        }
+
+        AutocompleteValidate(itm, options)
         setSearchTerm(value || undefined)
 
         if (!options.IsBuild) {
@@ -75,17 +63,21 @@ const AutocompleteST = ({item, options}: AutocompleteProps) => {
 
         // try using value.value, but fallback to value. If freeSolo + autoSelect are enabled, and user leaves free text in input.
         // itm.value = item.allowAnyInput ? (value as Option)?.value ?? value as string : (value as Option)?.value
-        console.log('value', value)
-        console.log('event', event)
-        const val = value ? {selected: true, ...value} as Option : undefined
+        let val = undefined
+
+        if(value?.label) {
+            val =  value ? {selected: true, ...value} as Option : undefined
+        } else if (value && !value.label) {
+            val = {selected: true, value: value, label: value} as Option
+        }
+
+
         if(itm.searchableOptionsName) {
             itm.options = val ? [val] : []
         }
         itm.value = val?.label ?? undefined
-        // setSearchTerm(val?.label)
-        // AutocompleteValidate(itm, options)
+
         if (!options.IsBuild) {
-            console.log('Setting Item', itm)
             options.SetItem(itm)
         }
     }
@@ -100,15 +92,16 @@ const AutocompleteST = ({item, options}: AutocompleteProps) => {
             </InputLabel>
             <Autocomplete
                 id={item.id}
+                // freeSolo is giving this error: Type boolean is not assignable to type false | undefined
+                // However, the MUI documentation states that true of false should be used.  Using undefined does not.
+                // This may just be an issue with PHP storm
                 freeSolo={item.allowAnyInput ?? false}
-                autoSelect={!(item.allowAnyInput ?? false)}
+                autoSelect={item.allowAnyInput ?? false}
                 onChange={onAutocompleteChange}
                 onInputChange={onInputChange}
                 defaultValue={item.value}
                 options={choices}
                 isOptionEqualToValue={(option: Option, value: any) => {
-                    console.log('!option', option)
-                    console.log('!value', value)
                     return option.label === value
                 }}
                 // filterOptions={ (options, state) => options }

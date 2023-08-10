@@ -56,7 +56,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     const defaultTheme = useTheme()
 
     const options:Options = {...(Options || {}),
-        Actions: [Transfer, Save, Clear],
+        Actions: [...(Options?.Actions ?? [Transfer,Save,Clear]), ...(Options?.ActionsAppend ?? [])],
         AllowedSubtypes: {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})},
         AllowedItems: {...(Options?.AllowedItems || DefaultItems()), ...(Options?.AdditionalItems || {})},
         IsBuild: true,
@@ -73,8 +73,8 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
             SetItems(items)
         }
     }, [items])
-    useEffect(()=>{
-        console.log('ITEM',item)
+    useEffect(() => {
+        console.log('ITEM', item)
         setItems(SetItem(item, items))
     },[item])
 
