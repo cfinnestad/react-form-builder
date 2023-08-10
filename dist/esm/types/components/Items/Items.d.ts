@@ -32,6 +32,7 @@ export type Options = {
 export declare const validateItem: (Item: object, index: number) => string[];
 export type BaseItem = {
     id: string;
+    prevId?: string;
     type: string;
     filter?: FilterType;
     ClassName?: string;
