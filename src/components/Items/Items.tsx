@@ -49,7 +49,6 @@ export const validateItem = (Item: object, index: number): string[] => {
 
 export type BaseItem = {
     id: string,
-    prevId?: string,
     type: string,
     filter?: FilterType,
     ClassName?: string,
@@ -328,4 +327,4 @@ export function isBoolean(item: AnyItem): item is BooleanSubtype { return isFiel
 export function isAutocomplete(item: AnyItem): item is AutocompleteSubtype { return isField(item) && item.subtype === "Autocomplete"}
 export function isPhone(item: AnyItem): item is PhoneSubtype { return isField(item) && item.subtype === "Phone"}
 export function isOption(item: AnyItem): item is OptionSubtype { return isField(item) && item.hasOwnProperty('options')}
-export function isMultiples(item: AnyItem): item is MultiplesSubtype { return isField(item) && item.hasOwnProperty('multiples')}
+export function isNamed(item: AnyItem): item is NamedItem { return item.hasOwnProperty('name') }
