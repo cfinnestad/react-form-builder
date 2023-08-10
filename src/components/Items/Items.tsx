@@ -49,7 +49,6 @@ export const validateItem = (Item: object, index: number): string[] => {
 
 export type BaseItem = {
     id: string,
-    prevId?: string,
     type: string,
     filter?: FilterType,
     ClassName?: string,
@@ -62,55 +61,59 @@ export type FilterType = {
 export type FieldFilter = FilterType & {
     comparison: '='|'>'|'>='|'<'|'<='|'in',
     fieldId: string,
-    value?: string|number|boolean|string[],
+    value?: string|number|boolean|undefined|(string|number|boolean|undefined)[],
 }
 export const isFieldFilter = (filter: FilterType): filter is FieldFilter => { return ['=','>','>=','<','<=','in'].includes(filter.comparison) }
 
 export type EqFilter = FieldFilter & {
     comparison: '=',
-    value?: string|number|boolean,
+    value?: string|number|boolean|undefined,
 }
 export const isEqFilter = (filter: FilterType): filter is EqFilter => { return filter.comparison === '=' }
 
 export type GtFilter = FieldFilter & {
     comparison: '>',
-    value?: string|number|boolean,
+    value?: string|number|boolean|undefined,
 }
 export const isGtFilter = (filter: FilterType): filter is GtFilter => { return filter.comparison === '>' }
 
 export type GteFilter = FieldFilter & {
     comparison: '>=',
-    value?: string|number|boolean,
+    value?: string|number|boolean|undefined,
 }
 export const isGteFilter = (filter: FilterType): filter is GteFilter => { return filter.comparison === '>=' }
 
 export type LtFilter = FieldFilter & {
     comparison: '<',
-    value?: string|number|boolean,
+    value?: string|number|boolean|undefined,
 }
 export const isLtFilter = (filter: FilterType): filter is LtFilter => { return filter.comparison === '<' }
 
 export type LteFilter = FieldFilter & {
     comparison: '<=',
-    value?: string|number|boolean,
+    value?: string|number|boolean|undefined,
 }
 export const isLteFilter = (filter: FilterType): filter is LteFilter => { return filter.comparison === '<=' }
 
 export type InFilter = FieldFilter & {
     comparison: 'in',
-    value?: string[],
+    value?: (string|number|boolean|undefined)[],
 }
 export const isInFilter = (filter: FilterType): filter is InFilter => { return filter.comparison === 'in' }
 
-export type AndFilter = FilterType & {
-    comparison: 'and',
+export type ComparisonFilter = FilterType & {
+    comparison: 'and'|'or',
     filters: FilterType[],
+}
+export const isComparisonFilter = (filter: FilterType): filter is AndFilter => { return ['and','or'].includes(filter.comparison) }
+
+export type AndFilter = ComparisonFilter & {
+    comparison: 'and',
 }
 export const isAndFilter = (filter: FilterType): filter is AndFilter => { return filter.comparison === 'and' }
 
-export type OrFilter = FilterType & {
+export type OrFilter = ComparisonFilter & {
     comparison: 'or',
-    filters: FilterType[],
 }
 export const isOrFilter = (filter: FilterType): filter is OrFilter => { return filter.comparison === 'or' }
 
@@ -324,4 +327,4 @@ export function isBoolean(item: AnyItem): item is BooleanSubtype { return isFiel
 export function isAutocomplete(item: AnyItem): item is AutocompleteSubtype { return isField(item) && item.subtype === "Autocomplete"}
 export function isPhone(item: AnyItem): item is PhoneSubtype { return isField(item) && item.subtype === "Phone"}
 export function isOption(item: AnyItem): item is OptionSubtype { return isField(item) && item.hasOwnProperty('options')}
-export function isMultiples(item: AnyItem): item is MultiplesSubtype { return isField(item) && item.hasOwnProperty('multiples')}
+export function isNamed(item: AnyItem): item is NamedItem { return item.hasOwnProperty('name') }

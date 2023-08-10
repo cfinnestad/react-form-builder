@@ -125,7 +125,7 @@ function SelectST({item, options}: SelectProps) {
                             item.options.map(option =>
                                 <MenuItem
                                     key={option.label}
-                                    value={option.label}
+                                    value={option.value ?? option.label}
                                     selected={option.selected}
                                 >
                                     {option.label}
@@ -143,7 +143,7 @@ function SelectST({item, options}: SelectProps) {
     }
 }
 
-function getStyles(label: string, options: readonly string[], theme: Theme) {
+export const getStyles = (label: string, options: readonly string[], theme: Theme) => {
     return {
         fontWeight:
             options.indexOf(label) === -1
