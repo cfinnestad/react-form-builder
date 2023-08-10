@@ -14,7 +14,10 @@ import {
     TextSubtype,
     RadioSubtype,
     SelectSubtype,
-    PhoneSubtype, AutocompleteSubtype, SubmitItem, Option
+    PhoneSubtype,
+    AutocompleteSubtype,
+    SubmitItem,
+    Option
 } from "../Items";
 import {Submit} from "./StoriesSubmit";
 import {TestTheme} from "../../shared/themes/TestTheme";
@@ -226,6 +229,18 @@ export const Primary: Story = {
                     label: 'Date',
                     subtype: 'Date',
                     helperText: 'Helper text'
+                } as DateSubtype,
+                {
+                    id: "date2",
+                    type: 'Field',
+                    name: 'date2',
+                    label: 'Date Filter',
+                    subtype: 'Date',
+                    filter: {
+                        fieldId: "date1",
+                        comparison: "=",
+                        value: "08/07/2023"
+                    } as EqFilter
                 } as DateSubtype,
                 {
                     id: 'boolean1',

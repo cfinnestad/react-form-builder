@@ -8,7 +8,7 @@ import dayjs from 'dayjs'
 
 const DateST = ({item, options}: DateProps ) => {
 
-    if (item.defaultToday === true) item.value = today()
+    if (item.defaultToday === true && !item.value) item.value = today()
     if (!item.dateFormat) item.dateFormat = defaultFormat
 
     const onChange = (value: string | null) => {

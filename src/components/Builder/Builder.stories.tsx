@@ -2,13 +2,21 @@ import type {Meta, StoryObj} from '@storybook/react';
 
 import Builder from './Builder';
 import {
-    AutocompleteSubtype, BooleanSubtype, CheckboxSubtype, DateSubtype,
+    AutocompleteSubtype,
+    BooleanSubtype,
+    CheckboxSubtype,
+    DateSubtype,
     EmailSubtype,
     EqFilter,
-    GroupItem, HTMLItem,
+    GroupItem,
+    HTMLItem,
     HiddenItem,
-    NumberSubtype, Option,
-    PhoneSubtype, RadioSubtype, SelectSubtype, SubmitItem,
+    NumberSubtype,
+    Option,
+    PhoneSubtype,
+    RadioSubtype,
+    SelectSubtype,
+    SubmitItem,
     TextSubtype
 } from "../Items";
 import {Submit} from "../Render/StoriesSubmit";
@@ -239,6 +247,18 @@ export const Primary: Story = {
                     label: 'Date',
                     subtype: 'Date',
                     helperText: 'Helper text'
+                } as DateSubtype,
+                {
+                    id: "date2",
+                    type: 'Field',
+                    name: 'date2',
+                    label: 'Date Filter',
+                    subtype: 'Date',
+                    filter: {
+                        fieldId: "date1",
+                        comparison: "=",
+                        value: "08/07/2023"
+                    } as EqFilter
                 } as DateSubtype,
                 {
                     id: 'boolean1',

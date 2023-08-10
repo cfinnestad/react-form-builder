@@ -73,8 +73,8 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
             SetItems(items)
         }
     }, [items])
-    useEffect(()=>{
-        console.log('ITEM',item)
+    useEffect(() => {
+        console.log('ITEM', item)
         setItems(SetItem(item, items))
     },[item])
 

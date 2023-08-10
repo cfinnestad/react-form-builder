@@ -49,6 +49,7 @@ export const validateItem = (Item: object, index: number): string[] => {
 
 export type BaseItem = {
     id: string,
+    prevId?: string,
     type: string,
     filter?: FilterType,
     ClassName?: string,
