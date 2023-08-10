@@ -38,6 +38,7 @@ type Options = {
 declare const validateItem: (Item: object, index: number) => string[];
 type BaseItem = {
     id: string;
+    prevId?: string;
     type: string;
     filter?: FilterType;
     ClassName?: string;
