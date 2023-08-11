@@ -31,7 +31,8 @@ export type BuilderOptions = {
     submitElements?: {
         [key: string]: (props: SubmitButtonProps) => JSX.Element
     }
-    muiTheme?: Theme
+    muiTheme?: Theme,
+    custom?: {[key:string]: any}
 }
 
 export type BuilderProps = {
@@ -41,8 +42,7 @@ export type BuilderProps = {
     AdditionalSubtypes?: AllowedSubtypes,
     Items?: AnyItem[],
     SetItems?: Dispatch<SetStateAction<AnyItem[]>>,
-    Options?: BuilderOptions,
-    custom?: {[key:string]: any}
+    Options?: BuilderOptions
 }
 
 const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
@@ -66,7 +66,8 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         getError: (error: string, item: AnyItem) => {
             return GetError(error, item, {...Errors(), ...(Options?.Errors ?? {})})
         },
-        muiTheme: Options?.muiTheme ?? defaultTheme
+        muiTheme: Options?.muiTheme ?? defaultTheme,
+        custom: Options?.custom
     }
     useEffect(() => {
         if(SetItems) {
