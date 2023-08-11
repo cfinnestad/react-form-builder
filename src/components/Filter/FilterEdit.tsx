@@ -35,7 +35,7 @@ const getDefaultValue = (item:FieldItem|HiddenItem): string|number|boolean|strin
     } else if (isBoolean(item)) {
         return true
     }
-    return isString(item.value) ? item.value : 'undefined'
+    return isString(item.value) ? item.value : undefined
 }
 
 const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
@@ -179,7 +179,7 @@ const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
                 //TODO make sure all types are handled
                 if(isAutocomplete(item) || isText(item)) {
                     if (multiples) {
-                        field = <FilterMultipleInputs values={filter.value ?? []} setValues={setValue} type='text'/>
+                        field = <FilterMultipleInputs values={typeof filter.value === 'string' ? [filter.value] : (filter.value ?? [])} setValues={setValue} type='text'/>
                     } else {
                         field = <FilterInput value={filter.value as string|undefined} setValue={setValue} type='text'/>
                     }
@@ -267,22 +267,24 @@ const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
     }
 
     return <>
-        <Stack spacing={2}>
-            <FormControl>
-                <InputLabel id="comparison-label">Comparison</InputLabel>
-                <Select
-                    value={filter?.comparison || ''}
-                    labelId='comparison-label'
-                    label='Comparison'
-                    size='small'
-                    onChange={changeComparison}
-                >
-                    <MenuItem value=''>Remove Filter</MenuItem>
-                    { ['=','>','>=','<','<=','in','and','or','not'].map(option => <MenuItem value={option}>{option}</MenuItem>)}
-                </Select>
-            </FormControl>
-            {fields}
-        </Stack>
+        <Box sx={{ border: '1px solid grey', padding: '10px', borderRadius: '5px' }}>
+            <Stack spacing={2}>
+                <FormControl>
+                    <InputLabel id="comparison-label">Comparison</InputLabel>
+                    <Select
+                        value={filter?.comparison || ''}
+                        labelId='comparison-label'
+                        label='Comparison'
+                        size='small'
+                        onChange={changeComparison}
+                    >
+                        <MenuItem value=''>Remove Filter</MenuItem>
+                        { ['=','>','>=','<','<=','in','and','or','not'].map(option => <MenuItem value={option}>{option}</MenuItem>)}
+                    </Select>
+                </FormControl>
+                {fields}
+            </Stack>
+        </Box>
     </>
 }
 

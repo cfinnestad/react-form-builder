@@ -13,9 +13,10 @@ type FilterInputProps = {
     type: string
     label?: string
     index?: number
+    inputProps?: object
 }
 
-const FilterInput = ({value,index,setValue,type,label}:FilterInputProps) => {
+const FilterInput = ({value,index,setValue,type,label,inputProps}:FilterInputProps) => {
     const changeValue = (event: string | boolean | undefined | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         let val:string|number|boolean|undefined = (typeof event === 'string' || typeof event === 'boolean' || event === undefined) ? event : event.target.value
         if (type === 'date') {
@@ -36,6 +37,7 @@ const FilterInput = ({value,index,setValue,type,label}:FilterInputProps) => {
                 disableCountryCode = {true}
                 disableDropdown = {true}
                 onlyCountries = {['us']}
+                InputProps={inputProps}
             />
         </>
     }
@@ -48,6 +50,7 @@ const FilterInput = ({value,index,setValue,type,label}:FilterInputProps) => {
                     onChange={(value) => changeValue(value?.toString() ?? undefined)}
                     disableMaskedInput={true}
                     inputFormat={defaultFormat}
+                    InputProps={inputProps}
                     renderInput={(params) => <TextField
                         {...params}
                         name='date-filter'
@@ -67,6 +70,7 @@ const FilterInput = ({value,index,setValue,type,label}:FilterInputProps) => {
                     <Checkbox
                         checked={value as boolean|undefined}
                         onClick={() => changeValue(!value)}
+                        inputProps={inputProps}
                     />
                 }
                 label={label ?? 'Checked'}
@@ -75,7 +79,7 @@ const FilterInput = ({value,index,setValue,type,label}:FilterInputProps) => {
     }
 
     return <>
-        <TextField size='small' value={value} label={label ?? 'Value'} onChange={changeValue} type={type} placeholder='<undefined>'/>
+        <TextField size='small' InputProps={inputProps} defaultValue={value} label={label ?? 'Value'} onChange={changeValue} type={type} placeholder='<undefined>'/>
     </>
 }
 
