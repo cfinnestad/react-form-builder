@@ -8,7 +8,7 @@ import DefaultSubtypes from "../Items/Subtypes/DefaultSubTypes";
 import Transfer from "../Actions/Transfer/Transfer";
 import Save from "../Actions/Save/Save";
 import Clear from "../Actions/Clear/Clear";
-import SetItem from "../Items/SetItem";
+import UpdateItemInItems from "../Items/UpdateItemInItems";
 import onDragEnd from "./OnDragEnd";
 import {closestCenter, DndContext, useSensor, PointerSensor, KeyboardSensor} from "@dnd-kit/core";
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
@@ -73,9 +73,10 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
             SetItems(items)
         }
     }, [items])
+
     useEffect(() => {
-        console.log('ITEM', item)
-        setItems(SetItem(item, items))
+        console.log('SET ITEM', item)
+        setItems(UpdateItemInItems(item, items))
     },[item])
 
     return <div className='builder'>

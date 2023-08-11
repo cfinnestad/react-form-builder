@@ -92,7 +92,9 @@
     "react-copy-to-clipboard": "^5.1.0",
     "styled-components": "^5.3.10",
     "tinymce": "^6.6.0",
-    "uuidv4": "^6.2.13"
+    "uuidv4": "^6.2.13",
+    "@react-buddy/ide-toolbox": "^2.4.0",
+    "@react-buddy/palette-mui": "^5.0.1"
   },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
