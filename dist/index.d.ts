@@ -38,7 +38,6 @@ type Options = {
 declare const validateItem: (Item: object, index: number) => string[];
 type BaseItem = {
     id: string;
-    prevId?: string;
     type: string;
     filter?: FilterType;
     ClassName?: string;
@@ -52,47 +51,50 @@ type FilterType = {
 type FieldFilter = FilterType & {
     comparison: '=' | '>' | '>=' | '<' | '<=' | 'in';
     fieldId: string;
-    value?: string | number | boolean | string[];
+    value?: string | number | boolean | undefined | (string | number | boolean | undefined)[];
 };
 declare const isFieldFilter: (filter: FilterType) => filter is FieldFilter;
 type EqFilter = FieldFilter & {
     comparison: '=';
-    value?: string | number | boolean;
+    value?: string | number | boolean | undefined;
 };
 declare const isEqFilter: (filter: FilterType) => filter is EqFilter;
 type GtFilter = FieldFilter & {
     comparison: '>';
-    value?: string | number | boolean;
+    value?: string | number | boolean | undefined;
 };
 declare const isGtFilter: (filter: FilterType) => filter is GtFilter;
 type GteFilter = FieldFilter & {
     comparison: '>=';
-    value?: string | number | boolean;
+    value?: string | number | boolean | undefined;
 };
 declare const isGteFilter: (filter: FilterType) => filter is GteFilter;
 type LtFilter = FieldFilter & {
     comparison: '<';
-    value?: string | number | boolean;
+    value?: string | number | boolean | undefined;
 };
 declare const isLtFilter: (filter: FilterType) => filter is LtFilter;
 type LteFilter = FieldFilter & {
     comparison: '<=';
-    value?: string | number | boolean;
+    value?: string | number | boolean | undefined;
 };
 declare const isLteFilter: (filter: FilterType) => filter is LteFilter;
 type InFilter = FieldFilter & {
     comparison: 'in';
-    value?: string[];
+    value?: (string | number | boolean | undefined)[];
 };
 declare const isInFilter: (filter: FilterType) => filter is InFilter;
-type AndFilter = FilterType & {
-    comparison: 'and';
+type ComparisonFilter = FilterType & {
+    comparison: 'and' | 'or';
     filters: FilterType[];
 };
+declare const isComparisonFilter: (filter: FilterType) => filter is AndFilter;
+type AndFilter = ComparisonFilter & {
+    comparison: 'and';
+};
 declare const isAndFilter: (filter: FilterType) => filter is AndFilter;
-type OrFilter = FilterType & {
+type OrFilter = ComparisonFilter & {
     comparison: 'or';
-    filters: FilterType[];
 };
 declare const isOrFilter: (filter: FilterType) => filter is OrFilter;
 type NotFilter = FilterType & {
@@ -289,13 +291,13 @@ declare function isBoolean(item: AnyItem): item is BooleanSubtype;
 declare function isAutocomplete(item: AnyItem): item is AutocompleteSubtype;
 declare function isPhone(item: AnyItem): item is PhoneSubtype;
 declare function isOption(item: AnyItem): item is OptionSubtype;
-declare function isMultiples(item: AnyItem): item is MultiplesSubtype;
+declare function isNamed(item: AnyItem): item is NamedItem;
 
 declare const ValidateFields: (items: AnyItem[], options: Options) => boolean;
 
 declare const GetItem: (id: string | number, items: AnyItem[]) => FieldItem | HiddenItem | undefined;
 
-declare const SetItem: (item: AnyItem, items: AnyItem[]) => AnyItem[];
+declare const UpdateItemInItems: (item: AnyItem, items: AnyItem[], prefix?: string) => AnyItem[];
 
 type validateNameChangeResponse = {
     validName?: string;
@@ -331,6 +333,9 @@ type BuilderOptions = {
         [key: string]: (props: SubmitButtonProps) => JSX.Element;
     };
     muiTheme?: Theme;
+    custom?: {
+        [key: string]: any;
+    };
 };
 type BuilderProps = {
     AllowedItems?: AllowedItems;
@@ -340,9 +345,6 @@ type BuilderProps = {
     Items?: AnyItem[];
     SetItems?: Dispatch<SetStateAction<AnyItem[]>>;
     Options?: BuilderOptions;
-    custom?: {
-        [key: string]: any;
-    };
 };
 declare const Builder: ({ Items, SetItems, Options }: BuilderProps) => JSX.Element;
 
@@ -375,4 +377,4 @@ declare const RenderedFlatObject: (items: AnyItem[]) => {};
 declare const RenderedArray: (items: AnyItem[]) => {} | [];
 declare const RenderedFlatArray: (items: AnyItem[]) => object[];
 
-export { AllowedItems, AllowedSubtypes, AndFilter, AnyItem, AutocompleteProps, AutocompleteSubtype, BaseItem, BaseItemProps, BooleanProps, BooleanSubtype, Builder, BuilderOptions, BuilderProps, CheckboxProps, CheckboxSubtype, DateProps, DateSubtype, EmailProps, EmailSubtype, EqFilter, ErrorType, Errors, FieldFilter, FieldItem, FieldProps, FieldType, FilterType, GetItem, GroupItem, GroupProps, GtFilter, GteFilter, HTMLItem, HTMLProps, HiddenItem, HiddenProps, InFilter, ItemProps, ItemType, LtFilter, LteFilter, MultiplesSubtype, NamedItem, NotFilter, NumberProps, NumberSubtype, Option, OptionSubtype, Options, OrFilter, PhoneProps, PhoneSubtype, RadioProps, RadioSubtype, Render, RenderOptions, RenderProps, RenderedArray, RenderedFlatArray, RenderedFlatObject, RenderedObject, SelectProps, SelectSubtype, SetItem, SubmitButtonElement, SubmitButtonProps, SubmitItem, SubmitProps, TextProps, TextSubtype, ValidateFields, getSiblingItems, isAndFilter, isAutocomplete, isBoolean, isCheckbox, isDate, isEmail, isEqFilter, isField, isFieldFilter, isGroup, isGtFilter, isGteFilter, isHidden, isHtml, isInFilter, isLtFilter, isLteFilter, isMultiples, isNotFilter, isNumber, isOption, isOrFilter, isPhone, isRadio, isSelect, isSubmit, isText, validateItem, validateNameChange };
+export { AllowedItems, AllowedSubtypes, AndFilter, AnyItem, AutocompleteProps, AutocompleteSubtype, BaseItem, BaseItemProps, BooleanProps, BooleanSubtype, Builder, BuilderOptions, BuilderProps, CheckboxProps, CheckboxSubtype, ComparisonFilter, DateProps, DateSubtype, EmailProps, EmailSubtype, EqFilter, ErrorType, Errors, FieldFilter, FieldItem, FieldProps, FieldType, FilterType, GetItem, GroupItem, GroupProps, GtFilter, GteFilter, HTMLItem, HTMLProps, HiddenItem, HiddenProps, InFilter, ItemProps, ItemType, LtFilter, LteFilter, MultiplesSubtype, NamedItem, NotFilter, NumberProps, NumberSubtype, Option, OptionSubtype, Options, OrFilter, PhoneProps, PhoneSubtype, RadioProps, RadioSubtype, Render, RenderOptions, RenderProps, RenderedArray, RenderedFlatArray, RenderedFlatObject, RenderedObject, SelectProps, SelectSubtype, UpdateItemInItems as SetItem, SubmitButtonElement, SubmitButtonProps, SubmitItem, SubmitProps, TextProps, TextSubtype, ValidateFields, getSiblingItems, isAndFilter, isAutocomplete, isBoolean, isCheckbox, isComparisonFilter, isDate, isEmail, isEqFilter, isField, isFieldFilter, isGroup, isGtFilter, isGteFilter, isHidden, isHtml, isInFilter, isLtFilter, isLteFilter, isNamed, isNotFilter, isNumber, isOption, isOrFilter, isPhone, isRadio, isSelect, isSubmit, isText, validateItem, validateNameChange };
