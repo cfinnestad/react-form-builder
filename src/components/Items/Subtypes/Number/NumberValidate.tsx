@@ -5,8 +5,6 @@ const NumberValidate = (item: FieldItem, options: Options): boolean => {
     if (element === undefined) {
         console.log('Could not find element by ID')
     }
-    // @ts-ignore
-    item.value = document.getElementById(item.id)?.value
     item.errorText = undefined
     if (!isNumber(item)){
         item.errorText = options.getError('invalidType', item)

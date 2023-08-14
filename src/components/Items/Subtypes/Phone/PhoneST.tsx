@@ -9,9 +9,9 @@ const PhoneST = ({item, options}: PhoneProps ) => {
         const itm = {...item} as PhoneSubtype
         
         itm.value = (typeof e === 'string') ? e.toString() : e.target.value
-
-        if(item.value === undefined) {
-            delete item.value
+console.log('phone', itm.value)
+        if(itm.value === undefined || itm.value === '') {
+            delete itm.value
         }
         phoneValidate(itm, options)
 

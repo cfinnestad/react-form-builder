@@ -51,7 +51,7 @@ describe("Verify Text of Various Error Messages", () => {
 
     test("Returns InvalidPhone error text", () => {
         const errorLine = GetError("invalidPhone", item, Errors());
-        expect(errorLine).toBe("Value must be a valid 10 digit phone number");
+        expect(errorLine).toBe("Value must be a valid phone number");
     });
 
     test("Returns DateRange error text", () => {

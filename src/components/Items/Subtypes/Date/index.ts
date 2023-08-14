@@ -5,7 +5,7 @@ export {default as DateST} from './DateST'
 export {default as DateEdit} from './DateEdit'
 export {default as DateValidate} from './DateValidate'
 
-export const defaultFormat = "M/D/YY" // the ui date format
+export const defaultFormat = "M/D/YYYY" // the ui date format
 
 export const dateFormat = (value: Dayjs) => {
     return dayjs(value).format('MM/DD/YYYY') // the submission date format

@@ -25,9 +25,9 @@ const Filter = (item: AnyItem, items: AnyItem[], filter: FilterType|undefined): 
             if (isEqFilter(filter)) {
                 if(value instanceof Array) {
                     // @ts-ignore
-                    return value.includes(filter.value ?? undefined)
+                    return value.includes(filter.value)
                 } else {
-                    return value === (filter.value ?? undefined)
+                    return value === filter.value
                 }
             }
             if (isGtFilter(filter) && filter.value !== undefined)  {

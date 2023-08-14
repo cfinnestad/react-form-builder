@@ -28,8 +28,9 @@ const NumberST = ({item, options}: NumberProps ) => {
     return <>
         <Stack spacing={.5}>
             <InputLabel
-                required = {item.required ?? false}
+                required={item.required ?? false}
                 error={item.errorText != null}
+                role="label"
             >
                 {item.label}
             </InputLabel>
@@ -38,6 +39,7 @@ const NumberST = ({item, options}: NumberProps ) => {
                 error={item.errorText != null}
                 name={item.name}
                 multiline={false}
+                required={item.required ?? false}
                 type="text"
                 inputProps={{pattern: '\d*'}}
                 defaultValue={item.value ?? ''}
