@@ -9,6 +9,7 @@ const EditModal = (itemProps: EditModalProps) => {
     const Close = () => {
         if(itemProps.options.setModal != null) {
             itemProps.options.setModal(false)
+            itemProps.setErrors([]) // we will be preventing save with errors so clear them here
         }
     }
     // console.log('md', itemProps.item.id)
@@ -25,7 +26,12 @@ const EditModal = (itemProps: EditModalProps) => {
             >
                 <DialogTitle>Edit {(itemProps.item as NamedItem)?.name} {itemProps.item.type} ({itemProps.item.id}) </DialogTitle>
                 <DialogContent>
-                    <EditFC item={itemProps.item} items={itemProps.items} options={itemProps.options}/>
+                    <EditFC
+                        item={itemProps.item}
+                        items={itemProps.items}
+                        options={itemProps.options}
+                        errors={itemProps.errors}
+                        setErrors={itemProps.setErrors} />
                 </DialogContent>
                 <DialogActions>
                     <Button color="secondary" onClick={Close}>Close</Button>

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent} from "react";
 import {DateProps, DateSubtype} from "../../Items";
 import {dateCmp, dateFormat, defaultFormat, getComputed} from "./index";
 import {Checkbox, FormControlLabel, FormGroup, FormHelperText, Grid, TextField} from "@mui/material";
@@ -6,45 +6,15 @@ import ShowErrors from "../ShowErrors";
 import dayjs from 'dayjs'
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import ErrorHandler from "../../ErrorHandler";
 
-export const DateEdit = ({item, options}: DateProps ) => {
+export const DateEdit = ({item, options, errors, setErrors}: DateProps ) => {
     if (!item.dateFormat) item.dateFormat = defaultFormat
 
-    // declare master error object
-    let errors = {}
+    const errorHandler = ErrorHandler(errors, setErrors)
 
-    // populate errors by field with default state and function pointers
-    const errorSetup = (errors: object, fields: string[]) => {
-        for (let f in fields) {
-            let which = fields[f]
-
-            errors[which] = {}
-
-            let [boolVal, boolFunc] = useState(false)
-            errors[which]["status"] = boolVal
-            errors[which]["setStatus"] = boolFunc
-
-            let [strVal, strFunc] = useState([] as string[])
-            errors[which]["message"] = strVal
-            errors[which]["setMessage"] = strFunc
-
-            //console.log("setup", which, JSON.stringify(errors[which]))
-        }
-    }
-
-    // assign incoming data to master error store
-    const errorHandler = (errors: object, which: string, msg: string | null = null) => {
-        errors[which]["status"] = (msg !== null)
-        errors[which]["setStatus"](errors[which]["status"])
-
-        errors[which]["message"] = (msg) ? [msg] : []
-        errors[which]["setMessage"](errors[which]["message"])
-
-        //console.log("handle", which, JSON.stringify(errors[which]))
-    }
-
-    // initialize errors from corresponding fields
-    errorSetup(errors, [
+    // all fields that can have errors, used in combo function
+    const fields = [
         "value",
         "minDate",
         "maxDate",
@@ -58,7 +28,7 @@ export const DateEdit = ({item, options}: DateProps ) => {
         "sharedMax",
         "sharedMinOffset",
         "sharedMaxOffset"
-    ])
+    ]
 
     // associate fields with their shared error groups
     const groups = {
@@ -69,7 +39,7 @@ export const DateEdit = ({item, options}: DateProps ) => {
     }
 
     // deal with errors caused by multiple incompatible field values
-    const handleCombo = (itm: DateSubtype, groups: object) => {
+    const handleCombo = (itm: DateSubtype) => {
         const calcItm = getComputed(itm)
 
         const comboError = 'This combination of settings excludes all dates.'
@@ -79,26 +49,32 @@ export const DateEdit = ({item, options}: DateProps ) => {
             && dateCmp(calcItm.minDateComputed, calcItm.maxDateComputed, "isAfter"))
 
         // loop through fields and toggle errors for populated and shared
-        for (let field in errors) {
-            if (badRange) {
+        for (let f in fields) {
+            let field = fields[f]
 
+            if (badRange) {
                 // set shared error if applicable
                 if (field.startsWith("shared")) {
 
                     // toggle it based on which fields are populated
                     let allEmpty = true
-                    for (let f in groups[field]) {
-                        if (itm[groups[field][f]]) allEmpty = false
+                    for (let g in groups[field]) {
+                        if (itm[groups[field][g]]) allEmpty = false
                     }
-                    if (allEmpty) errorHandler(errors, field)
-                    else errorHandler(errors, field, comboError)
 
-                } else if (itm[field] && errors[field]["message"].length === 0)
-                    errorHandler(errors, field, "") // flag the field with no message
+                    if (allEmpty) errorHandler.setError(field)
+                    else errorHandler.setError(field, comboError)
 
-            } else if (field.startsWith("shared") || errors[field]["message"].length === 0)
-                errorHandler(errors, field) // clear it if there's not another error
+                } else if (itm[field] && field !== "value" && !errorHandler.hasError(field))
+                    errorHandler.setError(field, "") // flag the field with no message
+
+            } else if (field.startsWith("shared") || !errorHandler.hasError(field) || errorHandler.hasSharedError(field))
+                errorHandler.setError(field) // clear it if there's not another error
         }
+    }
+
+    const invalidMsg = (which: string) : string => {
+        return errorHandler.fieldToTitle(which) + " is not valid."
     }
 
     const onClickToday = (event: ChangeEvent<HTMLInputElement>) => {
@@ -123,18 +99,17 @@ export const DateEdit = ({item, options}: DateProps ) => {
             itm[which] = dateFormat(dayjs(value))
 
             if (itm[which] === "Invalid Date") {
-                errorHandler(errors, which, which + " is not valid.")
+                errorHandler.setError(which, invalidMsg(which))
             } else {
-                errorHandler(errors, which)
+                errorHandler.setError(which)
             }
 
         } else {
             delete itm[which]
-            errorHandler(errors, which)
+            errorHandler.setError(which)
         }
 
-        // if it's not a specific field error, check the computed dates
-        if (which !== "value") handleCombo(itm, groups)
+        handleCombo(itm)
 
         const newItm = getComputed(itm)
         options.SetItem(newItm)
@@ -150,22 +125,21 @@ export const DateEdit = ({item, options}: DateProps ) => {
             if (Number.isNaN(value)
                 || value.startsWith("0")
                 || value.indexOf(".") > -1
-                || parseInt(value).toString().length !== value.length) {
+                || parseInt(value).toString().trim().length !== value.trim().length) {
 
-                errorHandler(errors, which, which + " is not valid.")
+                errorHandler.setError(which, invalidMsg(which))
 
             } else {
                 itm[which] = parseInt(value)
-                errorHandler(errors, which)
+                errorHandler.setError(which)
             }
 
         } else {
             delete itm[which]
-            errorHandler(errors, which)
+            errorHandler.setError(which)
         }
 
-        // if it's not a specific field error, check the computed dates
-        handleCombo(itm, groups)
+        handleCombo(itm)
 
         const newItm = getComputed(itm)
         options.SetItem(newItm)
@@ -197,12 +171,12 @@ export const DateEdit = ({item, options}: DateProps ) => {
                         id={item.id}
                         multiline={false}
                         fullWidth={true}
-                        error={errors['value']['status']}
+                        error={errorHandler.hasError('value')}
                         size='small'
                         type='text' />}
                 />
             </LocalizationProvider>
-            <ShowErrors errors={errors['value']['message']} />
+            <ShowErrors errors={errorHandler.getError('value')} />
         </FormGroup>
 
         <FormHelperText sx={{marginTop: -1}}>Enter the earliest and/or latest date(s) that can be chosen.</FormHelperText>
@@ -221,13 +195,13 @@ export const DateEdit = ({item, options}: DateProps ) => {
                         id={item.id}
                         multiline={false}
                         fullWidth={true}
-                        error={errors['minDate']['status']}
+                        error={errorHandler.hasError('minDate')}
                         size='small'
                         type='text' />}
                 />
             </LocalizationProvider>
-            <ShowErrors errors={errors['minDate']['message']} />
-            <ShowErrors errors={errors['sharedMin']['message']} />
+            <ShowErrors errors={errorHandler.getError('minDate')} />
+            <ShowErrors errors={errorHandler.getError('sharedMin')} />
         </FormGroup>
 
         <FormGroup>
@@ -244,13 +218,13 @@ export const DateEdit = ({item, options}: DateProps ) => {
                         id={item.id}
                         multiline={false}
                         fullWidth={true}
-                        error={errors['maxDate']['status']}
+                        error={errorHandler.hasError('maxDate')}
                         size='small'
                         type='text' />}
                 />
             </LocalizationProvider>
-            <ShowErrors errors={errors['maxDate']['message']} />
-            <ShowErrors errors={errors['sharedMax']['message']} />
+            <ShowErrors errors={errorHandler.getError('maxDate')} />
+            <ShowErrors errors={errorHandler.getError('sharedMax')} />
         </FormGroup>
 
         <FormHelperText sx={{marginTop: -1}}>
@@ -270,10 +244,10 @@ export const DateEdit = ({item, options}: DateProps ) => {
                             type="text"
                             defaultValue={item.minDateOffsetDays || undefined}
                             onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'minDateOffsetDays')}
-                            error={errors['minDateOffsetDays']['status']}
+                            error={errorHandler.hasError('minDateOffsetDays')}
                             sx={{marginRight: "10px"}}
                         />
-                        <ShowErrors errors={errors['minDateOffsetDays']['message']} />
+                        <ShowErrors errors={errorHandler.getError('minDateOffsetDays')} />
                     </Grid>
                     <Grid item md={4} sm={12}>
                         <TextField
@@ -283,10 +257,10 @@ export const DateEdit = ({item, options}: DateProps ) => {
                             type="text"
                             defaultValue={item.minDateOffsetMonths || undefined}
                             onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'minDateOffsetMonths')}
-                            error={errors['minDateOffsetMonths']['status']}
+                            error={errorHandler.hasError('minDateOffsetMonths')}
                             sx={{marginRight: "10px"}}
                         />
-                        <ShowErrors errors={errors['minDateOffsetMonths']['message']} />
+                        <ShowErrors errors={errorHandler.getError('minDateOffsetMonths')} />
                     </Grid>
                     <Grid item md={4} sm={12}>
                         <TextField
@@ -296,13 +270,13 @@ export const DateEdit = ({item, options}: DateProps ) => {
                             type="text"
                             defaultValue={item.minDateOffsetYears || undefined}
                             onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'minDateOffsetYears')}
-                            error={errors['minDateOffsetYears']['status']}
+                            error={errorHandler.hasError('minDateOffsetYears')}
                             sx={{marginRight: "10px"}}
                         />
-                        <ShowErrors errors={errors['minDateOffsetYears']['message']} />
+                        <ShowErrors errors={errorHandler.getError('minDateOffsetYears')} />
                     </Grid>
                 </Grid>
-                <ShowErrors errors={errors['sharedMinOffset']['message']} />
+                <ShowErrors errors={errorHandler.getError('sharedMinOffset')} />
             </div>
         </FormGroup>
 
@@ -317,10 +291,10 @@ export const DateEdit = ({item, options}: DateProps ) => {
                             type="text"
                             defaultValue={item.maxDateOffsetDays || undefined}
                             onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'maxDateOffsetDays')}
-                            error={errors['maxDateOffsetDays']['status']}
+                            error={errorHandler.hasError('maxDateOffsetDays')}
                             sx={{marginRight: "10px"}}
                         />
-                        <ShowErrors errors={errors['maxDateOffsetDays']['message']} />
+                        <ShowErrors errors={errorHandler.getError('maxDateOffsetDays')} />
                     </Grid>
                     <Grid item md={4} sm={12}>
                         <TextField
@@ -330,10 +304,10 @@ export const DateEdit = ({item, options}: DateProps ) => {
                             type="text"
                             defaultValue={item.maxDateOffsetMonths || undefined}
                             onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'maxDateOffsetMonths')}
-                            error={errors['maxDateOffsetMonths']['status']}
+                            error={errorHandler.hasError('maxDateOffsetMonths')}
                             sx={{marginRight: "10px"}}
                         />
-                        <ShowErrors errors={errors['maxDateOffsetMonths']['message']} />
+                        <ShowErrors errors={errorHandler.getError('maxDateOffsetMonths')} />
                     </Grid>
                     <Grid item md={4} sm={12}>
                         <TextField
@@ -343,13 +317,13 @@ export const DateEdit = ({item, options}: DateProps ) => {
                             type="text"
                             defaultValue={item.maxDateOffsetYears || undefined}
                             onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'maxDateOffsetYears')}
-                            error={errors['maxDateOffsetYears']['status']}
+                            error={errorHandler.hasError('maxDateOffsetYears')}
                             sx={{marginRight: "10px"}}
                         />
-                        <ShowErrors errors={errors['maxDateOffsetYears']['message']} />
+                        <ShowErrors errors={errorHandler.getError('maxDateOffsetYears')} />
                     </Grid>
                 </Grid>
-                <ShowErrors errors={errors['sharedMaxOffset']['message']} />
+                <ShowErrors errors={errorHandler.getError('sharedMaxOffset')} />
             </div>
         </FormGroup>
 

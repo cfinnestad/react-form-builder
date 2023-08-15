@@ -2,7 +2,7 @@ import React, {Dispatch, FC, JSX, SetStateAction, useEffect, useState} from "rea
 import Actions, {ActionFC, ActionProps} from "../Actions/Actions";
 import DefaultItems from "../Items/DefaultItems";
 import ShowItem from "../Items/ShowItem";
-import {AllowedItems, AllowedSubtypes, AnyItem, Option, Options, SubmitButtonProps} from "../Items";
+import {AllowedItems, AllowedSubtypes, AnyItem, BuildErrors, Option, Options, SubmitButtonProps} from "../Items";
 import {Box, Grid} from "@mui/material";
 import DefaultSubtypes from "../Items/Subtypes/DefaultSubTypes";
 import Transfer from "../Actions/Transfer/Transfer";
@@ -49,6 +49,8 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     const [items, setItems] = useState<AnyItem[]>(Items || [])
     const [modal, setModal] = useState( false )
     const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
+    const [errors, setErrors] = useState<BuildErrors[]>([] as BuildErrors[])
+
     const sensors = [
         useSensor(PointerSensor),
         useSensor(KeyboardSensor)
@@ -80,6 +82,10 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         setItems(UpdateItemInItems(item, items))
     },[item])
 
+    useEffect(() => {
+        console.log('SET ERRORS', errors)
+    },[errors])
+
     return <div className='builder'>
         <Actions Items={items} Options={options}/>
         <Box>
@@ -93,7 +99,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                             id="Main"
                             items={items.map(item => item.id)}
                             strategy={verticalListSortingStrategy}>
-                            {items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options}/>)}
+                            {items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options} />)}
                         </SortableContext>
                         {/*<SortableOverlay>*/}
                         {/*    {activeItem ? ShowItem( {item: activeItem, items: items, options:options}) : null}*/}
@@ -116,7 +122,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                     </Grid>
                 </Grid>
             </DndContext>
-            <EditModal showModal={modal} item={item} items={items} options={options}></EditModal>
+            <EditModal showModal={modal} item={item} items={items} options={options} errors={errors} setErrors={setErrors}></EditModal>
         </Box>
 
     </div>
