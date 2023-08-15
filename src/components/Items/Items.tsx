@@ -161,6 +161,7 @@ export type FieldItem = NamedItem & {
     required?: boolean,
     label: string,
     deprecated?: boolean,
+    backend_only?: boolean,
     helperText?: string,
     subtype: string,
     custom?: { [key:string]: any }
@@ -176,6 +177,7 @@ export type FieldItem = NamedItem & {
 
 export type OptionSubtype = FieldItem & {
     value?: string|string[],
+    editable?: boolean,
     searchableOptionsName?: string,
     options: Option[],
 }
@@ -209,6 +211,7 @@ export type AutocompleteSubtype = OptionSubtype & {
 
 export type TextSubtype = FieldItem & {
     subtype: 'Text',
+    editable?: boolean,
     value?: string,
     multiline?: boolean
     minLength?: number,
@@ -254,6 +257,7 @@ export type DateSubtype = FieldItem & {
 export type BooleanSubtype = FieldItem & {
     subtype: 'Boolean',
     value?: boolean,
+    editable?: boolean
 }
 
 export type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype | AutocompleteSubtype

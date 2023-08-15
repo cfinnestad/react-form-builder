@@ -34,7 +34,7 @@ export const FieldEdit = ({item, items, options}: FieldProps) => {
         const itm = { ...item }
         itm.subtype = subtype
         const defaults = options.AllowedSubtypes[subtype].Subtype
-        const fieldIndex: (keyof FieldItem)[] = ['id', 'name', 'type', 'filter', 'custom', 'required', 'label', 'deprecated', 'helperText', 'subtype']
+        const fieldIndex: (keyof FieldItem)[] = ['id', 'name', 'type', 'filter', 'custom', 'required', 'label', 'deprecated', 'backend_only', 'helperText', 'subtype']
 
         // grab item and field specific properties from 'item'
         const fieldProps = pick(itm, fieldIndex)
@@ -65,6 +65,18 @@ export const FieldEdit = ({item, items, options}: FieldProps) => {
             if(!itm.deprecated) {
                 itm.deprecated = undefined
                 delete itm.deprecated
+            }
+
+            options.SetItem(itm)
+        },
+        backend_only: (event: ChangeEvent<HTMLInputElement>) => {
+            const itm = { ...item }
+            const { target: { checked } } = event;
+            itm.backend_only = checked
+
+            if(!itm.backend_only) {
+                itm.backend_only = undefined
+                delete itm.backend_only
             }
 
             options.SetItem(itm)
@@ -101,6 +113,13 @@ export const FieldEdit = ({item, items, options}: FieldProps) => {
             <FormControlLabel control={ <Checkbox  defaultChecked={item.deprecated ?? false} onChange={handlers.deprecated}/> } label="Deprecated"/>
             <FormHelperText error={item.errorText !== undefined} sx = {{marginTop: -1}}>
                 Deprecated fields will not be removed from the database. They will still show in the builder interface with a red background.
+            </FormHelperText>
+        </FormGroup>
+
+        <FormGroup>
+            <FormControlLabel control={ <Checkbox  defaultChecked={item.backend_only ?? false} onChange={handlers.backend_only}/> } label="Backend Only"/>
+            <FormHelperText error={item.errorText !== undefined} sx = {{marginTop: -1}}>
+                Similar to Deprecated. Backend only fields will not be shown in the form, but will still be available on the backend.
             </FormHelperText>
         </FormGroup>
 

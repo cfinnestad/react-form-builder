@@ -1,6 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import {BooleanProps, BooleanSubtype} from "../../Items";
-import {FormControl, FormControlLabel, FormLabel, Radio, RadioGroup} from "@mui/material";
+import {
+    Checkbox,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    FormLabel,
+    Radio,
+    RadioGroup
+} from "@mui/material";
 
 const BooleanEdit = ({item, options}: BooleanProps) => {
     // Handles default value state for the edit modal
@@ -26,6 +34,17 @@ const BooleanEdit = ({item, options}: BooleanProps) => {
         setBool(!bool);
     }
 
+    const onClickEditable = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.checked || undefined
+        const itm = {...item}
+        if (value === undefined) {
+            delete itm.editable
+        } else {
+            itm.editable = true
+        }
+        options.SetItem(itm)
+    }
+
     return (
         <>
             <FormControl>
@@ -48,6 +67,14 @@ const BooleanEdit = ({item, options}: BooleanProps) => {
                         label="False"
                     />
                 </RadioGroup>
+            </FormControl>
+
+            <FormControl>
+                <FormControlLabel
+                    control={<Checkbox defaultChecked={item.editable || false} onChange={onClickEditable}/>}
+                    label="Editable"
+                />
+                <FormHelperText sx={{marginTop: -1, marginLeft: 0}}>Enable editing in backend.</FormHelperText>
             </FormControl>
         </>
     );
