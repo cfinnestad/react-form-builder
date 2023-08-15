@@ -279,9 +279,9 @@ export type BaseItemProps = {
     item: AnyItem,
     items: AnyItem[],
     options: Options,
-    errors: BuildErrors[],
-    setErrors: Dispatch<SetStateAction<BuildErrors[]>>,
-    //errorHandler: (errors: BuildErrors[], setErrors: Dispatch<SetStateAction<BuildErrors[]>>) => ErrorHandlerType
+    //errors: BuildErrors[],
+    //setErrors: Dispatch<SetStateAction<BuildErrors[]>>,
+    errorHandler: any //(errors: BuildErrors[], setErrors: Dispatch<SetStateAction<BuildErrors[]>>) => ErrorHandlerType
 }
 
 export type FieldProps = BaseItemProps & { item: FieldItem }

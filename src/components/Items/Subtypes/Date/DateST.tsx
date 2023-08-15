@@ -30,9 +30,9 @@ const DateST = ({item, options}: DateProps ) => {
     useEffect( () => {
         const itm = {...item} as DateSubtype
 
-        const newitm = getComputed(itm)
+        const newItm = getComputed(itm)
 
-        options.SetItem(newitm)
+        options.SetItem(newItm)
     }, [])
 
     return <>

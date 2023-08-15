@@ -9,7 +9,7 @@ const EditModal = (itemProps: EditModalProps) => {
     const Close = () => {
         if(itemProps.options.setModal != null) {
             itemProps.options.setModal(false)
-            itemProps.setErrors([]) // we will be preventing save with errors so clear them here
+            itemProps.errorHandler.clearAllErrors() // we will be preventing save with errors, so clear them here
         }
     }
     // console.log('md', itemProps.item.id)
@@ -30,8 +30,7 @@ const EditModal = (itemProps: EditModalProps) => {
                         item={itemProps.item}
                         items={itemProps.items}
                         options={itemProps.options}
-                        errors={itemProps.errors}
-                        setErrors={itemProps.setErrors} />
+                        errorHandler={itemProps.errorHandler} />
                 </DialogContent>
                 <DialogActions>
                     <Button color="secondary" onClick={Close}>Close</Button>
@@ -41,7 +40,6 @@ const EditModal = (itemProps: EditModalProps) => {
     } else {
         return <></>
     }
-
 
 }
 

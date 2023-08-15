@@ -15,6 +15,7 @@ import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import Errors, {ErrorType, GetError} from "../Errors/Errors";
 import {Theme, useTheme} from "@mui/material/styles";
 import EditModal from "../Items/EditModal";
+import ErrorHandler from "../Items/ErrorHandler";
 
 export type BuilderOptions = {
     Actions?: ActionFC[],
@@ -86,6 +87,8 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         console.log('SET ERRORS', errors)
     },[errors])
 
+    const errorHandler = ErrorHandler(errors, setErrors)
+
     return <div className='builder'>
         <Actions Items={items} Options={options}/>
         <Box>
@@ -122,7 +125,12 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                     </Grid>
                 </Grid>
             </DndContext>
-            <EditModal showModal={modal} item={item} items={items} options={options} errors={errors} setErrors={setErrors}></EditModal>
+            <EditModal
+                showModal={modal}
+                item={item}
+                items={items}
+                options={options}
+                errorHandler={errorHandler}></EditModal>
         </Box>
 
     </div>

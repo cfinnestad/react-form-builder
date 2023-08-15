@@ -5,9 +5,10 @@ import {Dispatch, SetStateAction} from "react";
 export type ErrorHandlerType = {
     setError: (which: string, msg: string | undefined) => void,
     clearError: (which: string) => void,
+    clearAllErrors: () => void,
     hasError: (which: string) => boolean,
     hasSharedError: (which: string) => boolean,
-    hasAnyError: () => boolean,
+    hasAnyErrors: () => boolean,
     getError: (which: string) => string[],
     fieldToTitle: (which: string) => string,
 }
@@ -24,9 +25,15 @@ const ErrorHandler = (errors: BuildErrors[], setErrors: Dispatch<SetStateAction<
         setErrors(localErrors)
     }
 
-    // optional alias for readability
+    // optional set alias for readability
     const clearError = (which: string) => {
         setError(which)
+    }
+
+    // clean slate
+    const clearAllErrors = () => {
+        localErrors = [] as BuildErrors[]
+        setErrors(localErrors)
     }
 
     // error flag for field prop
@@ -40,7 +47,7 @@ const ErrorHandler = (errors: BuildErrors[], setErrors: Dispatch<SetStateAction<
     }
 
     // whether any fields are currently in error state
-    const hasAnyError = (): boolean => {
+    const hasAnyErrors = (): boolean => {
         return (localErrors && Object.keys(localErrors).length > 0)
     }
 
@@ -61,9 +68,10 @@ const ErrorHandler = (errors: BuildErrors[], setErrors: Dispatch<SetStateAction<
     return {
         setError: setError,
         clearError: clearError,
+        clearAllErrors: clearAllErrors,
         hasError: hasError,
         hasSharedError: hasSharedError,
-        hasAnyError: hasAnyError,
+        hasAnyErrors: hasAnyErrors,
         getError: getError,
         fieldToTitle: fieldToTitle
     } as any

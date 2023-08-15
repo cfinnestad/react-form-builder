@@ -3,7 +3,6 @@ import {AnyItem, FieldItem, HiddenItem, isGroup, isNamed, ItemProps} from "./Ite
 import {FormGroup, FormHelperText, Stack, TextField} from "@mui/material";
 import {ShowErrors} from "./Subtypes";
 import FilterEdit, {FilterEditProps} from "../Filter/FilterEdit";
-import ErrorHandler from "./ErrorHandler";
 
 export type validateNameChangeResponse = {
     validName?: string
@@ -51,12 +50,11 @@ export const validateNameChange = (item: AnyItem, items: AnyItem[], newName?: st
     return { validName: name }
 }
 
-const NamedItemEdit = ({item, items, options, errors, setErrors}: ItemProps) => {
+const NamedItemEdit = ({item, items, options, errorHandler}: ItemProps) => {
     if (!isNamed(item)) {
         return <></>
     }
 
-    const errorHandler = ErrorHandler(errors, setErrors)
     const [validNameHint, setValidNameHint] = useState<string>()
 
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {

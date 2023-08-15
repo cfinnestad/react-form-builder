@@ -6,12 +6,9 @@ import ShowErrors from "../ShowErrors";
 import dayjs from 'dayjs'
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
-import ErrorHandler from "../../ErrorHandler";
 
-export const DateEdit = ({item, options, errors, setErrors}: DateProps ) => {
+export const DateEdit = ({item, options, errorHandler}: DateProps ) => {
     if (!item.dateFormat) item.dateFormat = defaultFormat
-
-    const errorHandler = ErrorHandler(errors, setErrors)
 
     // all fields that can have errors, used in combo function
     const fields = [
