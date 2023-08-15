@@ -1,7 +1,7 @@
 import React, {Dispatch, SetStateAction, useEffect, useState, JSX} from 'react';
 import {AnyItem, isField, isGroup, isHidden, Option, Options, AllowedItems, AllowedSubtypes} from "../Items";
 import ShowItem from "../Items/ShowItem";
-import SetItem from "../Items/SetItem";
+import UpdateItemInItems from "../Items/UpdateItemInItems";
 import DefaultItems from "../Items/DefaultItems";
 import DefaultSubtypes from "../Items/Subtypes/DefaultSubTypes";
 import Filter from "../Filter/Filter";
@@ -58,7 +58,7 @@ const Render = ({ Items, SetItems, Options }: RenderProps ) => {
         }
     }, [items])
     useEffect(()=>{
-        setItems(SetItem(item, items))
+        setItems(UpdateItemInItems(item, items))
     },[item])
 
     return <>

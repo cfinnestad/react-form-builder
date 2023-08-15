@@ -105,7 +105,7 @@ export const FieldEdit = ({item, items, options}: FieldProps) => {
         <FormGroup>
             <FormControlLabel control={ <Checkbox  defaultChecked={item.required ?? false} onChange={handlers.required}/> } label="Required"/>
             <FormHelperText error={item.errorText !== undefined} sx = {{marginTop: -1}}>
-                Indicate whether this field needs filled out prior to submitting the form.
+                Indicate whether this field needs to be filled out prior to submitting the form.
             </FormHelperText>
         </FormGroup>
 

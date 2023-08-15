@@ -1,8 +1,8 @@
 import React, {ChangeEvent, useState} from "react";
-import {AnyItem, isGroup, ItemProps, NamedItem} from "./Items";
+import {AnyItem, FieldItem, HiddenItem, isGroup, ItemProps, NamedItem} from "./Items";
 import {FormGroup, FormHelperText, Stack, TextField} from "@mui/material";
 import {ShowErrors} from "./Subtypes";
-
+import FilterEdit, {FilterEditProps} from "../Filter/FilterEdit";
 
 export type validateNameChangeResponse = {
     validName?: string
@@ -23,6 +23,12 @@ export const getSiblingItems = (item: AnyItem, items: AnyItem[]): AnyItem[] => {
     return []
 }
 
+// return all items containing the given prop, which optionally has a specific value
+export const getItemsHavingProp = (items: AnyItem[], prop: string, val: string | null = null): AnyItem[] => {
+    // @ts-ignore
+    return items.filter(itm  => itm.hasOwnProperty(prop) && (val === undefined || itm[prop].trim() === val.trim()))
+}
+
 export const validateNameChange = (props: ItemProps, newName?: string): validateNameChangeResponse => {
     const {item, items} = props
 
@@ -33,21 +39,13 @@ export const validateNameChange = (props: ItemProps, newName?: string): validate
         return { errors: ['Error validating non-named item'] }
     }
 
-    const otherNames = getSiblingItems(item, items)
-        .filter(itm => {
-            if (!isNamedItem(itm)) return false
-            return itm.id !== item.id;
-
-        })
-        .flatMap(itm => { if (isNamedItem(itm)) return itm.name })
-
     let name = newName.trim().replace(/\s+/g, '_')
 
-    if (name.includes('-')) {
-        return { errors: ['Name cannot include "-" character'] }
+    if (name.match(/[^A-Za-z0-9_]/g)) {
+        return { errors: ['Name can only include letters, numbers, and underscores'] }
     }
-    if (otherNames.includes(name)) {
-        return { errors: ['Name already exists']}
+    if (getItemsHavingProp(items, "name", name).length > 0) {
+        return { errors: ['Name already exists'] }
     }
 
     return { validName: name }
@@ -96,13 +94,6 @@ const NamedItemEdit = ({item, items, options}: ItemProps) => {
     }
 
     return <>
-        <TextField
-            size="small"
-            label="ID"
-            type="text"
-            disabled={true}
-            defaultValue={item.id}
-        />
         <FormGroup>
             <TextField
                 size="small"
@@ -118,29 +109,30 @@ const NamedItemEdit = ({item, items, options}: ItemProps) => {
     </>
 }
 
-const BaseItemEdit = (ItemProps: ItemProps) => {
-    if(isNamedItem(ItemProps.item)) {
-        return <></>
-    }
-
-    return <>
-        <TextField
-            size="small"
-            label="ID"
-            type="text"
-            disabled={true}
-            defaultValue={ItemProps.item.id}
-        />
-    </>
-}
-
 
 const EditFC = (ItemProps: ItemProps) => {
     const data = ItemProps.options.AllowedItems[ItemProps.item.type].EditFC(ItemProps)
 
+    const setFilter = (...[filter]: Parameters<FilterEditProps["setFilter"]>) => {
+        console.log('SetFilter...', filter)
+        ItemProps.options.SetItem({ ...ItemProps.item, filter: filter } )
+    }
+
     return <>
         <Stack spacing={2} sx={{ marginTop: 1}}>
-            { isNamedItem(ItemProps.item) ? <NamedItemEdit {...ItemProps} /> : <BaseItemEdit {...ItemProps} />  }
+            <TextField
+                size="small"
+                label="ID"
+                type="text"
+                disabled={true}
+                value={ItemProps.item.id}
+            />
+            <NamedItemEdit {...ItemProps} />
+            <FilterEdit
+                fieldItems={ItemProps.items.filter(item => (item.type === 'Field' || item.type === 'Hidden') && item.id !== ItemProps.item.id) as (FieldItem|HiddenItem)[]}
+                filter={ItemProps.item.filter}
+                setFilter={setFilter}
+            ></FilterEdit>
             { data }
         </Stack>
     </>

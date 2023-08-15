@@ -8,7 +8,7 @@ import DefaultSubtypes from "../Items/Subtypes/DefaultSubTypes";
 import Transfer from "../Actions/Transfer/Transfer";
 import Save from "../Actions/Save/Save";
 import Clear from "../Actions/Clear/Clear";
-import SetItem from "../Items/SetItem";
+import UpdateItemInItems from "../Items/UpdateItemInItems";
 import onDragEnd from "./OnDragEnd";
 import {closestCenter, DndContext, useSensor, PointerSensor, KeyboardSensor} from "@dnd-kit/core";
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
@@ -31,7 +31,8 @@ export type BuilderOptions = {
     submitElements?: {
         [key: string]: (props: SubmitButtonProps) => JSX.Element
     }
-    muiTheme?: Theme
+    muiTheme?: Theme,
+    custom?: {[key:string]: any}
 }
 
 export type BuilderProps = {
@@ -41,8 +42,7 @@ export type BuilderProps = {
     AdditionalSubtypes?: AllowedSubtypes,
     Items?: AnyItem[],
     SetItems?: Dispatch<SetStateAction<AnyItem[]>>,
-    Options?: BuilderOptions,
-    custom?: {[key:string]: any}
+    Options?: BuilderOptions
 }
 
 const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
@@ -56,7 +56,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     const defaultTheme = useTheme()
 
     const options:Options = {...(Options || {}),
-        Actions: [Transfer, Save, Clear],
+        Actions: [...(Options?.Actions ?? [Transfer,Save,Clear]), ...(Options?.ActionsAppend ?? [])],
         AllowedSubtypes: {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})},
         AllowedItems: {...(Options?.AllowedItems || DefaultItems()), ...(Options?.AdditionalItems || {})},
         IsBuild: true,
@@ -66,16 +66,18 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         getError: (error: string, item: AnyItem) => {
             return GetError(error, item, {...Errors(), ...(Options?.Errors ?? {})})
         },
-        muiTheme: Options?.muiTheme ?? defaultTheme
+        muiTheme: Options?.muiTheme ?? defaultTheme,
+        custom: Options?.custom
     }
     useEffect(() => {
         if(SetItems) {
             SetItems(items)
         }
     }, [items])
-    useEffect(()=>{
-        console.log('ITEM',item)
-        setItems(SetItem(item, items))
+
+    useEffect(() => {
+        console.log('SET ITEM', item)
+        setItems(UpdateItemInItems(item, items))
     },[item])
 
     return <div className='builder'>

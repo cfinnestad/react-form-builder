@@ -45,47 +45,50 @@ export type FilterType = {
 export type FieldFilter = FilterType & {
     comparison: '=' | '>' | '>=' | '<' | '<=' | 'in';
     fieldId: string;
-    value?: string | number | boolean | string[];
+    value?: string | number | boolean | undefined | (string | number | boolean | undefined)[];
 };
 export declare const isFieldFilter: (filter: FilterType) => filter is FieldFilter;
 export type EqFilter = FieldFilter & {
     comparison: '=';
-    value?: string | number | boolean;
+    value?: string | number | boolean | undefined;
 };
 export declare const isEqFilter: (filter: FilterType) => filter is EqFilter;
 export type GtFilter = FieldFilter & {
     comparison: '>';
-    value?: string | number | boolean;
+    value?: string | number | boolean | undefined;
 };
 export declare const isGtFilter: (filter: FilterType) => filter is GtFilter;
 export type GteFilter = FieldFilter & {
     comparison: '>=';
-    value?: string | number | boolean;
+    value?: string | number | boolean | undefined;
 };
 export declare const isGteFilter: (filter: FilterType) => filter is GteFilter;
 export type LtFilter = FieldFilter & {
     comparison: '<';
-    value?: string | number | boolean;
+    value?: string | number | boolean | undefined;
 };
 export declare const isLtFilter: (filter: FilterType) => filter is LtFilter;
 export type LteFilter = FieldFilter & {
     comparison: '<=';
-    value?: string | number | boolean;
+    value?: string | number | boolean | undefined;
 };
 export declare const isLteFilter: (filter: FilterType) => filter is LteFilter;
 export type InFilter = FieldFilter & {
     comparison: 'in';
-    value?: string[];
+    value?: (string | number | boolean | undefined)[];
 };
 export declare const isInFilter: (filter: FilterType) => filter is InFilter;
-export type AndFilter = FilterType & {
-    comparison: 'and';
+export type ComparisonFilter = FilterType & {
+    comparison: 'and' | 'or';
     filters: FilterType[];
 };
+export declare const isComparisonFilter: (filter: FilterType) => filter is AndFilter;
+export type AndFilter = ComparisonFilter & {
+    comparison: 'and';
+};
 export declare const isAndFilter: (filter: FilterType) => filter is AndFilter;
-export type OrFilter = FilterType & {
+export type OrFilter = ComparisonFilter & {
     comparison: 'or';
-    filters: FilterType[];
 };
 export declare const isOrFilter: (filter: FilterType) => filter is OrFilter;
 export type NotFilter = FilterType & {
@@ -282,4 +285,4 @@ export declare function isBoolean(item: AnyItem): item is BooleanSubtype;
 export declare function isAutocomplete(item: AnyItem): item is AutocompleteSubtype;
 export declare function isPhone(item: AnyItem): item is PhoneSubtype;
 export declare function isOption(item: AnyItem): item is OptionSubtype;
-export declare function isMultiples(item: AnyItem): item is MultiplesSubtype;
+export declare function isNamed(item: AnyItem): item is NamedItem;
