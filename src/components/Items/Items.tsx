@@ -257,6 +257,7 @@ export type DateSubtype = FieldItem & {
 export type BooleanSubtype = FieldItem & {
     subtype: 'Boolean',
     value?: boolean,
+    editable?: boolean
 }
 
 export type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype | AutocompleteSubtype
