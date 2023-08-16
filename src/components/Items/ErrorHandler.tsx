@@ -2,6 +2,7 @@ import {BuildErrors} from "../Items";
 import {Dispatch, SetStateAction} from "react";
 
 /*
+// couldn't get this working for some reason, but may be unnecessary
 export type ErrorHandlerType = {
     setError: (which: string, msg: string | undefined) => void,
     clearError: (which: string) => void,
@@ -10,17 +11,24 @@ export type ErrorHandlerType = {
     hasSharedError: (which: string) => boolean,
     hasAnyErrors: () => boolean,
     getError: (which: string) => string[],
+    getAllErrors: () => BuildErrors[],
     fieldToTitle: (which: string) => string,
 }
 */
 
 const ErrorHandler = (errors: BuildErrors[], setErrors: Dispatch<SetStateAction<BuildErrors[]>>) : any => {
     // we need a local copy for staging and immediate availability
-    let localErrors = {...errors}
+    let localErrors = {...errors} as BuildErrors[]
+
+    // internal helper to standardize typescript checks
+    const getVal = (which: string): string | undefined => {
+        if (!hasAnyErrors()) return undefined
+        else return (localErrors as any)[which as keyof typeof localErrors]
+    }
 
     // assign incoming error to master error store
     const setError = (which: string, msg: string | undefined = undefined) => {
-        if (msg === undefined) delete localErrors[which]
+        if (msg === undefined) delete localErrors[which as keyof typeof localErrors]
         else Object.assign(localErrors, { [which]: [msg] })
         setErrors(localErrors)
     }
@@ -38,12 +46,13 @@ const ErrorHandler = (errors: BuildErrors[], setErrors: Dispatch<SetStateAction<
 
     // error flag for field prop
     const hasError = (which: string): boolean => {
-        return (localErrors && localErrors[which] !== undefined)
+        return (localErrors && getVal(which) !== undefined)
     }
 
     // some error combinations need to implement a shared message while highlighting the field
     const hasSharedError = (which: string): boolean => {
-        return (localErrors && localErrors[which] && localErrors[which][0] === "")
+        const val = getVal(which)
+        return (localErrors && val !== undefined && val[0] === "")
     }
 
     // whether any fields are currently in error state
@@ -52,8 +61,13 @@ const ErrorHandler = (errors: BuildErrors[], setErrors: Dispatch<SetStateAction<
     }
 
     // obtain the error for show errors component
-    const getError = (which: string): string[] => {
-        return (localErrors && localErrors[which] !== undefined) ? [localErrors[which]] : []
+    const getError = (which: string): (string | undefined)[] => {
+        return (localErrors && getVal(which) !== undefined) ? [getVal(which)] : []
+    }
+
+    // return everything flagged
+    const getAllErrors = (): BuildErrors[] => {
+        return localErrors
     }
 
     // convert a camel case field name to a title case string
@@ -73,6 +87,7 @@ const ErrorHandler = (errors: BuildErrors[], setErrors: Dispatch<SetStateAction<
         hasSharedError: hasSharedError,
         hasAnyErrors: hasAnyErrors,
         getError: getError,
+        getAllErrors: getAllErrors,
         fieldToTitle: fieldToTitle
     } as any
 }

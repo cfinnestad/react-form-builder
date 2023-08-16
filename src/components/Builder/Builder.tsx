@@ -102,7 +102,13 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                             id="Main"
                             items={items.map(item => item.id)}
                             strategy={verticalListSortingStrategy}>
-                            {items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options} />)}
+                            {items.map((item) => <ShowItem
+                                key={item.id}
+                                item={item}
+                                items={items}
+                                options={options}
+                                errorHandler={errorHandler}
+                            />)}
                         </SortableContext>
                         {/*<SortableOverlay>*/}
                         {/*    {activeItem ? ShowItem( {item: activeItem, items: items, options:options}) : null}*/}
