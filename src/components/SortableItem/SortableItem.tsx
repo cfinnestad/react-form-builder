@@ -8,9 +8,10 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 import "./SortableItem.scss";
+import {AnyItem} from "../Items";
 
 interface Props {
-  id: UniqueIdentifier;
+  id: UniqueIdentifier
 }
 
 interface Context {

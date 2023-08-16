@@ -1,5 +1,5 @@
 import React from "react";
-import {AllowedItems, FieldItem, GroupItem, HiddenItem, HTMLItem, SubmitItem} from "./Items";
+import {AllowedItems, FieldItem, GroupItem, HiddenItem, HTMLItem, SubmitItem, TextSubtype} from "./Items";
 import Field from "./Field/Field";
 import FieldEdit from "./Field/FieldEdit";
 import Hidden from "./Hidden/Hidden"
@@ -10,6 +10,9 @@ import Html from "./Html/Html";
 import HtmlEdit from "./Html/HtmlEdit";
 import Submit from "./Submit";
 import SubmitEdit from "./Submit/SubmitEdit";
+import {v4} from "uuid";
+import ItemFC from "./ItemFC";
+import EditFC from "./EditFC";
 
 const DefaultItems = (): AllowedItems => {
     return {
@@ -17,12 +20,12 @@ const DefaultItems = (): AllowedItems => {
             Item: {
                 // TODO add comments to explain these.
                 // Text is the default subtype, but shouldn't need to define all default subtype attributes here.
-                id: 'Field',
+                id: 'Text',
                 type: 'Field',
                 label: 'Text',
-                name: 'text-1',
+                name: 'Text',
                 subtype: 'Text'
-            } as FieldItem,
+            } as TextSubtype,
             ItemFC: Field,
             EditFC: FieldEdit
         },
@@ -30,7 +33,7 @@ const DefaultItems = (): AllowedItems => {
             Item: {
                 id: 'Hidden',
                 type: 'Hidden',
-                name: 'hidden-1',
+                name: 'Hidden',
                 value: 'Hidden value'
             } as HiddenItem,
             ItemFC: Hidden,
@@ -38,7 +41,7 @@ const DefaultItems = (): AllowedItems => {
         },
         HTML: {
             Item: {
-                id: 'HTML-1',
+                id: v4(),
                 type: 'HTML',
                 content: '<h3>HTML Content</h3>'
             }  as HTMLItem,
@@ -49,7 +52,7 @@ const DefaultItems = (): AllowedItems => {
             Item: {
                 id: 'Submit',
                 type: 'Submit',
-                name: 'Submit-1',
+                name: 'Submit',
                 submitElementName: 'default'
             } as SubmitItem,
             ItemFC: Submit,
@@ -59,9 +62,15 @@ const DefaultItems = (): AllowedItems => {
             Item: {
                 id:'Group',
                 type:'Group',
-                name:'group-1',
+                name:'Group',
                 label:'Group 1',
-                items:[]
+                items:[{
+                    id: 'Text',
+                    type: 'Field',
+                    label: 'Text',
+                    name: 'Text',
+                    subtype: 'Text'
+                } as TextSubtype]
             } as GroupItem,
             EditFC: ItemGroupEdit,
             ItemFC: ItemGroup,

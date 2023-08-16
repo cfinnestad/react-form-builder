@@ -267,6 +267,7 @@ export type ItemType = {
 export type FieldType = {
     Subtype: FieldItem,
     SubtypeFC: (props: FieldProps) => JSX.Element,
+    ItemFC: (props: FieldProps) => JSX.Element,
     EditFC: (props: FieldProps) => JSX.Element,
     ValidateFC?: (item: FieldItem, options: Options) => boolean,
 }

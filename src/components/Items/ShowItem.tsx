@@ -1,5 +1,5 @@
 import React from "react";
-import {isField, ItemProps} from "./Items";
+import {AnyItem, isField, isGroup, isNamed, ItemProps} from "./Items";
 import {Box} from "@mui/material";
 import FormatLineSpacingRoundedIcon from "@mui/icons-material/FormatLineSpacingRounded";
 import ModeRoundedIcon from '@mui/icons-material/ModeRounded';
@@ -8,12 +8,16 @@ import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import ItemFC from "./ItemFC";
 import {SortableItem, DragHandle} from "../SortableItem";
 import Filter from "../Filter/Filter";
+import FindDragItem from "./findDragItem";
+import {updateItems} from "../Builder";
+import {cloneDeep} from "lodash";
+import {v4} from "uuid";
 
 type ShowItemsProps = ItemProps & {
     key?: string|number
 }
 
-export const ShowItem = ({item, items, options, key}: ShowItemsProps) => {
+export const ShowItem = ({item, items, options}: ShowItemsProps) => {
 
     if (options.IsBuild) {
         const openModal = () => {
@@ -21,6 +25,37 @@ export const ShowItem = ({item, items, options, key}: ShowItemsProps) => {
             if(options.setModal) {
                 options.setModal(true)
             }
+        }
+
+        const copyItem = (id:string) => {
+            const itemRef = FindDragItem(id, items, '-Main-')
+            if (itemRef) {
+                const item = cloneDeep(itemRef.item)
+                if (isNamed(item)) {
+                    const name = item.name
+                    let cnt=1;
+                    while (itemRef.items.filter(itm => isNamed(itm) && itm.name === item.name).length > 0) {
+                        item.name = name + '_' + (cnt++).toString()
+                    }
+                    item.id = (itemRef.groupId === '-Main-' ? '' : itemRef.groupId + '-') + item.name
+                } else {
+                    item.id = v4()
+                }
+                updateItems(items, itemRef.groupId, itemRef.items.splice(itemRef.index, 0, item))
+            }
+        }
+
+        const deleteItem = (id:string) => {
+            const deleteById = (id: string, items: AnyItem[]): AnyItem[] => {
+                return items.filter(item => item.id !== id).map(item => {
+                    if (isGroup(item)) {
+                        item.items = deleteById(id, item.items)
+                    }
+                    return {...item}
+                })
+            }
+
+            options.setItems(deleteById(id, items))
         }
 
         return (
@@ -32,8 +67,8 @@ export const ShowItem = ({item, items, options, key}: ShowItemsProps) => {
                     { ItemFC({item: item, items: items, options: options})}
                 </Box>
                 <ModeRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={openModal}/>
-                <ContentCopyRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
-                <DeleteForeverRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
+                <ContentCopyRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={() => copyItem(item.id)}/>
+                <DeleteForeverRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={() => deleteItem(item.id)}/>
             </SortableItem>
         )
     }

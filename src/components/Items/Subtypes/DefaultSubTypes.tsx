@@ -26,10 +26,10 @@ const DefaultSubtypes = (): AllowedSubtypes => {
     return {
         Text: {
             Subtype: {
-                id: 'text1',
+                id: 'text',
                 type: 'Field',
                 label: 'Text',
-                name: 'text-1',
+                name: 'text',
                 subtype: 'Text',
                 maxLength: 255
             } as TextSubtype,
@@ -39,10 +39,10 @@ const DefaultSubtypes = (): AllowedSubtypes => {
         },
         Email: {
             Subtype: {
-                id: 'email2',
+                id: 'email',
                 type: 'Field',
                 label: 'Email',
-                name: 'email-1',
+                name: 'email',
                 subtype: 'Email',
                 maxLength: 255
             } as EmailSubtype,
@@ -52,10 +52,10 @@ const DefaultSubtypes = (): AllowedSubtypes => {
         },
         Checkbox: {
             Subtype: {
-                id: 'checkbox1',
+                id: 'checkbox',
                 type: 'Field',
                 label: 'Checkbox1',
-                name: 'Checkbox-1',
+                name: 'checkbox',
                 subtype: 'Checkbox',
                 options: [
                     {
@@ -72,10 +72,10 @@ const DefaultSubtypes = (): AllowedSubtypes => {
         },
         Number: {
             Subtype: {
-                id: 'number1',
+                id: 'number',
                 type: 'Field',
                 label: 'Number',
-                name: 'number-1',
+                name: 'number',
                 subtype: 'Number',
                 min: 0,
                 max: 5000
@@ -86,10 +86,10 @@ const DefaultSubtypes = (): AllowedSubtypes => {
         },
         Boolean: {
             Subtype: {
-                id: 'boolean1',
+                id: 'boolean',
                 type: 'Field',
                 label: 'Boolean',
-                name: 'boolean-1',
+                name: 'boolean',
                 subtype: 'Boolean',
             } as BooleanSubtype,
             SubtypeFC: BooleanST,
@@ -98,10 +98,10 @@ const DefaultSubtypes = (): AllowedSubtypes => {
         },
         Date: {
             Subtype: {
-                id: 'date1',
+                id: 'date',
                 type: 'Field',
                 label: 'Date',
-                name: 'date-1',
+                name: 'date',
                 subtype: 'Date',
             } as DateSubtype,
             SubtypeFC: DateST,
@@ -110,10 +110,10 @@ const DefaultSubtypes = (): AllowedSubtypes => {
         },
         Radio: {
             Subtype: {
-                id: 'radio1',
+                id: 'radio',
                 type: 'Field',
                 label: 'Radio1',
-                name: 'Radio-1',
+                name: 'radio',
                 subtype: 'Radio',
                 value: 'Radio 1 value',
                 options: [
@@ -135,8 +135,8 @@ const DefaultSubtypes = (): AllowedSubtypes => {
             Subtype: {
                 type: 'Field',
                 subtype: 'Select',
-                id: 'select1',
-                name: 'Select-1',
+                id: 'select',
+                name: 'select',
                 label: 'Select1',
                 value: '',
                 options: [
@@ -151,9 +151,9 @@ const DefaultSubtypes = (): AllowedSubtypes => {
         },
         Phone: {
             Subtype: {
-                id: 'phone1',
+                id: 'phone',
                 type: 'Field',
-                name: 'phone1',
+                name: 'phone',
                 required: true,
                 label: 'Phone 1',
                 subtype: 'Phone',
@@ -168,8 +168,8 @@ const DefaultSubtypes = (): AllowedSubtypes => {
             Subtype: {
                 type: 'Field',
                 subtype: 'Autocomplete',
-                id: 'autocomplete1',
-                name: 'Autocomplete-1',
+                id: 'autocomplete',
+                name: 'autocomplete',
                 label: 'Autocomplete1',
                 value: '',
             } as AutocompleteSubtype,

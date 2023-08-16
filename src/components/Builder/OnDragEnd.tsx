@@ -1,19 +1,39 @@
-import {AnyItem, GroupItem, Options} from "../Items";
-import {v4 as uuid} from "uuid";
+import {AnyItem, GroupItem, isNamed, Options} from "../Items";
+import {v4} from "uuid";
 import {Active, DragEndEvent} from "@dnd-kit/core";
 import findDragItem, {DragItem} from "../Items/findDragItem";
+import {Dispatch, SetStateAction} from "react";
+import {cloneDeep} from "lodash";
 
-const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: Options):void => {
+export const updateItems = (list: AnyItem[], containerId: string|number, listPart: AnyItem[]): AnyItem[] => {
+	if (containerId === '-Main-') {
+		return listPart
+	}
+	return list.map(item => {
+		if (item.id === containerId) {
+			(item as GroupItem).items = listPart
+		} else if(item.type === 'Group') {
+			(item as GroupItem).items = updateItems((item as GroupItem).items, containerId, listPart)
+		}
+		return item
+	})
+}
+
+const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: Options, setActiveItem: Dispatch<SetStateAction<AnyItem|undefined>>):void => {
 	const { active, over } = result;
+	console.log('Active', active)
+	console.log('Over', over)
+
+	setActiveItem(undefined)
 
 	const reorder = (source: DragItem | undefined, destination: DragItem | undefined):AnyItem[] => {
-		// console.log('source', source)
-		// console.log('destination', destination)
+		console.log('source', source)
+		console.log('destination', destination)
 		if(source === undefined || destination === undefined) {
 			return items
 		}
 
-		const newList = [...source.items || []]
+		const newList = [...(source.items || [])]
 		newList[destination.index] = newList.splice(source.index, 1, newList[destination.index])[0]
 
 		return updateItems(items, source.groupId, newList);
@@ -28,8 +48,6 @@ const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: Options):voi
 
 		const [removed] = sourceClone.splice(source.index, 1);
 
-		//todo may want to make sure name is unique in the destination list
-
 		destClone.splice(destination.index, 0, removed);
 
 		let newItems =updateItems(updateItems(items, source.groupId, sourceClone), destination.groupId, destClone)
@@ -39,48 +57,46 @@ const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: Options):voi
 	const copy = (active: Active, destination: DragItem | undefined) => {
 		console.log('==> dest', destination);
 
-		if(destination === undefined) {
+		if(destination === undefined || active.data.current?.hasOwnProperty('Items') === false || typeof active.data.current?.Items !== 'object') {
 			return items
 		}
-
 		const destClone = [...destination.items || []];
-		const overIndex = destination.index;
-		const item = {...options.AllowedItems[active.id].Item};
-
-		//todo may want to make sure name is unique in the destination list
-
-		destClone.splice(overIndex, 0, { ...item, id: uuid() });
-		return updateItems(items, destination.groupId, destClone)
-	};
-
-	const updateItems = (list: AnyItem[], containerId: string|number, listPart: AnyItem[]): AnyItem[] => {
-		if (containerId === 'Main') {
-			return listPart
-		}
-		return list.map(item => {
-			if (item.id === containerId) {
-				(item as GroupItem).items = listPart
-			} else if(item.type === 'Group') {
-				(item as GroupItem).items = updateItems((item as GroupItem).items, containerId, listPart)
+		const newItems = (active.data.current.Items as AnyItem[]).map(itm => {
+			const item = cloneDeep(itm) as AnyItem
+			if (isNamed(item)) {
+				item.name = item.name.replace(/ /g, "_")
+				let name = item.name
+				let cnt = 1
+				while (destClone.filter(itm => isNamed(itm) && itm.name === name).length > 0) {
+					name = item.name + '_' + (cnt++).toString()
+				}
+				item.name = name
+				item.id = (destination.groupId === '-Main-' ? '' : destination.groupId + '-') + item.name
+			} else {
+				item.id = v4()
 			}
 			return item
 		})
-	}
+
+		const overIndex = destination.index;
+
+
+		destClone.splice(overIndex, 0, ...newItems);
+		return updateItems(items, destination.groupId, destClone)
+	};
 
 	if (!over) {
 		return;
 	}
 
-	const source = active.data.current?.sortable
 	const destination = over.data.current?.sortable
-
-	if(destination.containerId === 'Types') {
-		return
-	}
+	const source = active.data.current?.sortable
 
 	console.log('switch')
+	console.log('source container', source)
+	console.log('destination container', destination)
 	switch (source.containerId) {
-		case 'Types':
+		case '-Types-':
 			console.log('types')
 			options.setItems(
 				copy(

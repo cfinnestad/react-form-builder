@@ -2,19 +2,24 @@ import React, {Dispatch, FC, JSX, SetStateAction, useEffect, useState} from "rea
 import Actions, {ActionFC, ActionProps} from "../Actions/Actions";
 import DefaultItems from "../Items/DefaultItems";
 import ShowItem from "../Items/ShowItem";
-import {AllowedItems, AllowedSubtypes, AnyItem, Option, Options, SubmitButtonProps} from "../Items";
-import {Box, Grid} from "@mui/material";
+import {AllowedItems, AllowedSubtypes, AnyItem, GetItem, Option, Options, SubmitButtonProps} from "../Items";
+import {Box, Grid, Typography} from "@mui/material";
 import DefaultSubtypes from "../Items/Subtypes/DefaultSubTypes";
 import Transfer from "../Actions/Transfer/Transfer";
 import Save from "../Actions/Save/Save";
 import Clear from "../Actions/Clear/Clear";
 import UpdateItemInItems from "../Items/UpdateItemInItems";
 import onDragEnd from "./OnDragEnd";
-import {closestCenter, DndContext, useSensor, PointerSensor, KeyboardSensor} from "@dnd-kit/core";
+import {closestCenter, DndContext, useSensor, PointerSensor, KeyboardSensor, DragOverlay} from "@dnd-kit/core";
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import Errors, {ErrorType, GetError} from "../Errors/Errors";
 import {Theme, useTheme} from "@mui/material/styles";
 import EditModal from "../Items/EditModal";
+import {SortableOverlay} from "../SortableOverlay";
+import ShowTypes from "../Items/ShowTypes";
+import {DragStartEvent} from "@dnd-kit/core/dist/types";
+import {cloneDeep} from "lodash";
+import {SortableItem} from "../SortableItem";
 
 export type BuilderOptions = {
     Actions?: ActionFC[],
@@ -53,6 +58,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         useSensor(PointerSensor),
         useSensor(KeyboardSensor)
     ]
+    const [activeItem, setActiveItem] = useState<AnyItem|undefined>(undefined);
     const defaultTheme = useTheme()
 
     const options:Options = {...(Options || {}),
@@ -73,6 +79,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         if(SetItems) {
             SetItems(items)
         }
+        setActiveItem(undefined)
     }, [items])
 
     useEffect(() => {
@@ -80,41 +87,46 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         setItems(UpdateItemInItems(item, items))
     },[item])
 
+    const onDragStart = (event: DragStartEvent) => {
+        const item = cloneDeep(event.active.data.current?.Item)
+        setActiveItem(item)
+    }
+
     return <div className='builder'>
         <Actions Items={items} Options={options}/>
         <Box>
             <DndContext
                 sensors={sensors}
-                collisionDetection={closestCenter}
-                onDragEnd={(results) => onDragEnd(results, items, options)}>
+                // collisionDetection={closestCenter}
+                onDragEnd={(results) => onDragEnd(results, items, options, setActiveItem)}
+                // onDragStart={onDragStart}
+            >
                 <Grid container spacing={2}>
                     <Grid item xs={10}>
                         <SortableContext
-                            id="Main"
-                            items={items.map(item => item.id)}
+                            id="-Main-"
+                            items={[...items.map(item => item.id),'-placeholder-']}
                             strategy={verticalListSortingStrategy}>
-                            {items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options}/>)}
+                            {items.map((item) => <ShowItem item={item} items={items} options={options}/>)}
+                            <SortableItem id='-placeholder'>
+                                <Box component="div" sx={{ flexGrow: 1 }}>Drop at end</Box>
+                            </SortableItem>
                         </SortableContext>
-                        {/*<SortableOverlay>*/}
-                        {/*    {activeItem ? ShowItem( {item: activeItem, items: items, options:options}) : null}*/}
-                        {/*</SortableOverlay>*/}
+                        <SortableOverlay>
+                            {activeItem ? (<>
+                                <Box>{activeItem.type}</Box>
+                            </>) : undefined}
+                        </SortableOverlay>
                     </Grid>
                     <Grid item xs={2}>
-                        {/*<ShowTypes AllowedItems={options.AllowedItems}/>*/}
-                        {/*<Droppable type='Item' droppableId="Types" isDropDisabled={true}>*/}
-                        {/*    {(provided:DroppableProvided, snapshot:DroppableStateSnapshot) => (*/}
-                        {/*        <div*/}
-                        {/*            ref={provided.innerRef}*/}
-                        {/*            {...provided.droppableProps}*/}
-                        {/*            style={getListStyle(snapshot.isDraggingOver)}*/}
-                        {/*        >*/}
-                        {/*            <ShowTypes AllowedItems={options.AllowedItems}/>*/}
-                        {/*            {provided.placeholder}*/}
-                        {/*        </div>*/}
-                        {/*    )}*/}
-                        {/*</Droppable>*/}
+                        <ShowTypes AllowedItems={options.AllowedItems}/>
                     </Grid>
                 </Grid>
+                <DragOverlay>
+                    {activeItem ? (<>
+                        <Box>{activeItem.type}</Box>
+                    </>) : undefined}
+                </DragOverlay>
             </DndContext>
             <EditModal showModal={modal} item={item} items={items} options={options}></EditModal>
         </Box>

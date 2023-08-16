@@ -1,8 +1,6 @@
-import React from "react";
-import {Draggable, DraggableProvided, DraggableStateSnapshot} from "react-beautiful-dnd";
-import {Card, Typography} from "@mui/material";
-import styled from 'styled-components';
+import React, {CSSProperties} from "react";
 import {AnyItem, AllowedItems} from "./Items";
+import {useDraggable} from "@dnd-kit/core";
 
 interface ShowTypesProps {
     AllowedItems: AllowedItems
@@ -13,63 +11,36 @@ interface ShowTypeProps {
     index: number
 }
 
-
-const grid:number = 2;
-
-const getItemStyle = (draggableStyle: any, isDragging: boolean):{} => ({
-    userSelect: 'none',
-    padding: 2*grid,
-    margin: `0 0 ${grid}px 0`,
-    background: isDragging ? 'lightgreen' : 'lightgrey',
-    ...draggableStyle
-});
-
-
-
-
-const Item = styled.div`
-    display: flex;
-    user-select: none;
-    padding: 0.5rem;
-    margin: 0 0 0.5rem 0;
-    align-items: flex-start;
-    align-content: flex-start;
-    line-height: 1.5;
-    border-radius: 3px;
-    background: #fff;
-    border: 1px;
-`;
-
-const Clone = styled(Item)`
-    + div {
-        display: none !important;
-    }
-`;
-
-const ShowType = ({Item, index}: ShowTypeProps) => {
+const ShowType = ({Item}: ShowTypeProps) => {
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        isDragging
+    } = useDraggable({
+        id: Item.id,
+        data: {
+            Items: [Item],
+            sortable: {containerId: '-Types-'}
+        }
+    });
+    const style: CSSProperties | undefined = isDragging
+        ? {
+            position: "absolute",
+            transform: `translate3d(${transform?.x}px, ${transform?.y}px, 0)`,
+            cursor: "move"
+        }
+        : {
+            cursor: "pointer"
+        };
     // @ts-ignore
-    return <Draggable type='Item' draggableId={Item.id} index={index}>
-        {(providedDraggable: DraggableProvided, snapshotDraggable:DraggableStateSnapshot) => (
-            <React.Fragment>
-                <Card
-                    ref={providedDraggable.innerRef}
-                    {...providedDraggable.draggableProps}
-                    {...providedDraggable.dragHandleProps}
-                    style={getItemStyle(
-                        providedDraggable.draggableProps.style,
-                        snapshotDraggable.isDragging
-                    )}
-                >
-                    <Typography component="div">
-                        {Item.type}
-                    </Typography>
-                    {snapshotDraggable.isDragging && (
-                        <Clone>{Item.type}</Clone>
-                    )}
-                </Card>
-            </React.Fragment>
-        )}
-    </Draggable>
+    return <>
+        <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+            {Item.type}
+        </div>
+        {isDragging && <div style={{ display: "none !important" }}>{Item.type}</div>}
+    </>
 }
 
 
