@@ -11,6 +11,10 @@ export type AllowedItems = {
     [key: string]: ItemType,
 }
 
+export type BuildErrors = {
+    [key: string]: string,
+}
+
 export type Options = {
     Actions?: FC<ActionProps>[],
     AllowedItems: AllowedItems,
@@ -278,7 +282,10 @@ export type FieldType = {
 export type BaseItemProps = {
     item: AnyItem,
     items: AnyItem[],
-    options: Options
+    options: Options,
+    //errors: BuildErrors[],
+    //setErrors: Dispatch<SetStateAction<BuildErrors[]>>,
+    errorHandler: any //(errors: BuildErrors[], setErrors: Dispatch<SetStateAction<BuildErrors[]>>) => ErrorHandlerType
 }
 
 export type FieldProps = BaseItemProps & { item: FieldItem }

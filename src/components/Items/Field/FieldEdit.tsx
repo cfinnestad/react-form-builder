@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import {omit, pick} from "lodash";
 
-export const FieldEdit = ({item, items, options}: FieldProps) => {
+export const FieldEdit = ({item, items, options, errorHandler}: FieldProps) => {
     const [subtype, setSubtype] = useState(item.subtype)
 
     const subtypeInit = useRef(false)
@@ -170,6 +170,7 @@ export const FieldEdit = ({item, items, options}: FieldProps) => {
                     item={item}
                     items={items}
                     options={options}
+                    errorHandler={errorHandler}
                 ></value.EditFC>
         })}
 
