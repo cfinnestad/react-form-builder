@@ -50,7 +50,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     const [items, setItems] = useState<AnyItem[]>(Items || [])
     const [modal, setModal] = useState( false )
     const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
-    const [errors, setErrors] = useState<BuildErrors[]>([] as BuildErrors[])
+    const [errors, setErrors] = useState<BuildErrors>({} as BuildErrors)
 
     const sensors = [
         useSensor(PointerSensor),

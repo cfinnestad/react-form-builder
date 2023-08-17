@@ -16,9 +16,9 @@ export type ErrorHandlerType = {
 }
 */
 
-const ErrorHandler = (errors: BuildErrors[], setErrors: Dispatch<SetStateAction<BuildErrors[]>>) : any => {
+const ErrorHandler = (errors: BuildErrors, setErrors: Dispatch<SetStateAction<BuildErrors>>) : any => {
     // we need a local copy for staging and immediate availability
-    let localErrors = {...errors} as BuildErrors[]
+    let localErrors = {...errors} as BuildErrors
 
     // internal helper to standardize typescript checks
     const getVal = (which: string): string | undefined => {
@@ -40,7 +40,7 @@ const ErrorHandler = (errors: BuildErrors[], setErrors: Dispatch<SetStateAction<
 
     // clean slate
     const clearAllErrors = () => {
-        localErrors = [] as BuildErrors[]
+        localErrors = {} as BuildErrors
         setErrors(localErrors)
     }
 
@@ -66,7 +66,7 @@ const ErrorHandler = (errors: BuildErrors[], setErrors: Dispatch<SetStateAction<
     }
 
     // return everything flagged
-    const getAllErrors = (): BuildErrors[] => {
+    const getAllErrors = (): BuildErrors => {
         return localErrors
     }
 
