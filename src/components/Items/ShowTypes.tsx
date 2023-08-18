@@ -1,6 +1,8 @@
 import React, {CSSProperties} from "react";
 import {AnyItem, AllowedItems} from "./Items";
 import {useDraggable} from "@dnd-kit/core";
+import {TYPES} from "../Builder/Builder";
+import { Box } from "@mui/material";
 
 interface ShowTypesProps {
     AllowedItems: AllowedItems
@@ -12,6 +14,7 @@ interface ShowTypeProps {
 }
 
 const ShowType = ({Item}: ShowTypeProps) => {
+    console.log('ShoeType Item', Item)
     const {
         attributes,
         listeners,
@@ -22,9 +25,10 @@ const ShowType = ({Item}: ShowTypeProps) => {
         id: Item.id,
         data: {
             Items: [Item],
-            sortable: {containerId: '-Types-'}
+            sortable: {containerId: TYPES}
         }
     });
+    console.log('attributes', attributes)
     const style: CSSProperties | undefined = isDragging
         ? {
             position: "absolute",
@@ -32,14 +36,14 @@ const ShowType = ({Item}: ShowTypeProps) => {
             cursor: "move"
         }
         : {
-            cursor: "pointer"
+            cursor: "grab"
         };
     // @ts-ignore
     return <>
         <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
-            {Item.type}
+            <Box>{Item.type}</Box>
         </div>
-        {isDragging && <div style={{ display: "none !important" }}>{Item.type}</div>}
+        {isDragging && <div style={{ display: "none !important" }}><Box>{Item.type}</Box></div>}
     </>
 }
 

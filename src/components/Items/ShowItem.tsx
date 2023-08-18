@@ -1,5 +1,5 @@
 import React from "react";
-import {AnyItem, isField, isGroup, isNamed, ItemProps} from "./Items";
+import {isField, isNamed, ItemProps} from "./Items";
 import {Box} from "@mui/material";
 import FormatLineSpacingRoundedIcon from "@mui/icons-material/FormatLineSpacingRounded";
 import ModeRoundedIcon from '@mui/icons-material/ModeRounded';
@@ -12,6 +12,8 @@ import FindDragItem from "./findDragItem";
 import {updateItems} from "../Builder";
 import {cloneDeep} from "lodash";
 import {v4} from "uuid";
+import {droppableStyle, MAIN} from "../Builder/Builder";
+import {fixItemName} from "../Builder/OnDragEnd";
 
 type ShowItemsProps = ItemProps & {
     key?: string|number
@@ -28,34 +30,36 @@ export const ShowItem = ({item, items, options}: ShowItemsProps) => {
         }
 
         const copyItem = (id:string) => {
-            const itemRef = FindDragItem(id, items, '-Main-')
+            const itemRef = FindDragItem(id, items, MAIN)
             if (itemRef) {
-                const item = cloneDeep(itemRef.item)
-                if (isNamed(item)) {
-                    const name = item.name
-                    let cnt=1;
-                    while (itemRef.items.filter(itm => isNamed(itm) && itm.name === item.name).length > 0) {
-                        item.name = name + '_' + (cnt++).toString()
-                    }
-                    item.id = (itemRef.groupId === '-Main-' ? '' : itemRef.groupId + '-') + item.name
-                } else {
-                    item.id = v4()
-                }
-                updateItems(items, itemRef.groupId, itemRef.items.splice(itemRef.index, 0, item))
+                const item = fixItemName(cloneDeep(itemRef.item),itemRef)
+                options.setItems(updateItems(items, itemRef.groupId, [
+                    ...itemRef.items.slice(0,itemRef.index+1),
+                    item,
+                    ...itemRef.items.slice(itemRef.index+1,itemRef.items.length)
+                ]))
             }
         }
 
         const deleteItem = (id:string) => {
-            const deleteById = (id: string, items: AnyItem[]): AnyItem[] => {
-                return items.filter(item => item.id !== id).map(item => {
-                    if (isGroup(item)) {
-                        item.items = deleteById(id, item.items)
-                    }
-                    return {...item}
-                })
+            const itemRef = FindDragItem(id, items, MAIN)
+            if (itemRef) {
+                options.setItems(updateItems(items, itemRef.groupId, itemRef.items.filter(item => id !== item.id)))
             }
-
-            options.setItems(deleteById(id, items))
+            // const deleteById = (id: string, items: AnyItem[]): AnyItem[] => {
+            //     const item = items.find(itm => id === itm.id)
+            //     if (item && isGroup(item) && options.deleteItemSection) {
+            //         options.deleteItemSection(id)
+            //     }
+            //     return items.filter(item => item.id !== id).map(item => {
+            //         if (isGroup(item)) {
+            //             item.items = deleteById(id, item.items)
+            //         }
+            //         return {...item}
+            //     })
+            // }
+            //
+            // options.setItems(deleteById(id, items))
         }
 
         return (
@@ -80,7 +84,7 @@ export const ShowItem = ({item, items, options}: ShowItemsProps) => {
         return <></>
     }
     return <>
-        <ItemFC item={item} items={items} options={options}/>
+        <ItemFC key={item.id} item={item} items={items} options={options}/>
     </>
 
 }

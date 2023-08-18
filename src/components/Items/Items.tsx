@@ -2,6 +2,7 @@ import React, {Dispatch, FC, JSX, SetStateAction} from "react";
 import {ActionProps} from "../Actions";
 import {SubmitButtonProps} from "./Submit";
 import {Theme} from "@mui/material/styles";
+import {ItemSectionsType} from "../Builder/ItemsSection";
 
 export type AllowedSubtypes = {
     [key: string]: FieldType,
@@ -28,6 +29,8 @@ export type Options = {
         [key: string]: (props: SubmitButtonProps) => JSX.Element
     }
     muiTheme: Theme,
+    // addItemSection?: (id: string, items: AnyItem[]) => void,
+    // deleteItemSection?: (id: string) => void,
     custom?: {[key:string]: any}
 }
 
@@ -275,6 +278,7 @@ export type FieldType = {
 export type BaseItemProps = {
     item: AnyItem,
     items: AnyItem[],
+    itemSections?: ItemSectionsType,
     options: Options
 }
 

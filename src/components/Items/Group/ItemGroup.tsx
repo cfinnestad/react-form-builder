@@ -9,9 +9,9 @@ const ItemGroup = ({item, items, options}: GroupProps) => {
         return <>
             <Typography variant="h5">{item.label}</Typography>
             <SortableContext
-                items={item.items.map(item => item.id)}
+                items={item.items}
                 strategy={verticalListSortingStrategy}>
-                {item.items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options}/>)}
+                {item.items.map((itm) => <ShowItem key={itm.id} item={itm} items={item.items} options={options}/>)}
             </SortableContext>
         </>
     }
