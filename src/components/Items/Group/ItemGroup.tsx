@@ -4,14 +4,14 @@ import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import ShowItem from "../ShowItem";
 import {List, ListItem, Stack, Typography} from "@mui/material";
 
-const ItemGroup = ({item, items, options}: GroupProps) => {
+const ItemGroup = ({item, items, options, errorHandler}: GroupProps) => {
     if (options.IsBuild) {
         return <>
             <Typography variant="h5">{item.label}</Typography>
             <SortableContext
                 items={item.items.map(item => item.id)}
                 strategy={verticalListSortingStrategy}>
-                {item.items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options}/>)}
+                {item.items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options} errorHandler={errorHandler} />)}
             </SortableContext>
         </>
     }
@@ -21,7 +21,7 @@ const ItemGroup = ({item, items, options}: GroupProps) => {
             <Typography sx={{marginBottom: -1, fontWeight: 'bold', fontSize: '1.25rem'}}>{item.label}</Typography>
             <List dense sx={{padding: 0}}>
                 <ListItem sx={{display: 'block', padding: '0px'}}>
-                    {item.items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options}/>)}
+                    {item.items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options} />)}
                 </ListItem>
             </List>
         </Stack>

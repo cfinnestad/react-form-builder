@@ -55,14 +55,15 @@ export const DateEdit = ({item, options, errorHandler}: DateProps ) => {
 
                     // toggle it based on which fields are populated
                     let allEmpty = true
-                    for (let g in groups[field]) {
-                        if (itm[groups[field][g]]) allEmpty = false
+                    for (let g in groups[field as keyof typeof groups]) {
+                        const thisField = groups[field as keyof typeof groups][g]
+                        if (getVal(itm, thisField)) allEmpty = false
                     }
 
                     if (allEmpty) errorHandler.setError(field)
                     else errorHandler.setError(field, comboError)
 
-                } else if (itm[field] && field !== "value" && !errorHandler.hasError(field))
+                } else if (getVal(itm, field) && field !== "value" && !errorHandler.hasError(field))
                     errorHandler.setError(field, "") // flag the field with no message
 
             } else if (field.startsWith("shared") || !errorHandler.hasError(field) || errorHandler.hasSharedError(field))
@@ -72,6 +73,15 @@ export const DateEdit = ({item, options, errorHandler}: DateProps ) => {
 
     const invalidMsg = (which: string) : string => {
         return errorHandler.fieldToTitle(which) + " is not valid."
+    }
+
+    const getVal = (itm: DateSubtype, which: string) : string | number | undefined => {
+        return (itm as any)[which as any]
+    }
+
+    const setVal = (itm: DateSubtype, which: string, val: string | number | undefined = undefined) => {
+        if (val === undefined) delete (itm as any)[which as any]
+        else (itm as any)[which as any] = val
     }
 
     const onClickToday = (event: ChangeEvent<HTMLInputElement>) => {
@@ -90,19 +100,21 @@ export const DateEdit = ({item, options, errorHandler}: DateProps ) => {
     }
 
     const onChangeDate = (value: string | null, which: string) => {
-        const itm = {...item}
+        const itm = {...item} as DateSubtype
 
         if (value) {
-            itm[which] = dateFormat(dayjs(value))
+            const dateVal = dateFormat(dayjs(value))
 
-            if (itm[which] === "Invalid Date") {
+            if (dateVal === "Invalid Date") {
                 errorHandler.setError(which, invalidMsg(which))
+
             } else {
+                setVal(itm, which, dateVal)
                 errorHandler.setError(which)
             }
 
         } else {
-            delete itm[which]
+            setVal(itm, which)
             errorHandler.setError(which)
         }
 
@@ -114,7 +126,7 @@ export const DateEdit = ({item, options, errorHandler}: DateProps ) => {
 
     const onChangeOffset = (event: ChangeEvent<HTMLInputElement>, which: string) => {
         const value = event.target.value || undefined
-        const itm = {...item}
+        const itm = {...item} as DateSubtype
 
         if (value || value === "0") {
 
@@ -127,12 +139,12 @@ export const DateEdit = ({item, options, errorHandler}: DateProps ) => {
                 errorHandler.setError(which, invalidMsg(which))
 
             } else {
-                itm[which] = parseInt(value)
+                setVal(itm, which, parseInt(value))
                 errorHandler.setError(which)
             }
 
         } else {
-            delete itm[which]
+            setVal(itm, which)
             errorHandler.setError(which)
         }
 

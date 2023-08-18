@@ -50,7 +50,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     const [items, setItems] = useState<AnyItem[]>(Items || [])
     const [modal, setModal] = useState( false )
     const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
-    const [errors, setErrors] = useState<BuildErrors[]>([] as BuildErrors[])
+    const [errors, setErrors] = useState<BuildErrors>({} as BuildErrors)
 
     const sensors = [
         useSensor(PointerSensor),
@@ -102,7 +102,13 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                             id="Main"
                             items={items.map(item => item.id)}
                             strategy={verticalListSortingStrategy}>
-                            {items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options} />)}
+                            {items.map((item) => <ShowItem
+                                key={item.id}
+                                item={item}
+                                items={items}
+                                options={options}
+                                errorHandler={errorHandler}
+                            />)}
                         </SortableContext>
                         {/*<SortableOverlay>*/}
                         {/*    {activeItem ? ShowItem( {item: activeItem, items: items, options:options}) : null}*/}
