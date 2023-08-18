@@ -46,12 +46,16 @@ const updateFilterIdsOnNameChange = (items: AnyItem[], changedItemIds : ChangedI
     })
 }
 
+// when typing quickly, a name change may not be fully committed yet when setting the id, so compare on the original
+let originalId = undefined as any
+
 const UpdateItemInItems = (item: AnyItem, items:AnyItem[], prefix: string = ''): AnyItem[] => {
     let changedItemIds: ChangedItemIds|undefined = undefined
     let newItems = items.map((curItem) => {
-        if (item.id === curItem.id) { // the id may be changing
+        if (item.id === curItem.id || curItem.id === originalId) {
             if (isNamed(item) && item.id !== prefix + item.name) {
-                changedItemIds = {oldId: item.id, newId: prefix + item.name} as ChangedItemIds
+                originalId = curItem.id
+                changedItemIds = {oldId: originalId, newId: prefix + item.name} as ChangedItemIds
                 item.id = prefix + item.name
             }
             return item
