@@ -52,7 +52,7 @@ let originalId = undefined as any
 const UpdateItemInItems = (item: AnyItem, items:AnyItem[], prefix: string = ''): AnyItem[] => {
     let changedItemIds: ChangedItemIds|undefined = undefined
     let newItems = items.map((curItem) => {
-        if (item.id === curItem.id || curItem.id === originalId) {
+        if (item.id === curItem.id || (originalId && curItem.id === originalId)) {
             if (isNamed(item) && item.id !== prefix + item.name) {
                 originalId = curItem.id
                 changedItemIds = {oldId: originalId, newId: prefix + item.name} as ChangedItemIds
