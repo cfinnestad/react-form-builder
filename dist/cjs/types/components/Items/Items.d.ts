@@ -229,7 +229,7 @@ export type BaseItemProps = {
     item: AnyItem;
     items: AnyItem[];
     options: Options;
-    errorHandler: any;
+    errorHandler?: any;
 };
 export type FieldProps = BaseItemProps & {
     item: FieldItem;

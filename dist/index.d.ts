@@ -235,7 +235,7 @@ type BaseItemProps = {
     item: AnyItem;
     items: AnyItem[];
     options: Options;
-    errorHandler: any;
+    errorHandler?: any;
 };
 type FieldProps = BaseItemProps & {
     item: FieldItem;
