@@ -1,9 +1,7 @@
 import React, {Dispatch, FC, JSX, SetStateAction, useEffect, useState} from "react";
 import Actions, {ActionFC, ActionProps} from "../Actions/Actions";
 import DefaultItems from "../Items/DefaultItems";
-import {AllowedItems, AllowedSubtypes, AnyItem, isGroup, Option, Options, SubmitButtonProps} from "../Items";
-import ShowItem from "../Items/ShowItem";
-import {AllowedItems, AllowedSubtypes, AnyItem, BuildErrors, Option, Options, SubmitButtonProps} from "../Items";
+import {AllowedItems, AllowedSubtypes, AnyItem, isGroup, BuildErrors, Option, Options, SubmitButtonProps} from "../Items";
 import {Box, Grid} from "@mui/material";
 import DefaultSubtypes from "../Items/Subtypes/DefaultSubTypes";
 import Transfer from "../Actions/Transfer/Transfer";
@@ -199,7 +197,8 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                             </Box>
                         </Box>
                         <SortableContext
-                            id="Main"
+                            key={MAIN}
+                            id={MAIN}
                             items={items.map(item => item.id)}
                             strategy={verticalListSortingStrategy}>
                             {items.map((item) => <ShowItem
@@ -209,10 +208,6 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                                 options={options}
                                 errorHandler={errorHandler}
                             />)}
-                            key={MAIN}
-                            id={MAIN}
-                            items={items}
-                            strategy={verticalListSortingStrategy}
                         >
                             <div ref={setNodeRef}
                                  style={{
