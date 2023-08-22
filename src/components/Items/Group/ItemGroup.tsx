@@ -2,7 +2,9 @@ import React from "react";
 import {GroupProps} from "../Items";
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import ShowItem from "../ShowItem";
-import {List, ListItem, Stack, Typography} from "@mui/material";
+import {Box, List, ListItem, Stack, Typography} from "@mui/material";
+import DensitySmallIcon from '@mui/icons-material/DensitySmall';
+import {activeStyle} from "../../Builder/Builder";
 
 const ItemGroup = ({item, items, options, errorHandler}: GroupProps) => {
     if (options.IsBuild) {
@@ -12,6 +14,10 @@ const ItemGroup = ({item, items, options, errorHandler}: GroupProps) => {
                 items={item.items.map(item => item.id)}
                 strategy={verticalListSortingStrategy}>
                 {item.items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options} errorHandler={errorHandler} />)}
+                items={item.items}
+                strategy={verticalListSortingStrategy}
+            >
+                {item.items.map((itm) => <ShowItem key={itm.id} item={itm} items={items} activeItem={activeItem} setActiveItem={setActiveItem} groupId={item.id} options={options}/>)}
             </SortableContext>
         </>
     }
