@@ -1,3 +1,3 @@
-import { AnyItem, FieldItem, HiddenItem } from "./Items";
-declare const GetItem: (id: string | number, items: AnyItem[]) => FieldItem | HiddenItem | undefined;
+import { AnyItem } from "./Items";
+declare const GetItem: (id: string | number, items: AnyItem[]) => AnyItem | undefined;
 export default GetItem;

@@ -1,9 +1,24 @@
 import { Dispatch, FC, JSX, SetStateAction } from "react";
 import { ActionFC, ActionProps } from "../Actions/Actions";
-import { AllowedItems, AllowedSubtypes, AnyItem, Option, SubmitButtonProps } from "../Items";
+import { AllowedItems, AllowedSubtypes, AnyItem, Option, Options, SubmitButtonProps } from "../Items";
 import { ErrorType } from "../Errors/Errors";
 import { Theme } from "@mui/material/styles";
-export type BuilderOptions = {
+export declare const droppableStyle: {
+    padding: string;
+    border: string;
+    borderRadius: string;
+    minWidth: number;
+};
+export declare const activeStyle: {
+    backgroundColor: string;
+};
+export declare const MAIN = "-Main-";
+export declare const TYPES = "-Types-";
+export type ActiveType = {
+    id: string | undefined;
+    groupId: string;
+};
+export type BuilderUseOptions = {
     Actions?: ActionFC[];
     ActionsAppend?: FC<ActionProps>[];
     AllowedItems?: AllowedItems;
@@ -23,6 +38,7 @@ export type BuilderOptions = {
         [key: string]: any;
     };
 };
+export type BuilderOptions = Options & {};
 export type BuilderProps = {
     AllowedItems?: AllowedItems;
     AdditionalItems?: AllowedItems;
@@ -30,7 +46,7 @@ export type BuilderProps = {
     AdditionalSubtypes?: AllowedSubtypes;
     Items?: AnyItem[];
     SetItems?: Dispatch<SetStateAction<AnyItem[]>>;
-    Options?: BuilderOptions;
+    Options?: BuilderUseOptions;
 };
 declare const Builder: ({ Items, SetItems, Options }: BuilderProps) => JSX.Element;
 export default Builder;
