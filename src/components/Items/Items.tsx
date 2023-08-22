@@ -1,8 +1,8 @@
-import React, {Dispatch, FC, JSX, SetStateAction} from "react";
+import {Dispatch, FC, JSX, SetStateAction} from "react";
 import {ActionProps} from "../Actions";
 import {SubmitButtonProps} from "./Submit";
 import {Theme} from "@mui/material/styles";
-import {ItemSectionsType} from "../Builder/ItemsSection";
+import {ActiveType} from "../Builder/Builder";
 
 export type AllowedSubtypes = {
     [key: string]: FieldType,
@@ -278,7 +278,9 @@ export type FieldType = {
 export type BaseItemProps = {
     item: AnyItem,
     items: AnyItem[],
-    itemSections?: ItemSectionsType,
+    activeItem?: ActiveType,
+    setActiveItem?: Dispatch<SetStateAction<ActiveType>>,
+    groupId?: string,
     options: Options
 }
 

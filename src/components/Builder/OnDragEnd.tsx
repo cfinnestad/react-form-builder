@@ -2,7 +2,6 @@ import {AnyItem, GroupItem, isGroup, isNamed} from "../Items";
 import {v4} from "uuid";
 import {Active, DragEndEvent} from "@dnd-kit/core";
 import findDragItem, {DragItem} from "../Items/findDragItem";
-import {Dispatch, SetStateAction} from "react";
 import {cloneDeep} from "lodash";
 import {BuilderOptions, MAIN, TYPES} from "./Builder";
 
@@ -34,12 +33,11 @@ export const fixItemName = (item: AnyItem, overRef: DragItem): AnyItem => {
 	return item as AnyItem
 }
 
-const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: BuilderOptions, setActiveItem: Dispatch<SetStateAction<AnyItem|undefined>>):void => {
+const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: BuilderOptions):void => {
 	const { active, over } = result;
-	console.log('Active', active)
-	console.log('Over', over)
+	console.log('DragEnd Active', active)
+	console.log('DragEnd Over', over)
 
-	setActiveItem(undefined)
 
 	const reorder = (source: DragItem | undefined, destination: DragItem | undefined):AnyItem[] => {
 		console.log('source', source)
@@ -47,31 +45,38 @@ const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: BuilderOptio
 		if(source === undefined || destination === undefined) {
 			return items
 		}
+		source.item = fixItemName(cloneDeep(source.item), source)
 
-		const newList = [...(source.items || [])]
-		newList[destination.index] = newList.splice(source.index, 1, newList[destination.index])[0]
+		const destIndex = source.index < destination.index ? destination.index -1 : destination.index
 
-		return updateItems(items, source.groupId, newList);
+
+		const newList = source.items.filter(i => i.id !== active.id)
+
+		return updateItems(items, source.groupId, [
+			...newList.slice(0,destIndex),
+			source.item,
+			...newList.slice(destIndex,newList.length)
+		]);
 	};
-	const move = (source: DragItem | undefined, destination: DragItem | undefined):AnyItem[] => {
-		if(source === undefined || destination === undefined) {
-			return items
-		}
-
-		const item = fixItemName(source.item, destination);
-
-		let newItems = updateItems(
-			updateItems(items, source.groupId, source.items.splice(source.index,1)),
-			destination.groupId,
-			[
-				...destination.items.slice(0,destination.index),
-				item,
-				...destination.items.slice(destination.index, destination.items.length)
-			]
-		)
-		console.log(newItems)
-		return newItems
-	};
+	// const move = (source: DragItem | undefined, destination: DragItem | undefined):AnyItem[] => {
+	// 	if(source === undefined || destination === undefined) {
+	// 		return items
+	// 	}
+	//
+	// 	const item = fixItemName(source.item, destination);
+	//
+	// 	let newItems = updateItems(
+	// 		updateItems(items, source.groupId, source.items.splice(source.index,1)),
+	// 		destination.groupId,
+	// 		[
+	// 			...destination.items.slice(0,destination.index),
+	// 			item,
+	// 			...destination.items.slice(destination.index, destination.items.length)
+	// 		]
+	// 	)
+	// 	console.log(newItems)
+	// 	return newItems
+	// };
 	const copy = (active: Active, destination: DragItem | undefined) => {
 		console.log('==> dest', destination);
 
@@ -125,12 +130,12 @@ const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: BuilderOptio
 			break;
 		default:
 			console.log('default')
-			options.setItems(
-				move(
-					findDragItem(active.id, source.items, source.groupId),
-					findDragItem(over.id, destination.items, destination.groupId)
-				)
-			);
+			// options.setItems(
+			// 	move(
+			// 		findDragItem(active.id, source.items, source.groupId),
+			// 		findDragItem(over.id, destination.items, destination.groupId)
+			// 	)
+			// );
 			break;
 	}
 }

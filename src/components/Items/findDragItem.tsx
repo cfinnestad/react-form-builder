@@ -1,5 +1,4 @@
-import React from "react";
-import {AnyItem, GroupItem, isGroup} from "./Items";
+import {AnyItem, isGroup} from "./Items";
 
 
 export type DragItem = {
@@ -9,9 +8,9 @@ export type DragItem = {
     groupId: string|number
 }
 const findDragItem = (id: string|number, items: AnyItem[], groupId: string|number): DragItem|undefined => {
-    console.log('findDragItem id', id)
-    console.log('findDragItem items', items)
-    console.log('findDragItem groupId', groupId)
+    // console.log('findDragItem id', id)
+    // console.log('findDragItem items', items)
+    // console.log('findDragItem groupId', groupId)
 
     let result = undefined
 

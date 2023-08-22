@@ -8,10 +8,10 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 import "./SortableItem.scss";
-import {AnyItem} from "../Items";
 
 interface Props {
   id: UniqueIdentifier
+  style?: CSSProperties|undefined
 }
 
 interface Context {
@@ -26,7 +26,7 @@ const SortableItemContext = createContext<Context>({
   ref() {}
 });
 
-export function SortableItem({ children, id }: PropsWithChildren<Props>) {
+export function SortableItem({ children, id, style }: PropsWithChildren<Props>) {
   const {
     attributes,
     isDragging,
@@ -44,15 +44,17 @@ export function SortableItem({ children, id }: PropsWithChildren<Props>) {
     }),
     [attributes, listeners, setActivatorNodeRef]
   );
-  const style: CSSProperties = {
+  const LocalStyle: CSSProperties = {
+    padding: '5px',
     opacity: isDragging ? 0.4 : undefined,
     transform: CSS.Translate.toString(transform),
-    transition
+    transition,
+    ...style
   };
 
   return (
     <SortableItemContext.Provider value={context}>
-      <li className="SortableItem" ref={setNodeRef} style={style}>
+      <li className="SortableItem" ref={setNodeRef} style={LocalStyle}>
         {children}
       </li>
     </SortableItemContext.Provider>

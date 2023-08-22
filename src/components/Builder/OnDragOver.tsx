@@ -1,7 +1,7 @@
 import {DragOverEvent} from "@dnd-kit/core";
 import {DragItem} from "../Items/findDragItem";
 import {AnyItem} from "../Items";
-import {updateItems, fixItemName} from "./OnDragEnd";
+import {updateItems} from "./OnDragEnd";
 import {BuilderOptions, MAIN, TYPES} from "./Builder";
 import FindDragItem from "../Items/findDragItem";
 import {cloneDeep} from "lodash";
@@ -21,41 +21,35 @@ const OnDragOver = ({ active, over }: DragOverEvent, items: AnyItem[], options: 
     if (!overRef || !activeRef) return
 
     if (activeRef.groupId === TYPES && overRef.groupId !== TYPES) {
-        const newItems = activeRef.items.map(itm => fixItemName(itm, overRef))
+        const newItems = [...activeRef.items]
         options.setItems(updateItems(items, overRef.groupId, [
             ...overRef.items.slice(0,overRef.index),
             ...newItems,
             ...overRef.items.slice(overRef.index,overRef.items.length)
         ]))
-        //     overContainer.groupId as string,
-        //     [
-        //         ...itemSections[overContainer.groupId].slice(0,overContainer.index),
-        //         ...(active.data.current?.Items ?? []),
-        //         ...itemSections[overContainer.groupId].slice(overContainer.index, itemSections[overContainer.groupId].length)
-        //     ])
         return
     }
 
 
-    if (activeRef.groupId !== TYPES && overRef.groupId === TYPES) {
-        options.setItems(updateItems(items, activeRef.groupId, activeRef.items.filter(item => item.id !== active.id)))
-        return
-    }
+    // if (activeRef.groupId !== TYPES && overRef.groupId === TYPES) {
+    //     options.setItems(updateItems(items, activeRef.groupId, activeRef.items.filter(item => item.id !== active.id)))
+    //     return
+    // }
 
-    if (activeRef.groupId === overRef.groupId) return;
-
-    const activeItem = fixItemName(cloneDeep(activeRef.item), overRef)
-    options.setItems(
-        updateItems(
-            updateItems(items,activeRef.groupId,activeRef.items.splice(activeRef.index,1)),
-            overRef.groupId,
-            [
-                ...overRef.items.slice(0,overRef.index),
-                activeItem,
-                ...overRef.items.slice(overRef.index, overRef.items.length)
-            ]
-        )
-    )
+    // if (activeRef.groupId === overRef.groupId) return;
+    //
+    // const activeItem = fixItemName(cloneDeep(activeRef.item), overRef)
+    // options.setItems(
+    //     updateItems(
+    //         updateItems(items,activeRef.groupId,activeRef.items.splice(activeRef.index,1)),
+    //         overRef.groupId,
+    //         [
+    //             ...overRef.items.slice(0,overRef.index),
+    //             activeItem,
+    //             ...overRef.items.slice(overRef.index, overRef.items.length)
+    //         ]
+    //     )
+    // )
     // options.addItemSection(activeGroupId, activeContainer.items.filter(itm => active.id !== itm.id))
     // options.addItemSection(overGroupId, [
     //     ...overContainer.items.slice(0,overContainer.index),

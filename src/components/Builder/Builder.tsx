@@ -8,26 +8,25 @@ import Transfer from "../Actions/Transfer/Transfer";
 import Save from "../Actions/Save/Save";
 import Clear from "../Actions/Clear/Clear";
 import UpdateItemInItems from "../Items/UpdateItemInItems";
-import onDragEnd from "./OnDragEnd";
+import onDragEnd, {fixItemName, updateItems} from "./OnDragEnd";
 import {
     DndContext,
     useSensor,
     PointerSensor,
-    DragOverlay, defaultDropAnimation, DropAnimation, closestCorners, useDroppable
+    useDroppable,
+    closestCenter
 } from "@dnd-kit/core";
 import Errors, {ErrorType, GetError} from "../Errors/Errors";
 import {Theme, useTheme} from "@mui/material/styles";
 import EditModal from "../Items/EditModal";
 import ShowTypes from "../Items/ShowTypes";
 import {DragStartEvent} from "@dnd-kit/core/dist/types";
-import OnDragOver from "./OnDragOver";
-import itemsSection, {ItemSectionsType} from "./ItemsSection";
-import ItemsSection from "./ItemsSection";
-import {SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy} from "@dnd-kit/sortable";
-import {SortableOverlay} from "../SortableOverlay";
+import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import ShowItem from "../Items/ShowItem";
 import {cloneDeep} from "lodash";
-import findDragItem from "../Items/findDragItem";
+import findDragItem, {DragItem} from "../Items/findDragItem";
+import DensitySmallIcon from '@mui/icons-material/DensitySmall';
+import FindDragItem from "../Items/findDragItem";
 
 export const droppableStyle = {
     padding: "5px",
@@ -36,8 +35,17 @@ export const droppableStyle = {
     minWidth: 200
 };
 
+export const activeStyle = {
+    backgroundColor: '#bbf'
+}
+
 export const MAIN = '-Main-'
 export const TYPES = '-Types-'
+
+export type ActiveType = {
+    id: string|undefined,
+    groupId: string
+}
 
 export type BuilderUseOptions = {
     Actions?: ActionFC[],
@@ -92,23 +100,8 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     const sensors = [
         useSensor(PointerSensor),
     ]
-    const dropAnimation: DropAnimation = {
-        ...defaultDropAnimation,
-    };
-    const [activeItem, setActiveItem] = useState<AnyItem|undefined>(undefined);
+    const [activeItem, setActiveItem] = useState({id: undefined, groupId: MAIN} as ActiveType);
     const defaultTheme = useTheme()
-
-    // const addItemSection = (id: string, items: AnyItem[]) => {
-    //     const sections = {...ItemSections}
-    //     sections[id] = items
-    //     setItemSections(sections)
-    // }
-    //
-    // const deleteItemSection = (id: string) => {
-    //     const sections = {...ItemSections}
-    //     delete sections[id]
-    //     setItemSections(sections)
-    // }
 
     const options:BuilderOptions = {...(Options || {}),
         Actions: [...(Options?.Actions ?? [Transfer,Save,Clear]), ...(Options?.ActionsAppend ?? [])],
@@ -122,16 +115,12 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
             return GetError(error, item, {...Errors(), ...(Options?.Errors ?? {})})
         },
         muiTheme: Options?.muiTheme ?? defaultTheme,
-        // addItemSection: addItemSection,
-        // deleteItemSection: deleteItemSection,
         custom: Options?.custom
     }
     useEffect(() => {
         if(SetItems) {
             SetItems(items)
         }
-        setActiveItem(undefined)
-        // setItemSections(initItemSections(cloneDeep(items), MAIN))
     }, [items])
 
     useEffect(() => {
@@ -139,11 +128,44 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         setItems(UpdateItemInItems(item, items))
     },[item])
 
+    const addItems = (newItems: AnyItem[]) => {
+        // console.log('addItems', newItems)
+        // console.warn('Additems', newItems)
+        // console.warn('Additems activeItem', activeItem)
+        let activeRef = findDragItem(activeItem.id ?? activeItem.groupId, items, MAIN)
+        if (activeRef === undefined) {
+            activeRef = {items: items, groupId: MAIN, index: 0} as DragItem
+            // console.log('UNDEFINED', activeRef)
+        } else if (activeItem.id === undefined) {
+            if (!isGroup(activeRef.item)) return
+            activeRef.index = 0
+            activeRef.groupId = activeRef.item.id
+            activeRef.items = activeRef.item.items
+            // console.log('GROUP', activeRef)
+        } else {
+            activeRef.index++
+            // console.log('ITEM', activeRef)
+        }
+        // console.log('addItems activeRef', activeRef)
+        const cloneItems = newItems.map(item => fixItemName(cloneDeep(item),activeRef as DragItem))
+        setActiveItem({
+            id: cloneItems[cloneItems.length-1].id,
+            groupId: activeRef.groupId
+        } as ActiveType)
+        options.setItems(updateItems(items, activeRef.groupId, [
+                ...activeRef.items.slice(0,activeRef.index),
+                ...cloneItems,
+                ...activeRef.items.slice(activeRef.index,activeRef.items.length)
+            ])
+        )
+    }
+
     const onDragStart = ({active}: DragStartEvent) => {
         console.warn('DragStart:', active.id)
-
-        const item = active.data.current?.hasOwnProperty('Items') ? active.data.current.Items[0] : undefined
-        setActiveItem(item)
+        const dragItem = FindDragItem(active.id, items, MAIN)
+        if (dragItem) {
+            setActiveItem({id: active.id as string, groupId: dragItem.groupId as string})
+        }
     }
 
     return <div className='builder'>
@@ -151,43 +173,39 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         <Box>
             <DndContext
                 sensors={sensors}
-                collisionDetection={closestCorners}
-                onDragEnd={(results) => onDragEnd(results, items, options, setActiveItem)}
+                collisionDetection={closestCenter}
+                onDragEnd={(results) => onDragEnd(results, items, options)}
                 onDragStart={onDragStart}
-                onDragOver={(request) => OnDragOver(request, items, options)}
+                // onDragOver={(request) => OnDragOver(request, items, options)}
                 // autoScroll={{layoutShiftCompensation: false}}
             >
                 <Grid container spacing={2}>
                     <Grid item xs={10}>
+                        <Box style={activeItem?.id === undefined && activeItem?.groupId === MAIN ? activeStyle : undefined}>
+                            <DensitySmallIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 , display:'inline'}} onClick={() => setActiveItem({id: undefined, groupId: MAIN})} />
+                            <Box component="span" sx={{ flexGrow: 1 }}>
+                                Add to top
+                            </Box>
+                        </Box>
                         <SortableContext
                             key={MAIN}
                             id={MAIN}
                             items={items}
                             strategy={verticalListSortingStrategy}
                         >
-                            <div ref={setNodeRef} style={droppableStyle}>
-                                {items.map(item => <ShowItem key={item.id} item={item} items={items} options={options}/>)}
+                            <div ref={setNodeRef}
+                                 style={{
+                                     maxHeight: "800px",
+                                     overflowY: "auto"
+                                 }}>
+                                {items.map(item => <ShowItem key={item.id} item={item} items={items} activeItem={activeItem} setActiveItem={setActiveItem} groupId={MAIN} options={options}/>)}
                             </div>
                         </SortableContext>
-                        {/*<ItemsSection id={MAIN} type='sortable' items={items} options={options}/>*/}
-                        {/*<SortableOverlay>*/}
-                        {/*    {activeId ? (<>*/}
-                        {/*        <Box>{activeId}</Box>*/}
-                        {/*    </>) : undefined}*/}
-                        {/*</SortableOverlay>*/}
-                        {/*<DragOverlay dropAnimation={dropAnimation}>*/}
-                        {/*    {activeItem ? <Box>activeItem.type</Box> : null}*/}
-                        {/*</DragOverlay>*/}
                     </Grid>
                     <Grid item xs={2}>
-                        <ShowTypes AllowedItems={options.AllowedItems}/>
+                        <ShowTypes AllowedItems={options.AllowedItems} addItems={addItems}/>
                     </Grid>
                 </Grid>
-                {/*<DragOverlay>*/}
-                {/*    {activeId ? (<>*/}
-                {/*        <Box>{activeId}</Box>*/}
-                {/*    </>) : undefined}*/}
-                {/*</DragOverlay>*/}
             </DndContext>
             <EditModal showModal={modal} item={item} items={items} options={options}></EditModal>
         </Box>

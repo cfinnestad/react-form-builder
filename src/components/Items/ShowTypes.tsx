@@ -1,58 +1,45 @@
-import React, {CSSProperties} from "react";
+import React from "react";
 import {AnyItem, AllowedItems} from "./Items";
-import {useDraggable} from "@dnd-kit/core";
-import {TYPES} from "../Builder/Builder";
-import { Box } from "@mui/material";
+import {Card} from "@mui/material";
 
 interface ShowTypesProps {
-    AllowedItems: AllowedItems
+    AllowedItems: AllowedItems,
+    addItems: (items: AnyItem[]) => void
 }
 
 interface ShowTypeProps {
     Item: AnyItem,
-    index: number
+    addItems: (items: AnyItem[]) => void
 }
 
-const ShowType = ({Item}: ShowTypeProps) => {
-    console.log('ShoeType Item', Item)
-    const {
-        attributes,
-        listeners,
-        setNodeRef,
-        transform,
-        isDragging
-    } = useDraggable({
-        id: Item.id,
-        data: {
-            Items: [Item],
-            sortable: {containerId: TYPES}
-        }
-    });
-    console.log('attributes', attributes)
-    const style: CSSProperties | undefined = isDragging
-        ? {
-            position: "absolute",
-            transform: `translate3d(${transform?.x}px, ${transform?.y}px, 0)`,
-            cursor: "move"
-        }
-        : {
-            cursor: "grab"
-        };
+const ShowType = ({Item, addItems}: ShowTypeProps) => {
+    // const {
+    //     attributes,
+    //     listeners,
+    //     setNodeRef,
+    //     transform,
+    //     isDragging
+    // } = useDraggable({
+    //     id: Item.id,
+    //     data: {
+    //         Items: [Item],
+    //         sortable: {containerId: TYPES}
+    //     }
+    // });
     // @ts-ignore
     return <>
-        <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
-            <Box>{Item.type}</Box>
-        </div>
-        {isDragging && <div style={{ display: "none !important" }}><Box>{Item.type}</Box></div>}
+        <Card variant="outlined" onClick={() => addItems([Item])} style={{cursor: "grab", margin: "3px", padding: "2px"}}>
+            {Item.type}
+        </Card>
     </>
 }
 
 
-const ShowTypes = ({AllowedItems}: ShowTypesProps) => {
+const ShowTypes = ({AllowedItems, addItems}: ShowTypesProps) => {
     return <>
         {
             // Object.values(AllowedItems).map(Item => <div id={Item.Item.type}>{Item.Item.type}</div>)
-            Object.values(AllowedItems).map((Item, index) => <ShowType key={index} Item={Item.Item} index={index}/>)
+            Object.values(AllowedItems).map((Item, index) => <ShowType key={index} Item={Item.Item} addItems={addItems}/>)
         }
     </>
 }
