@@ -59,7 +59,7 @@ export const ShowItem = ({item, items, options, activeItem, setActiveItem, group
         </>
     }
 
-    if (isField(item) && item.deprecated) {
+    if (isField(item) && (item.deprecated || item.backend_only)) {
         return <></>
     }
     if (!Filter(item, items, item.filter)) {

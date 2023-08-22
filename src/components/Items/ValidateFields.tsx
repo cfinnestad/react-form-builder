@@ -4,7 +4,7 @@ import Filter from "../Filter";
 const ValidateFields = (items: AnyItem[], options: Options): boolean => {
     let result = true
     for (const item of items) {
-        if (isField(item) && !item.deprecated) {
+        if (isField(item) && !(item.deprecated || item.backend_only)) {
             if(Filter(item, items, item.filter)) {
                 const ValidateFC = options.AllowedSubtypes[item.subtype]?.ValidateFC ?? undefined
                 if (ValidateFC !== undefined) {

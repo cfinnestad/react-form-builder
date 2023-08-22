@@ -2,6 +2,8 @@ import React, {Dispatch, FC, JSX, SetStateAction, useEffect, useState} from "rea
 import Actions, {ActionFC, ActionProps} from "../Actions/Actions";
 import DefaultItems from "../Items/DefaultItems";
 import {AllowedItems, AllowedSubtypes, AnyItem, isGroup, Option, Options, SubmitButtonProps} from "../Items";
+import ShowItem from "../Items/ShowItem";
+import {AllowedItems, AllowedSubtypes, AnyItem, BuildErrors, Option, Options, SubmitButtonProps} from "../Items";
 import {Box, Grid} from "@mui/material";
 import DefaultSubtypes from "../Items/Subtypes/DefaultSubTypes";
 import Transfer from "../Actions/Transfer/Transfer";
@@ -41,6 +43,7 @@ export const activeStyle = {
 
 export const MAIN = '-Main-'
 export const TYPES = '-Types-'
+import ErrorHandler from "../Items/ErrorHandler";
 
 export type ActiveType = {
     id: string|undefined,
@@ -97,6 +100,8 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
     // const [ItemSections, setItemSections] = useState(initItemSections(cloneDeep(items),MAIN));
     const { setNodeRef } = useDroppable({ id: MAIN });
+    const [errors, setErrors] = useState<BuildErrors>({} as BuildErrors)
+
     const sensors = [
         useSensor(PointerSensor),
     ]
@@ -168,6 +173,12 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         }
     }
 
+    useEffect(() => {
+        console.log('SET ERRORS', errors)
+    },[errors])
+
+    const errorHandler = ErrorHandler(errors, setErrors)
+
     return <div className='builder'>
         <Actions Items={items} Options={options}/>
         <Box>
@@ -188,6 +199,16 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                             </Box>
                         </Box>
                         <SortableContext
+                            id="Main"
+                            items={items.map(item => item.id)}
+                            strategy={verticalListSortingStrategy}>
+                            {items.map((item) => <ShowItem
+                                key={item.id}
+                                item={item}
+                                items={items}
+                                options={options}
+                                errorHandler={errorHandler}
+                            />)}
                             key={MAIN}
                             id={MAIN}
                             items={items}
@@ -207,7 +228,12 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                     </Grid>
                 </Grid>
             </DndContext>
-            <EditModal showModal={modal} item={item} items={items} options={options}></EditModal>
+            <EditModal
+                showModal={modal}
+                item={item}
+                items={items}
+                options={options}
+                errorHandler={errorHandler}></EditModal>
         </Box>
 
     </div>

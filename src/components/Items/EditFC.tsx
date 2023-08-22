@@ -1,12 +1,12 @@
 import React, {ChangeEvent, useState} from "react";
-import {AnyItem, FieldItem, HiddenItem, isGroup, ItemProps, NamedItem} from "./Items";
+import {AnyItem, FieldItem, HiddenItem, isGroup, isNamed, ItemProps} from "./Items";
 import {FormGroup, FormHelperText, Stack, TextField} from "@mui/material";
 import {ShowErrors} from "./Subtypes";
 import FilterEdit, {FilterEditProps} from "../Filter/FilterEdit";
 
 export type validateNameChangeResponse = {
     validName?: string
-    errors?: string[]
+    changeErrors?: string[]
 }
 
 // Find 'item' in 'items' and return the items array from the group it belongs to.
@@ -26,57 +26,47 @@ export const getSiblingItems = (item: AnyItem, items: AnyItem[]): AnyItem[] => {
 // return all items containing the given prop, which optionally has a specific value
 export const getItemsHavingProp = (items: AnyItem[], prop: string, val: string | null = null): AnyItem[] => {
     // @ts-ignore
-    return items.filter(itm  => itm.hasOwnProperty(prop) && (val === undefined || itm[prop].trim() === val.trim()))
+    return items.filter(itm => itm.hasOwnProperty(prop) && (val === null || itm[prop].trim() === val.trim()))
 }
 
-export const validateNameChange = (props: ItemProps, newName?: string): validateNameChangeResponse => {
-    const {item, items} = props
-
+export const validateNameChange = (item: AnyItem, items: AnyItem[], newName?: string): validateNameChangeResponse => {
     if (newName === undefined || newName.trim() === '') {
-        return { errors: ['Name is required']}
+        return { changeErrors: ['Name is required.']}
     }
-    if (!isNamedItem(item)) {
-        return { errors: ['Error validating non-named item'] }
+    if (!isNamed(item)) {
+        return { changeErrors: ['Error validating non-named item.'] }
     }
 
     let name = newName.trim().replace(/\s+/g, '_')
 
     if (name.match(/[^A-Za-z0-9_]/g)) {
-        return { errors: ['Name can only include letters, numbers, and underscores'] }
+        return { changeErrors: ['Name can only include letters, numbers, and underscores.'] }
     }
-    if (getItemsHavingProp(items, "name", name).length > 0) {
-        return { errors: ['Name already exists'] }
+    const existing = getItemsHavingProp(items, "name", name)
+    if (existing.length > 0 && (existing.length > 1 || existing[0].id !== item.id)) {
+        return { changeErrors: ['Name already exists.'] }
     }
 
     return { validName: name }
 }
 
-function isNamedItem(item: AnyItem): item is NamedItem {
-    return 'name' in item && item.name !== undefined
-}
-
-const NamedItemEdit = ({item, items, options}: ItemProps) => {
-    if(!isNamedItem(item)) {
+const NamedItemEdit = ({item, items, options, errorHandler}: ItemProps) => {
+    if (!isNamed(item)) {
         return <></>
     }
 
-    const [nameError, setNameError] = useState(false)
-    const [nameErrors, setNameErrors] = useState([] as string[])
     const [validNameHint, setValidNameHint] = useState<string>()
 
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (!isNamedItem(item)) return
+        if (!isNamed(item)) return
 
         const { target: { value } } = event;
-        const {validName, errors} = validateNameChange({item: item, items: items, options: options}, value)
+        const {validName, changeErrors} = validateNameChange(item, items, value)
 
-        if (errors !== undefined) {
-            setNameError(true)
-            setNameErrors(errors)
-            return
-        }
+        if (changeErrors && changeErrors.length > 0) {
+             errorHandler.setError("name", changeErrors[0])
 
-        if (validName !== undefined) {
+        } else if (validName !== undefined) {
             if (validName !== value) {
                 setValidNameHint(validName)
             } else {
@@ -86,10 +76,8 @@ const NamedItemEdit = ({item, items, options}: ItemProps) => {
             const itm = { ...item }
             itm.name = validName
 
-            setNameError(false)
-            setNameErrors([])
-
             options.SetItem(itm)
+            errorHandler.setError("name")
         }
     }
 
@@ -99,16 +87,15 @@ const NamedItemEdit = ({item, items, options}: ItemProps) => {
                 size="small"
                 label="Name"
                 type="text"
-                error={nameError}
+                error={errorHandler.hasError('name')}
                 defaultValue={item.name}
                 onChange={onNameChange}
             />
             { validNameHint !== undefined ? <FormHelperText>{validNameHint}</FormHelperText> : <></> }
-            <ShowErrors errors={nameErrors}/>
+            <ShowErrors errors={errorHandler.getError('name')} />
         </FormGroup>
     </>
 }
-
 
 const EditFC = (ItemProps: ItemProps) => {
     const data = ItemProps.options.AllowedItems[ItemProps.item.type].EditFC(ItemProps)

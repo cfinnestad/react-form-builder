@@ -12,6 +12,10 @@ export type AllowedItems = {
     [key: string]: ItemType,
 }
 
+export type BuildErrors = {
+    [key: string]: string,
+}
+
 export type Options = {
     Actions?: FC<ActionProps>[],
     AllowedItems: AllowedItems,
@@ -164,6 +168,7 @@ export type FieldItem = NamedItem & {
     required?: boolean,
     label: string,
     deprecated?: boolean,
+    backend_only?: boolean,
     helperText?: string,
     subtype: string,
     custom?: { [key:string]: any }
@@ -179,6 +184,7 @@ export type FieldItem = NamedItem & {
 
 export type OptionSubtype = FieldItem & {
     value?: string|string[],
+    editable?: boolean,
     searchableOptionsName?: string,
     options: Option[],
 }
@@ -257,6 +263,7 @@ export type DateSubtype = FieldItem & {
 export type BooleanSubtype = FieldItem & {
     subtype: 'Boolean',
     value?: boolean,
+    editable?: boolean
 }
 
 export type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype | AutocompleteSubtype
@@ -281,7 +288,8 @@ export type BaseItemProps = {
     activeItem?: ActiveType,
     setActiveItem?: Dispatch<SetStateAction<ActiveType>>,
     groupId?: string,
-    options: Options
+    options: Options,
+    errorHandler?: any //(errors: BuildErrors[], setErrors: Dispatch<SetStateAction<BuildErrors[]>>) => any
 }
 
 export type FieldProps = BaseItemProps & { item: FieldItem }

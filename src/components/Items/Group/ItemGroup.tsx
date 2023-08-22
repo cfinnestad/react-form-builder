@@ -6,17 +6,14 @@ import {Box, List, ListItem, Stack, Typography} from "@mui/material";
 import DensitySmallIcon from '@mui/icons-material/DensitySmall';
 import {activeStyle} from "../../Builder/Builder";
 
-const ItemGroup = ({item, items, activeItem, setActiveItem, options}: GroupProps) => {
+const ItemGroup = ({item, items, options, errorHandler}: GroupProps) => {
     if (options.IsBuild) {
         return <>
             <Typography variant="h5">{item.label}</Typography>
-            <Box style={activeItem?.id === undefined && activeItem?.groupId === item.id ? activeStyle : undefined}>
-                <DensitySmallIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={() => setActiveItem && setActiveItem({id: undefined, groupId: item.id})} />
-                <Box component="span" sx={{ flexGrow: 1 }}>
-                    Add to this group
-                </Box>
-            </Box>
             <SortableContext
+                items={item.items.map(item => item.id)}
+                strategy={verticalListSortingStrategy}>
+                {item.items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options} errorHandler={errorHandler} />)}
                 items={item.items}
                 strategy={verticalListSortingStrategy}
             >
@@ -30,7 +27,7 @@ const ItemGroup = ({item, items, activeItem, setActiveItem, options}: GroupProps
             <Typography sx={{marginBottom: -1, fontWeight: 'bold', fontSize: '1.25rem'}}>{item.label}</Typography>
             <List dense sx={{padding: 0}}>
                 <ListItem sx={{display: 'block', padding: '0px'}}>
-                    {item.items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options}/>)}
+                    {item.items.map((item) => <ShowItem key={item.id} item={item} items={items} options={options} />)}
                 </ListItem>
             </List>
         </Stack>
