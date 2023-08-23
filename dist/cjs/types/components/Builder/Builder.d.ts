@@ -3,12 +3,6 @@ import { ActionFC, ActionProps } from "../Actions/Actions";
 import { AllowedItems, AllowedSubtypes, AnyItem, Option, Options, SubmitButtonProps } from "../Items";
 import { ErrorType } from "../Errors/Errors";
 import { Theme } from "@mui/material/styles";
-export declare const droppableStyle: {
-    padding: string;
-    border: string;
-    borderRadius: string;
-    minWidth: number;
-};
 export declare const activeStyle: {
     backgroundColor: string;
 };

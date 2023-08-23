@@ -28,13 +28,6 @@ import findDragItem, {DragItem} from "../Items/findDragItem";
 import DensitySmallIcon from '@mui/icons-material/DensitySmall';
 import FindDragItem from "../Items/findDragItem";
 
-export const droppableStyle = {
-    padding: "5px",
-    border: "1px solid black",
-    borderRadius: "5px",
-    minWidth: 200
-};
-
 export const activeStyle = {
     backgroundColor: '#bbf'
 }
@@ -206,9 +199,8 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                                 item={item}
                                 items={items}
                                 options={options}
-                                errorHandler={errorHandler}
-                            />)}
-                        >
+                                errorHandler={errorHandler}/>
+                            )}
                             <div ref={setNodeRef}
                                  style={{
                                      maxHeight: "800px",
