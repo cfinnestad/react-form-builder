@@ -2,12 +2,20 @@ import React from "react";
 import {GroupProps} from "../Items";
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import ShowItem from "../ShowItem";
-import {List, ListItem, Stack, Typography} from "@mui/material";
+import {Box, List, ListItem, Stack, Typography} from "@mui/material";
+import {activeStyle} from "../../Builder/Builder";
+import DensitySmallIcon from "@mui/icons-material/DensitySmall";
 
 const ItemGroup = ({item, items, options, activeItem, setActiveItem, errorHandler}: GroupProps) => {
     if (options.IsBuild) {
         return <>
             <Typography variant="h5">{item.label}</Typography>
+            <Box style={activeItem?.id === undefined && activeItem?.groupId === item.id ? activeStyle : undefined}>
+                <DensitySmallIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={() => setActiveItem && setActiveItem({id: undefined, groupId: item.id})} />
+                <Box component="span" sx={{ flexGrow: 1 }}>
+                    Add to top of this group
+                </Box>
+            </Box>
             <SortableContext
                 items={item.items.map(item => item.id)}
                 strategy={verticalListSortingStrategy}>
