@@ -194,19 +194,12 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                             id={MAIN}
                             items={items.map(item => item.id)}
                             strategy={verticalListSortingStrategy}>
-                            {items.map((item) => <ShowItem
-                                key={item.id}
-                                item={item}
-                                items={items}
-                                options={options}
-                                errorHandler={errorHandler}/>
-                            )}
                             <div ref={setNodeRef}
                                  style={{
                                      maxHeight: "800px",
                                      overflowY: "auto"
                                  }}>
-                                {items.map(item => <ShowItem key={item.id} item={item} items={items} activeItem={activeItem} setActiveItem={setActiveItem} groupId={MAIN} options={options}/>)}
+                                {items.map(item => <ShowItem key={item.id} item={item} items={items} activeItem={activeItem} setActiveItem={setActiveItem} errorHandler={errorHandler} groupId={MAIN} options={options}/>)}
                             </div>
                         </SortableContext>
                     </Grid>
