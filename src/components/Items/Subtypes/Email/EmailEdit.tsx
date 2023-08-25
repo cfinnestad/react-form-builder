@@ -1,27 +1,21 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent} from "react";
 import {FormGroup, TextField} from "@mui/material";
 import ShowErrors from "../ShowErrors";
 import {EmailProps} from "../../Items";
 
-const EmailEdit = ({item, options}: EmailProps) => {
-    const [valueError, setValueError] = useState( false)
-    const [valueErrors, setValueErrors] = useState( [] as string[])
-    const [maxLengthError, setMaxLengthError] = useState( false)
-    const [maxLengthErrors, setMaxLengthErrors] = useState( [] as string[])
+const EmailEdit = ({item, options, errorHandler}: EmailProps) => {
 
     const onChangeMaxLength = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value === '' ? undefined : parseInt(event.target.value)
         if (value !== undefined) {
             if (value < 1) {
-                setMaxLengthError(true)
-                setMaxLengthErrors(['Max Length must be greater the 0'])
+                errorHandler.setError('maxLength', 'Max Length must be greater than 0')
                 return
             }
         }
 
         options.SetItem({...item, maxLength: value})
-        setMaxLengthError(false);
-        setMaxLengthErrors([]);
+        errorHandler.setError('maxLength')
     }
 
     const onChangeValue = (event: ChangeEvent<HTMLInputElement>) => {
@@ -29,18 +23,16 @@ const EmailEdit = ({item, options}: EmailProps) => {
         const itm = {...item}
 
         if (value) {
-            if (item.maxLength !== undefined && value.length > (item.maxLength || 0)) {
-                setValueError(true)
-                setValueErrors([item.label + ' cannot exceed ' + item.maxLength + ' charters'])
+            if (item.maxLength !== undefined && value.length > item.maxLength ) {
+                errorHandler.setError('value', `${item.label} cannot exceed ${item.maxLength} characters`)
                 return
             }
             itm.value = value
         } else {
             delete itm.value
         }
-        setValueError(false)
-        setValueErrors([])
         options.SetItem(itm)
+        errorHandler.setError('value')
     }
 
     return <>
@@ -50,11 +42,11 @@ const EmailEdit = ({item, options}: EmailProps) => {
                 fullWidth={true}
                 label='Value'
                 type="text"
-                error={valueError}
+                error={errorHandler.hasError('value')}
                 defaultValue={item.value}
                 onChange={onChangeValue}
             />
-            <ShowErrors errors={valueErrors}/>
+            <ShowErrors errors={errorHandler.getError('value')}/>
         </FormGroup>
 
         <FormGroup>
@@ -63,11 +55,11 @@ const EmailEdit = ({item, options}: EmailProps) => {
                 fullWidth={true}
                 label='Max Length'
                 type="number"
-                error={maxLengthError}
+                error={errorHandler.hasError('maxLength')}
                 defaultValue={item.maxLength}
                 onChange={onChangeMaxLength}
             />
-            <ShowErrors errors={maxLengthErrors}/>
+            <ShowErrors errors={errorHandler.getError('maxLength')}/>
         </FormGroup>
     </>
 }

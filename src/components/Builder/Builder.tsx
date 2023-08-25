@@ -206,12 +206,13 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                     </Grid>
                 </Grid>
             </DndContext>
-            <EditModal
+            { modal ? <EditModal
                 showModal={modal}
                 item={item}
                 items={items}
                 options={options}
-                errorHandler={errorHandler}></EditModal>
+                errorHandler={errorHandler}
+            ></EditModal> : <></>}
         </Box>
 
     </div>

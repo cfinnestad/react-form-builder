@@ -1,45 +1,66 @@
-import React from "react";
+import React, {useState} from "react";
 import {ItemProps, NamedItem} from "./Items";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Tooltip} from "@mui/material";
 import EditFC from "./EditFC";
 
 type EditModalProps = ItemProps & {showModal: boolean}
 const EditModal = (itemProps: EditModalProps) => {
 
-    const Close = () => {
+    const [item, setItem] = useState(itemProps.item)
+
+    const Cancel = () => {
         if(itemProps.options.setModal != null) {
             itemProps.options.setModal(false)
-            itemProps.errorHandler.clearAllErrors() // we will be preventing save with errors, so clear them here
+            itemProps.errorHandler.clearAllErrors()
         }
     }
-    // console.log('md', itemProps.item.id)
 
-    if(itemProps.showModal) {
+    const Save = () => {
+        if (!itemProps.errorHandler.hasAnyErrors()) {
+            itemProps.options.SetItem(item)
+
+            if(itemProps.options.setModal != null) {
+                itemProps.options.setModal(false)
+                itemProps.errorHandler.clearAllErrors()
+            }
+        }
+    }
+
         return <>
             <Dialog
                 maxWidth="lg"
                 fullWidth={true}
-                open={true}
-                onClose={Close}
+                open={itemProps.showModal}
+                onClose={Cancel}
                 aria-labelledby="example-modal-sizes-title-lg"
                 disableEnforceFocus={true}
             >
-                <DialogTitle>Edit {(itemProps.item as NamedItem)?.name} {itemProps.item.type} ({itemProps.item.id}) </DialogTitle>
+                <DialogTitle>Edit {(item as NamedItem)?.name} {item.type} ({item.id}) </DialogTitle>
                 <DialogContent>
                     <EditFC
-                        item={itemProps.item}
+                        item={item}
                         items={itemProps.items}
-                        options={itemProps.options}
+                        options={{...itemProps.options, SetItem: setItem}}
                         errorHandler={itemProps.errorHandler} />
                 </DialogContent>
                 <DialogActions>
-                    <Button color="secondary" onClick={Close}>Close</Button>
+                    <Button color="secondary" onClick={Cancel}>Cancel</Button>
+                    <Tooltip title={itemProps.errorHandler.hasAnyErrors() ? 'Please correct form errors' : ''}>
+                        <span>
+                            <Button
+                                color="primary"
+                                onClick={Save}
+                                disabled={itemProps.errorHandler.hasAnyErrors()}
+                            >
+                                Save
+                            </Button>
+                        </span>
+                    </Tooltip>
+
                 </DialogActions>
             </Dialog>
         </>
-    } else {
-        return <></>
-    }
+
 
 }
 

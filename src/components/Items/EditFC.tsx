@@ -88,7 +88,7 @@ const NamedItemEdit = ({item, items, options, errorHandler}: ItemProps) => {
                 label="Name"
                 type="text"
                 error={errorHandler.hasError('name')}
-                defaultValue={item.name}
+                value={item.name}
                 onChange={onNameChange}
             />
             { validNameHint !== undefined ? <FormHelperText>{validNameHint}</FormHelperText> : <></> }
@@ -98,10 +98,9 @@ const NamedItemEdit = ({item, items, options, errorHandler}: ItemProps) => {
 }
 
 const EditFC = (ItemProps: ItemProps) => {
-    const data = ItemProps.options.AllowedItems[ItemProps.item.type].EditFC(ItemProps)
+    const Edit = ItemProps.options.AllowedItems[ItemProps.item.type].EditFC
 
     const setFilter = (...[filter]: Parameters<FilterEditProps["setFilter"]>) => {
-        console.log('SetFilter...', filter)
         ItemProps.options.SetItem({ ...ItemProps.item, filter: filter } )
     }
 
@@ -114,13 +113,18 @@ const EditFC = (ItemProps: ItemProps) => {
                 disabled={true}
                 value={ItemProps.item.id}
             />
-            <NamedItemEdit {...ItemProps} />
+            <NamedItemEdit
+                item={ItemProps.item}
+                items={ItemProps.items}
+                options={ItemProps.options}
+                errorHandler={ItemProps.errorHandler}
+            />
             <FilterEdit
                 fieldItems={ItemProps.items.filter(item => (item.type === 'Field' || item.type === 'Hidden') && item.id !== ItemProps.item.id) as (FieldItem|HiddenItem)[]}
                 filter={ItemProps.item.filter}
                 setFilter={setFilter}
             ></FilterEdit>
-            { data }
+            <Edit {...ItemProps}></Edit>
         </Stack>
     </>
 }
