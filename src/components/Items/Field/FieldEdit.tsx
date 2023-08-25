@@ -102,7 +102,7 @@ export const FieldEdit = ({item, items, options, errorHandler}: FieldProps) => {
         <FormGroup>
             <FormControlLabel control={ <Checkbox  checked={item.deprecated ?? false} onChange={handlers.deprecated}/> } label="Deprecated"/>
             <FormHelperText error={item.errorText !== undefined} sx = {{marginTop: -1}}>
-                Deprecated fields will not be removed from the database. They will still show in the builder interface with a red background.
+                Deprecated fields will not be removed from the database. They will still show in the builder interface with a red outline.
             </FormHelperText>
         </FormGroup>
 

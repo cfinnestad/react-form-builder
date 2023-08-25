@@ -2,6 +2,7 @@ import { Dispatch, FC, JSX, SetStateAction } from "react";
 import { ActionProps } from "../Actions";
 import { SubmitButtonProps } from "./Submit";
 import { Theme } from "@mui/material/styles";
+import { ActiveType } from "../Builder/Builder";
 export type AllowedSubtypes = {
     [key: string]: FieldType;
 };
@@ -123,8 +124,9 @@ export type SubmitItem = BaseItem & {
 };
 export type GroupItem = NamedItem & {
     type: 'Group';
-    label: string;
+    label?: string;
     deprecated?: boolean;
+    backend_only?: boolean;
     items: AnyItem[];
 };
 export type FieldItem = NamedItem & {
@@ -170,7 +172,6 @@ export type AutocompleteSubtype = OptionSubtype & {
 };
 export type TextSubtype = FieldItem & {
     subtype: 'Text';
-    editable?: boolean;
     value?: string;
     multiline?: boolean;
     minLength?: number;
@@ -222,12 +223,16 @@ export type ItemType = {
 export type FieldType = {
     Subtype: FieldItem;
     SubtypeFC: (props: FieldProps) => JSX.Element;
+    ItemFC: (props: FieldProps) => JSX.Element;
     EditFC: (props: FieldProps) => JSX.Element;
     ValidateFC?: (item: FieldItem, options: Options) => boolean;
 };
 export type BaseItemProps = {
     item: AnyItem;
     items: AnyItem[];
+    activeItem?: ActiveType;
+    setActiveItem?: Dispatch<SetStateAction<ActiveType>>;
+    groupId?: string;
     options: Options;
     errorHandler?: any;
 };

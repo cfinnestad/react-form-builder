@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react';
 
-import Builder, {BuilderOptions} from './Builder';
+import Builder, {BuilderUseOptions} from './Builder';
 import {
     AutocompleteSubtype,
     BooleanSubtype,
@@ -134,14 +134,14 @@ export const Primary: Story = {
                     label: 'Testing Group',
                     items: [
                         {
-                            id: 'group1_text3',
+                            id: 'group1-text3',
                             type: 'Field',
                             name: 'text3',
                             label: 'Text 3',
                             subtype: 'Text'
                         } as TextSubtype,
                         {
-                            id: 'group1_email1',
+                            id: 'group1-email1',
                             type: 'Field',
                             name: 'email1',
                             required: true,
@@ -150,20 +150,20 @@ export const Primary: Story = {
                             maxLength: 255,
                         } as EmailSubtype,
                         {
-                            id: 'group2',
+                            id: 'group1-group2',
                             type: 'Group',
                             name: 'group2',
                             label: 'Testing Group Two',
                             items: [
                                 {
-                                    id: 'group2_text1',
+                                    id: 'group1-group2-text1',
                                     type: 'Field',
                                     name: 'text1',
                                     label: 'Text 1',
                                     subtype: 'Text'
                                 } as TextSubtype,
                                 {
-                                    id: 'group2_text2',
+                                    id: 'group1-group2-text2',
                                     type: 'Field',
                                     name: 'text2',
                                     label: 'Text 2',
@@ -309,7 +309,7 @@ export const Primary: Story = {
             },
             Actions:[Save, Clear, Transfer],
             ActionsAppend: [Preview]
-        } as BuilderOptions
+        } as BuilderUseOptions
     }
 }
 

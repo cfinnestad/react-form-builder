@@ -1,3 +1,4 @@
 import React from "react";
-declare const ItemGroupEdit: () => React.JSX.Element;
+import { GroupProps } from "../Items";
+declare const ItemGroupEdit: ({ item, options }: GroupProps) => React.JSX.Element;
 export default ItemGroupEdit;
