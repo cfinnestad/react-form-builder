@@ -1,5 +1,5 @@
 import React from "react";
-import {AnyItem, isField, ItemProps} from "./Items";
+import {AnyItem, isField, isGroup, ItemProps} from "./Items";
 import {Box} from "@mui/material";
 import FormatLineSpacingRoundedIcon from "@mui/icons-material/FormatLineSpacingRounded";
 import ModeRoundedIcon from '@mui/icons-material/ModeRounded';
@@ -13,6 +13,11 @@ import {cloneDeep} from "lodash";
 import {activeStyle, MAIN} from "../Builder/Builder";
 import {fixItemName, updateItems} from "../Builder/OnDragEnd";
 import DeleteItem from "./DeleteItem";
+
+const deprecatedStyle = {
+    borderColor : '#f99',
+    borderWidth : '2px'
+}
 
 type ShowItemsProps = ItemProps & {
     key?: string|number
@@ -39,17 +44,25 @@ export const ShowItem = ({item, items, options, activeItem, setActiveItem, group
             }
         }
 
+        // const color = ((isField(item) || isGroup(item)) && item.deprecated) ? '#9ff' : '#ff9'
         const deleteItem = (id:string, items:AnyItem[]) => {
             // console.log('deleteItem', items)
             options.setItems(DeleteItem(id, items))
         }
 
         return <>
-            <SortableItem key={item.id} id={item.id} style={activeItem?.id === item.id && activeItem?.groupId === groupId ? activeStyle : undefined}>
+            <SortableItem
+                key={item.id}
+                id={item.id}
+                style={{
+                    ...(((isField(item) || isGroup(item)) && item.deprecated) ? deprecatedStyle : {}),
+                    ...(activeItem?.id === item.id && activeItem?.groupId === (groupId ?? MAIN) ? activeStyle : {})
+                }}
+            >
                 <DragHandle>
-                    <FormatLineSpacingRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} />
+                    <FormatLineSpacingRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }}/>
                 </DragHandle>
-                <Box component="div" sx={{ flexGrow: 1 }}>
+                <Box component="div" sx={{ flexGrow: 1}}>
                     { ItemFC({item: item, items: items, activeItem: activeItem, setActiveItem: setActiveItem, groupId: groupId, options: options})}
                 </Box>
                 <ModeRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={openModal}/>

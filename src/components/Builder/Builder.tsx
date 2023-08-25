@@ -89,7 +89,6 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     const [items, setItems] = useState<AnyItem[]>(Items || [])
     const [modal, setModal] = useState( false )
     const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
-    // const [ItemSections, setItemSections] = useState(initItemSections(cloneDeep(items),MAIN));
     const { setNodeRef } = useDroppable({ id: MAIN });
     const [errors, setErrors] = useState<BuildErrors>({} as BuildErrors)
 
@@ -157,7 +156,6 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     }
 
     const onDragStart = ({active}: DragStartEvent) => {
-        console.warn('DragStart:', active.id)
         const dragItem = FindDragItem(active.id, items, MAIN)
         if (dragItem) {
             setActiveItem({id: active.id as string, groupId: dragItem.groupId as string})
