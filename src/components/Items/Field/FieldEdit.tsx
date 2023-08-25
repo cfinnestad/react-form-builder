@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useRef, useState} from "react";
+import React, {ChangeEvent} from "react";
 import {FieldItem, FieldProps} from "../Items";
 import DefaultSubtypes from "../Subtypes/DefaultSubTypes";
 import {
@@ -14,21 +14,8 @@ import {
 import {omit, pick} from "lodash";
 
 export const FieldEdit = ({item, items, options, errorHandler}: FieldProps) => {
-    const [subtype, setSubtype] = useState(item.subtype)
 
-    const subtypeInit = useRef(false)
     const subtypeOptions = Object.keys(DefaultSubtypes())
-
-    useEffect(() => {
-        // Don't run getSubtypeDefaults on first render. Trust that existing subtype fields are correct.
-        if(subtypeInit.current) {
-            const fieldItem = getSubtypeDefaults(item, subtype)
-            // setItem(fieldItem)
-            options.SetItem(fieldItem)
-        } else {
-            subtypeInit.current = true
-        }
-    }, [subtype])
 
     const getSubtypeDefaults = (item: FieldProps['item'], subtype: string) => {
         const itm = { ...item }
@@ -82,8 +69,11 @@ export const FieldEdit = ({item, items, options, errorHandler}: FieldProps) => {
             options.SetItem(itm)
         },
         subtype: (event: SelectChangeEvent) => {
+            const itm = { ...item }
             const { target: { value } } = event;
-            setSubtype(value)
+            const fieldItem = getSubtypeDefaults(itm, value)
+
+            options.SetItem(fieldItem)
         },
         label: (event: ChangeEvent<HTMLInputElement>) => {
             const itm = { ...item }
@@ -103,21 +93,21 @@ export const FieldEdit = ({item, items, options, errorHandler}: FieldProps) => {
 
     return <>
         <FormGroup>
-            <FormControlLabel control={ <Checkbox  defaultChecked={item.required ?? false} onChange={handlers.required}/> } label="Required"/>
+            <FormControlLabel control={ <Checkbox  checked={item.required ?? false} onChange={handlers.required}/> } label="Required"/>
             <FormHelperText error={item.errorText !== undefined} sx = {{marginTop: -1}}>
                 Indicate whether this field needs to be filled out prior to submitting the form.
             </FormHelperText>
         </FormGroup>
 
         <FormGroup>
-            <FormControlLabel control={ <Checkbox  defaultChecked={item.deprecated ?? false} onChange={handlers.deprecated}/> } label="Deprecated"/>
+            <FormControlLabel control={ <Checkbox  checked={item.deprecated ?? false} onChange={handlers.deprecated}/> } label="Deprecated"/>
             <FormHelperText error={item.errorText !== undefined} sx = {{marginTop: -1}}>
                 Deprecated fields will not be removed from the database. They will still show in the builder interface with a red background.
             </FormHelperText>
         </FormGroup>
 
         <FormGroup>
-            <FormControlLabel control={ <Checkbox  defaultChecked={item.backend_only ?? false} onChange={handlers.backend_only}/> } label="Backend Only"/>
+            <FormControlLabel control={ <Checkbox  checked={item.backend_only ?? false} onChange={handlers.backend_only}/> } label="Backend Only"/>
             <FormHelperText error={item.errorText !== undefined} sx = {{marginTop: -1}}>
                 Similar to Deprecated. Backend only fields will not be shown in the form, but will still be available on the backend.
             </FormHelperText>
@@ -127,7 +117,7 @@ export const FieldEdit = ({item, items, options, errorHandler}: FieldProps) => {
             size="small"
             label="Label"
             type="text"
-            defaultValue={item.label}
+            value={item.label}
             onChange={handlers.label}
         />
 
@@ -145,7 +135,7 @@ export const FieldEdit = ({item, items, options, errorHandler}: FieldProps) => {
                 size="small"
                 labelId="subtype-select-label"
                 label="Subtype"
-                defaultValue={item.subtype}
+                value={item.subtype}
                 onChange={handlers.subtype}
             >
                 {
@@ -165,7 +155,7 @@ export const FieldEdit = ({item, items, options, errorHandler}: FieldProps) => {
         </FormControl>
 
         { Object.entries(options.AllowedSubtypes).map(([key, value]) => {
-            return subtype === key &&
+            return item.subtype === key &&
                 <value.EditFC
                     item={item}
                     items={items}

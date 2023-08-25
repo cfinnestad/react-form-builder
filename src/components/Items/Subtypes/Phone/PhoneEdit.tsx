@@ -1,12 +1,10 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent} from "react";
 import {PhoneProps} from "../../Items";
 import {FormGroup, FormHelperText, TextField} from "@mui/material";
 import ShowErrors from "../ShowErrors";
 import MuiPhoneNumber from "mui-phone-number";
 
-export const PhoneEdit = ({item, options}: PhoneProps) => {
-    const [valueError, setValueError] = useState( false)
-    const [valueErrors, setValueErrors] = useState( [] as string[])
+export const PhoneEdit = ({item, options, errorHandler}: PhoneProps) => {
 
     const onChangeValue = (e: string | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const value = ((typeof e === 'string') ? e.toString() : e.target.value) || undefined
@@ -15,16 +13,14 @@ export const PhoneEdit = ({item, options}: PhoneProps) => {
         if (value) {
             const length = item.placeholder?.length || 14
             if (value.length !== length) {
-                setValueError(true)
-                setValueErrors([item.label + ' must be '+length.toString()+' charters'])
+                errorHandler.setError('value', `${item.label} must be ${length.toString()} characters`)
                 return
             }
             itm.value = value
         } else {
             delete itm.value
         }
-        setValueError(false)
-        setValueErrors([])
+        errorHandler.setError('value')
         options.SetItem(itm)
     }
 
@@ -54,16 +50,16 @@ export const PhoneEdit = ({item, options}: PhoneProps) => {
                 onlyCountries = {['us']}
                 placeholder = {item.placeholder ?? ''}
                 InputProps = {{ id: item.id }}
-                error={valueError}
+                error={errorHandler.hasError('value')}
             />
             <FormHelperText
                 sx = {{
                     paddingX: 2,
-                    color: valueErrors.length !== 0 ? 'error.main' : undefined,
+                    color: errorHandler.hasError('value') ? 'error.main' : undefined,
                     marginTop: -0.5,
                     paddingLeft: 0
                 }}>
-                <ShowErrors errors={valueErrors}/>
+                <ShowErrors errors={errorHandler.getError('value')}/>
             </FormHelperText>
         </FormGroup>
         <FormGroup>

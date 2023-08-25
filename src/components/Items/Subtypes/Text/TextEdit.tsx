@@ -1,69 +1,93 @@
-import React, {ChangeEvent, useState} from "react";
-import {TextProps} from "../../Items";
+import React, {ChangeEvent} from "react";
+import {TextProps, TextSubtype} from "../../Items";
 import {TextField, Checkbox, FormGroup, FormControlLabel, FormHelperText} from "@mui/material";
 import ShowErrors from "../ShowErrors";
 
-export const TextEdit = ({item, items, options}: TextProps ) => {
-    const [valueError, setValueError] = useState<string | undefined>(undefined)
-    const [minLengthError, setMinLengthError] = useState<string | undefined>(undefined)
-    const [maxLengthError, setMaxLengthError] = useState<string | undefined>(undefined)
+export const TextEdit = ({item, options, errorHandler}: TextProps ) => {
 
-    const onChangeMinLength = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value === '' ? undefined : parseInt(event.target.value)
-
-        if (value !== undefined) {
-            if (value < 0) {
-                setMinLengthError('minLength must be a positive number')
-                return
+    const checkMin = (item: TextSubtype) => {
+        if (item.minLength !== undefined) {
+            if (item.minLength < 0) {
+                errorHandler.setError('minLength', 'Min Length must be a positive number')
+            } else if (item.maxLength && (item.minLength > item.maxLength)) {
+                errorHandler.setError('minLength', 'Min Length must not be greater than Max Length')
+            } else {
+                errorHandler.setError('minLength')
             }
-            if (item.maxLength && (value > item.maxLength)) {
-                setMinLengthError('Min Length must not be greater than Max Length')
-                return
+        } else {
+            errorHandler.setError('minLength')
+        }
+    }
+    const checkMax = (item: TextSubtype) => {
+        if (item.maxLength !== undefined) {
+            if (item.maxLength < 1) {
+                errorHandler.setError('maxLength', 'Max Length must be greater the 0')
+            } else if (item.minLength && (item.maxLength < (item.minLength || 0))) {
+                errorHandler.setError('maxLength', 'Max Length must not be less than Min Length')
+            } else {
+                errorHandler.setError('maxLength')
             }
+        } else {
+            errorHandler.setError('maxLength')
         }
 
-        options.SetItem({ ...item, minLength: value })
-        setMinLengthError(undefined)
+    }
+    const checkValue = (item: TextSubtype) => {
+        if (item.value) {
+            if (item.minLength !== undefined && item.value.length < (item.minLength || 0)) {
+                errorHandler.setError('value', `${item.label} must be at least ${item.minLength} characters long`)
+            } else if (item.maxLength !== undefined && item.value.length > (item.maxLength || 0)) {
+                errorHandler.setError('value', `${item.label} cannot exceed ${item.maxLength} characters`)
+            } else {
+                errorHandler.setError('value')
+            }
+        } else {
+            errorHandler.setError('value')
+        }
+    }
+    const validate = (item: TextSubtype) => {
+        checkMin(item)
+        checkMax(item)
+        checkValue(item)
+    }
+
+    const onChangeMinLength = (event: ChangeEvent<HTMLInputElement>) => {
+        const min = event.target.value === '' ? undefined : parseInt(event.target.value)
+        const itm = {...item, minLength: min}
+
+        validate(itm)
+
+        if (!itm.minLength) {
+            delete itm.minLength
+        }
+
+        options.SetItem(itm)
     }
 
     const onChangeMaxLength = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value === '' ? undefined : parseInt(event.target.value)
+        const max = event.target.value === '' ? undefined : parseInt(event.target.value)
+        const itm = {...item, maxLength: max}
 
-        if (value !== undefined) {
-            if (value < 1) {
-                setMaxLengthError('Max Length must be greater the 0')
-                return
-            }
-            if (item.minLength && (value < item.minLength)) {
-                setMaxLengthError('Max Length must not be less than Min Length')
-                return
-            }
+        validate(itm)
+
+        if (!itm.maxLength) {
+            delete itm.maxLength
         }
 
-        options.SetItem({ ...item, maxLength: value })
-        setMaxLengthError(undefined)
+        options.SetItem(itm)
     }
 
     const onChangeValue = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value || undefined
-        const itm = {...item}
+        const itm = {...item, value: value}
 
-        if (value) {
-            if (item.minLength !== undefined && value.length < (item.minLength || 0)) {
-                setValueError(item.label + ' must be at least ' + item.minLength + ' characters long')
-                return
-            }
-            if (item.maxLength !== undefined && value.length > (item.maxLength || 0)) {
-                setValueError(item.label + ' cannot exceed ' + item.maxLength + ' characters')
-                return
-            }
-            itm.value = value
-        } else {
+        checkValue(itm)
+
+        if (!value) {
             delete itm.value
         }
 
         options.SetItem(itm)
-        setValueError(undefined)
     }
 
     const onClickEditable = (event: ChangeEvent<HTMLInputElement>) => {
@@ -95,11 +119,11 @@ export const TextEdit = ({item, items, options}: TextProps ) => {
                 fullWidth={true}
                 label='Value'
                 type="text"
-                error={valueError !== undefined}
+                error={errorHandler.hasError('value')}
                 defaultValue={item.value}
                 onChange={onChangeValue}
             />
-            <ShowErrors errors={valueError ? [valueError] : []}/>
+            <ShowErrors errors={errorHandler.getError('value')}/>
         </FormGroup>
 
         <FormGroup>
@@ -123,11 +147,11 @@ export const TextEdit = ({item, items, options}: TextProps ) => {
                 size='small'
                 label='Min Length'
                 type="number"
-                error={minLengthError !== undefined}
+                error={errorHandler.hasError('minLength')}
                 defaultValue={item.minLength}
                 onChange={onChangeMinLength}
             />
-            <ShowErrors errors={minLengthError ? [minLengthError] : []}/>
+            <ShowErrors errors={errorHandler.getError('minLength')}/>
         </FormGroup>
 
         <FormGroup>
@@ -135,11 +159,11 @@ export const TextEdit = ({item, items, options}: TextProps ) => {
                 size='small'
                 label='Max Length'
                 type="number"
-                error={maxLengthError !== undefined}
+                error={errorHandler.hasError('maxLength')}
                 defaultValue={item.maxLength}
                 onChange={onChangeMaxLength}
             />
-            <ShowErrors errors={maxLengthError ? [maxLengthError] : []}/>
+            <ShowErrors errors={errorHandler.getError('maxLength')}/>
         </FormGroup>
     </>
 

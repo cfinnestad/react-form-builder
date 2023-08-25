@@ -49,7 +49,7 @@ export type BuilderProps = {
 const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     const [items, setItems] = useState<AnyItem[]>(Items || [])
     const [modal, setModal] = useState( false )
-    const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
+    const [item, setItem] = useState({id:'x', type:'Text'} as AnyItem)
     const [errors, setErrors] = useState<BuildErrors>({} as BuildErrors)
 
     const sensors = [
@@ -83,9 +83,9 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         setItems(UpdateItemInItems(item, items))
     },[item])
 
-    useEffect(() => {
-        console.log('SET ERRORS', errors)
-    },[errors])
+    // useEffect(() => {
+    //     console.log('SET ERRORS', errors)
+    // },[errors])
 
     const errorHandler = ErrorHandler(errors, setErrors)
 
@@ -131,12 +131,13 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                     </Grid>
                 </Grid>
             </DndContext>
-            <EditModal
+            { modal ? <EditModal
                 showModal={modal}
                 item={item}
                 items={items}
                 options={options}
-                errorHandler={errorHandler}></EditModal>
+                errorHandler={errorHandler}
+            ></EditModal> : <></>}
         </Box>
 
     </div>
