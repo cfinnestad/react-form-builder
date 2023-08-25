@@ -129,8 +129,9 @@ type SubmitItem = BaseItem & {
 };
 type GroupItem = NamedItem & {
     type: 'Group';
-    label: string;
+    label?: string;
     deprecated?: boolean;
+    backend_only?: boolean;
     items: AnyItem[];
 };
 type FieldItem = NamedItem & {
