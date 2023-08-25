@@ -35,27 +35,23 @@ export const fixItemName = (item: AnyItem, overRef: DragItem): AnyItem => {
 
 const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: BuilderOptions):void => {
 	const { active, over } = result;
-	console.log('DragEnd Active', active)
-	console.log('DragEnd Over', over)
+	// console.log('DragEnd Active', active)
+	// console.log('DragEnd Over', over)
 
 
 	const reorder = (source: DragItem | undefined, destination: DragItem | undefined):AnyItem[] => {
-		console.log('source', source)
-		console.log('destination', destination)
+		// console.log('source', source)
+		// console.log('destination', destination)
 		if(source === undefined || destination === undefined) {
 			return items
 		}
-		source.item = fixItemName(cloneDeep(source.item), source)
-
-		const destIndex = source.index < destination.index ? destination.index -1 : destination.index
-
 
 		const newList = source.items.filter(i => i.id !== active.id)
 
 		return updateItems(items, source.groupId, [
-			...newList.slice(0,destIndex),
+			...newList.slice(0,destination.index),
 			source.item,
-			...newList.slice(destIndex,newList.length)
+			...newList.slice(destination.index,newList.length)
 		]);
 	};
 	// const move = (source: DragItem | undefined, destination: DragItem | undefined):AnyItem[] => {
@@ -78,7 +74,7 @@ const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: BuilderOptio
 	// 	return newItems
 	// };
 	const copy = (active: Active, destination: DragItem | undefined) => {
-		console.log('==> dest', destination);
+		// console.log('==> dest', destination);
 
 		if(destination === undefined || active.data.current?.hasOwnProperty('Items') === false || typeof active.data.current?.Items !== 'object') {
 			return items
