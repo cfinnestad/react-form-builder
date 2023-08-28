@@ -47,15 +47,13 @@ const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: BuilderOptio
 		}
 		source.item = fixItemName(cloneDeep(source.item), source)
 
-		const destIndex = source.index < destination.index ? destination.index -1 : destination.index
-
 
 		const newList = source.items.filter(i => i.id !== active.id)
 
 		return updateItems(items, source.groupId, [
-			...newList.slice(0,destIndex),
+			...newList.slice(0,destination.index),
 			source.item,
-			...newList.slice(destIndex,newList.length)
+			...newList.slice(destination.index,newList.length)
 		]);
 	};
 	// const move = (source: DragItem | undefined, destination: DragItem | undefined):AnyItem[] => {
@@ -129,7 +127,7 @@ const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: BuilderOptio
 			);
 			break;
 		default:
-			console.log('default')
+			// console.log('default')
 			// options.setItems(
 			// 	move(
 			// 		findDragItem(active.id, source.items, source.groupId),
