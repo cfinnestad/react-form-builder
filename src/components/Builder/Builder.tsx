@@ -61,8 +61,6 @@ export type BuilderUseOptions = {
 }
 
 export type BuilderOptions = Options & {
-    // addItemSection: (id: string, items: AnyItem[]) => void,
-    // deleteItemSection: (id: string) => void,
 }
 
 export type BuilderProps = {
