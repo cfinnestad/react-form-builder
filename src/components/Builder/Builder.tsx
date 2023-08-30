@@ -35,6 +35,7 @@ export const activeStyle = {
 export const MAIN = '-Main-'
 export const TYPES = '-Types-'
 import ErrorHandler from "../Items/ErrorHandler";
+import {Preview} from "../Actions";
 
 export type ActiveType = {
     id: string|undefined,
@@ -99,7 +100,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     const defaultTheme = useTheme()
 
     const options:BuilderOptions = {...(Options || {}),
-        Actions: [...(Options?.Actions ?? [Transfer,Save,Clear]), ...(Options?.ActionsAppend ?? [])],
+        Actions: [...(Options?.Actions ?? [Save,Transfer,Preview,Clear]), ...(Options?.ActionsAppend ?? [])],
         AllowedSubtypes: {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})},
         AllowedItems: {...(Options?.AllowedItems || DefaultItems()), ...(Options?.AdditionalItems || {})},
         IsBuild: true,
@@ -176,8 +177,6 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                 collisionDetection={closestCenter}
                 onDragEnd={(results) => onDragEnd(results, items, options)}
                 onDragStart={onDragStart}
-                // onDragOver={(request) => OnDragOver(request, items, options)}
-                // autoScroll={{layoutShiftCompensation: false}}
             >
                 <Grid container spacing={2}>
                     <Grid item xs={10}>

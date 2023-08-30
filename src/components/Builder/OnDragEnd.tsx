@@ -40,14 +40,15 @@ const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: BuilderOptio
 
 
 	const reorder = (source: DragItem | undefined, destination: DragItem | undefined):AnyItem[] => {
-		// console.log('source', source)
-		// console.log('destination', destination)
+		console.warn('Reorder')
+		console.log('source', source)
+		console.log('destination', destination)
 		if(source === undefined || destination === undefined) {
 			return items
 		}
 
 		const newList = source.items.filter(i => i.id !== active.id)
-
+		console.log('Reorder Return')
 		return updateItems(items, source.groupId, [
 			...newList.slice(0,destination.index),
 			source.item,
