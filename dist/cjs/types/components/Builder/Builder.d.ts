@@ -8,6 +8,10 @@ export declare const activeStyle: {
 };
 export declare const MAIN = "-Main-";
 export declare const TYPES = "-Types-";
+export type TemplateType = {
+    name: string;
+    items: AnyItem[];
+};
 export type ActiveType = {
     id: string | undefined;
     groupId: string;
@@ -21,6 +25,7 @@ export type BuilderUseOptions = {
     AdditionalSubtypes?: AllowedSubtypes;
     onSave?: (Items: AnyItem[]) => void;
     Errors?: ErrorType;
+    templates?: TemplateType[];
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
     };
