@@ -207,11 +207,15 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                             </div>
                         </SortableContext>
                     </Grid>
-                    <Grid item xs={2}>
-                        <ShowTypes AllowedItems={options.AllowedItems} addItems={addItems}/>
-                        <Typography variant='overline' align='center' color='#1976d2'>Templates</Typography>
-                        {(Options?.templates ?? [] as TemplateType[]).map(template => <Template {...template} addItems={addItems}/>)}
-                    </Grid>
+                        <Grid item xs={2}>
+                              <ShowTypes AllowedItems={options.AllowedItems} addItems={addItems}/>
+                              { Options?.templates && Options.templates.length > 0
+                                 ? <>
+                                       <Typography variant='overline' align='center' color='#1976d2'>Templates</Typography>
+                                       {(Options?.templates ?? [] as TemplateType[]).map(template => <Template {...template} addItems={addItems}/>)}
+                                   </>
+                                 : undefined}
+                          </Grid>
                 </Grid>
             </DndContext>
             { modal ? <EditModal
