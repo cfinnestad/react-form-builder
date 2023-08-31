@@ -28,7 +28,7 @@ const ShowType = ({Item, addItems}: ShowTypeProps) => {
     // });
     // @ts-ignore
     return <>
-        <Card variant="outlined" onClick={() => addItems([Item])} style={{cursor: "grab", margin: "3px", padding: "2px"}}>
+        <Card variant="outlined" onClick={() => addItems([Item])} style={{cursor: "cell", margin: "3px", padding: "2px"}}>
             {Item.type}
         </Card>
     </>
