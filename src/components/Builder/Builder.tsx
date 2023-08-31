@@ -2,7 +2,7 @@ import React, {Dispatch, FC, JSX, SetStateAction, useEffect, useState} from "rea
 import Actions, {ActionFC, ActionProps} from "../Actions/Actions";
 import DefaultItems from "../Items/DefaultItems";
 import {AllowedItems, AllowedSubtypes, AnyItem, isGroup, BuildErrors, Option, Options, SubmitButtonProps} from "../Items";
-import {Box, Grid} from "@mui/material";
+import {Box, Grid, Typography} from "@mui/material";
 import DefaultSubtypes from "../Items/Subtypes/DefaultSubTypes";
 import Transfer from "../Actions/Transfer/Transfer";
 import Save from "../Actions/Save/Save";
@@ -36,6 +36,12 @@ export const MAIN = '-Main-'
 export const TYPES = '-Types-'
 import ErrorHandler from "../Items/ErrorHandler";
 import {Preview} from "../Actions";
+import {Template} from "../Template";
+
+export type TemplateType = {
+    name: string,
+    items:AnyItem[]
+}
 
 export type ActiveType = {
     id: string|undefined,
@@ -51,6 +57,7 @@ export type BuilderUseOptions = {
     AdditionalSubtypes?: AllowedSubtypes,
     onSave?: (Items: AnyItem[]) => void,
     Errors?: ErrorType,
+    templates?: TemplateType[],
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[]
     },
@@ -202,6 +209,8 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                     </Grid>
                     <Grid item xs={2}>
                         <ShowTypes AllowedItems={options.AllowedItems} addItems={addItems}/>
+                        <Typography variant='overline' align='center' color='#1976d2'>Templates</Typography>
+                        {(Options?.templates ?? [] as TemplateType[]).map(template => <Template {...template} addItems={addItems}/>)}
                     </Grid>
                 </Grid>
             </DndContext>

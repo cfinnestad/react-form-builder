@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react';
 
-import Builder, {BuilderUseOptions} from './Builder';
+import Builder, {BuilderUseOptions, TemplateType} from './Builder';
 import {
     AutocompleteSubtype,
     BooleanSubtype,
@@ -296,6 +296,33 @@ export const Primary: Story = {
                 } as SubmitItem
             ],
         Options: {
+            templates: [
+                {
+                    name: "Name",
+                    items: [
+                        {
+                            id: 'first_name',
+                            type: 'Field',
+                            name: 'first_name',
+                            required: true,
+                            label: 'First Name',
+                            subtype: 'Text',
+                            maxLength: 50
+                        } as TextSubtype,
+                        {
+                            id: 'last_name',
+                            type: 'Field',
+                            name: 'last_name',
+                            required: true,
+                            label: 'Last Name',
+                            deprecated: false,
+                            subtype: 'Text',
+                            maxLength: 10,
+                            minLength: 2
+                        } as TextSubtype,
+                    ]
+                } as TemplateType
+            ],
             searchableOptions: {
                 exampleCities: (input) => input != null
                     ? exampleCities.filter(city => city.value?.toLowerCase().includes(input))
