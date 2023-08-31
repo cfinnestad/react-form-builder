@@ -1,5 +1,6 @@
 import React from 'react'
 import {Card} from "@mui/material";
+import {AnyItem} from "../Items";
 
 type TemplateProps = {
     name: string,
