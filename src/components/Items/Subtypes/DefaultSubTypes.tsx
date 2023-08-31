@@ -171,7 +171,7 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 id: 'autocomplete',
                 name: 'autocomplete',
                 label: 'Autocomplete1',
-                value: '',
+                options: [],
             } as AutocompleteSubtype,
             SubtypeFC: AutocompleteST,
             EditFC: AutocompleteEdit,
