@@ -1,7 +1,6 @@
 import React, {Dispatch, SetStateAction, useEffect, useState, JSX} from 'react';
 import {AnyItem, isField, isGroup, isHidden, Option, Options, AllowedItems, AllowedSubtypes} from "../Items";
 import ShowItem from "../Items/ShowItem";
-import UpdateItemInItems from "../Items/UpdateItemInItems";
 import DefaultItems from "../Items/DefaultItems";
 import DefaultSubtypes from "../Items/Subtypes/DefaultSubTypes";
 import Filter from "../Filter/Filter";
@@ -10,6 +9,8 @@ import {List, ListItem, Stack, ThemeProvider} from "@mui/material";
 import {Theme, useTheme} from "@mui/material/styles";
 import GetValue from "../Items/GetValue";
 import {SubmitButtonProps} from "../Items";
+import {cloneDeep} from "lodash";
+import updateItemInItems from "../Items/UpdateItemInItems";
 
 export type RenderProps = {
     Items: AnyItem[],
@@ -35,7 +36,7 @@ export type RenderOptions = {
 }
 
 const Render = ({ Items, SetItems, Options }: RenderProps ) => {
-    const [items, setItems] = useState<AnyItem[]>(Items || [])
+    const [items, setItems] = useState<AnyItem[]>(Items ?? [])
     const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
 
     const defaultTheme = useTheme()
@@ -58,8 +59,10 @@ const Render = ({ Items, SetItems, Options }: RenderProps ) => {
         }
     }, [items])
     useEffect(()=>{
-        setItems(UpdateItemInItems(item, items))
+        updateItemInItems(item, items)
+        setItems(cloneDeep(items))
     },[item])
+
 
     return <>
         <ThemeProvider theme={options.muiTheme}>

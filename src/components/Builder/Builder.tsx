@@ -36,7 +36,7 @@ export const MAIN = '-Main-'
 export const TYPES = '-Types-'
 import ErrorHandler from "../Items/ErrorHandler";
 import {Preview} from "../Actions";
-import {Template} from "../Template";
+import Template from "../Template";
 
 export type TemplateType = {
     name: string,
@@ -128,7 +128,9 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
 
     useEffect(() => {
         console.log('SET ITEM', item)
-        setItems(UpdateItemInItems(item, items))
+        const newItems = cloneDeep(items)
+        UpdateItemInItems(item, newItems)
+        setItems(newItems)
     },[item])
 
     const addItems = (newItems: AnyItem[]) => {

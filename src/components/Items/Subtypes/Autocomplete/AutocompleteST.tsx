@@ -47,8 +47,15 @@ const AutocompleteST = ({item, options}: AutocompleteProps) => {
     },[item])
 
     const onInputChange = (event: SyntheticEvent<Element, Event>, value: string) => {
+
+        if (item.value === (value || undefined)) return
+
         const itm = {...item} as AutocompleteSubtype
         itm.value = value || undefined
+
+        if(itm.searchableOptionsName) {
+            itm.options = choices
+        }
 
         AutocompleteValidate(itm, options)
         setSearchTerm(value || undefined)
@@ -76,6 +83,7 @@ const AutocompleteST = ({item, options}: AutocompleteProps) => {
             itm.options = val ? [val] : []
         }
         itm.value = val?.label ?? undefined
+        AutocompleteValidate(itm, options)
 
         if (!options.IsBuild) {
             options.SetItem(itm)
@@ -99,7 +107,7 @@ const AutocompleteST = ({item, options}: AutocompleteProps) => {
                 autoSelect={item.allowAnyInput ?? false}
                 onChange={onAutocompleteChange}
                 onInputChange={onInputChange}
-                defaultValue={item.value}
+                value={item.value ?? ''}
                 options={choices}
                 isOptionEqualToValue={(option: Option, value: any) => {
                     return option.label === value

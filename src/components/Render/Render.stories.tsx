@@ -1,7 +1,7 @@
 import React from 'react';
 import type {Meta, StoryObj} from '@storybook/react';
 
-import Render, {RenderOptions} from './Render';
+import Render from './Render';
 import {
     BooleanSubtype,
     CheckboxSubtype,
@@ -90,13 +90,39 @@ export const Primary: Story = {
                     } as EqFilter,
                     subtype: 'Text'
                 } as TextSubtype,
+
                 {
-                    id: 'autocompleteId1',
+                    id: 'group1',
+                    type: 'Group',
+                    name: 'group1',
+                    label: 'Testing Group',
+                    items: [
+                        {
+                            id: 'group1-text3',
+                            type: 'Field',
+                            name: 'text3',
+                            label: 'Text 3',
+                            subtype: 'Text'
+                        } as TextSubtype,
+                        {
+                            id: 'group1-email1',
+                            type: 'Field',
+                            name: 'email1',
+                            required: true,
+                            label: 'Email',
+                            subtype: 'Email',
+                            maxLength: 255,
+                        } as EmailSubtype,
+                    ]
+                } as GroupItem,
+
+                {
+                    id: 'autocomplete1',
                     allowAnyInput: true,
                     type: 'Field',
-                    name: 'autocompleteName1',
+                    name: 'autocomplete1',
                     required: true,
-                    label: 'Autocomplete 1',
+                    label: 'City',
                     deprecated: false,
                     subtype: 'Autocomplete',
                     searchableOptionsName: 'exampleCities',
@@ -110,14 +136,12 @@ export const Primary: Story = {
                     ]
                 } as AutocompleteSubtype,
                 {
-                    id: 'number1',
+                    id: 'zip_code',
                     type: 'Field',
-                    name: 'number1',
+                    name: 'zip_code',
                     required: true,
-                    label: 'Number 1',
+                    label: 'Zip Code',
                     subtype: 'Number',
-                    min: 12,
-                    max: 5000,
                     helperText: 'Helper text',
                 } as NumberSubtype,
                 {
@@ -130,30 +154,6 @@ export const Primary: Story = {
                     helperText: 'Helper text',
                     placeholder: '(555) 555-5555',
                 } as PhoneSubtype,
-                {
-                    id: 'group1',
-                    type: 'Group',
-                    name: 'group1',
-                    label: 'Testing Group',
-                    items: [
-                        {
-                            id: 'group1_text3',
-                            type: 'Field',
-                            name: 'text3',
-                            label: 'Text 3',
-                            subtype: 'Text'
-                        } as TextSubtype,
-                        {
-                            id: 'group1_email1',
-                            type: 'Field',
-                            name: 'email1',
-                            required: true,
-                            label: 'Email',
-                            subtype: 'Email',
-                            maxLength: 255,
-                        } as EmailSubtype,
-                    ]
-                } as GroupItem,
                 {
                     id: 'Select_Multiples',
                     type: 'Field',
@@ -246,7 +246,7 @@ export const Primary: Story = {
                     id: 'boolean1',
                     type: 'Field',
                     label: 'Boolean Label',
-                    name: 'Boolean',
+                    name: 'boolean1',
                     subtype: 'Boolean',
                     helperText: 'This is the boolean helper text',
                 } as BooleanSubtype,
@@ -254,7 +254,7 @@ export const Primary: Story = {
                     id: 'radio1',
                     type: 'Field',
                     label: 'Radio1',
-                    name: 'Radio-1',
+                    name: 'radio1',
                     subtype: 'Radio',
                     inLine: true,
                     helperText: 'Radio helper text',

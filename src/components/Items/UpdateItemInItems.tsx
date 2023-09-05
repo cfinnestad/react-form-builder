@@ -15,7 +15,7 @@ type ChangedItemIds = {
 }
 
 // replace filter fieldId in each inner item where it exists, then commit the whole object at once
-const updateFilterIdsOnNameChange = (items: AnyItem[], changedItemIds : ChangedItemIds): AnyItem[] => {
+const updateFilterIdsOnNameChange = (items: AnyItem[], changedItemIds : ChangedItemIds): void => {
     function updateItemFilter(filter: FilterType, changedItemIds: ChangedItemIds) {
         if (isFieldFilter(filter) && filter.fieldId === changedItemIds.oldId) {
             filter = {...filter, fieldId: changedItemIds.newId} as FieldFilter
@@ -27,47 +27,36 @@ const updateFilterIdsOnNameChange = (items: AnyItem[], changedItemIds : ChangedI
         return filter;
     }
 
-    return items.map(item => {
+    items.map(item => {
         if (item.filter) {
-            const oldFilter = JSON.stringify(item.filter)
-            const newFilter = JSON.stringify(updateItemFilter(item.filter,changedItemIds))
-            if (oldFilter !== newFilter) {
-                item = {...item, filter: JSON.parse(newFilter)}
-            }
+            updateItemFilter(item.filter,changedItemIds)
         }
         if (isGroup(item)) {
-            const originalItems = JSON.stringify(item.items)
-            const newItems = JSON.stringify(updateFilterIdsOnNameChange(item.items, changedItemIds))
-            if (originalItems !== newItems) {
-                item = {...item, items: JSON.parse(newItems)}
-            }
+            updateFilterIdsOnNameChange(item.items, changedItemIds)
         }
-        return item
     })
 }
 
 // when typing quickly, a name change may not be fully committed yet when setting the id, so compare on the original
 let originalId = undefined as any
 
-const UpdateItemInItems = (item: AnyItem, items:AnyItem[], prefix: string = ''): AnyItem[] => {
+const UpdateItemInItems = (item: AnyItem, items:AnyItem[], prefix: string = ''): void => {
     let changedItemIds: ChangedItemIds|undefined = undefined
-    let newItems = items.map((curItem) => {
+    items.map((curItem, index) => {
         if (item.id === curItem.id || (originalId && curItem.id === originalId)) {
             if (isNamed(item) && item.id !== prefix + item.name) {
                 originalId = curItem.id
                 changedItemIds = {oldId: originalId, newId: prefix + item.name} as ChangedItemIds
                 item.id = prefix + item.name
             }
-            return item
+            items[index] = item
         } else if (isGroup(curItem)) {
-            curItem.items = UpdateItemInItems(item, curItem.items, curItem.id + '-')
+            UpdateItemInItems(item, curItem.items, curItem.id + '-')
         }
-        return curItem
     })
     if (changedItemIds) {
-        newItems = updateFilterIdsOnNameChange(newItems, changedItemIds)
+        updateFilterIdsOnNameChange(items, changedItemIds)
     }
-    return newItems
 }
 
 export default UpdateItemInItems
