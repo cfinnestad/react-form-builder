@@ -13,7 +13,7 @@ const TextST = ({item, options}: TextProps ) => {
             delete itm.value
         }
         TextValidate(itm, options)
-        
+
         if (!options.IsBuild) {
             options.SetItem(itm)
         }
@@ -35,7 +35,7 @@ const TextST = ({item, options}: TextProps ) => {
                 name={item.name}
                 multiline={item.multiline ?? false}
                 type="text"
-                value={item.value ?? ''}
+                defaultValue={item.value ?? ''}
                 onChange={onChange}
             />
             <FormHelperText error={item.errorText !== undefined}>

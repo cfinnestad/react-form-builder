@@ -8,7 +8,8 @@ const GetValue = (item: FieldItem | HiddenItem): string|number|boolean|string[]|
         value = item.options.filter(option => option.selected === true).map(option => option.value ?? option.label)[0] ?? undefined
     } else if (isAutocomplete(item)) {
         if(item.searchableOptionsName) {
-            if(item.value && (item.options ??[]).length > 0) {
+            const options = item.options.filter(option => option.value?.toLowerCase() === item.value?.toLowerCase() || option.label?.toLowerCase() === item.value?.toLowerCase())
+            if(item.value && options.length > 0) {
                 value = item.options[0]?.value ?? undefined
             }
         } else {

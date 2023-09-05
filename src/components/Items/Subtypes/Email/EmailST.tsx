@@ -33,7 +33,7 @@ const EmailST = ({item, options}: EmailProps ) => {
                 required={item.required ?? false}
                 name={item.name}
                 type="text"
-                value={item.value}
+                defaultValue={item.value ?? ''}
                 onChange={onChange}
             />
             <FormHelperText error={item.errorText !== undefined}>

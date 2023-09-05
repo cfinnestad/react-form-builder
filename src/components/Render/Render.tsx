@@ -36,8 +36,7 @@ export type RenderOptions = {
 }
 
 const Render = ({ Items, SetItems, Options }: RenderProps ) => {
-    const realItems = cloneDeep(Items ?? [])
-    const [items, setItems] = useState<AnyItem[]>(realItems)
+    const [items, setItems] = useState<AnyItem[]>(Items ?? [])
     const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
 
     const defaultTheme = useTheme()
@@ -60,8 +59,8 @@ const Render = ({ Items, SetItems, Options }: RenderProps ) => {
         }
     }, [items])
     useEffect(()=>{
-        updateItemInItems(item, realItems)
-        setItems(cloneDeep(realItems))
+        updateItemInItems(item, items)
+        setItems(cloneDeep(items))
     },[item])
 
 
