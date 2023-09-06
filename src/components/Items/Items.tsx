@@ -215,6 +215,8 @@ export type AutocompleteSubtype = OptionSubtype & {
     subtype: 'Autocomplete',
     allowAnyInput?: boolean,
     value?: string
+    emptyValueOption?: string
+    noOptionsFound?: string
 }
 
 export type TextSubtype = FieldItem & {

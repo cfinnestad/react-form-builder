@@ -39,6 +39,7 @@ const getDefaultValue = (item:FieldItem|HiddenItem): string|number|boolean|strin
 }
 
 const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
+    if (fieldItems.length === 0) return <></>
 
     const defaultFilter = {
         comparison: '=',
