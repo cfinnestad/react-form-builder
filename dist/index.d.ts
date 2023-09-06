@@ -182,6 +182,8 @@ type AutocompleteSubtype = OptionSubtype & {
     subtype: 'Autocomplete';
     allowAnyInput?: boolean;
     value?: string;
+    emptyValueOption?: string;
+    noOptionsFound?: string;
 };
 type TextSubtype = FieldItem & {
     subtype: 'Text';
