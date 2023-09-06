@@ -8,7 +8,7 @@ export declare const activeStyle: {
 };
 export declare const MAIN = "-Main-";
 export declare const TYPES = "-Types-";
-export type TemplateType = {
+export type CollectionType = {
     name: string;
     items: AnyItem[];
 };
@@ -25,7 +25,7 @@ export type BuilderUseOptions = {
     AdditionalSubtypes?: AllowedSubtypes;
     onSave?: (Items: AnyItem[]) => void;
     Errors?: ErrorType;
-    templates?: TemplateType[];
+    collections?: CollectionType[];
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
     };

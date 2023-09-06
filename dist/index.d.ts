@@ -339,7 +339,7 @@ type ErrorType = {
 };
 declare const Errors: () => ErrorType;
 
-type TemplateType = {
+type CollectionType = {
     name: string;
     items: AnyItem[];
 };
@@ -356,7 +356,7 @@ type BuilderUseOptions = {
     AdditionalSubtypes?: AllowedSubtypes;
     onSave?: (Items: AnyItem[]) => void;
     Errors?: ErrorType;
-    templates?: TemplateType[];
+    collections?: CollectionType[];
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
     };
