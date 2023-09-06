@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react';
 
-import Builder, {BuilderUseOptions, TemplateType} from './Builder';
+import Builder, {BuilderUseOptions, CollectionType} from './Builder';
 import {
     AutocompleteSubtype,
     BooleanSubtype,
@@ -321,7 +321,7 @@ export const Primary: Story = {
                             minLength: 2
                         } as TextSubtype,
                     ]
-                } as TemplateType
+                } as CollectionType
             ],
             searchableOptions: {
                 exampleCities: (input) => input != null

@@ -36,9 +36,9 @@ export const MAIN = '-Main-'
 export const TYPES = '-Types-'
 import ErrorHandler from "../Items/ErrorHandler";
 import {Preview} from "../Actions";
-import Template from "../Template";
+import Container from "../Collection";
 
-export type TemplateType = {
+export type CollectionType = {
     name: string,
     items:AnyItem[]
 }
@@ -57,7 +57,7 @@ export type BuilderUseOptions = {
     AdditionalSubtypes?: AllowedSubtypes,
     onSave?: (Items: AnyItem[]) => void,
     Errors?: ErrorType,
-    templates?: TemplateType[],
+    collections?: CollectionType[],
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[]
     },
@@ -135,8 +135,8 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
 
     const addItems = (newItems: AnyItem[]) => {
         // console.log('addItems', newItems)
-        // console.warn('Additems', newItems)
-        // console.warn('Additems activeItem', activeItem)
+        // console.warn('AddItems', newItems)
+        // console.warn('AddItems activeItem', activeItem)
         let activeRef = findDragItem(activeItem.id ?? activeItem.groupId, items, MAIN)
         if (activeRef === undefined) {
             activeRef = {items: items, groupId: MAIN, index: 0} as DragItem
@@ -211,10 +211,10 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                     </Grid>
                         <Grid item xs={2}>
                               <ShowTypes AllowedItems={options.AllowedItems} addItems={addItems}/>
-                              { Options?.templates && Options.templates.length > 0
+                              { Options?.collections && Options.collections.length > 0
                                  ? <>
-                                       <Typography variant='overline' align='center' color='#1976d2'>Templates</Typography>
-                                       {(Options?.templates ?? [] as TemplateType[]).map(template => <Template {...template} addItems={addItems}/>)}
+                                       <Typography variant='overline' align='center' color='#1976d2'>Collections</Typography>
+                                       {(Options?.collections ?? [] as CollectionType[]).map(template => <Container {...template} addItems={addItems}/>)}
                                    </>
                                  : undefined}
                           </Grid>
