@@ -107,6 +107,7 @@ const AutocompleteST = ({item, options}: AutocompleteProps) => {
                 autoSelect={item.allowAnyInput ?? false}
                 onChange={onAutocompleteChange}
                 onInputChange={onInputChange}
+                noOptionsText={(item.value ? item.noOptionsFound : item.emptyValueOption) || ''}
                 value={item.value ?? ''}
                 options={choices}
                 isOptionEqualToValue={(option: Option, value: any) => {

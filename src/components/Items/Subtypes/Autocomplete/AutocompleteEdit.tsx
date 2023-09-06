@@ -1,14 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {AutocompleteProps, AutocompleteSubtype, OptionSubtype} from "../../Items";
 import SelectOption from "../../../SelectOption/SelectOption";
-import {
-    Checkbox,
-    FormControlLabel,
-    FormGroup, FormHelperText,
-    FormLabel,
-    Stack,
-} from "@mui/material";
-import Options from "../../../Options/Options";
+import {Checkbox, FormControlLabel, FormGroup, FormHelperText, FormLabel, Stack, TextField,} from "@mui/material";
+import Options, {SelectedType} from "../../../Options/Options";
 
 const AutocompleteEdit = ({item, options}: AutocompleteProps) => {
     const [searchableOption, setSearchableOption] = useState(item.searchableOptionsName)
@@ -36,16 +30,57 @@ const AutocompleteEdit = ({item, options}: AutocompleteProps) => {
         options.SetItem(item);
     }
 
+    const onChangeEmptyValueOption = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value || undefined
+        const itm = {...item, emptyValueOption: value} as AutocompleteSubtype
+
+        if (!value) {
+            delete itm.value
+        }
+
+        options.SetItem(itm)
+    }
+
+    const onChangeNoOptionsFound = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value || undefined
+        const itm = {...item, noOptionsFound: value} as AutocompleteSubtype
+
+        if (!value) {
+            delete itm.value
+        }
+
+        options.SetItem(itm)
+    }
+
     return (
         <>
-            <Stack spacing={.5}>
+            <Stack spacing={2}>
                 <FormGroup>
                     <FormControlLabel control={ <Checkbox  defaultChecked={item.allowAnyInput ?? false} onChange={handleAllowAnyInputChange}/> } label="Allow Any Input"/>
                     <FormHelperText sx = {{marginTop: -1}}>
                         Allow text that is not an autocomplete suggestion to be entered
                     </FormHelperText>
-                </FormGroup><br/>
-
+                </FormGroup>
+                <FormGroup>
+                    <TextField
+                        size='small'
+                        fullWidth={true}
+                        label='Empty Value Message'
+                        type="text"
+                        defaultValue={item.emptyValueOption}
+                        onChange={onChangeEmptyValueOption}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <TextField
+                        size='small'
+                        fullWidth={true}
+                        label='No Options Found Message'
+                        type="text"
+                        defaultValue={item.noOptionsFound}
+                        onChange={onChangeNoOptionsFound}
+                    />
+                </FormGroup>
                 <SelectOption
                     id={item.id}
                     label="Autocomplete suggestions source"
@@ -63,11 +98,10 @@ const AutocompleteEdit = ({item, options}: AutocompleteProps) => {
                         <Options
                             options={item.options ?? []}
                             setOptions={setItemOptions}
-                            selectedType='Single'
+                            selectedType={SelectedType.Single}
                         />
                     </>
                 :""}
-
             </Stack>
         </>
     );
