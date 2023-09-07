@@ -125,6 +125,7 @@ const AutocompleteST = ({item, options}: AutocompleteProps) => {
                 renderInput={(params) =>
                     <TextField
                         {...params}
+                        inputProps={{...params.inputProps, autoComplete: 'new-password'}}
                         type="text"
                         name={item.name}
                         required={item.required}
