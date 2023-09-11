@@ -1,7 +1,7 @@
-import {FieldItem, isAutocomplete, Options} from "../../Items";
+import {AutocompleteSubtype, Options} from "../../Items";
 
 
-const AutocompleteValidate = (item: FieldItem, options: Options): boolean => {
+const AutocompleteValidate = (item: AutocompleteSubtype, options: Options): boolean => {
     const element = document.getElementById(item.id)
     if (element === undefined) {
         console.error('Could not find element by ID')
@@ -10,9 +10,7 @@ const AutocompleteValidate = (item: FieldItem, options: Options): boolean => {
     item.value ??= document.getElementById(item.id)?.value
 
     item.errorText = undefined
-    if (!isAutocomplete(item)){
-        item.errorText = options.getError('invalidType', item)
-    } else if(item.required && !item.value) {
+    if(item.required && !item.value) {
         item.errorText = options.getError('required', item)
     } else if (!item.allowAnyInput && item.options.filter(option => option.value?.toLowerCase() === item.value?.toLowerCase() || option.label?.toLowerCase() === item.value?.toLowerCase()).length === 0 ) {
         item.errorText = options.getError('invalidSelection', item)

@@ -1,3 +1,3 @@
-import { FieldItem, Options } from "../../Items";
-declare const SelectValidate: (item: FieldItem, options: Options) => boolean;
+import { Options, SelectSubtype } from "../../Items";
+declare const SelectValidate: (item: SelectSubtype, options: Options) => boolean;
 export default SelectValidate;

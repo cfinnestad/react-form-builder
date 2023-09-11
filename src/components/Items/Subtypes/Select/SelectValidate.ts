@@ -1,10 +1,8 @@
-import {FieldItem, isSelect, Options} from "../../Items";
+import {Options, SelectSubtype} from "../../Items";
 
-const SelectValidate = (item: FieldItem, options: Options): boolean => {
+const SelectValidate = (item: SelectSubtype, options: Options): boolean => {
     item.errorText = undefined
-    if (!isSelect(item)){
-        item.errorText = options.getError('invalidType', item)
-    } else if(item.required && item.options.filter(option => option.selected).length === 0) {
+    if(item.required && item.options.filter(option => option.selected).length === 0) {
         item.errorText = options.getError('required', item)
     }
     if(item.errorText === undefined) {

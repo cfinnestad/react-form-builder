@@ -1,3 +1,3 @@
-import { FieldItem, Options } from "../../Items";
-declare const CheckboxValidate: (item: FieldItem, options: Options) => boolean;
+import { CheckboxSubtype, Options } from "../../Items";
+declare const CheckboxValidate: (item: CheckboxSubtype, options: Options) => boolean;
 export default CheckboxValidate;
