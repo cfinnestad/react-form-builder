@@ -20,7 +20,7 @@ const deprecatedStyle = {
 }
 
 type ShowItemsProps = ItemProps & {
-    key?: string|number
+    // key?: string|number
 }
 
 export const ShowItem = ({item, items, options, activeItem, setActiveItem, groupId}: ShowItemsProps) => {
@@ -50,8 +50,7 @@ export const ShowItem = ({item, items, options, activeItem, setActiveItem, group
             options.setItems(DeleteItem(id, items))
         }
 
-        return <>
-            <SortableItem
+        return <SortableItem
                 key={item.id}
                 id={item.id}
                 style={{
@@ -69,7 +68,6 @@ export const ShowItem = ({item, items, options, activeItem, setActiveItem, group
                 <ContentCopyRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={() => copyItem(item.id, items)}/>
                 <DeleteForeverRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={() => deleteItem(item.id, items)}/>
             </SortableItem>
-        </>
     }
 
     if (isField(item) && (item.deprecated || item.backend_only)) {
@@ -78,9 +76,7 @@ export const ShowItem = ({item, items, options, activeItem, setActiveItem, group
     if (!Filter(item, items, item.filter)) {
         return <></>
     }
-    return <>
-        <ItemFC key={item.id} item={item} items={items} options={options}/>
-    </>
+    return <ItemFC key={item.id} item={item} items={items} options={options}/>
 
 }
 
