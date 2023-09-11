@@ -1,15 +1,13 @@
-import React from "react";
 import {
-    CheckboxSubtype,
-    BooleanSubtype,
-    EmailSubtype,
-    NumberSubtype,
-    RadioSubtype,
-    SelectSubtype,
-    TextSubtype,
-    AutocompleteSubtype,
-    PhoneSubtype,
-    DateSubtype, AllowedSubtypes,
+    AllowedSubtypes,
+    TextType,
+    EmailType,
+    CheckboxType,
+    NumberType,
+    BooleanType,
+    DateType,
+    RadioType,
+    SelectType, PhoneType, AutocompleteType, Option,
 } from "../Items";
 import {BooleanEdit, BooleanST, BooleanValidate} from "./Boolean";
 import {TextEdit, TextST, TextValidate} from "./Text";
@@ -32,11 +30,11 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 name: 'text',
                 subtype: 'Text',
                 maxLength: 255
-            } as TextSubtype,
+            },
             SubtypeFC: TextST,
             EditFC: TextEdit,
             ValidateFC: TextValidate
-        },
+        } as TextType,
         Email: {
             Subtype: {
                 id: 'email',
@@ -45,11 +43,11 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 name: 'email',
                 subtype: 'Email',
                 maxLength: 255
-            } as EmailSubtype,
+            },
             SubtypeFC: EmailST,
             EditFC: EmailEdit,
             ValidateFC: EmailValidate
-        },
+        } as EmailType,
         Checkbox: {
             Subtype: {
                 id: 'checkbox',
@@ -65,11 +63,11 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                         label: 'Text 2'
                     }
                 ]
-            } as CheckboxSubtype,
+            },
             SubtypeFC: CheckboxST,
             EditFC: CheckboxEdit,
             ValidateFC: CheckboxValidate
-        },
+        } as CheckboxType,
         Number: {
             Subtype: {
                 id: 'number',
@@ -79,11 +77,11 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 subtype: 'Number',
                 min: 0,
                 max: 5000
-            } as NumberSubtype,
+            },
             SubtypeFC: NumberST,
             EditFC: NumberEdit,
             ValidateFC: NumberValidate
-        },
+        } as NumberType,
         Boolean: {
             Subtype: {
                 id: 'boolean',
@@ -91,11 +89,11 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 label: 'Boolean',
                 name: 'boolean',
                 subtype: 'Boolean',
-            } as BooleanSubtype,
+            },
             SubtypeFC: BooleanST,
             EditFC: BooleanEdit,
             ValidateFC: BooleanValidate,
-        },
+        } as BooleanType,
         Date: {
             Subtype: {
                 id: 'date',
@@ -103,11 +101,11 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 label: 'Date',
                 name: 'date',
                 subtype: 'Date',
-            } as DateSubtype,
+            },
             SubtypeFC: DateST,
             EditFC: DateEdit,
             ValidateFC: DateValidate,
-        },
+        } as DateType,
         Radio: {
             Subtype: {
                 id: 'radio',
@@ -115,7 +113,6 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 label: 'Radio1',
                 name: 'radio',
                 subtype: 'Radio',
-                value: 'Radio 1 value',
                 options: [
                     {
                         label: 'Radio 1',
@@ -126,11 +123,11 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                         label: 'Radio 2'
                     }
                 ]
-            } as RadioSubtype,
+            },
             SubtypeFC: RadioST,
             EditFC: RadioEdit,
             ValidateFC: RadioValidate
-        },
+        } as RadioType,
         Select: {
             Subtype: {
                 type: 'Field',
@@ -138,17 +135,16 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 id: 'select',
                 name: 'select',
                 label: 'Select1',
-                value: '',
                 options: [
                     { label: 'Option 1' },
                     { label: 'Option 2' },
                     { label: 'Option 3' }
                 ]
-            } as SelectSubtype,
+            },
             SubtypeFC: SelectST,
             EditFC: SelectEdit,
             ValidateFC: SelectValidate
-        },
+        } as SelectType,
         Phone: {
             Subtype: {
                 id: 'phone',
@@ -159,11 +155,11 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 subtype: 'Phone',
                 helperText: 'Helper text',
                 placeholder: '(555) 555-5555',
-            } as PhoneSubtype,
+            },
             SubtypeFC: PhoneST,
             EditFC: PhoneEdit,
             ValidateFC: PhoneValidate
-        },
+        } as PhoneType,
         Autocomplete: {
             Subtype: {
                 type: 'Field',
@@ -171,14 +167,14 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 id: 'autocomplete',
                 name: 'autocomplete',
                 label: 'Autocomplete1',
-                options: [],
+                options: [] as Option[],
                 emptyValueOption: 'Please start typing to show options',
                 noOptionsFound: 'No options found'
-            } as AutocompleteSubtype,
+            },
             SubtypeFC: AutocompleteST,
             EditFC: AutocompleteEdit,
             ValidateFC: AutocompleteValidate
-        }
+        } as AutocompleteType
     }
 }
 
