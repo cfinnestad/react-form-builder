@@ -17,9 +17,9 @@ const Errors = (): ErrorType => {
         invalidType: 'Wrong validator used for field subtype: "{subtype}"',
         invalidPhone: 'Value must be a valid phone number',
         invalidSelection: 'Must select value from list',
-        dateRange: 'Date must be between {minDate} and {maxDate}',
-        minDate: 'Date must be {minDate} or after',
-        maxDate: 'Date must be {maxDate} or before',
+        dateRange: 'Date must be between {minDateComputed} and {maxDateComputed}',
+        minDate: 'Date must be {minDateComputed} or after',
+        maxDate: 'Date must be {maxDateComputed} or before',
         invalidDate: 'Value must be a valid date in {dateFormat} format',
     }
 }

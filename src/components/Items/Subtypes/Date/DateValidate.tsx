@@ -10,7 +10,6 @@ const DateValidate = (item: FieldItem, options: Options): boolean => {
     const elemVal = document.getElementById(item.id)?.value
     if (elemVal && !item.value) item.value = elemVal
     item.errorText = undefined
-
     if (!isDate(item)) {
         item.errorText = options.getError('invalidType', item)
     } else if (item.required && !item.value) {
@@ -21,10 +20,10 @@ const DateValidate = (item: FieldItem, options: Options): boolean => {
 
         else {
             let minErr = false, maxErr = false
-            if (item.minDate && dateCmp(item.value, item.minDate, "isBefore")) minErr = true
-            if (item.maxDate && dateCmp(item.value, item.maxDate, "isAfter")) maxErr = true
+            if (item.minDateComputed && dateCmp(item.value, item.minDateComputed, "isBefore")) minErr = true
+            if (item.maxDateComputed && dateCmp(item.value, item.maxDateComputed, "isAfter")) maxErr = true
 
-            if (item.minDate && item.maxDate && (minErr || maxErr)) item.errorText = options.getError('dateRange', item)
+            if (item.minDateComputed && item.maxDateComputed && (minErr || maxErr)) item.errorText = options.getError('dateRange', item)
             else if (minErr) item.errorText = options.getError('minDate', item)
             else if (maxErr) item.errorText = options.getError('maxDate', item)
         }

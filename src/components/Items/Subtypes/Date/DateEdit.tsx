@@ -132,7 +132,7 @@ export const DateEdit = ({item, options, errorHandler}: DateProps ) => {
 
             // integers only
             if (Number.isNaN(value)
-                || value.startsWith("0")
+                || (value.startsWith("0") && (value !== "0" || !which.endsWith('Days')))
                 || value.indexOf(".") > -1
                 || parseInt(value).toString().trim().length !== value.trim().length) {
 
@@ -149,9 +149,7 @@ export const DateEdit = ({item, options, errorHandler}: DateProps ) => {
         }
 
         handleCombo(itm)
-
-        const newItm = getComputed(itm)
-        options.SetItem(newItm)
+        options.SetItem(getComputed(itm))
     }
 
     // offset entry fields below are intentionally of type text, not number, for better validation
@@ -251,7 +249,7 @@ export const DateEdit = ({item, options, errorHandler}: DateProps ) => {
                             fullWidth={true}
                             label='Min Offset Days'
                             type="text"
-                            defaultValue={item.minDateOffsetDays || undefined}
+                            defaultValue={item.minDateOffsetDays}
                             onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'minDateOffsetDays')}
                             error={errorHandler.hasError('minDateOffsetDays')}
                             sx={{marginRight: "10px"}}
@@ -298,7 +296,7 @@ export const DateEdit = ({item, options, errorHandler}: DateProps ) => {
                             fullWidth={true}
                             label='Max Offset Days'
                             type="text"
-                            defaultValue={item.maxDateOffsetDays || undefined}
+                            defaultValue={item.maxDateOffsetDays}
                             onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeOffset(e, 'maxDateOffsetDays')}
                             error={errorHandler.hasError('maxDateOffsetDays')}
                             sx={{marginRight: "10px"}}

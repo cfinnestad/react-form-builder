@@ -17,7 +17,7 @@ const EditModal = (itemProps: EditModalProps) => {
 
     const Save = () => {
         if (!itemProps.errorHandler.hasAnyErrors()) {
-            itemProps.options.SetItem(item)
+            itemProps.options.SetItem({...item})
 
             if(itemProps.options.setModal != null) {
                 itemProps.options.setModal(false)

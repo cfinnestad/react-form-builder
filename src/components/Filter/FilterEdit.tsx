@@ -259,7 +259,7 @@ const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
                         label='Related Field'
                         onChange={changeRelatedField}
                         size='small'>
-                        {fieldItems.map(item => <MenuItem value={item.id}>{item.id.split('_').join(' ')}</MenuItem>)}
+                        {fieldItems.map((item, index) => <MenuItem key={index} value={item.id}>{item.id.split('_').join(' ')}</MenuItem>)}
                     </Select>
                 </FormControl>
                 {field}

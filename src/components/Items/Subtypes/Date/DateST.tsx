@@ -32,8 +32,10 @@ const DateST = ({item, options}: DateProps ) => {
 
         const newItm = getComputed(itm)
 
-        options.SetItem(newItm)
-    }, [])
+        if (JSON.stringify(item) !== JSON.stringify(newItm)) {
+            options.SetItem(newItm)
+        }
+    }, [item])
 
     return <>
         <Stack spacing={2}>
