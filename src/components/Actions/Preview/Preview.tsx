@@ -1,15 +1,14 @@
 import {ActionProps} from "../Actions";
 import {
-    Button, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, TextField,
-    Typography
+    Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography
 } from "@mui/material";
 import React, {useState} from "react";
 import Render, {RenderOptions} from "../../Render";
-import {AnyItem} from "../../Items";
+import {cloneDeep} from "lodash";
 
 
 const Preview = ({Items, Options}: ActionProps) => {
-    const items = JSON.parse(JSON.stringify(Items))
+    const items = cloneDeep(Items)
     const [modal, setModal] = useState(<></>)
 
     const options = {
