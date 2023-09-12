@@ -202,7 +202,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                             strategy={verticalListSortingStrategy}>
                             <div ref={setNodeRef}
                                  style={{
-                                     maxHeight: "calc(100vh -100px)",
+                                     maxHeight: 'calc(100vh - 100px)',
                                      overflowY: "auto"
                                  }}>
                                 {items.map(item => <ShowItem key={item.id} item={item} items={items} activeItem={activeItem} setActiveItem={setActiveItem} errorHandler={errorHandler} groupId={MAIN} options={options}/>)}

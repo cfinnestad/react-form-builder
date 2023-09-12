@@ -1,5 +1,13 @@
-import React from "react";
-import {AllowedItems, FieldItem, GroupItem, HiddenItem, HTMLItem, SubmitItem, TextSubtype} from "./Items";
+import {
+    AllowedItems,
+    FieldType,
+    GroupItem, GroupType,
+    HiddenItem,
+    HiddenType,
+    HTMLItem, HTMLType,
+    SubmitItem, SubmitType,
+    TextSubtype
+} from "./Items";
 import Field from "./Field/Field";
 import FieldEdit from "./Field/FieldEdit";
 import Hidden from "./Hidden/Hidden"
@@ -11,8 +19,7 @@ import HtmlEdit from "./Html/HtmlEdit";
 import Submit from "./Submit";
 import SubmitEdit from "./Submit/SubmitEdit";
 import {v4} from "uuid";
-import ItemFC from "./ItemFC";
-import EditFC from "./EditFC";
+import {TextST} from "./Subtypes/Text";
 
 const DefaultItems = (): AllowedItems => {
     return {
@@ -26,9 +33,10 @@ const DefaultItems = (): AllowedItems => {
                 name: 'Text',
                 subtype: 'Text'
             } as TextSubtype,
+            SubtypeFC: TextST,
             ItemFC: Field,
             EditFC: FieldEdit
-        },
+        } as FieldType,
         Hidden: {
             Item: {
                 id: 'Hidden',
@@ -38,7 +46,7 @@ const DefaultItems = (): AllowedItems => {
             } as HiddenItem,
             ItemFC: Hidden,
             EditFC: HiddenEdit
-        },
+        } as HiddenType,
         HTML: {
             Item: {
                 id: v4(),
@@ -47,7 +55,7 @@ const DefaultItems = (): AllowedItems => {
             }  as HTMLItem,
             ItemFC: Html,
             EditFC: HtmlEdit
-        },
+        } as HTMLType,
         Submit: {
             Item: {
                 id: 'Submit',
@@ -57,7 +65,7 @@ const DefaultItems = (): AllowedItems => {
             } as SubmitItem,
             ItemFC: Submit,
             EditFC: SubmitEdit
-        },
+        } as SubmitType,
         Group: {
             Item: {
                 id:'Group',
@@ -74,7 +82,7 @@ const DefaultItems = (): AllowedItems => {
             } as GroupItem,
             EditFC: ItemGroupEdit,
             ItemFC: ItemGroup,
-        }
+        } as GroupType
     }
 }
 

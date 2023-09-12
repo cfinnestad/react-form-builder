@@ -3,11 +3,11 @@ import {BooleanProps, BooleanSubtype} from "../../Items";
 import {
     Checkbox,
     FormControl,
-    FormControlLabel,
+    FormControlLabel, FormGroup,
     FormHelperText,
     FormLabel,
     Radio,
-    RadioGroup
+    RadioGroup, TextField
 } from "@mui/material";
 
 const BooleanEdit = ({item, options}: BooleanProps) => {
@@ -45,8 +45,22 @@ const BooleanEdit = ({item, options}: BooleanProps) => {
         options.SetItem(itm)
     }
 
+    const onChangeDescription = (event: ChangeEvent<HTMLInputElement>) => {
+        options.SetItem({...item, description: event.target.value})
+    }
+
     return (
         <>
+            <FormGroup>
+                <TextField
+                    size='small'
+                    fullWidth={true}
+                    label='Description'
+                    type="text"
+                    defaultValue={item.description}
+                    onChange={onChangeDescription}
+                />
+            </FormGroup>
             <FormControl>
                 <FormLabel id="control-layout-radio-buttons-group">Default Value</FormLabel>
                 <RadioGroup

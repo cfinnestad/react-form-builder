@@ -1,6 +1,6 @@
 import React from "react";
 import {BooleanProps, BooleanSubtype} from "../../Items";
-import {Checkbox, FormControlLabel, FormGroup, FormHelperText} from "@mui/material";
+import {Checkbox, FormControlLabel, FormGroup, FormHelperText, InputLabel} from "@mui/material";
 import {BooleanValidate} from "./index";
 
 const BooleanST = ({item, options}: BooleanProps ) => {
@@ -24,11 +24,19 @@ const BooleanST = ({item, options}: BooleanProps ) => {
 
     return <>
         <FormGroup>
+            {item.label ? <InputLabel
+                required={item.required ?? false}
+                error={item.errorText != null}
+                sx={{marginBottom: -1}}
+                role="label"
+            >
+                {item.label}
+            </InputLabel> : undefined}
             <FormControlLabel required={item.required ?? false} control=
                 {<Checkbox
                     checked={item.value ?? false}
                     onChange={onChange}
-                />} label={item.label}
+                />} label={item.description}
             />
             <FormHelperText error={item.errorText !== undefined} sx = {{marginTop: -1}}>
                 {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
