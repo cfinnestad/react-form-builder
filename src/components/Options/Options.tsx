@@ -135,7 +135,7 @@ const Options = ({options,setOptions,selectedType}: OptionsProps) => {
                         : ''
                     }
                     <OptionItem options={itemOptions} setOptions={setItemOptions} optionId={optionItem.id}/>
-                    { itemOptions.length > 2 ? <Button onClick={() => deleteOption(optionItem.id)} sx={{display: "inline", color:'red'}}>X</Button> : '' }
+                    { itemOptions.length > 1 ? <Button onClick={() => deleteOption(optionItem.id)} sx={{display: "inline", color:'red'}}>X</Button> : '' }
                 </SortableItem>)}
             </SortableContext>
         </DndContext>
