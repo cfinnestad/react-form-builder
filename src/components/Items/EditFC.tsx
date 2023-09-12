@@ -98,8 +98,6 @@ const NamedItemEdit = ({item, items, options, errorHandler}: ItemProps) => {
 }
 
 const EditFC = (ItemProps: ItemProps) => {
-    const Edit = ItemProps.options.AllowedItems[ItemProps.item.type].EditFC
-
     const setFilter = (...[filter]: Parameters<FilterEditProps["setFilter"]>) => {
         ItemProps.options.SetItem({ ...ItemProps.item, filter: filter } )
     }
@@ -124,7 +122,7 @@ const EditFC = (ItemProps: ItemProps) => {
                 filter={ItemProps.item.filter}
                 setFilter={setFilter}
             ></FilterEdit>
-            <Edit {...ItemProps}></Edit>
+            {ItemProps.options.AllowedItems[ItemProps.item.type].EditFC(ItemProps)}
         </Stack>
     </>
 }

@@ -1,4 +1,3 @@
-import React from 'react';
 import type {Meta, StoryObj} from '@storybook/react';
 
 import Render from './Render';
@@ -246,6 +245,7 @@ export const Primary: Story = {
                     id: 'boolean1',
                     type: 'Field',
                     label: 'Boolean Label',
+                    description: 'Boolean Description',
                     name: 'boolean1',
                     subtype: 'Boolean',
                     helperText: 'This is the boolean helper text',

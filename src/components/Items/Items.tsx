@@ -9,7 +9,7 @@ export type AllowedSubtypes = {
 }
 
 export type AllowedItems = {
-    [key: string]: ItemType,
+    [key: string]: ItemType | HTMLType | GroupType | FieldType | SubmitType | HiddenType,
 }
 
 export type BuildErrors = {
@@ -36,22 +36,6 @@ export type Options = {
     // addItemSection?: (id: string, items: AnyItem[]) => void,
     // deleteItemSection?: (id: string) => void,
     custom?: {[key:string]: any}
-}
-
-export const validateItem = (Item: object, index: number): string[] => {
-    const messages: string[] = []
-    const ids: string[] = []
-    const prefix = "Item #" + index + " has "
-
-    if (!('id' in Item)) { messages.push(prefix+"id missing") }
-    else if (typeof Item.id !== 'string') { messages.push(prefix+"invalid property 'id' should be a string") }
-    else if (ids.includes(Item.id)) { messages.push(prefix+"a duplicate id") }
-    else {ids.push(Item.id)}
-
-    if (!('type' in Item)) { messages.push(prefix+"type missing") }
-    else if (typeof Item.type !== 'string') { messages.push(prefix+"invalid property 'type' should be a string") }
-    // TODO finish validations for all types calling the validate for each specific type
-    return messages
 }
 
 export type BaseItem = {
@@ -167,7 +151,7 @@ export type GroupItem = NamedItem & {
 
 export type FieldItem = NamedItem & {
     required?: boolean,
-    label: string,
+    label?: string,
     deprecated?: boolean,
     backend_only?: boolean,
     helperText?: string,
@@ -184,6 +168,7 @@ export type FieldItem = NamedItem & {
 // }
 
 export type OptionSubtype = FieldItem & {
+    label: string,
     value?: string|string[],
     editable?: boolean,
     searchableOptionsName?: string,
@@ -220,20 +205,24 @@ export type AutocompleteSubtype = OptionSubtype & {
 }
 
 export type TextSubtype = FieldItem & {
+    label: string,
     subtype: 'Text',
     value?: string,
     multiline?: boolean
     minLength?: number,
     maxLength?: number,
+    editable?: boolean,
 }
 
 export type EmailSubtype = FieldItem & {
+    label: string,
     subtype: 'Email',
     value?: string,
     maxLength?: number,
 }
 
 export type NumberSubtype = FieldItem & {
+    label: string,
     subtype: 'Number',
     value?: number,
     min?: number,
@@ -241,12 +230,14 @@ export type NumberSubtype = FieldItem & {
 }
 
 export type PhoneSubtype = FieldItem & {
+    label: string,
     subtype: 'Phone',
     value?: string,
-    placeholder?: string
+    placeholder?: string,
 }
 
 export type DateSubtype = FieldItem & {
+    label: string,
     subtype: 'Date',
     value?: string,
     defaultToday?: boolean,
@@ -265,6 +256,7 @@ export type DateSubtype = FieldItem & {
 
 export type BooleanSubtype = FieldItem & {
     subtype: 'Boolean',
+    description: string
     value?: boolean,
     editable?: boolean
 }
@@ -273,11 +265,35 @@ export type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem |
 
 export type ItemType = {
     Item: AnyItem,
-    ItemFC: (props: ItemProps) => JSX.Element,
-    EditFC: (props: ItemProps) => JSX.Element,
+    ItemFC: (props: ItemProps | HiddenProps | FieldProps | SubmitProps | HTMLProps | GroupProps) => JSX.Element,
+    EditFC: (props: ItemProps | HiddenProps | FieldProps | SubmitProps | HTMLProps | GroupProps) => JSX.Element,
 }
 
-export type FieldType = {
+export type HiddenType = {
+    Item: HiddenItem,
+    ItemFC: (props: HiddenProps) => JSX.Element,
+    EditFC: (props: HiddenProps) => JSX.Element,
+}
+
+export type GroupType = {
+    Item: GroupItem,
+    ItemFC: (props: GroupProps) => JSX.Element,
+    EditFC: (props: GroupProps) => JSX.Element,
+}
+
+export type SubmitType = {
+    Item: SubmitItem,
+    ItemFC: (props: SubmitProps) => JSX.Element,
+    EditFC: (props: SubmitProps) => JSX.Element,
+}
+
+export type HTMLType = {
+    Item: HTMLItem,
+    ItemFC: (props: HTMLProps) => JSX.Element,
+    EditFC: (props: HTMLProps) => JSX.Element,
+}
+
+export type FieldType = ItemType & {
     Subtype: FieldItem,
     SubtypeFC: (props: FieldProps) => JSX.Element,
     ItemFC: (props: FieldProps) => JSX.Element,
@@ -288,7 +304,6 @@ export type FieldType = {
 export type SelectType = {
     Subtype: SelectSubtype,
     SubtypeFC: (props: SelectProps) => JSX.Element,
-    ItemFC: (props: SelectProps) => JSX.Element,
     EditFC: (props: SelectProps) => JSX.Element,
     ValidateFC?: (item: SelectSubtype, options: Options) => boolean,
 }
@@ -296,7 +311,6 @@ export type SelectType = {
 export type RadioType = {
     Subtype: RadioSubtype,
     SubtypeFC: (props: RadioProps) => JSX.Element,
-    ItemFC: (props: RadioProps) => JSX.Element,
     EditFC: (props: RadioProps) => JSX.Element,
     ValidateFC?: (item: RadioSubtype, options: Options) => boolean,
 }
@@ -304,7 +318,6 @@ export type RadioType = {
 export type CheckboxType = {
     Subtype: CheckboxSubtype,
     SubtypeFC: (props: CheckboxProps) => JSX.Element,
-    ItemFC: (props: CheckboxProps) => JSX.Element,
     EditFC: (props: CheckboxProps) => JSX.Element,
     ValidateFC?: (item: CheckboxSubtype, options: Options) => boolean,
 }
@@ -312,7 +325,6 @@ export type CheckboxType = {
 export type TextType = {
     Subtype: TextSubtype,
     SubtypeFC: (props: TextProps) => JSX.Element,
-    ItemFC: (props: TextProps) => JSX.Element,
     EditFC: (props: TextProps) => JSX.Element,
     ValidateFC?: (item: TextSubtype, options: Options) => boolean,
 }
@@ -320,7 +332,6 @@ export type TextType = {
 export type EmailType = {
     Subtype: EmailSubtype,
     SubtypeFC: (props: EmailProps) => JSX.Element,
-    ItemFC: (props: EmailProps) => JSX.Element,
     EditFC: (props: EmailProps) => JSX.Element,
     ValidateFC?: (item: EmailSubtype, options: Options) => boolean,
 }
@@ -328,7 +339,6 @@ export type EmailType = {
 export type NumberType = {
     Subtype: NumberSubtype,
     SubtypeFC: (props: NumberProps) => JSX.Element,
-    ItemFC: (props: NumberProps) => JSX.Element,
     EditFC: (props: NumberProps) => JSX.Element,
     ValidateFC?: (item: NumberSubtype, options: Options) => boolean,
 }
@@ -336,7 +346,6 @@ export type NumberType = {
 export type DateType = {
     Subtype: DateSubtype,
     SubtypeFC: (props: DateProps) => JSX.Element,
-    ItemFC: (props: DateProps) => JSX.Element,
     EditFC: (props: DateProps) => JSX.Element,
     ValidateFC?: (item: DateSubtype, options: Options) => boolean,
 }
@@ -344,7 +353,6 @@ export type DateType = {
 export type BooleanType = {
     Subtype: BooleanSubtype,
     SubtypeFC: (props: BooleanProps) => JSX.Element,
-    ItemFC: (props: BooleanProps) => JSX.Element,
     EditFC: (props: BooleanProps) => JSX.Element,
     ValidateFC?: (item: BooleanSubtype, options: Options) => boolean,
 }
@@ -352,15 +360,13 @@ export type BooleanType = {
 export type AutocompleteType = {
     Subtype: AutocompleteSubtype,
     SubtypeFC: (props: AutocompleteProps) => JSX.Element,
-    ItemFC: (props: AutocompleteProps) => JSX.Element,
     EditFC: (props: AutocompleteProps) => JSX.Element,
     ValidateFC?: (item: AutocompleteSubtype, options: Options) => boolean,
 }
 
-export type PhoneType = {
+export type PhoneType = FieldType &{
     Subtype: PhoneSubtype,
     SubtypeFC: (props: PhoneProps) => JSX.Element,
-    ItemFC: (props: PhoneProps) => JSX.Element,
     EditFC: (props: PhoneProps) => JSX.Element,
     ValidateFC?: (item: PhoneSubtype, options: Options) => boolean,
 }
@@ -392,8 +398,7 @@ export type DateProps = FieldProps & { item : DateSubtype }
 export type BooleanProps = FieldProps & { item : BooleanSubtype }
 export type AutocompleteProps = FieldProps & { item : AutocompleteSubtype }
 export type PhoneProps = FieldProps & { item : PhoneSubtype }
-export type ItemProps =
-    | BaseItemProps
+export type ItemProps = BaseItemProps
     | GroupProps
     | HiddenProps
     | HTMLProps

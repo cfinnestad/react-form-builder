@@ -1,5 +1,5 @@
 import React from "react";
-import {AnyItem, isField, isGroup, ItemProps} from "./Items";
+import {AnyItem, isField, isGroup, isNamed, ItemProps} from "./Items";
 import {Box} from "@mui/material";
 import FormatLineSpacingRoundedIcon from "@mui/icons-material/FormatLineSpacingRounded";
 import ModeRoundedIcon from '@mui/icons-material/ModeRounded';
@@ -69,8 +69,8 @@ export const ShowItem = ({item, items, options, activeItem, setActiveItem, group
                 <DeleteForeverRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={() => deleteItem(item.id, items)}/>
             </SortableItem>
     }
-
-    if (isField(item) && (item.deprecated || item.backend_only)) {
+    console.log('ShowItem item', item)
+    if (isNamed(item) && (item.deprecated || item.backend_only)) {
         return <></>
     }
     if (!Filter(item, items, item.filter)) {

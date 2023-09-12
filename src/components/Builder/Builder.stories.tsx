@@ -265,6 +265,7 @@ export const Primary: Story = {
                     id: 'boolean1',
                     type: 'Field',
                     label: 'Boolean Label',
+                    description: 'Boolean Description',
                     name: 'Boolean',
                     subtype: 'Boolean',
                     helperText: 'This is the boolean helper text'

@@ -86,9 +86,10 @@ const DefaultSubtypes = (): AllowedSubtypes => {
             Subtype: {
                 id: 'boolean',
                 type: 'Field',
-                label: 'Boolean',
-                name: 'boolean',
                 subtype: 'Boolean',
+                label: 'Boolean',
+                description: 'Description',
+                name: 'boolean',
             },
             SubtypeFC: BooleanST,
             EditFC: BooleanEdit,

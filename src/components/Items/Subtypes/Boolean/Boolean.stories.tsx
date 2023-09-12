@@ -1,4 +1,3 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {BooleanSubtype, EqFilter, SubmitItem} from "../../Items";
 import {Submit} from "../../../Render/StoriesSubmit";
@@ -17,6 +16,7 @@ const meta = {
                 id: 'boolean1',
                 name: 'boolean1',
                 label: 'Boolean',
+                description: 'Description',
             } as BooleanSubtype
         ],
     },
@@ -35,6 +35,7 @@ export const Basic: Story = {
                 id: 'boolean1',
                 name: 'boolean1',
                 label: 'Boolean',
+                description: 'Description',
             } as BooleanSubtype,
             {
                 type: 'Submit',

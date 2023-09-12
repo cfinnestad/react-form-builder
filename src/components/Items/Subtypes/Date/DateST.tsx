@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {DateSubtype, DateProps} from "../../Items";
-import {FormHelperText, TextField, Stack} from "@mui/material";
+import {FormHelperText, TextField, Stack, InputLabel} from "@mui/material";
 import {DateValidate, dateFormat, today, getComputed, defaultFormat} from "./index";
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs'
 import {LocalizationProvider, DatePicker} from '@mui/x-date-pickers';
@@ -39,7 +39,6 @@ const DateST = ({item, options}: DateProps ) => {
 
     return <>
         <Stack spacing={2}>
-            <div>{item.label} {item.required && <span>*</span>}</div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                     value={item.value ?? null as any}
@@ -48,16 +47,25 @@ const DateST = ({item, options}: DateProps ) => {
                     maxDate={item.maxDateComputed ?? null as any}
                     inputFormat={item.dateFormat}
                     disableMaskedInput={true}
-                    renderInput={(params) => <TextField
-                        {...params}
-                        name={item.name}
-                        required={item.required ?? false}
-                        error={item.errorText !== undefined}
-                        id={item.id}
-                        multiline={false}
-                        fullWidth={true}
-                        size='small'
-                        type='text' />}
+                    renderInput={(params) => <Stack spacing={.5}>
+                        <InputLabel
+                            required={item.required ?? false}
+                            error={item.errorText != null}
+                            sx={{marginBottom: -1}}
+                            role="label"
+                        >
+                            {item.label}
+                        </InputLabel>
+                        <TextField
+                            {...params}
+                            name={item.name}
+                            required={item.required ?? false}
+                            error={item.errorText !== undefined}
+                            id={item.id}
+                            multiline={false}
+                            fullWidth={true}
+                            type='text' />
+                    </Stack>}
                 />
             </LocalizationProvider>
             <FormHelperText error={item.errorText !== undefined}>
