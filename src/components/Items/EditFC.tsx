@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useState} from "react";
-import {AnyItem, FieldItem, HiddenItem, isGroup, isNamed, ItemProps} from "./Items";
+import {AnyItem, FieldItem, HiddenItem, isField, isGroup, isHidden, isNamed, ItemProps} from "./Items";
 import {FormGroup, FormHelperText, Stack, TextField} from "@mui/material";
 import {ShowErrors} from "./Subtypes";
 import FilterEdit, {FilterEditProps} from "../Filter/FilterEdit";
@@ -27,6 +27,19 @@ export const getSiblingItems = (item: AnyItem, items: AnyItem[]): AnyItem[] => {
 export const getItemsHavingProp = (items: AnyItem[], prop: string, val: string | null = null): AnyItem[] => {
     // @ts-ignore
     return items.filter(itm => itm.hasOwnProperty(prop) && (val === null || itm[prop].trim() === val.trim()))
+}
+
+const GetFilterItems = (items: AnyItem[], activeItem: AnyItem|undefined = undefined) => {
+    const filterItems = [] as (FieldItem|HiddenItem)[]
+    items.map(item => {
+        if(item.id === activeItem.id) return
+        if(isField(item) || isHidden(item)) {
+            filterItems.push(item)
+        } else if (isGroup(item)) {
+            GetFilterItems(item.items, activeItem).map(item => filterItems.push(item))
+        }
+    })
+    return filterItems
 }
 
 export const validateNameChange = (item: AnyItem, items: AnyItem[], newName?: string): validateNameChangeResponse => {
@@ -118,7 +131,7 @@ const EditFC = (ItemProps: ItemProps) => {
                 errorHandler={ItemProps.errorHandler}
             />
             <FilterEdit
-                fieldItems={ItemProps.items.filter(item => (item.type === 'Field' || item.type === 'Hidden') && item.id !== ItemProps.item.id) as (FieldItem|HiddenItem)[]}
+                fieldItems={GetFilterItems(ItemProps.items,ItemProps.item)}
                 filter={ItemProps.item.filter}
                 setFilter={setFilter}
             ></FilterEdit>
