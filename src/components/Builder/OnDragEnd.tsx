@@ -19,6 +19,17 @@ export const updateItems = (list: AnyItem[], containerId: string|number, listPar
 	})
 }
 
+const fixGroupsIds = (groupItem: GroupItem) => {
+	groupItem.items.map(item => {
+		if (isNamed(item)) {
+			item.id = groupItem.id + '-' + item.name
+			if (isGroup(item)) {
+				fixGroupsIds(item)
+			}
+		}
+	})
+}
+
 export const fixItemName = (item: AnyItem, overRef: DragItem): AnyItem => {
 	if (isNamed(item)) {
 		let cnt = 1
@@ -27,6 +38,9 @@ export const fixItemName = (item: AnyItem, overRef: DragItem): AnyItem => {
 			item.name = name + '_' + (cnt++).toString()
 		}
 		item.id = (overRef.groupId === MAIN ? '' : overRef.groupId + '-') + item.name
+		if(isGroup(item)) {
+			fixGroupsIds(item)
+		}
 	} else {
 		item.id = v4()
 	}
