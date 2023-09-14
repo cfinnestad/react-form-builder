@@ -22,9 +22,9 @@ const DateST = ({item, options}: DateProps ) => {
 
         DateValidate(itm, options)
 
-        //if (!options.IsBuild) {
+        if (!options.IsBuild) {
             options.SetItem(itm)
-        //}
+        }
     }
 
     useEffect( () => {

@@ -1,3 +1,3 @@
-import { FieldItem, Options } from "../../Items";
-declare const EmailValidate: (item: FieldItem, options: Options) => boolean;
+import { EmailSubtype, Options } from "../../Items";
+declare const EmailValidate: (item: EmailSubtype, options: Options) => boolean;
 export default EmailValidate;

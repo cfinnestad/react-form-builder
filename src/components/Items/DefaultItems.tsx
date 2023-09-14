@@ -60,7 +60,7 @@ const DefaultItems = (): AllowedItems => {
             Item: {
                 id: 'Submit',
                 type: 'Submit',
-                name: 'Submit',
+                label: 'Submit',
                 submitElementName: 'default'
             } as SubmitItem,
             ItemFC: Submit,
@@ -73,7 +73,7 @@ const DefaultItems = (): AllowedItems => {
                 name:'Group',
                 label:'Group 1',
                 items:[{
-                    id: 'Text',
+                    id: 'Group-Text',
                     type: 'Field',
                     label: 'Text',
                     name: 'Text',

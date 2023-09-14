@@ -155,7 +155,7 @@ const DefaultSubtypes = (): AllowedSubtypes => {
                 label: 'Phone 1',
                 subtype: 'Phone',
                 helperText: 'Helper text',
-                placeholder: '(555) 555-5555',
+                placeholder: '(555) 555-5555'
             },
             SubtypeFC: PhoneST,
             EditFC: PhoneEdit,

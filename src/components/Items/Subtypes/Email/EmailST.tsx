@@ -8,10 +8,11 @@ const EmailST = ({item, options}: EmailProps ) => {
         const val = event.target.value || undefined
         const itm = {...item} as EmailSubtype
 
-        itm.value = val
+        itm.value = val || undefined
         if (itm.value === undefined) {
             delete itm.value
         }
+        console.log('onChange Email', itm)
 
         EmailValidate(itm, options)
         if (!options.IsBuild) {
