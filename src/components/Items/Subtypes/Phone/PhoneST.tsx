@@ -24,7 +24,7 @@ console.log('phone', itm.value)
         <Stack spacing={.5}>
             <InputLabel
                 required = {item.required ?? false}
-                error={item.errorText != null}
+                error={item.errorText !== undefined}
             >
                 {item.label}
             </InputLabel>
@@ -37,13 +37,13 @@ console.log('phone', itm.value)
                 onlyCountries = {['us']}
                 placeholder = {item.placeholder ?? ''}
                 InputProps = {{ id: item.id }}
-                error={item.errorText != null}
+                error={item.errorText !== undefined}
                 value={item.value}
             />
             <FormHelperText
                 sx = {{
                     paddingX: 2,
-                    color: item.errorText != null ? 'error.main' : undefined,
+                    color: item.errorText !== undefined ? 'error.main' : undefined,
                     marginTop: -0.5,
                     paddingLeft: 0
                 }}>
