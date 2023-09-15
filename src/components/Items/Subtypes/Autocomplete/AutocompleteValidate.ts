@@ -7,7 +7,7 @@ const AutocompleteValidate = (item: AutocompleteSubtype, options: Options): bool
         console.error('Could not find element by ID')
     }
     // @ts-ignore
-    item.value ??= document.getElementById(item.id)?.value
+    item.value ??= document.getElementById(item.id)?.value || undefined
 
     item.errorText = undefined
     if(item.required && !item.value) {
