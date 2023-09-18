@@ -1,8 +1,8 @@
 import React from "react";
 import { AnyItem, ItemProps } from "./Items";
 export type validateNameChangeResponse = {
-    validName?: string;
-    changeErrors?: string[];
+    validName: string;
+    changeErrors: string[];
 };
 export declare const getSiblingItems: (item: AnyItem, items: AnyItem[]) => AnyItem[];
 export declare const getItemsHavingProp: (items: AnyItem[], prop: string, val?: string | null) => AnyItem[];
