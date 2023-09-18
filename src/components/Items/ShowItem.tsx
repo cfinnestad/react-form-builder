@@ -70,7 +70,8 @@ export const ShowItem = ({item, items, options, activeItem, setActiveItem, group
             </SortableItem>
     }
     console.log('ShowItem item', item)
-    if (isNamed(item) && (item.deprecated || item.backend_only)) {
+    // @ts-ignore
+    if (isNamed(item) && (item?.deprecated || item?.backend_only)) {
         return <></>
     }
     if (!Filter(item, items, item.filter)) {
