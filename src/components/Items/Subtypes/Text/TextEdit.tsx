@@ -119,6 +119,7 @@ export const TextEdit = ({item, options, errorHandler}: TextProps ) => {
                 fullWidth={true}
                 label='Value'
                 type="text"
+                multiline={item.multiline}
                 error={errorHandler.hasError('value')}
                 defaultValue={item.value}
                 onChange={onChangeValue}
