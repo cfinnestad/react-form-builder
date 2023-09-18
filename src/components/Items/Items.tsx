@@ -208,7 +208,9 @@ export type TextSubtype = FieldItem & {
     label: string,
     subtype: 'Text',
     value?: string,
-    multiline?: boolean
+    multiline?: boolean,
+    minRows?: number,
+    maxRows?: number,
     minLength?: number,
     maxLength?: number,
     editable?: boolean,

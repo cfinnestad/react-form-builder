@@ -18,6 +18,7 @@ export const TextEdit = ({item, options, errorHandler}: TextProps ) => {
             errorHandler.setError('minLength')
         }
     }
+
     const checkMax = (item: TextSubtype) => {
         if (item.maxLength !== undefined) {
             if (item.maxLength < 1) {
@@ -30,8 +31,36 @@ export const TextEdit = ({item, options, errorHandler}: TextProps ) => {
         } else {
             errorHandler.setError('maxLength')
         }
-
     }
+
+    const checkMinRows = (item: TextSubtype) => {
+        if (item.minRows !== undefined) {
+            if (item.minRows < 0) {
+                errorHandler.setError('minRows', 'Min Rows must be a positive number')
+            } else if (item.maxRows && (item.minRows > item.maxRows)) {
+                errorHandler.setError('minRows', 'Min Rows must not be greater than Max Rows')
+            } else {
+                errorHandler.setError('minRows')
+            }
+        } else {
+            errorHandler.setError('minRows')
+        }
+    }
+
+    const checkMaxRows = (item: TextSubtype) => {
+        if (item.maxRows !== undefined) {
+            if (item.maxRows < 1) {
+                errorHandler.setError('maxRows', 'Max Rows must be greater the 0')
+            } else if (item.minRows && (item.maxRows < (item.minRows || 0))) {
+                errorHandler.setError('maxRows', 'Max Rows must not be less than Min Rows')
+            } else {
+                errorHandler.setError('maxRows')
+            }
+        } else {
+            errorHandler.setError('maxRows')
+        }
+    }
+
     const checkValue = (item: TextSubtype) => {
         if (item.value) {
             if (item.minLength !== undefined && item.value.length < (item.minLength || 0)) {
@@ -45,9 +74,12 @@ export const TextEdit = ({item, options, errorHandler}: TextProps ) => {
             errorHandler.setError('value')
         }
     }
+
     const validate = (item: TextSubtype) => {
         checkMin(item)
         checkMax(item)
+        checkMinRows(item)
+        checkMaxRows(item)
         checkValue(item)
     }
 
@@ -106,9 +138,37 @@ export const TextEdit = ({item, options, errorHandler}: TextProps ) => {
         const itm = {...item}
         if (value === undefined) {
             delete itm.multiline
+            delete itm.minRows
+            delete itm.maxRows
         } else {
             itm.multiline = true
         }
+        options.SetItem(itm)
+    }
+
+    const onChangeMinRows = (event: ChangeEvent<HTMLInputElement>) => {
+        const min = event.target.value === '' ? undefined : parseInt(event.target.value)
+        const itm = {...item, minRows: min}
+
+        validate(itm)
+
+        if (!itm.minRows) {
+            delete itm.minRows
+        }
+
+        options.SetItem(itm)
+    }
+
+    const onChangeMaxRows = (event: ChangeEvent<HTMLInputElement>) => {
+        const max = event.target.value === '' ? undefined : parseInt(event.target.value)
+        const itm = {...item, maxRows: max}
+
+        validate(itm)
+
+        if (!itm.maxRows) {
+            delete itm.maxRows
+        }
+
         options.SetItem(itm)
     }
 
@@ -120,6 +180,8 @@ export const TextEdit = ({item, options, errorHandler}: TextProps ) => {
                 label='Value'
                 type="text"
                 multiline={item.multiline}
+                minRows={item.minRows}
+                maxRows={item.maxRows}
                 error={errorHandler.hasError('value')}
                 defaultValue={item.value}
                 onChange={onChangeValue}
@@ -142,6 +204,38 @@ export const TextEdit = ({item, options, errorHandler}: TextProps ) => {
             />
             <FormHelperText sx={{marginTop: -1}}>Allow newlines in value.</FormHelperText>
         </FormGroup>
+
+        {
+            item.multiline ?
+                <>
+                    <FormGroup>
+                        <TextField
+                            size='small'
+                            label="Min Rows"
+                            type="number"
+                            error={errorHandler.hasError('minRows')}
+                            value={item.minRows}
+                            onChange={onChangeMinRows}
+                            helperText={'Minimum number of rows to show'}
+
+                            />
+                        <ShowErrors errors={errorHandler.getError('minRows')}/>
+                    </FormGroup>
+
+                    <FormGroup>
+                        <TextField
+                            size='small'
+                            label="Max Rows"
+                            type="number"
+                            error={errorHandler.hasError('maxRows')}
+                            value={item.maxRows}
+                            onChange={onChangeMaxRows}
+                            helperText={'Maximum number of rows to show before scrolling'}
+                        />
+                        <ShowErrors errors={errorHandler.getError('maxRows')}/>
+                    </FormGroup>
+                </> : undefined
+        }
 
         <FormGroup>
             <TextField

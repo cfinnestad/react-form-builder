@@ -34,6 +34,8 @@ const TextST = ({item, options}: TextProps ) => {
                 required={item.required ?? false}
                 name={item.name}
                 multiline={item.multiline ?? false}
+                minRows={item.minRows}
+                maxRows={item.maxRows}
                 type="text"
                 defaultValue={item.value ?? ''}
                 onChange={onChange}
