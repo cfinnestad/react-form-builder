@@ -1,7 +1,6 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, {ChangeEvent, useState} from "react";
 import {
     AnyItem,
-    BaseItemProps,
     FieldItem,
     HiddenItem,
     isField,
@@ -55,7 +54,7 @@ const GetFilterItems = (items: AnyItem[], activeItem: AnyItem|undefined = undefi
 
 export const validateNameChange = (item: AnyItem, items: AnyItem[], newName?: string): validateNameChangeResponse => {
     const errors = []
-    let name = (newName ?? '').trim().replace(/\s+/g, '_')
+    let name = (newName ?? '').replace(/[\s_]+/g, '_')
     if (name === '') {
         errors.push('Name is required.')
     } else if (!isNamed(item)) {
@@ -80,17 +79,10 @@ const NamedItemEdit = ({item, items, options, errorHandler}: ItemProps) => {
 
     const [validNameHint, setValidNameHint] = useState<string>()
 
-    useEffect(() => {
-        if(item.name !== name && name !== '') {
-            options.SetItem({...item, name: name})
-        }
-    }, [item]);
-
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (!isNamed(item)) return
 
-        const { target: { value } } = event;
-        const {validName, changeErrors} = validateNameChange(item, items, value)
+        const {validName, changeErrors} = validateNameChange(item, items, event.target.value)
 
         if (changeErrors && changeErrors.length > 0) {
              errorHandler.setError("name", changeErrors[0])
