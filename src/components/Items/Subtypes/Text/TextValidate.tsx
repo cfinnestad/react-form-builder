@@ -1,12 +1,12 @@
 import { isText, FieldItem, Options } from "../../Items";
 const TextValidate = (item: FieldItem, options: Options): boolean => {
-    const element = document.getElementById(item.id)
+    const element = document.getElementById('render_'+item.id)
     if (element === undefined) {
         // TODO: how are we to test this?
         console.log('Could not find element by ID')
     }
     // @ts-ignore
-    item.value = item.value ?? document.getElementById(item.id)?.value
+    item.value = item.value ?? document.getElementById('render_'+item.id)?.value
     item.errorText = undefined
     if (!isText(item)) {
         item.errorText = options.getError('invalidType', item)

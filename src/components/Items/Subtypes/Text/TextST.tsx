@@ -29,7 +29,7 @@ const TextST = ({item, options}: TextProps ) => {
                 {item.label}
             </InputLabel>
             <TextField
-                id={item.id}
+                id={'render_'+item.id}
                 error={item.errorText !== undefined}
                 required={item.required ?? false}
                 name={item.name}
