@@ -410,8 +410,8 @@ declare const GetNamedItem: (id: string | number, items: AnyItem[]) => FieldItem
 declare const UpdateItemInItems: (item: AnyItem, items: AnyItem[], prefix?: string) => void;
 
 type validateNameChangeResponse = {
-    validName?: string;
-    changeErrors?: string[];
+    validName: string;
+    changeErrors: string[];
 };
 declare const getSiblingItems: (item: AnyItem, items: AnyItem[]) => AnyItem[];
 declare const validateNameChange: (item: AnyItem, items: AnyItem[], newName?: string) => validateNameChangeResponse;
