@@ -14,17 +14,6 @@ const SelectEdit = ({item, options}: SelectProps) => {
         setItemOptions(item.options)
     },[item])
 
-    const onClickEditable = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.checked || undefined
-        const itm = {...item}
-        if (value === undefined) {
-            delete itm.editable
-        } else {
-            itm.editable = true
-        }
-        options.SetItem(itm)
-    }
-
     const onClickMultiples = () => {
         const itm = {...item} as MultiplesSubtype
         itm.multiples = !itm.multiples
@@ -44,13 +33,6 @@ const SelectEdit = ({item, options}: SelectProps) => {
     }
 
     return <>
-        <FormControl>
-            <FormControlLabel
-                control={<Checkbox defaultChecked={item.editable || false} onChange={onClickEditable}/>}
-                label="Editable"
-            />
-            <FormHelperText sx={{marginTop: -1, marginLeft: 0}}>Enable editing in backend.</FormHelperText>
-        </FormControl>
         <div><FormControl>
             <FormControlLabel control={<Checkbox defaultChecked={item.multiples??false} onClick={onClickMultiples}/>} label="Multiples"/>
         </FormControl></div>

@@ -34,17 +34,6 @@ const BooleanEdit = ({item, options}: BooleanProps) => {
         setBool(!bool);
     }
 
-    const onClickEditable = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.checked || undefined
-        const itm = {...item}
-        if (value === undefined) {
-            delete itm.editable
-        } else {
-            itm.editable = true
-        }
-        options.SetItem(itm)
-    }
-
     const onChangeDescription = (event: ChangeEvent<HTMLInputElement>) => {
         options.SetItem({...item, description: event.target.value})
     }
@@ -81,14 +70,6 @@ const BooleanEdit = ({item, options}: BooleanProps) => {
                         label="False"
                     />
                 </RadioGroup>
-            </FormControl>
-
-            <FormControl>
-                <FormControlLabel
-                    control={<Checkbox defaultChecked={item.editable || false} onChange={onClickEditable}/>}
-                    label="Editable"
-                />
-                <FormHelperText sx={{marginTop: -1, marginLeft: 0}}>Enable editing in backend.</FormHelperText>
             </FormControl>
         </>
     );

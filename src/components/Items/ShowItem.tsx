@@ -24,7 +24,7 @@ type ShowItemsProps = ItemProps & {
 }
 
 export const ShowItem = ({item, items, options, activeItem, setActiveItem, groupId}: ShowItemsProps) => {
-    if (options.IsBuild) {
+    if (options.Mode === "build") {
         const openModal = () => {
             options.SetItem(item)
             if(options.setModal) {
@@ -71,7 +71,13 @@ export const ShowItem = ({item, items, options, activeItem, setActiveItem, group
     }
     console.log('ShowItem item', item)
     // @ts-ignore
-    if (isNamed(item) && (item?.deprecated || item?.backend_only)) {
+    // if backend
+    if (isNamed(item) && item?.backend_only && (options?.Mode === "edit")) {
+        console.log(item)
+        return <ItemFC key={item.id} item={item} items={items} options={options}/>
+    }
+    // @ts-ignore
+    if (isNamed(item) && (item?.deprecated || item?.backend_only) && options?.Mode !== "edit") {
         return <></>
     }
     if (!Filter(item, items, item.filter)) {

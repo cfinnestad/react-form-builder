@@ -17,7 +17,7 @@ const CheckboxST = ({item, options}: CheckboxProps ) => {
 
         CheckboxValidate(itm, options)
 
-        if (!options.IsBuild) {
+        if (!(options.Mode === "build")) {
             options.SetItem(itm)
         }
     }
@@ -38,6 +38,7 @@ const CheckboxST = ({item, options}: CheckboxProps ) => {
                             <Checkbox
                                 checked={option.selected ?? false}
                                 onChange={() => onChange(index)}
+                                disabled={(!item.editable && options.Mode==="edit")}
                             />
                         }
                         label={option.label}

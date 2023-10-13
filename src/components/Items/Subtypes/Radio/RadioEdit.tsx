@@ -25,17 +25,6 @@ const RadioEdit = ({ item, options }: RadioProps) => {
         options.SetItem({ ...item, options: itemOptions })
     }, [itemOptions]);
 
-    const onClickEditable = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.checked || undefined
-        const itm = {...item}
-        if (value === undefined) {
-            delete itm.editable
-        } else {
-            itm.editable = true
-        }
-        options.SetItem(itm)
-    }
-
     const layoutClickHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         // Update the modal so the user has a good experience when choosing the default selected option
         setValue((event.target as HTMLInputElement).value);
@@ -45,14 +34,6 @@ const RadioEdit = ({ item, options }: RadioProps) => {
 
     return (
         <>
-            <FormControl>
-                <FormControlLabel
-                    control={<Checkbox defaultChecked={item.editable || false} onChange={onClickEditable}/>}
-                    label="Editable"
-                />
-                <FormHelperText sx={{marginTop: -1, marginLeft: 0}}>Enable editing in backend.</FormHelperText>
-            </FormControl>
-
             <FormControl>
                 <FormLabel id="control-layout-radio-buttons-group">Layout</FormLabel>
                 <RadioGroup

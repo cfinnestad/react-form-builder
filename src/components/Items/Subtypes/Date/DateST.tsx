@@ -22,7 +22,7 @@ const DateST = ({item, options}: DateProps ) => {
 
         DateValidate(itm, options)
 
-        if (!options.IsBuild) {
+        if (!(options.Mode === "build")) {
             options.SetItem(itm)
         }
     }
@@ -47,6 +47,7 @@ const DateST = ({item, options}: DateProps ) => {
                     maxDate={item.maxDateComputed ?? null as any}
                     inputFormat={item.dateFormat}
                     disableMaskedInput={true}
+                    disabled={(!item.editable && options.Mode==="edit")}
                     renderInput={(params) => <Stack spacing={.5}>
                         <InputLabel
                             required={item.required ?? false}

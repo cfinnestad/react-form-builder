@@ -34,16 +34,6 @@ const CheckboxEdit = ({ item, options }: CheckboxProps) => {
         options.SetItem({ ...item, options: itemOptions } as OptionSubtype)
     }, [itemOptions]);
 
-    const onClickEditable = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.checked || undefined
-        const itm = {...item}
-        if (value === undefined) {
-            delete itm.editable
-        } else {
-            itm.editable = true
-        }
-        options.SetItem(itm)
-    }
 
     const layoutClickHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         // Update the modal so the user has a good experience when choosing the default selected option
@@ -54,14 +44,6 @@ const CheckboxEdit = ({ item, options }: CheckboxProps) => {
 
     return (
         <>
-            <FormControl>
-                <FormControlLabel
-                    control={<Checkbox defaultChecked={item.editable || false} onChange={onClickEditable}/>}
-                    label="Editable"
-                />
-                <FormHelperText sx={{marginTop: -1, marginLeft: 0}}>Enable editing in backend.</FormHelperText>
-            </FormControl>
-
             <FormControl>
                 <FormLabel id="control-layout-radio-buttons-group">Layout</FormLabel>
                 <RadioGroup

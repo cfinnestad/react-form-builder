@@ -15,7 +15,7 @@ const EmailST = ({item, options}: EmailProps ) => {
         console.log('onChange Email', itm)
 
         EmailValidate(itm, options)
-        if (!options.IsBuild) {
+        if (!(options.Mode === "build")) {
             options.SetItem(itm)
         }
     }
@@ -36,6 +36,7 @@ const EmailST = ({item, options}: EmailProps ) => {
                 type="text"
                 defaultValue={item.value ?? ''}
                 onChange={onChange}
+                disabled={(!item.editable && options.Mode==="edit")}
             />
             <FormHelperText error={item.errorText !== undefined}>
                 {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}

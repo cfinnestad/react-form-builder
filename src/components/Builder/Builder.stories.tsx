@@ -335,6 +335,7 @@ export const Primary: Story = {
             submitElements: {
                 'default': Submit
             },
+            mode: "build",
             Actions:[Save, Clear, Transfer],
             ActionsAppend: [Preview]
         } as BuilderUseOptions

@@ -122,17 +122,6 @@ export const TextEdit = ({item, options, errorHandler}: TextProps ) => {
         options.SetItem(itm)
     }
 
-    const onClickEditable = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.checked || undefined
-        const itm = {...item}
-        if (value === undefined) {
-            delete itm.editable
-        } else {
-            itm.editable = true
-        }
-        options.SetItem(itm)
-    }
-
     const onClickMultiline = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.checked || undefined
         const itm = {...item}
@@ -187,14 +176,6 @@ export const TextEdit = ({item, options, errorHandler}: TextProps ) => {
                 onChange={onChangeValue}
             />
             <ShowErrors errors={errorHandler.getError('value')}/>
-        </FormGroup>
-
-        <FormGroup>
-            <FormControlLabel
-                control={<Checkbox defaultChecked={item.editable || false} onChange={onClickEditable}/>}
-                label="Editable"
-            />
-            <FormHelperText sx={{marginTop: -1}}>Enable editing in backend.</FormHelperText>
         </FormGroup>
 
         <FormGroup>

@@ -20,7 +20,7 @@ const NumberST = ({item, options}: NumberProps ) => {
             delete item.value
         }
 
-        if (!options.IsBuild) {
+        if (!(options.Mode === "build")) {
             options.SetItem(itm)
         }
     }
@@ -44,6 +44,7 @@ const NumberST = ({item, options}: NumberProps ) => {
                 inputProps={{pattern: '\d*'}}
                 defaultValue={item.value ?? ''}
                 onChange={onChange}
+                disabled={(!item.editable && options.Mode==="edit")}
             />
             <FormHelperText error={item.errorText !== undefined}>
                 {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}

@@ -17,7 +17,7 @@ const BooleanST = ({item, options}: BooleanProps ) => {
 
         BooleanValidate(itm, options)
 
-        if(!options.IsBuild) {
+        if(!(options.Mode === "build")) {
             options.SetItem(itm)
         }
     }
@@ -36,6 +36,7 @@ const BooleanST = ({item, options}: BooleanProps ) => {
                 {<Checkbox
                     checked={item.value ?? false}
                     onChange={onChange}
+                    disabled={(!item.editable && options.Mode==="edit")}
                 />} label={item.description}
             />
             <FormHelperText error={item.errorText !== undefined} sx = {{marginTop: -1}}>

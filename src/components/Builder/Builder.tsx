@@ -65,6 +65,7 @@ export type BuilderUseOptions = {
         [key: string]: (props: SubmitButtonProps) => JSX.Element
     }
     muiTheme?: Theme,
+    mode: string,
     custom?: {[key:string]: any}
 }
 
@@ -106,11 +107,12 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     const [activeItem, setActiveItem] = useState({id: undefined, groupId: MAIN} as ActiveType);
     const defaultTheme = useTheme()
 
+    //change isbuild to mode
     const options:BuilderOptions = {...(Options || {}),
         Actions: [...(Options?.Actions ?? [Save,Transfer,Preview,Clear]), ...(Options?.ActionsAppend ?? [])],
         AllowedSubtypes: {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})},
         AllowedItems: {...(Options?.AllowedItems || DefaultItems()), ...(Options?.AdditionalItems || {})},
-        IsBuild: true,
+        Mode: Options?.mode,
         SetItem: setItem,
         setItems: setItems,
         setModal: setModal,
