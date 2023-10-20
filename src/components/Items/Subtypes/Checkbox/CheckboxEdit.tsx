@@ -1,11 +1,9 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import { CheckboxSubtype, OptionSubtype, CheckboxProps } from "../../Items";
 import Options, { SelectedType } from "../../../Options/Options";
 import {
-    Checkbox,
     FormControl,
     FormControlLabel,
-    FormHelperText,
     FormLabel,
     Radio,
     RadioGroup

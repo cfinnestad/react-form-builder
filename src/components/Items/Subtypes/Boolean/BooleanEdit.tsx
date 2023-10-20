@@ -1,10 +1,8 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {BooleanProps, BooleanSubtype} from "../../Items";
 import {
-    Checkbox,
     FormControl,
     FormControlLabel, FormGroup,
-    FormHelperText,
     FormLabel,
     Radio,
     RadioGroup, TextField

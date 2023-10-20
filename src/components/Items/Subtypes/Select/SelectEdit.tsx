@@ -1,7 +1,7 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {MultiplesSubtype, OptionSubtype, SelectProps} from "../../Items";
 import Options, {SelectedType} from "../../../Options/Options";
-import {Checkbox, FormControl, FormControlLabel, FormHelperText} from "@mui/material";
+import {Checkbox, FormControl, FormControlLabel} from "@mui/material";
 
 const SelectEdit = ({item, options}: SelectProps) => {
     const [itemOptions, setItemOptions] = useState(item.options)

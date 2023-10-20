@@ -1,7 +1,7 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {RadioProps, RadioSubtype} from "../../Items";
 import Options, { SelectedType } from "../../../Options/Options";
-import {Checkbox, FormControl, FormControlLabel, FormHelperText, FormLabel, Radio, RadioGroup} from "@mui/material";
+import {FormControl, FormControlLabel, FormLabel, Radio, RadioGroup} from "@mui/material";
 
 const RadioEdit = ({ item, options }: RadioProps) => {
     // Handles layout state for the edit modal
