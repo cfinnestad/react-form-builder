@@ -176,6 +176,7 @@ export const FieldEdit = ({item, items, options, errorHandler}: FieldProps) => {
         { Object.entries(options.AllowedSubtypes).map(([key, value]) => {
             return item.subtype === key &&
                 <value.EditFC
+                    //@ts-ignore
                     item={item}
                     items={items}
                     options={options}

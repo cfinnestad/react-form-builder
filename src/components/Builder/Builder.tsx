@@ -107,7 +107,6 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     const [activeItem, setActiveItem] = useState({id: undefined, groupId: MAIN} as ActiveType);
     const defaultTheme = useTheme()
 
-    //change isbuild to mode
     const options:BuilderOptions = {...(Options || {}),
         Actions: [...(Options?.Actions ?? [Save,Transfer,Preview,Clear]), ...(Options?.ActionsAppend ?? [])],
         AllowedSubtypes: {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})},

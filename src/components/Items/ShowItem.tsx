@@ -1,5 +1,5 @@
 import React from "react";
-import {AnyItem, isField, isGroup, isNamed, ItemProps} from "./Items";
+import {AnyItem, isField, isGroup, isHtml, isNamed, ItemProps} from "./Items";
 import {Box} from "@mui/material";
 import FormatLineSpacingRoundedIcon from "@mui/icons-material/FormatLineSpacingRounded";
 import ModeRoundedIcon from '@mui/icons-material/ModeRounded';
@@ -9,7 +9,7 @@ import ItemFC from "./ItemFC";
 import {SortableItem, DragHandle} from "../SortableItem";
 import Filter from "../Filter/Filter";
 import FindDragItem from "./findDragItem";
-import {cloneDeep} from "lodash";
+import {cloneDeep, isNull, isUndefined} from "lodash";
 import {activeStyle, MAIN} from "../Builder/Builder";
 import {fixItemName, updateItems} from "../Builder/OnDragEnd";
 import DeleteItem from "./DeleteItem";
@@ -69,18 +69,22 @@ export const ShowItem = ({item, items, options, activeItem, setActiveItem, group
                 <DeleteForeverRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={() => deleteItem(item.id, items)}/>
             </SortableItem>
     }
-    console.log('ShowItem item', item)
-    // @ts-ignore
-    // if backend
-    if (isNamed(item) && item?.backend_only && (options?.Mode === "edit")) {
-        console.log(item)
-        return <ItemFC key={item.id} item={item} items={items} options={options}/>
+
+    if ((options?.Mode === "edit") && isHtml(item)){
+        return <></>
     }
     // @ts-ignore
     if (isNamed(item) && (item?.deprecated || item?.backend_only) && options?.Mode !== "edit") {
+        console.log('1')
+        return <></>
+    }
+    // @ts-ignore
+    if (isNamed(item) && ((item?.deprecated && (isUndefined(item?.value) || isNull(item?.value)))) && (options?.Mode === "edit")) {
+        console.log('2')
         return <></>
     }
     if (!Filter(item, items, item.filter)) {
+        console.log('3')
         return <></>
     }
     return <ItemFC key={item.id} item={item} items={items} options={options}/>

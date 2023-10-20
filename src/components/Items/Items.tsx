@@ -16,7 +16,6 @@ export type BuildErrors = {
     [key: string]: string,
 }
 
-// change isbuild to mode: build, render, edit
 export type Options = {
     Actions?: FC<ActionProps>[],
     AllowedItems: AllowedItems,

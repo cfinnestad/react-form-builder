@@ -135,7 +135,10 @@ const EditFC = (ItemProps: ItemProps) => {
                 filter={ItemProps.item.filter}
                 setFilter={setFilter}
             ></FilterEdit>
-            {ItemProps.options.AllowedItems[ItemProps.item.type].EditFC(ItemProps)}
+            {
+                //@ts-ignore
+                ItemProps.options.AllowedItems[ItemProps.item.type].EditFC(ItemProps)
+            }
         </Stack>
     </>
 }

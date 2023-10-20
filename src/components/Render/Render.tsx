@@ -33,7 +33,7 @@ export type RenderOptions = {
     }
     muiTheme?: Theme,
     custom?: {[key:string]: any},
-    mode?: string
+    mode?: "build" | "edit" | "render"
 }
 
 const Render = ({ Items, SetItems, Options }: RenderProps ) => {
