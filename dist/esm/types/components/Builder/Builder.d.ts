@@ -33,6 +33,7 @@ export type BuilderUseOptions = {
         [key: string]: (props: SubmitButtonProps) => JSX.Element;
     };
     muiTheme?: Theme;
+    mode: string;
     custom?: {
         [key: string]: any;
     };
