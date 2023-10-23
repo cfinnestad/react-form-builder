@@ -68,6 +68,18 @@ export const FieldEdit = ({item, items, options, errorHandler}: FieldProps) => {
 
             options.SetItem(itm)
         },
+        editable: (event: ChangeEvent<HTMLInputElement>) => {
+            const itm = { ...item }
+            const { target: { checked } } = event;
+            itm.editable = checked
+
+            if(!itm.editable) {
+                itm.editable = undefined
+                delete itm.editable
+            }
+
+            options.SetItem(itm)
+        },
         subtype: (event: SelectChangeEvent) => {
             const itm = { ...item }
             const { target: { value } } = event;
@@ -110,6 +122,13 @@ export const FieldEdit = ({item, items, options, errorHandler}: FieldProps) => {
             <FormControlLabel control={ <Checkbox  checked={item.backend_only ?? false} onChange={handlers.backend_only}/> } label="Backend Only"/>
             <FormHelperText error={item.errorText !== undefined} sx = {{marginTop: -1}}>
                 Similar to Deprecated. Backend only fields will not be shown in the form, but will still be available on the backend.
+            </FormHelperText>
+        </FormGroup>
+
+        <FormGroup>
+            <FormControlLabel control={ <Checkbox  checked={item.editable ?? false} onChange={handlers.editable}/> } label="Editable"/>
+            <FormHelperText error={item.errorText !== undefined} sx = {{marginTop: -1}}>
+                Enable editing in backend.
             </FormHelperText>
         </FormGroup>
 
@@ -157,6 +176,7 @@ export const FieldEdit = ({item, items, options, errorHandler}: FieldProps) => {
         { Object.entries(options.AllowedSubtypes).map(([key, value]) => {
             return item.subtype === key &&
                 <value.EditFC
+                    //@ts-ignore
                     item={item}
                     items={items}
                     options={options}

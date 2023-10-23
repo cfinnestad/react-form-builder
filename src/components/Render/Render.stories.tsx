@@ -290,6 +290,7 @@ export const Primary: Story = {
     }
 }
 
+
 const exampleCities: Option[] = []
 for (let x = 0; x < 50; x++) {
     const city = faker.location.city()

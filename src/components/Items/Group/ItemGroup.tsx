@@ -7,7 +7,7 @@ import {activeStyle} from "../../Builder/Builder";
 import DensitySmallIcon from "@mui/icons-material/DensitySmall";
 
 const ItemGroup = ({item, items, options, activeItem, setActiveItem, errorHandler}: GroupProps) => {
-    if (options.IsBuild) {
+    if (options.Mode === "build") {
         return <>
             <Typography variant="h5">{item.label}</Typography>
             <Box style={activeItem?.id === undefined && activeItem?.groupId === item.id ? activeStyle : undefined}>

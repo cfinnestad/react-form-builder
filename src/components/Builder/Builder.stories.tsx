@@ -62,7 +62,8 @@ export const Primary: Story = {
                     deprecated: false,
                     subtype: 'Text',
                     maxLength: 10,
-                    minLength: 2
+                    minLength: 2,
+                    backend_only: true
                 } as TextSubtype,
                 {
                     id: 'last_name',
@@ -335,6 +336,7 @@ export const Primary: Story = {
             submitElements: {
                 'default': Submit
             },
+            mode: "build",
             Actions:[Save, Clear, Transfer],
             ActionsAppend: [Preview]
         } as BuilderUseOptions

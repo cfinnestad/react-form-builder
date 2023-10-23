@@ -24,7 +24,7 @@ export type Options = {
     SetItem: Dispatch<SetStateAction<AnyItem>>,
     setItems: Dispatch<SetStateAction<AnyItem[]>>,
     setModal?: Dispatch<SetStateAction<boolean>>,
-    IsBuild: boolean,
+    Mode?: String,
     getError: (error: string, item: AnyItem) => string|undefined,
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[]
@@ -128,6 +128,8 @@ export type HiddenItem = NamedItem & {
     type: 'Hidden',
     deprecated?: boolean,
     value: string,
+    editable?: boolean,
+    backend_only?: boolean
 }
 
 export type HTMLItem = BaseItem & {
@@ -154,6 +156,7 @@ export type FieldItem = NamedItem & {
     label?: string,
     deprecated?: boolean,
     backend_only?: boolean,
+    editable?:boolean,
     helperText?: string,
     subtype: string,
     custom?: { [key:string]: any }
@@ -170,7 +173,6 @@ export type FieldItem = NamedItem & {
 export type OptionSubtype = FieldItem & {
     label: string,
     value?: string|string[],
-    editable?: boolean,
     searchableOptionsName?: string,
     options: Option[],
 }
@@ -213,7 +215,6 @@ export type TextSubtype = FieldItem & {
     maxRows?: number,
     minLength?: number,
     maxLength?: number,
-    editable?: boolean,
 }
 
 export type EmailSubtype = FieldItem & {
@@ -260,7 +261,6 @@ export type BooleanSubtype = FieldItem & {
     subtype: 'Boolean',
     description: string
     value?: boolean,
-    editable?: boolean
 }
 
 export type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype | AutocompleteSubtype

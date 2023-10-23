@@ -14,11 +14,12 @@ const TextST = ({item, options}: TextProps ) => {
         }
         TextValidate(itm, options)
 
-        if (!options.IsBuild) {
+        if (!(options.Mode === "build")) {
             options.SetItem(itm)
         }
     }
 
+    //use mode to set readonly
     return <>
         <Stack spacing={.5}>
             <InputLabel
@@ -39,6 +40,7 @@ const TextST = ({item, options}: TextProps ) => {
                 type="text"
                 defaultValue={item.value ?? ''}
                 onChange={onChange}
+                disabled={(!item.editable && options.Mode==="edit")}
             />
             <FormHelperText error={item.errorText !== undefined}>
                 {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}

@@ -25,7 +25,7 @@ const RadioST = ({item, options}: RadioProps ) => {
 
         RadioValidate(itm, options)
 
-        if (!options.IsBuild) {
+        if (!(options.Mode === "build")) {
             options.SetItem(itm)
         }
     }
@@ -48,6 +48,7 @@ const RadioST = ({item, options}: RadioProps ) => {
                                 checked={option.selected ?? false}
                                 onClick={() => onChange(index)}
                                 data-testid={`radio-button-${index + 1}`}
+                                disabled={(!item.editable && options.Mode==="edit")}
                             />
                         }
                         label={option.label}

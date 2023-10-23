@@ -1,10 +1,8 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {BooleanProps, BooleanSubtype} from "../../Items";
 import {
-    Checkbox,
     FormControl,
     FormControlLabel, FormGroup,
-    FormHelperText,
     FormLabel,
     Radio,
     RadioGroup, TextField
@@ -32,17 +30,6 @@ const BooleanEdit = ({item, options}: BooleanProps) => {
         setValue((event.target as HTMLInputElement).value);
         // Update the builder to reflect the user's choice for default selected option
         setBool(!bool);
-    }
-
-    const onClickEditable = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.checked || undefined
-        const itm = {...item}
-        if (value === undefined) {
-            delete itm.editable
-        } else {
-            itm.editable = true
-        }
-        options.SetItem(itm)
     }
 
     const onChangeDescription = (event: ChangeEvent<HTMLInputElement>) => {
@@ -81,14 +68,6 @@ const BooleanEdit = ({item, options}: BooleanProps) => {
                         label="False"
                     />
                 </RadioGroup>
-            </FormControl>
-
-            <FormControl>
-                <FormControlLabel
-                    control={<Checkbox defaultChecked={item.editable || false} onChange={onClickEditable}/>}
-                    label="Editable"
-                />
-                <FormHelperText sx={{marginTop: -1, marginLeft: 0}}>Enable editing in backend.</FormHelperText>
             </FormControl>
         </>
     );

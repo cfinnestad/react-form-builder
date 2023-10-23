@@ -32,7 +32,8 @@ export type RenderOptions = {
         [key: string]: (props: SubmitButtonProps) => JSX.Element
     }
     muiTheme?: Theme,
-    custom?: {[key:string]: any}
+    custom?: {[key:string]: any},
+    mode?: "build" | "edit" | "render"
 }
 
 const Render = ({ Items, SetItems, Options }: RenderProps ) => {
@@ -41,10 +42,11 @@ const Render = ({ Items, SetItems, Options }: RenderProps ) => {
 
     const defaultTheme = useTheme()
 
+    //is build gets switched to mode
     const options: Options = {...(Options || {}),
         AllowedSubtypes: {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})},
         AllowedItems: {...(Options?.AllowedItems || DefaultItems()), ...(Options?.AdditionalItems || {})},
-        IsBuild: false,
+        Mode: Options?.mode,
         SetItem: setItem,
         setItems: setItems,
         getError: (error: string, item: AnyItem) => {

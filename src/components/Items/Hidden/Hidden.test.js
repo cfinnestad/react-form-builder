@@ -22,7 +22,7 @@ describe("Hidden Form Field Tests", () => {
                 value: "hidden"
             },
             options: {
-                IsBuild: false
+                mode: "render"
             }
         };
     });
@@ -32,14 +32,14 @@ describe("Hidden Form Field Tests", () => {
         expect(element).not.toEqual(<React.Fragment />);
     });
 
-    test("Renders a visible text field when marked as IsBuild", () => {
-        props.options.IsBuild = true;
+    test("Renders a visible text field when mode is build", () => {
+        props.options.mode = "build";
         const element = Hidden(props);
         render(element);
         expect(screen.getByRole("textbox")).toBeVisible();
     });
 
-    test("Renders a non-visible text field when not marked as IsBuild", () => {
+    test("Renders a non-visible text field when mode is not build", () => {
         const element = Hidden(props);
         render(element);
         expect(screen.getByRole("group", { hidden: true })).not.toBeVisible();

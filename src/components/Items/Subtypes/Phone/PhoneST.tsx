@@ -15,7 +15,7 @@ console.log('phone', itm.value)
         }
         phoneValidate(itm, options)
 
-        if (!options.IsBuild) {
+        if (!(options.Mode === "build")) {
             options.SetItem(itm)
         }
     }
@@ -39,6 +39,7 @@ console.log('phone', itm.value)
                 InputProps = {{ id: item.id }}
                 error={item.errorText !== undefined}
                 value={item.value}
+                disabled={(!item.editable && options.Mode==="edit")}
             />
             <FormHelperText
                 sx = {{

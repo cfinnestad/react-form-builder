@@ -46,7 +46,7 @@ function SelectST({item, options}: SelectProps) {
 
         console.log('item', itm)
         SelectValidate(itm, options);
-        if (!options.IsBuild) {
+        if (!(options.Mode === "build")) {
             options.SetItem(itm)
         }
     };
@@ -75,6 +75,7 @@ function SelectST({item, options}: SelectProps) {
                             </Box>
                         )}
                         MenuProps={MenuProps}
+                        disabled={(!item.editable && options.Mode==="edit")}
                     >
                         {
                             item.options.map(option =>
@@ -88,6 +89,7 @@ function SelectST({item, options}: SelectProps) {
                                 </MenuItem>
                             )
                         }
+
                     </Select>
                     <FormHelperText error={item.errorText !== undefined} sx={{marginLeft: 0}}>
                         {(item.helperText !== undefined) ? <>{item.helperText}<br /></> : ''}

@@ -60,7 +60,7 @@ const AutocompleteST = ({item, options}: AutocompleteProps) => {
         AutocompleteValidate(itm, options)
         setSearchTerm(value || undefined)
 
-        if (!options.IsBuild) {
+        if (!(options.Mode === "build")) {
             options.SetItem(itm)
         }
     }
@@ -85,7 +85,7 @@ const AutocompleteST = ({item, options}: AutocompleteProps) => {
         itm.value = val?.label ?? undefined
         AutocompleteValidate(itm, options)
 
-        if (!options.IsBuild) {
+        if (!(options.Mode === "build")) {
             options.SetItem(itm)
         }
     }
@@ -132,6 +132,7 @@ const AutocompleteST = ({item, options}: AutocompleteProps) => {
                         error={item.errorText !== undefined}
                     />
                 }
+                disabled={(!item.editable && options.Mode==="edit")}
             />
             <FormHelperText error={item.errorText !== undefined}>
                 {(item.helperText !== undefined) ? <>{item.helperText}<br/></> : ''}
