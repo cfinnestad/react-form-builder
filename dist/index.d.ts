@@ -33,7 +33,7 @@ type Options = {
     SetItem: Dispatch<SetStateAction<AnyItem>>;
     setItems: Dispatch<SetStateAction<AnyItem[]>>;
     setModal?: Dispatch<SetStateAction<boolean>>;
-    IsBuild: boolean;
+    Mode?: String;
     getError: (error: string, item: AnyItem) => string | undefined;
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
@@ -124,6 +124,8 @@ type HiddenItem = NamedItem & {
     type: 'Hidden';
     deprecated?: boolean;
     value: string;
+    editable?: boolean;
+    backend_only?: boolean;
 };
 type HTMLItem = BaseItem & {
     type: 'HTML';
@@ -146,6 +148,7 @@ type FieldItem = NamedItem & {
     label?: string;
     deprecated?: boolean;
     backend_only?: boolean;
+    editable?: boolean;
     helperText?: string;
     subtype: string;
     custom?: {
@@ -157,7 +160,6 @@ type FieldItem = NamedItem & {
 type OptionSubtype = FieldItem & {
     label: string;
     value?: string | string[];
-    editable?: boolean;
     searchableOptionsName?: string;
     options: Option[];
 };
@@ -194,7 +196,6 @@ type TextSubtype = FieldItem & {
     maxRows?: number;
     minLength?: number;
     maxLength?: number;
-    editable?: boolean;
 };
 type EmailSubtype = FieldItem & {
     label: string;
@@ -236,7 +237,6 @@ type BooleanSubtype = FieldItem & {
     subtype: 'Boolean';
     description: string;
     value?: boolean;
-    editable?: boolean;
 };
 type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype | AutocompleteSubtype;
 type ItemType = {
@@ -454,6 +454,7 @@ type BuilderUseOptions = {
         [key: string]: (props: SubmitButtonProps) => JSX.Element;
     };
     muiTheme?: Theme;
+    mode: string;
     custom?: {
         [key: string]: any;
     };
@@ -491,6 +492,7 @@ type RenderOptions = {
     custom?: {
         [key: string]: any;
     };
+    mode?: "build" | "edit" | "render";
 };
 declare const Render: ({ Items, SetItems, Options }: RenderProps) => JSX.Element;
 declare const RenderedObject: (items: AnyItem[]) => {};
