@@ -71,7 +71,14 @@ export const validateNameChange = (item: AnyItem, items: AnyItem[], newName?: st
     return { validName: name, changeErrors: errors }
 }
 
-const NamedItemEdit = ({item, items, options, errorHandler}: ItemProps) => {
+interface NamedItemEditProps {
+    itemProps: ItemProps;
+    onChange: (value: string) => void;
+}
+
+const NamedItemEdit = ({itemProps, onChange}: NamedItemEditProps) => {
+    const {item, items, options, errorHandler} = itemProps;
+
     if (!isNamed(item)) {
         return <></>
     }
@@ -91,7 +98,8 @@ const NamedItemEdit = ({item, items, options, errorHandler}: ItemProps) => {
             options.SetItem({...item, name: validName || undefined} as NamedItem)
             errorHandler.setError("name")
         }
-        setName(validName)
+        setName(validName);
+        onChange(validName);
     }
 
     return <>
@@ -111,8 +119,16 @@ const NamedItemEdit = ({item, items, options, errorHandler}: ItemProps) => {
 }
 
 const EditFC = (ItemProps: ItemProps) => {
+    const [itemId, setItemId] = useState(ItemProps.item.id);
+
     const setFilter = (...[filter]: Parameters<FilterEditProps["setFilter"]>) => {
         ItemProps.options.SetItem({ ...ItemProps.item, filter: filter } )
+    }
+
+    const onChangeNamedItem = (value: string) => {
+        const index = itemId.lastIndexOf('-');
+        const prefix = itemId.substring(0, index+1);
+        setItemId(prefix + value);
     }
 
     return <>
@@ -122,13 +138,16 @@ const EditFC = (ItemProps: ItemProps) => {
                 label="ID"
                 type="text"
                 disabled={true}
-                value={ItemProps.item.id}
+                value={itemId}
             />
             <NamedItemEdit
-                item={ItemProps.item}
-                items={ItemProps.items}
-                options={ItemProps.options}
-                errorHandler={ItemProps.errorHandler}
+                itemProps={{
+                    item: ItemProps.item,
+                    items: ItemProps.items,
+                    options: ItemProps.options,
+                    errorHandler: ItemProps.errorHandler,
+                }}
+                onChange={onChangeNamedItem}
             />
             <FilterEdit
                 fieldItems={GetFilterItems(ItemProps.items,ItemProps.item)}
