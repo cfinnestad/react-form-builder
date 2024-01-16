@@ -24,7 +24,7 @@ export type Options = {
     SetItem: Dispatch<SetStateAction<AnyItem>>,
     setItems: Dispatch<SetStateAction<AnyItem[]>>,
     setModal?: Dispatch<SetStateAction<boolean>>,
-    Mode?: String,
+    Mode?: string,
     getError: (error: string, item: AnyItem) => string|undefined,
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[]
@@ -52,37 +52,37 @@ export type FilterType = {
 export type FieldFilter = FilterType & {
     comparison: '='|'>'|'>='|'<'|'<='|'in',
     fieldId: string,
-    value?: string|number|boolean|undefined|(string|number|boolean|undefined)[],
+    value: string|number|boolean|undefined|(string|number|boolean|undefined)[],
 }
 export const isFieldFilter = (filter: FilterType): filter is FieldFilter => { return ['=','>','>=','<','<=','in'].includes(filter.comparison) }
 
 export type EqFilter = FieldFilter & {
     comparison: '=',
-    value?: string|number|boolean|undefined,
+    value: string|number|boolean|undefined,
 }
 export const isEqFilter = (filter: FilterType): filter is EqFilter => { return filter.comparison === '=' }
 
 export type GtFilter = FieldFilter & {
     comparison: '>',
-    value?: string|number|boolean|undefined,
+    value: string|number|boolean|undefined,
 }
 export const isGtFilter = (filter: FilterType): filter is GtFilter => { return filter.comparison === '>' }
 
 export type GteFilter = FieldFilter & {
     comparison: '>=',
-    value?: string|number|boolean|undefined,
+    value: string|number|boolean|undefined,
 }
 export const isGteFilter = (filter: FilterType): filter is GteFilter => { return filter.comparison === '>=' }
 
 export type LtFilter = FieldFilter & {
     comparison: '<',
-    value?: string|number|boolean|undefined,
+    value: string|number|boolean|undefined,
 }
 export const isLtFilter = (filter: FilterType): filter is LtFilter => { return filter.comparison === '<' }
 
 export type LteFilter = FieldFilter & {
     comparison: '<=',
-    value?: string|number|boolean|undefined,
+    value: string|number|boolean|undefined,
 }
 export const isLteFilter = (filter: FilterType): filter is LteFilter => { return filter.comparison === '<=' }
 
@@ -164,14 +164,7 @@ export type FieldItem = NamedItem & {
     errorText?: string
 }
 
-// export type BaseSubType = {
-//     subtype: string,
-//     // value?: string|number|boolean|string[],
-//
-// }
-
 export type OptionSubtype = FieldItem & {
-    label: string,
     value?: string|string[],
     searchableOptionsName?: string,
     options: Option[],
@@ -207,7 +200,7 @@ export type AutocompleteSubtype = OptionSubtype & {
 }
 
 export type TextSubtype = FieldItem & {
-    label: string,
+    label?: string,
     subtype: 'Text',
     value?: string,
     multiline?: boolean,
@@ -218,14 +211,14 @@ export type TextSubtype = FieldItem & {
 }
 
 export type EmailSubtype = FieldItem & {
-    label: string,
+    label?: string,
     subtype: 'Email',
     value?: string,
     maxLength?: number,
 }
 
 export type NumberSubtype = FieldItem & {
-    label: string,
+    label?: string,
     subtype: 'Number',
     value?: number,
     min?: number,
@@ -233,14 +226,14 @@ export type NumberSubtype = FieldItem & {
 }
 
 export type PhoneSubtype = FieldItem & {
-    label: string,
+    label?: string,
     subtype: 'Phone',
     value?: string,
     placeholder?: string,
 }
 
 export type DateSubtype = FieldItem & {
-    label: string,
+    label?: string,
     subtype: 'Date',
     value?: string,
     defaultToday?: boolean,
@@ -303,70 +296,70 @@ export type FieldType = ItemType & {
     ValidateFC?: (item: FieldItem, options: Options) => boolean,
 }
 
-export type SelectType = {
+export type SelectType = FieldType & {
     Subtype: SelectSubtype,
     SubtypeFC: (props: SelectProps) => JSX.Element,
     EditFC: (props: SelectProps) => JSX.Element,
     ValidateFC?: (item: SelectSubtype, options: Options) => boolean,
 }
 
-export type RadioType = {
+export type RadioType = FieldType & {
     Subtype: RadioSubtype,
     SubtypeFC: (props: RadioProps) => JSX.Element,
     EditFC: (props: RadioProps) => JSX.Element,
     ValidateFC?: (item: RadioSubtype, options: Options) => boolean,
 }
 
-export type CheckboxType = {
+export type CheckboxType = FieldType & {
     Subtype: CheckboxSubtype,
     SubtypeFC: (props: CheckboxProps) => JSX.Element,
     EditFC: (props: CheckboxProps) => JSX.Element,
     ValidateFC?: (item: CheckboxSubtype, options: Options) => boolean,
 }
 
-export type TextType = {
+export type TextType = FieldType & {
     Subtype: TextSubtype,
     SubtypeFC: (props: TextProps) => JSX.Element,
     EditFC: (props: TextProps) => JSX.Element,
     ValidateFC?: (item: TextSubtype, options: Options) => boolean,
 }
 
-export type EmailType = {
+export type EmailType = FieldType & {
     Subtype: EmailSubtype,
     SubtypeFC: (props: EmailProps) => JSX.Element,
     EditFC: (props: EmailProps) => JSX.Element,
     ValidateFC?: (item: EmailSubtype, options: Options) => boolean,
 }
 
-export type NumberType = {
+export type NumberType = FieldType & {
     Subtype: NumberSubtype,
     SubtypeFC: (props: NumberProps) => JSX.Element,
     EditFC: (props: NumberProps) => JSX.Element,
     ValidateFC?: (item: NumberSubtype, options: Options) => boolean,
 }
 
-export type DateType = {
+export type DateType = FieldType & {
     Subtype: DateSubtype,
     SubtypeFC: (props: DateProps) => JSX.Element,
     EditFC: (props: DateProps) => JSX.Element,
     ValidateFC?: (item: DateSubtype, options: Options) => boolean,
 }
 
-export type BooleanType = {
+export type BooleanType = FieldType & {
     Subtype: BooleanSubtype,
     SubtypeFC: (props: BooleanProps) => JSX.Element,
     EditFC: (props: BooleanProps) => JSX.Element,
     ValidateFC?: (item: BooleanSubtype, options: Options) => boolean,
 }
 
-export type AutocompleteType = {
+export type AutocompleteType = FieldType & {
     Subtype: AutocompleteSubtype,
     SubtypeFC: (props: AutocompleteProps) => JSX.Element,
     EditFC: (props: AutocompleteProps) => JSX.Element,
     ValidateFC?: (item: AutocompleteSubtype, options: Options) => boolean,
 }
 
-export type PhoneType = FieldType &{
+export type PhoneType = FieldType & {
     Subtype: PhoneSubtype,
     SubtypeFC: (props: PhoneProps) => JSX.Element,
     EditFC: (props: PhoneProps) => JSX.Element,
