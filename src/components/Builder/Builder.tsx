@@ -111,7 +111,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         Actions: [...(Options?.Actions ?? [Save,Transfer,Preview,Clear]), ...(Options?.ActionsAppend ?? [])],
         AllowedSubtypes: {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})},
         AllowedItems: {...(Options?.AllowedItems || DefaultItems()), ...(Options?.AdditionalItems || {})},
-        Mode: Options?.mode,
+        Mode: 'build',
         SetItem: setItem,
         setItems: setItems,
         setModal: setModal,

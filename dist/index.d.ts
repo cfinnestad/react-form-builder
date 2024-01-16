@@ -33,7 +33,7 @@ type Options = {
     SetItem: Dispatch<SetStateAction<AnyItem>>;
     setItems: Dispatch<SetStateAction<AnyItem[]>>;
     setModal?: Dispatch<SetStateAction<boolean>>;
-    Mode?: String;
+    Mode?: string;
     getError: (error: string, item: AnyItem) => string | undefined;
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
@@ -61,32 +61,32 @@ type FilterType = {
 type FieldFilter = FilterType & {
     comparison: '=' | '>' | '>=' | '<' | '<=' | 'in';
     fieldId: string;
-    value?: string | number | boolean | undefined | (string | number | boolean | undefined)[];
+    value: string | number | boolean | undefined | (string | number | boolean | undefined)[];
 };
 declare const isFieldFilter: (filter: FilterType) => filter is FieldFilter;
 type EqFilter = FieldFilter & {
     comparison: '=';
-    value?: string | number | boolean | undefined;
+    value: string | number | boolean | undefined;
 };
 declare const isEqFilter: (filter: FilterType) => filter is EqFilter;
 type GtFilter = FieldFilter & {
     comparison: '>';
-    value?: string | number | boolean | undefined;
+    value: string | number | boolean | undefined;
 };
 declare const isGtFilter: (filter: FilterType) => filter is GtFilter;
 type GteFilter = FieldFilter & {
     comparison: '>=';
-    value?: string | number | boolean | undefined;
+    value: string | number | boolean | undefined;
 };
 declare const isGteFilter: (filter: FilterType) => filter is GteFilter;
 type LtFilter = FieldFilter & {
     comparison: '<';
-    value?: string | number | boolean | undefined;
+    value: string | number | boolean | undefined;
 };
 declare const isLtFilter: (filter: FilterType) => filter is LtFilter;
 type LteFilter = FieldFilter & {
     comparison: '<=';
-    value?: string | number | boolean | undefined;
+    value: string | number | boolean | undefined;
 };
 declare const isLteFilter: (filter: FilterType) => filter is LteFilter;
 type InFilter = FieldFilter & {

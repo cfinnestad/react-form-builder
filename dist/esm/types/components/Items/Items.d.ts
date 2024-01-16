@@ -20,7 +20,7 @@ export type Options = {
     SetItem: Dispatch<SetStateAction<AnyItem>>;
     setItems: Dispatch<SetStateAction<AnyItem[]>>;
     setModal?: Dispatch<SetStateAction<boolean>>;
-    Mode?: String;
+    Mode?: string;
     getError: (error: string, item: AnyItem) => string | undefined;
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[];
@@ -48,32 +48,32 @@ export type FilterType = {
 export type FieldFilter = FilterType & {
     comparison: '=' | '>' | '>=' | '<' | '<=' | 'in';
     fieldId: string;
-    value?: string | number | boolean | undefined | (string | number | boolean | undefined)[];
+    value: string | number | boolean | undefined | (string | number | boolean | undefined)[];
 };
 export declare const isFieldFilter: (filter: FilterType) => filter is FieldFilter;
 export type EqFilter = FieldFilter & {
     comparison: '=';
-    value?: string | number | boolean | undefined;
+    value: string | number | boolean | undefined;
 };
 export declare const isEqFilter: (filter: FilterType) => filter is EqFilter;
 export type GtFilter = FieldFilter & {
     comparison: '>';
-    value?: string | number | boolean | undefined;
+    value: string | number | boolean | undefined;
 };
 export declare const isGtFilter: (filter: FilterType) => filter is GtFilter;
 export type GteFilter = FieldFilter & {
     comparison: '>=';
-    value?: string | number | boolean | undefined;
+    value: string | number | boolean | undefined;
 };
 export declare const isGteFilter: (filter: FilterType) => filter is GteFilter;
 export type LtFilter = FieldFilter & {
     comparison: '<';
-    value?: string | number | boolean | undefined;
+    value: string | number | boolean | undefined;
 };
 export declare const isLtFilter: (filter: FilterType) => filter is LtFilter;
 export type LteFilter = FieldFilter & {
     comparison: '<=';
-    value?: string | number | boolean | undefined;
+    value: string | number | boolean | undefined;
 };
 export declare const isLteFilter: (filter: FilterType) => filter is LteFilter;
 export type InFilter = FieldFilter & {
