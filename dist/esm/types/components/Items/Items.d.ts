@@ -145,7 +145,6 @@ export type FieldItem = NamedItem & {
     errorText?: string;
 };
 export type OptionSubtype = FieldItem & {
-    label: string;
     value?: string | string[];
     searchableOptionsName?: string;
     options: Option[];
@@ -175,7 +174,7 @@ export type AutocompleteSubtype = OptionSubtype & {
     noOptionsFound?: string;
 };
 export type TextSubtype = FieldItem & {
-    label: string;
+    label?: string;
     subtype: 'Text';
     value?: string;
     multiline?: boolean;
@@ -185,26 +184,26 @@ export type TextSubtype = FieldItem & {
     maxLength?: number;
 };
 export type EmailSubtype = FieldItem & {
-    label: string;
+    label?: string;
     subtype: 'Email';
     value?: string;
     maxLength?: number;
 };
 export type NumberSubtype = FieldItem & {
-    label: string;
+    label?: string;
     subtype: 'Number';
     value?: number;
     min?: number;
     max?: number;
 };
 export type PhoneSubtype = FieldItem & {
-    label: string;
+    label?: string;
     subtype: 'Phone';
     value?: string;
     placeholder?: string;
 };
 export type DateSubtype = FieldItem & {
-    label: string;
+    label?: string;
     subtype: 'Date';
     value?: string;
     defaultToday?: boolean;
@@ -258,55 +257,55 @@ export type FieldType = ItemType & {
     EditFC: (props: FieldProps) => JSX.Element;
     ValidateFC?: (item: FieldItem, options: Options) => boolean;
 };
-export type SelectType = {
+export type SelectType = FieldType & {
     Subtype: SelectSubtype;
     SubtypeFC: (props: SelectProps) => JSX.Element;
     EditFC: (props: SelectProps) => JSX.Element;
     ValidateFC?: (item: SelectSubtype, options: Options) => boolean;
 };
-export type RadioType = {
+export type RadioType = FieldType & {
     Subtype: RadioSubtype;
     SubtypeFC: (props: RadioProps) => JSX.Element;
     EditFC: (props: RadioProps) => JSX.Element;
     ValidateFC?: (item: RadioSubtype, options: Options) => boolean;
 };
-export type CheckboxType = {
+export type CheckboxType = FieldType & {
     Subtype: CheckboxSubtype;
     SubtypeFC: (props: CheckboxProps) => JSX.Element;
     EditFC: (props: CheckboxProps) => JSX.Element;
     ValidateFC?: (item: CheckboxSubtype, options: Options) => boolean;
 };
-export type TextType = {
+export type TextType = FieldType & {
     Subtype: TextSubtype;
     SubtypeFC: (props: TextProps) => JSX.Element;
     EditFC: (props: TextProps) => JSX.Element;
     ValidateFC?: (item: TextSubtype, options: Options) => boolean;
 };
-export type EmailType = {
+export type EmailType = FieldType & {
     Subtype: EmailSubtype;
     SubtypeFC: (props: EmailProps) => JSX.Element;
     EditFC: (props: EmailProps) => JSX.Element;
     ValidateFC?: (item: EmailSubtype, options: Options) => boolean;
 };
-export type NumberType = {
+export type NumberType = FieldType & {
     Subtype: NumberSubtype;
     SubtypeFC: (props: NumberProps) => JSX.Element;
     EditFC: (props: NumberProps) => JSX.Element;
     ValidateFC?: (item: NumberSubtype, options: Options) => boolean;
 };
-export type DateType = {
+export type DateType = FieldType & {
     Subtype: DateSubtype;
     SubtypeFC: (props: DateProps) => JSX.Element;
     EditFC: (props: DateProps) => JSX.Element;
     ValidateFC?: (item: DateSubtype, options: Options) => boolean;
 };
-export type BooleanType = {
+export type BooleanType = FieldType & {
     Subtype: BooleanSubtype;
     SubtypeFC: (props: BooleanProps) => JSX.Element;
     EditFC: (props: BooleanProps) => JSX.Element;
     ValidateFC?: (item: BooleanSubtype, options: Options) => boolean;
 };
-export type AutocompleteType = {
+export type AutocompleteType = FieldType & {
     Subtype: AutocompleteSubtype;
     SubtypeFC: (props: AutocompleteProps) => JSX.Element;
     EditFC: (props: AutocompleteProps) => JSX.Element;
