@@ -1,3 +1,8 @@
+:root {
+    --gci-almost-black: #312E3B;
+    --gci-red: #B71234;
+}
+
 @font-face {
     font-family: 'Gotham-Medium';
     src: url('../fonts/Gotham-Medium.woff');
@@ -22,4 +27,17 @@
     font-family: 'Trailblazer-Bold';
     src: url('../fonts/trailblazerh-demibold.woff');
     font-weight: normal;
+}
+
+a, a:visited {
+    color: var(--gci-almost-black);
+    text-decoration: underline;
+    text-decoration-color: var(--gci-red);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+a:hover {
+    color: var(--gci-red);
+    text-decoration-color: var(--gci-almost-black);
 }
