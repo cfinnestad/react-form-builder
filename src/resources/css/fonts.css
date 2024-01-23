@@ -1,5 +1,4 @@
 :root {
-    --gci-almost-black: #312E3B;
     --gci-red: #B71234;
 }
 
@@ -30,14 +29,7 @@
 }
 
 a, a:visited {
-    color: var(--gci-almost-black);
-    text-decoration: underline;
-    text-decoration-color: var(--gci-red);
-    font-weight: bold;
-    cursor: pointer;
-}
-
-a:hover {
     color: var(--gci-red);
-    text-decoration-color: var(--gci-almost-black);
+    text-decoration: none;
+    cursor: pointer;
 }
