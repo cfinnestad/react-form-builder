@@ -149,7 +149,10 @@ const EditFC = (ItemProps: ItemProps) => {
     const onChangeNamedItem = (value: string) => {
         const index = itemId.lastIndexOf('-');
         const prefix = itemId.substring(0, index+1);
-        setItemId(prefix + value);
+    }
+
+    const onChangeClassNameItem = (value: string) => {
+        ItemProps.options.SetItem({ ...ItemProps.item, ClassName: value } )
     }
 
     return <>
@@ -186,7 +189,7 @@ const EditFC = (ItemProps: ItemProps) => {
                     options: ItemProps.options,
                     errorHandler: ItemProps.errorHandler,
                 }}
-                onChange={onChangeNamedItem}
+                onChange={onChangeClassNameItem}
             />
         </Stack>
     </>
