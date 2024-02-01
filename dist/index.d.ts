@@ -13,6 +13,7 @@ type SubmitButtonProps = {
     items: AnyItem[];
     options: Options;
     label?: string;
+    className?: string;
 };
 type SubmitButtonElement = (props: SubmitButtonProps) => JSX.Element;
 
