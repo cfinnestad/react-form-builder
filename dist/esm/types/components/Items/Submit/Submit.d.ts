@@ -4,6 +4,7 @@ export type SubmitButtonProps = {
     items: AnyItem[];
     options: Options;
     label?: string;
+    className?: string;
 };
 export type SubmitButtonElement = (props: SubmitButtonProps) => JSX.Element;
 declare const Submit: ({ item, items, options }: SubmitProps) => JSX.Element;
