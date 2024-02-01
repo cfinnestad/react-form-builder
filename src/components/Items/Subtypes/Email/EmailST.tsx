@@ -29,6 +29,7 @@ const EmailST = ({item, options}: EmailProps ) => {
                 {item.label}
             </InputLabel>
             <TextField
+                className={item?.ClassName}
                 id={item.id}
                 error={item.errorText !== undefined}
                 required={item.required ?? false}

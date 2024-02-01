@@ -41,6 +41,7 @@ const DateST = ({item, options}: DateProps ) => {
         <Stack spacing={2}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
+                    className={item?.ClassName}
                     value={item.value ?? null as any}
                     onChange={onChange}
                     minDate={item.minDateComputed ?? null as any}

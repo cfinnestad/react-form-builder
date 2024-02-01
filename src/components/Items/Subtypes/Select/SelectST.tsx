@@ -33,18 +33,15 @@ function SelectST({item, options}: SelectProps) {
         const { target: { value } } = event;
 
         if (itm.multiples) {
-            console.log('pre item', itm)
             itm.options.forEach((option) => {
                 option.selected = value.includes(option.label)
             })
-            console.log('post item', itm)
         } else {
             itm.options.forEach((option) => {
                 option.selected = option.label === value
             });
         }
 
-        console.log('item', itm)
         SelectValidate(itm, options);
         if (!(options.Mode === "build")) {
             options.SetItem(itm)
@@ -62,6 +59,7 @@ function SelectST({item, options}: SelectProps) {
                 </InputLabel>
                 <FormControl sx={{ minWidth: 250 }}>
                     <Select
+                        className={item?.ClassName}
                         id={item.id}
                         multiple={item.multiples}
                         value={item.options.filter(option => option.selected).map(option => option.label)}

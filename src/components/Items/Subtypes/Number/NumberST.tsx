@@ -35,6 +35,7 @@ const NumberST = ({item, options}: NumberProps ) => {
                 {item.label}
             </InputLabel>
             <TextField
+                className={item?.ClassName}
                 id={item.id}
                 error={item.errorText != null}
                 name={item.name}

@@ -100,6 +100,7 @@ const AutocompleteST = ({item, options}: AutocompleteProps) => {
             </InputLabel>
             <Autocomplete
                 id={item.id}
+                className={item?.ClassName}
                 // freeSolo is giving this error: Type boolean is not assignable to type false | undefined
                 // However, the MUI documentation states that true of false should be used.  Using undefined does not.
                 // This may just be an issue with PHP storm

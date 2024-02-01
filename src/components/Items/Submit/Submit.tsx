@@ -6,7 +6,8 @@ import {Button} from "@mui/material";
 export type SubmitButtonProps = {
     items: AnyItem[],
     options: Options,
-    label?: string
+    label?: string,
+    className?: string
 }
 
 export type SubmitButtonElement = (props: SubmitButtonProps) => JSX.Element
@@ -30,7 +31,7 @@ const Submit = ({item, items, options}: SubmitProps) => {
     }, [])
 
     return <>
-        <submitElement.current items={items} options={options} label={item?.label}></submitElement.current>
+        <submitElement.current items={items} options={options} label={item?.label} className={item?.ClassName}></submitElement.current>
     </>
 
 }

@@ -32,7 +32,7 @@ const BooleanST = ({item, options}: BooleanProps ) => {
             >
                 {item.label}
             </InputLabel> : undefined}
-            <FormControlLabel required={item.required ?? false} control=
+            <FormControlLabel className={item?.ClassName} required={item.required ?? false} control=
                 {<Checkbox
                     checked={item.value ?? false}
                     onChange={onChange}
