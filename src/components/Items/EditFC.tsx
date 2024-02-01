@@ -118,14 +118,13 @@ const NamedItemEdit = ({itemProps, onChange}: NamedItemEditProps) => {
     </>
 }
 
-const ClassNameEdit = ({itemProps, onChange}: NamedItemEditProps) => {
+const ClassNameEdit = ({itemProps}: NamedItemEditProps) => {
     const {item, items, options, errorHandler} = itemProps;
     const [className, setClassName] = useState(item.ClassName)
 
     const onClassNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         options.SetItem({...item, ClassName:  event.target.value || undefined} as BaseItem)
         setClassName(event.target.value);
-        onChange(event.target.value);
     }
 
     return <>
@@ -135,7 +134,6 @@ const ClassNameEdit = ({itemProps, onChange}: NamedItemEditProps) => {
                 label="Classes To Apply"
                 type="text"
                 value={className}
-                onChange={onClassNameChange}
             />
         </FormGroup>
     </>
