@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useState} from "react";
 import {
-    AnyItem,
+    AnyItem, BaseItem,
     FieldItem,
     HiddenItem,
     isField,
@@ -118,6 +118,29 @@ const NamedItemEdit = ({itemProps, onChange}: NamedItemEditProps) => {
     </>
 }
 
+const ClassNameEdit = ({itemProps, onChange}: NamedItemEditProps) => {
+    const {item, items, options, errorHandler} = itemProps;
+    const [className, setClassName] = useState(item.ClassName)
+
+    const onClassNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+        options.SetItem({...item, ClassName:  event.target.value || undefined} as BaseItem)
+        setClassName(event.target.value);
+        onChange(event.target.value);
+    }
+
+    return <>
+        <FormGroup>
+            <TextField
+                size="small"
+                label="Classes To Apply"
+                type="text"
+                value={className}
+                onChange={onClassNameChange}
+            />
+        </FormGroup>
+    </>
+}
+
 const EditFC = (ItemProps: ItemProps) => {
     const [itemId, setItemId] = useState(ItemProps.item.id);
 
@@ -158,6 +181,15 @@ const EditFC = (ItemProps: ItemProps) => {
                 //@ts-ignore
                 ItemProps.options.AllowedItems[ItemProps.item.type].EditFC(ItemProps)
             }
+            <ClassNameEdit
+                itemProps={{
+                    item: ItemProps.item,
+                    items: ItemProps.items,
+                    options: ItemProps.options,
+                    errorHandler: ItemProps.errorHandler,
+                }}
+                onChange={onChangeNamedItem}
+            />
         </Stack>
     </>
 }
