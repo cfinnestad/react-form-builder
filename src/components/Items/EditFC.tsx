@@ -118,13 +118,10 @@ const NamedItemEdit = ({itemProps, onChange}: NamedItemEditProps) => {
     </>
 }
 
-const ClassNameEdit = ({itemProps}: NamedItemEditProps) => {
-    const {item, items, options, errorHandler} = itemProps;
-    const [className, setClassName] = useState(item.ClassName)
+const ClassNameEdit = ({item, options}: ItemProps) => {
 
     const onClassNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-        options.SetItem({...item, ClassName:  event.target.value || undefined} as BaseItem)
-        setClassName(event.target.value);
+        options.SetItem({...item, ClassName: event.target.value || undefined} as BaseItem)
     }
 
     return <>
@@ -133,7 +130,8 @@ const ClassNameEdit = ({itemProps}: NamedItemEditProps) => {
                 size="small"
                 label="Classes To Apply"
                 type="text"
-                value={className}
+                value={item.ClassName}
+                onChange={onClassNameChange}
             />
         </FormGroup>
     </>
@@ -151,7 +149,7 @@ const EditFC = (ItemProps: ItemProps) => {
         const prefix = itemId.substring(0, index+1);
     }
 
-    const onChangeClassNameItem = (value: string) => {
+    const onClassNameChange = (value: string) => {
         ItemProps.options.SetItem({ ...ItemProps.item, ClassName: value } )
     }
 
@@ -183,13 +181,10 @@ const EditFC = (ItemProps: ItemProps) => {
                 ItemProps.options.AllowedItems[ItemProps.item.type].EditFC(ItemProps)
             }
             <ClassNameEdit
-                itemProps={{
-                    item: ItemProps.item,
-                    items: ItemProps.items,
-                    options: ItemProps.options,
-                    errorHandler: ItemProps.errorHandler,
-                }}
-                onChange={onChangeClassNameItem}
+                item={ItemProps.item}
+                items={ItemProps.items}
+                options={ItemProps.options}
+                errorHandler={ItemProps.errorHandler}
             />
         </Stack>
     </>
