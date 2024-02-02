@@ -118,25 +118,6 @@ const NamedItemEdit = ({itemProps, onChange}: NamedItemEditProps) => {
     </>
 }
 
-const ClassNameEdit = ({item, options}: ItemProps) => {
-
-    const onClassNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-        options.SetItem({...item, ClassName: event.target.value || undefined} as BaseItem)
-    }
-
-    return <>
-        <FormGroup>
-            <TextField
-                size="small"
-                label="Classes To Apply"
-                type="text"
-                value={item.ClassName}
-                onChange={onClassNameChange}
-            />
-        </FormGroup>
-    </>
-}
-
 const EditFC = (ItemProps: ItemProps) => {
     const [itemId, setItemId] = useState(ItemProps.item.id);
 
@@ -147,10 +128,6 @@ const EditFC = (ItemProps: ItemProps) => {
     const onChangeNamedItem = (value: string) => {
         const index = itemId.lastIndexOf('-');
         const prefix = itemId.substring(0, index+1);
-    }
-
-    const onClassNameChange = (value: string) => {
-        ItemProps.options.SetItem({ ...ItemProps.item, ClassName: value } )
     }
 
     return <>
@@ -180,12 +157,6 @@ const EditFC = (ItemProps: ItemProps) => {
                 //@ts-ignore
                 ItemProps.options.AllowedItems[ItemProps.item.type].EditFC(ItemProps)
             }
-            <ClassNameEdit
-                item={ItemProps.item}
-                items={ItemProps.items}
-                options={ItemProps.options}
-                errorHandler={ItemProps.errorHandler}
-            />
         </Stack>
     </>
 }

@@ -40,7 +40,8 @@ const Render = ({ Items, SetItems, Options }: RenderProps ) => {
     const [items, setItems] = useState<AnyItem[]>(Items ?? [])
     const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
 
-    const defaultTheme = useTheme()
+    const defaultTheme =  useTheme()
+    const theme = Options.muiTheme ?? defaultTheme
 
     //is build gets switched to mode
     const options: Options = {...(Options || {}),
@@ -52,7 +53,7 @@ const Render = ({ Items, SetItems, Options }: RenderProps ) => {
         getError: (error: string, item: AnyItem) => {
            return GetError(error, item, {...Errors(), ...(Options.Errors ?? {})})
         },
-        muiTheme: Options.muiTheme ?? defaultTheme
+        muiTheme: theme,
     }
 
     useEffect(() => {

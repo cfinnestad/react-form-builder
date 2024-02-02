@@ -59,7 +59,6 @@ function SelectST({item, options}: SelectProps) {
                 </InputLabel>
                 <FormControl sx={{ minWidth: 250 }}>
                     <Select
-                        className={item?.ClassName}
                         id={item.id}
                         multiple={item.multiples}
                         value={item.options.filter(option => option.selected).map(option => option.label)}

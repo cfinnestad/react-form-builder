@@ -15,7 +15,7 @@ const meta = {
             {
                 type: 'Submit',
                 id: 'submit1',
-                submitElementName: 'default'
+                submitElementName: 'default',
             } as SubmitItem
         ],
     },

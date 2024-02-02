@@ -37,7 +37,6 @@ export type BaseItem = {
     id: string;
     type: string;
     filter?: FilterType;
-    ClassName?: string;
     custom?: {
         [key: string]: any;
     };
@@ -122,6 +121,7 @@ export type SubmitItem = BaseItem & {
     type: 'Submit';
     submitElementName?: string;
     label?: string;
+    color?: string;
 };
 export type GroupItem = NamedItem & {
     type: 'Group';

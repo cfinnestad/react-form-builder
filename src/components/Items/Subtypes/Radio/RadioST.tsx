@@ -43,7 +43,6 @@ const RadioST = ({item, options}: RadioProps ) => {
             <RadioGroup row={item.inLine}>
                 {item.options.map((option,index) =>
                     <FormControlLabel
-                        className={item?.ClassName}
                         control={
                             <Radio
                                 checked={option.selected ?? false}

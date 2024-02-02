@@ -7,15 +7,17 @@ export type SubmitButtonProps = {
     items: AnyItem[],
     options: Options,
     label?: string,
-    className?: string
+    color?: string
 }
 
 export type SubmitButtonElement = (props: SubmitButtonProps) => JSX.Element
 const Submit = ({item, items, options}: SubmitProps) => {
-    const defaultSubmit = ({items}: SubmitButtonProps) => {
-        return <>
-            <Button type="submit" onClick={ () => alert(JSON.stringify(RenderedFlatObject(items), null, 4)) }>{item.label}</Button>
-        </>
+    const defaultSubmit = ({items, color}: SubmitButtonProps) => {
+        // @ts-ignore
+        return <Button type="submit" color={color} varient="contained"
+                       onClick={() => alert(JSON.stringify(RenderedFlatObject(items), null, 4))}>
+            {item.label}
+        </Button>
     }
 
     const submitElement = useRef<SubmitButtonElement>(defaultSubmit)
@@ -30,9 +32,7 @@ const Submit = ({item, items, options}: SubmitProps) => {
         }
     }, [])
 
-    return <>
-        <submitElement.current items={items} options={options} label={item?.label} className={item?.ClassName}></submitElement.current>
-    </>
+    return <submitElement.current items={items} options={options} label={item?.label} color={item?.color ?? 'primary'}/>
 
 }
 

@@ -34,7 +34,6 @@ const CheckboxST = ({item, options}: CheckboxProps ) => {
             <FormGroup row={item.inLine}>
                 {item.options.map((option,index) =>
                     <FormControlLabel
-                        className={item?.ClassName}
                         control={
                             <Checkbox
                                 checked={option.selected ?? false}

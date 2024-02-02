@@ -13,7 +13,7 @@ type SubmitButtonProps = {
     items: AnyItem[];
     options: Options;
     label?: string;
-    className?: string;
+    color?: string;
 };
 type SubmitButtonElement = (props: SubmitButtonProps) => JSX.Element;
 
@@ -51,7 +51,6 @@ type BaseItem = {
     id: string;
     type: string;
     filter?: FilterType;
-    ClassName?: string;
     custom?: {
         [key: string]: any;
     };
@@ -136,6 +135,7 @@ type SubmitItem = BaseItem & {
     type: 'Submit';
     submitElementName?: string;
     label?: string;
+    color?: string;
 };
 type GroupItem = NamedItem & {
     type: 'Group';

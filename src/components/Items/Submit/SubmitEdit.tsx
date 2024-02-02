@@ -7,14 +7,23 @@ const SubmitEdit = ({item, options}: SubmitProps) => {
     const [stateItem, setStateItem] = useState(item)
     const [submitElement, setSubmitElement] = useState(item.submitElementName)
     const submitElements = Object.keys(options.submitElements ?? {})
+    const [color, setColor] = useState(item?.color)
 
     useEffect( ()=>{
         options.SetItem(stateItem)
+    }, [stateItem])
 
+    useEffect( ()=>{
         if (stateItem.submitElementName !== submitElement) {
-            options.SetItem({...stateItem, submitElementName: submitElement} as SubmitItem)
+            setStateItem({...stateItem, submitElementName: submitElement} as SubmitItem)
         }
-    }, [stateItem, submitElement])
+    }, [submitElement])
+
+    useEffect( ()=>{
+        if (stateItem.color !== color) {
+            setStateItem({...stateItem, color: color || undefined} as SubmitItem)
+        }
+    }, [color])
 
     const onChangeLabel = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const val = event.target.value || undefined
@@ -28,20 +37,25 @@ const SubmitEdit = ({item, options}: SubmitProps) => {
         }
     }
 
-    return (
-        <>
-            <Stack spacing={.5}>
-                <TextField sx={{marginTop:2}} label="Label" defaultValue={stateItem.label} onChange={onChangeLabel}/><br/>
+    return (<Stack spacing={.5}>
+            <TextField sx={{marginTop: 2}} label="Label" defaultValue={stateItem.label} onChange={onChangeLabel}/><br/>
 
-                <SelectOption
-                    id={item.id}
-                    label="submitElementName"
-                    option={submitElement}
-                    setOption={setSubmitElement}
-                    options={submitElements}
-                    none={'Use Listed Options'}/>
-            </Stack>
-        </>
+            <SelectOption
+                id={item.id}
+                label="submitElementName"
+                option={submitElement}
+                setOption={setSubmitElement}
+                options={submitElements}
+                none={'Use Listed Options'}/>
+
+            <SelectOption
+                id={item.id + '-color'}
+                label="Color"
+                option={color}
+                setOption={setColor}
+                options={Object.keys(options.muiTheme.palette)}
+                none={'Use Listed Options'}/>
+        </Stack>
     );
 }
 
