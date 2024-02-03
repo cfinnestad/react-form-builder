@@ -33,7 +33,8 @@ export type RenderOptions = {
     }
     muiTheme?: Theme,
     custom?: {[key:string]: any},
-    mode?: "build" | "edit" | "render"
+    mode?: "build" | "edit" | "render",
+    submitColors?: string[],
 }
 
 const Render = ({ Items, SetItems, Options }: RenderProps ) => {
@@ -54,6 +55,7 @@ const Render = ({ Items, SetItems, Options }: RenderProps ) => {
            return GetError(error, item, {...Errors(), ...(Options.Errors ?? {})})
         },
         muiTheme: theme,
+        submitColors: Options.submitColors ?? Object.keys(theme.palette),
     }
 
     useEffect(() => {

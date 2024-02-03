@@ -26,6 +26,7 @@ export type RenderOptions = {
         [key: string]: any;
     };
     mode?: "build" | "edit" | "render";
+    submitColors?: string[];
 };
 declare const Render: ({ Items, SetItems, Options }: RenderProps) => JSX.Element;
 export declare const RenderedObject: (items: AnyItem[]) => {};

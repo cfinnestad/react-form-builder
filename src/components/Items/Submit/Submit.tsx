@@ -7,7 +7,7 @@ export type SubmitButtonProps = {
     items: AnyItem[],
     options: Options,
     label?: string,
-    color?: string
+    color: string
 }
 
 export type SubmitButtonElement = (props: SubmitButtonProps) => JSX.Element
@@ -32,7 +32,7 @@ const Submit = ({item, items, options}: SubmitProps) => {
         }
     }, [])
 
-    return <submitElement.current items={items} options={options} label={item?.label} color={item?.color ?? 'primary'}/>
+    return <submitElement.current items={items} options={options} label={item?.label} color={item?.color ?? options.submitColors[0]}/>
 
 }
 

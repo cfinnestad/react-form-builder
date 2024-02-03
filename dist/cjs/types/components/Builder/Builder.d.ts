@@ -37,6 +37,7 @@ export type BuilderUseOptions = {
     custom?: {
         [key: string]: any;
     };
+    submitColors?: string[];
 };
 export type BuilderOptions = Options & {};
 export type BuilderProps = {

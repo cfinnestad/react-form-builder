@@ -32,6 +32,7 @@ export type Options = {
     custom?: {
         [key: string]: any;
     };
+    submitColors: string[];
 };
 export type BaseItem = {
     id: string;

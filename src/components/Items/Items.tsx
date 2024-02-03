@@ -35,7 +35,8 @@ export type Options = {
     muiTheme: Theme,
     // addItemSection?: (id: string, items: AnyItem[]) => void,
     // deleteItemSection?: (id: string) => void,
-    custom?: {[key:string]: any}
+    custom?: {[key:string]: any},
+    submitColors: string[],
 }
 
 export type BaseItem = {

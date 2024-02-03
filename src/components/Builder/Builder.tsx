@@ -66,7 +66,8 @@ export type BuilderUseOptions = {
     }
     muiTheme?: Theme,
     mode: string,
-    custom?: {[key:string]: any}
+    custom?: {[key:string]: any},
+    submitColors?: string[],
 }
 
 export type BuilderOptions = Options & {
@@ -81,7 +82,7 @@ export type BuilderProps = {
     AdditionalSubtypes?: AllowedSubtypes,
     Items?: AnyItem[],
     SetItems?: Dispatch<SetStateAction<AnyItem[]>>,
-    Options?: BuilderUseOptions
+    Options?: BuilderUseOptions,
 }
 
 // const initItemSections = (items: AnyItem[], groupId: string): ItemSectionsType => {
@@ -95,7 +96,7 @@ export type BuilderProps = {
 // }
 
 const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
-    const [items, setItems] = useState<AnyItem[]>(Items || [])
+    const [items, setItems] = useState<AnyItem[]>(Items ?? [])
     const [modal, setModal] = useState( false )
     const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
     const { setNodeRef } = useDroppable({ id: MAIN });
@@ -106,11 +107,23 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     ]
     const [activeItem, setActiveItem] = useState({id: undefined, groupId: MAIN} as ActiveType);
     const defaultTheme = useTheme()
+    const theme = Options?.muiTheme ?? defaultTheme
 
-    const options:BuilderOptions = {...(Options || {}),
+    const getPalettes = (): string[] => {
+        const palettes = []
+        for (const [key, value] of Object.entries(theme.palette)) {
+            if (value.hasOwnProperty('main')) {
+                palettes.push(key);
+            }
+        }
+        return palettes
+    }
+
+
+    const options:BuilderOptions = {...(Options ?? {}),
         Actions: [...(Options?.Actions ?? [Save,Transfer,Preview,Clear]), ...(Options?.ActionsAppend ?? [])],
-        AllowedSubtypes: {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})},
-        AllowedItems: {...(Options?.AllowedItems || DefaultItems()), ...(Options?.AdditionalItems || {})},
+        AllowedSubtypes: {...(Options?.AllowedSubtypes ?? DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})},
+        AllowedItems: {...(Options?.AllowedItems ?? DefaultItems()), ...(Options?.AdditionalItems || {})},
         Mode: 'build',
         SetItem: setItem,
         setItems: setItems,
@@ -119,6 +132,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
             return GetError(error, item, {...Errors(), ...(Options?.Errors ?? {})})
         },
         muiTheme: Options?.muiTheme ?? defaultTheme,
+        submitColors: Options?.submitColors ?? getPalettes(),
         custom: Options?.custom
     }
     useEffect(() => {

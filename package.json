@@ -82,6 +82,8 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.3",
     "@mui/x-date-pickers": "^5.0.20",
+    "@react-buddy/ide-toolbox": "^2.4.0",
+    "@react-buddy/palette-mui": "^5.0.1",
     "@tinymce/tinymce-react": "^4.3.0",
     "country-flag-icons": "^1.5.7",
     "dayjs": "^1.11.8",
@@ -92,9 +94,7 @@
     "react-copy-to-clipboard": "^5.1.0",
     "styled-components": "^5.3.10",
     "tinymce": "^6.6.0",
-    "uuidv4": "^6.2.13",
-    "@react-buddy/ide-toolbox": "^2.4.0",
-    "@react-buddy/palette-mui": "^5.0.1"
+    "uuidv4": "^6.2.13"
   },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",

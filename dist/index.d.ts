@@ -13,7 +13,7 @@ type SubmitButtonProps = {
     items: AnyItem[];
     options: Options;
     label?: string;
-    color?: string;
+    color: string;
 };
 type SubmitButtonElement = (props: SubmitButtonProps) => JSX.Element;
 
@@ -46,6 +46,7 @@ type Options = {
     custom?: {
         [key: string]: any;
     };
+    submitColors: string[];
 };
 type BaseItem = {
     id: string;
@@ -458,6 +459,7 @@ type BuilderUseOptions = {
     custom?: {
         [key: string]: any;
     };
+    submitColors?: string[];
 };
 type BuilderProps = {
     AllowedItems?: AllowedItems;
@@ -493,6 +495,7 @@ type RenderOptions = {
         [key: string]: any;
     };
     mode?: "build" | "edit" | "render";
+    submitColors?: string[];
 };
 declare const Render: ({ Items, SetItems, Options }: RenderProps) => JSX.Element;
 declare const RenderedObject: (items: AnyItem[]) => {};

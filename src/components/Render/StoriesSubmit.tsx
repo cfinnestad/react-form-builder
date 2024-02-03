@@ -6,33 +6,45 @@ import {SubmitButtonProps} from "../Items";
 
 export const Submit = ({ items, options, color }: SubmitButtonProps) => {
     return <ButtonGroup>
-        <Button color={color} onClick={() => {
-            if(ValidateFields(items, options)) {
-                alert(JSON.stringify(RenderedObject(items), null, 4))
-            }
-        }}>
-            SUBMIT AS OBJECT
-        </Button>
-        <Button color={color} onClick={() => {
-            if(ValidateFields(items, options)) {
-                alert(JSON.stringify(RenderedFlatObject(items), null, 4))
-            }
-        }}>
-            SUBMIT AS FLAT OBJECT
-        </Button>
-        <Button color={color} onClick={() => {
-            if(ValidateFields(items, options)) {
-                alert(JSON.stringify(RenderedArray(items), null, 4))
-            }
-        }}>
-            SUBMIT AS ARRAY
-        </Button>
-        <Button color={color} onClick={() => {
-            if(ValidateFields(items, options)) {
-                alert(JSON.stringify(RenderedFlatArray(items), null, 4))
-            }
-        }}>
-            SUBMIT AS FLAT ARRAY
-        </Button>
+        {
+            // @ts-ignore
+            <Button color={color} onClick={() => {
+                if(ValidateFields(items, options)) {
+                    alert(JSON.stringify(RenderedObject(items), null, 4))
+                }
+            }}>
+                SUBMIT AS OBJECT
+            </Button>
+        }
+        {
+            // @ts-ignore
+            <Button color={color} onClick={() => {
+                if(ValidateFields(items, options)) {
+                    alert(JSON.stringify(RenderedFlatObject(items), null, 4))
+                }
+            }}>
+                SUBMIT AS FLAT OBJECT
+            </Button>
+        }
+        {
+            // @ts-ignore
+            <Button color={color} onClick={() => {
+                if(ValidateFields(items, options)) {
+                    alert(JSON.stringify(RenderedArray(items), null, 4))
+                }
+            }}>
+                SUBMIT AS ARRAY
+            </Button>
+        }
+        {
+            // @ts-ignore
+            <Button color={color} onClick={() => {
+                if(ValidateFields(items, options)) {
+                    alert(JSON.stringify(RenderedFlatArray(items), null, 4))
+                }
+            }}>
+                SUBMIT AS FLAT ARRAY
+            </Button>
+        }
     </ButtonGroup>
 }

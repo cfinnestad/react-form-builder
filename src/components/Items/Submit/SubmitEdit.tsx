@@ -21,7 +21,7 @@ const SubmitEdit = ({item, options}: SubmitProps) => {
 
     useEffect( ()=>{
         if (stateItem.color !== color) {
-            setStateItem({...stateItem, color: color || undefined} as SubmitItem)
+            setStateItem({...stateItem, color: color ?? options.submitColors[0]} as SubmitItem)
         }
     }, [color])
 
@@ -53,7 +53,7 @@ const SubmitEdit = ({item, options}: SubmitProps) => {
                 label="Color"
                 option={color}
                 setOption={setColor}
-                options={Object.keys(options.muiTheme.palette)}
+                options={options.submitColors}
                 none={'Use Listed Options'}/>
         </Stack>
     );
