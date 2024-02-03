@@ -44,6 +44,16 @@ const Render = ({ Items, SetItems, Options }: RenderProps ) => {
     const defaultTheme =  useTheme()
     const theme = Options.muiTheme ?? defaultTheme
 
+    const getPalettes = (): string[] => {
+        const palettes = []
+        for (const [key, value] of Object.entries(theme.palette)) {
+            if (value.hasOwnProperty('main')) {
+                palettes.push(key);
+            }
+        }
+        return palettes
+    }
+
     //is build gets switched to mode
     const options: Options = {...(Options || {}),
         AllowedSubtypes: {...(Options?.AllowedSubtypes || DefaultSubtypes()), ...(Options?.AdditionalSubtypes || {})},
@@ -55,7 +65,7 @@ const Render = ({ Items, SetItems, Options }: RenderProps ) => {
            return GetError(error, item, {...Errors(), ...(Options.Errors ?? {})})
         },
         muiTheme: theme,
-        submitColors: Options.submitColors ?? Object.keys(theme.palette),
+        submitColors: Options.submitColors ?? getPalettes(),
     }
 
     useEffect(() => {
