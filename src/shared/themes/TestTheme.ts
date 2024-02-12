@@ -60,6 +60,11 @@ export const TestTheme = createTheme({
             light: '#F2FDF3',
             dark: '#13691B'
         },
+        custom: {
+            main: '#ff77ff',
+            light: '#ffAAff',
+            dark: '#ff55ff'
+        }
     },
     typography: {
         fontFamily: 'Sans-Serif',
@@ -75,3 +80,20 @@ export const TestTheme = createTheme({
         },
     }
 })
+
+declare module '@mui/material/styles' {
+
+    interface Palette {
+        custom: Palette['primary']
+    }
+
+    interface PaletteOptions {
+        custom: PaletteOptions['primary']
+    }
+}
+
+declare module '@mui/material/Button' {
+    interface ButtonPropsColorOverrides {
+        custom: true;
+    }
+}

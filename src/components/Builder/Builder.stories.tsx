@@ -23,6 +23,7 @@ import {Submit} from "../Render/StoriesSubmit";
 import {faker} from "@faker-js/faker";
 import Preview from "../Actions/Preview/Preview";
 import {Clear, Save, Transfer} from "../Actions";
+import {TestTheme} from "../../shared/themes/TestTheme";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta = {
@@ -298,6 +299,7 @@ export const Primary: Story = {
                 } as SubmitItem
             ],
         Options: {
+            muiTheme: TestTheme,
             templates: [
                 {
                     name: "Name",

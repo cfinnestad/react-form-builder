@@ -193,8 +193,8 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
 
     const errorHandler = ErrorHandler(errors, setErrors)
 
-    return <div className='builder'>
-        <ThemeProvider theme={options.muiTheme}>
+    return <ThemeProvider theme={options.muiTheme}>
+        <div className='builder'>
             <Actions Items={items} Options={options}/>
             <Box>
                 <DndContext
@@ -244,8 +244,8 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                     errorHandler={errorHandler}
                 ></EditModal> : <></>}
             </Box>
-        </ThemeProvider>
-    </div>
+        </div>
+    </ThemeProvider>
 }
 
 export default Builder
