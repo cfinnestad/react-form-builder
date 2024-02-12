@@ -51,7 +51,7 @@ const SubmitEdit = ({item, options}: SubmitProps) => {
             <SelectOption
                 id={item.id + '-color'}
                 label="Color"
-                option={color}
+                option={color ?? options.submitColors[0]}
                 setOption={setColor}
                 options={options.submitColors}
                 none={'Use Listed Options'}/>
