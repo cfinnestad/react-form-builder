@@ -2,7 +2,7 @@ import React, {Dispatch, FC, JSX, SetStateAction, useEffect, useState} from "rea
 import Actions, {ActionFC, ActionProps} from "../Actions/Actions";
 import DefaultItems from "../Items/DefaultItems";
 import {AllowedItems, AllowedSubtypes, AnyItem, isGroup, BuildErrors, Option, Options, SubmitButtonProps} from "../Items";
-import {Box, Grid, Typography} from "@mui/material";
+import {Box, Grid, ThemeProvider, Typography} from "@mui/material";
 import DefaultSubtypes from "../Items/Subtypes/DefaultSubTypes";
 import Transfer from "../Actions/Transfer/Transfer";
 import Save from "../Actions/Save/Save";
@@ -131,7 +131,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         getError: (error: string, item: AnyItem) => {
             return GetError(error, item, {...Errors(), ...(Options?.Errors ?? {})})
         },
-        muiTheme: Options?.muiTheme ?? defaultTheme,
+        muiTheme: theme,
         submitColors: Options?.submitColors ?? getPalettes(),
         custom: Options?.custom
     }
@@ -194,56 +194,57 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     const errorHandler = ErrorHandler(errors, setErrors)
 
     return <div className='builder'>
-        <Actions Items={items} Options={options}/>
-        <Box>
-            <DndContext
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                onDragEnd={(results) => onDragEnd(results, items, options)}
-                onDragStart={onDragStart}
-            >
-                <Grid container spacing={2}>
-                    <Grid item xs={10}>
-                        <Box style={activeItem?.id === undefined && activeItem?.groupId === MAIN ? activeStyle : undefined}>
-                            <DensitySmallIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 , display:'inline'}} onClick={() => setActiveItem({id: undefined, groupId: MAIN})} />
-                            <Box component="span" sx={{ flexGrow: 1 }}>
-                                Add to top
+        <ThemeProvider theme={options.muiTheme}>
+            <Actions Items={items} Options={options}/>
+            <Box>
+                <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={(results) => onDragEnd(results, items, options)}
+                    onDragStart={onDragStart}
+                >
+                    <Grid container spacing={2}>
+                        <Grid item xs={10}>
+                            <Box style={activeItem?.id === undefined && activeItem?.groupId === MAIN ? activeStyle : undefined}>
+                                <DensitySmallIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 , display:'inline'}} onClick={() => setActiveItem({id: undefined, groupId: MAIN})} />
+                                <Box component="span" sx={{ flexGrow: 1 }}>
+                                    Add to top
+                                </Box>
                             </Box>
-                        </Box>
-                        <SortableContext
-                            key={MAIN}
-                            id={MAIN}
-                            items={items.map(item => item.id)}
-                            strategy={verticalListSortingStrategy}>
-                            <div ref={setNodeRef}
-                                 style={{
-                                     maxHeight: 'calc(100vh - 100px)',
-                                     overflowY: "auto"
-                                 }}>
-                                {items.map(item => <ShowItem key={item.id} item={item} items={items} activeItem={activeItem} setActiveItem={setActiveItem} errorHandler={errorHandler} groupId={MAIN} options={options}/>)}
-                            </div>
-                        </SortableContext>
+                            <SortableContext
+                                key={MAIN}
+                                id={MAIN}
+                                items={items.map(item => item.id)}
+                                strategy={verticalListSortingStrategy}>
+                                <div ref={setNodeRef}
+                                     style={{
+                                         maxHeight: 'calc(100vh - 100px)',
+                                         overflowY: "auto"
+                                     }}>
+                                    {items.map(item => <ShowItem key={item.id} item={item} items={items} activeItem={activeItem} setActiveItem={setActiveItem} errorHandler={errorHandler} groupId={MAIN} options={options}/>)}
+                                </div>
+                            </SortableContext>
+                        </Grid>
+                            <Grid item xs={2}>
+                                  <ShowTypes AllowedItems={options.AllowedItems} addItems={addItems}/>
+                                  { Options?.collections && Options.collections.length > 0
+                                     ? <>
+                                           <Typography variant='overline' align='center' color='#1976d2'>Collections</Typography>
+                                           {(Options?.collections ?? [] as CollectionType[]).map(template => <Container {...template} addItems={addItems}/>)}
+                                       </>
+                                     : undefined}
+                              </Grid>
                     </Grid>
-                        <Grid item xs={2}>
-                              <ShowTypes AllowedItems={options.AllowedItems} addItems={addItems}/>
-                              { Options?.collections && Options.collections.length > 0
-                                 ? <>
-                                       <Typography variant='overline' align='center' color='#1976d2'>Collections</Typography>
-                                       {(Options?.collections ?? [] as CollectionType[]).map(template => <Container {...template} addItems={addItems}/>)}
-                                   </>
-                                 : undefined}
-                          </Grid>
-                </Grid>
-            </DndContext>
-            { modal ? <EditModal
-                showModal={modal}
-                item={item}
-                items={items}
-                options={options}
-                errorHandler={errorHandler}
-            ></EditModal> : <></>}
-        </Box>
-
+                </DndContext>
+                { modal ? <EditModal
+                    showModal={modal}
+                    item={item}
+                    items={items}
+                    options={options}
+                    errorHandler={errorHandler}
+                ></EditModal> : <></>}
+            </Box>
+        </ThemeProvider>
     </div>
 }
 
