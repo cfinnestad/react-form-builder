@@ -1,5 +1,3 @@
-import {AnyItem} from "../Items";
-
 export type ErrorType = {
     [key: string]: string,
 }
@@ -21,10 +19,13 @@ const Errors = (): ErrorType => {
         minDate: 'Date must be {minDateComputed} or after',
         maxDate: 'Date must be {maxDateComputed} or before',
         invalidDate: 'Value must be a valid date in {dateFormat} format',
+        maxFiles: 'Cannot upload more than {maxFiles} files',
+        maxSizeBytes: 'File cannot size exceed more than {maxSizeBytes} bytes',
+        invalidMimeType: 'Invalid file mime type {type} for {name}',
     }
 }
 
-export const GetError = (error: string, item: AnyItem, errors: ErrorType): string|undefined => {
+export const GetError = (error: string, item: object, errors: ErrorType): string|undefined => {
     let result = errors[error] ?? "Error " + error + " is undefined";
     for (const prop in item) {
         // @ts-ignore

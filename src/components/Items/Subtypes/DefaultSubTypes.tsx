@@ -7,7 +7,11 @@ import {
     BooleanType,
     DateType,
     RadioType,
-    SelectType, PhoneType, AutocompleteType, Option,
+    SelectType,
+    PhoneType,
+    AutocompleteType,
+    Option,
+    FileType,
 } from "../Items";
 import {BooleanEdit, BooleanST, BooleanValidate} from "./Boolean";
 import {TextEdit, TextST, TextValidate} from "./Text";
@@ -19,6 +23,7 @@ import {SelectEdit, SelectST, SelectValidate} from "./Select";
 import {AutocompleteEdit, AutocompleteST, AutocompleteValidate} from "./Autocomplete"
 import {PhoneEdit, PhoneST, PhoneValidate} from "./Phone";
 import {DateEdit, DateST, DateValidate} from "./Date";
+import {FileST, FileEdit, FileValidate} from "./File";
 
 const DefaultSubtypes = (): AllowedSubtypes => {
     return {
@@ -35,6 +40,29 @@ const DefaultSubtypes = (): AllowedSubtypes => {
             EditFC: TextEdit,
             ValidateFC: TextValidate
         } as TextType,
+        File: {
+            Subtype: {
+                id: 'file',
+                type: 'Field',
+                label: 'Select File',
+                content: '<h3 style="text-align: center;">Drop file here</h3>\n' +
+                    '<h3 style="text-align: center;">or</h3>\n' +
+                    '<h3 style="text-align: center;">Click to select</h3>',
+                name: 'File',
+                subtype: 'File',
+                maxFiles: 1,
+                maxSizeBytes: 5000000,
+                fileTypes: [
+                    'image/jpeg',
+                    'image/png',
+                    'image/gif',
+                    'image/bmp'
+                ]
+            },
+            SubtypeFC: FileST,
+            EditFC: FileEdit,
+            ValidateFC: FileValidate
+        } as FileType,
         Email: {
             Subtype: {
                 id: 'email',

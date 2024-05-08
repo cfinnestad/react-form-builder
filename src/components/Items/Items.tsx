@@ -25,7 +25,7 @@ export type Options = {
     setItems: Dispatch<SetStateAction<AnyItem[]>>,
     setModal?: Dispatch<SetStateAction<boolean>>,
     Mode?: string,
-    getError: (error: string, item: AnyItem) => string|undefined,
+    getError: (error: string, item: any) => string|undefined,
     searchableOptions?: {
         [key: string]: (input?: string) => Promise<Option[]> | Option[]
     },
@@ -161,7 +161,7 @@ export type FieldItem = NamedItem & {
     helperText?: string,
     subtype: string,
     custom?: { [key:string]: any }
-    value?: string | number | string[] | boolean,
+    value?: string | number | string[] | boolean | File[],
     errorText?: string
 }
 
@@ -211,6 +211,16 @@ export type TextSubtype = FieldItem & {
     maxLength?: number,
 }
 
+export type FileSubtype = FieldItem & {
+    label?: string,
+    subtype: 'File',
+    value?: File[],
+    maxFiles: number,
+    maxSizeBytes: number,
+    fileTypes?: string[],
+    content: string
+}
+
 export type EmailSubtype = FieldItem & {
     label?: string,
     subtype: 'Email',
@@ -257,7 +267,7 @@ export type BooleanSubtype = FieldItem & {
     value?: boolean,
 }
 
-export type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype | AutocompleteSubtype
+export type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | FileSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype | AutocompleteSubtype
 
 export type ItemType = {
     Item: AnyItem,
@@ -325,6 +335,13 @@ export type TextType = FieldType & {
     ValidateFC?: (item: TextSubtype, options: Options) => boolean,
 }
 
+export type FileType = FieldType & {
+    Subtype: FileSubtype,
+    SubtypeFC: (props: FileProps) => JSX.Element,
+    EditFC: (props: FileProps) => JSX.Element,
+    ValidateFC?: (item: FileSubtype, options: Options) => boolean,
+}
+
 export type EmailType = FieldType & {
     Subtype: EmailSubtype,
     SubtypeFC: (props: EmailProps) => JSX.Element,
@@ -367,7 +384,7 @@ export type PhoneType = FieldType & {
     ValidateFC?: (item: PhoneSubtype, options: Options) => boolean,
 }
 
-export type AnyFieldType = SelectType|RadioType|CheckboxType|TextType|EmailType|NumberType|DateType|BooleanType|AutocompleteType|PhoneType
+export type AnyFieldType = SelectType|RadioType|CheckboxType|TextType|FileType|EmailType|NumberType|DateType|BooleanType|AutocompleteType|PhoneType
 
 export type BaseItemProps = {
     item: AnyItem,
@@ -388,6 +405,7 @@ export type SelectProps = FieldProps & { item : SelectSubtype }
 export type RadioProps = FieldProps & { item : RadioSubtype }
 export type CheckboxProps = FieldProps & { item : CheckboxSubtype }
 export type TextProps = FieldProps & { item : TextSubtype }
+export type FileProps = FieldProps & { item : FileSubtype }
 export type EmailProps = FieldProps & { item : EmailSubtype }
 export type NumberProps = FieldProps & { item : NumberSubtype }
 export type DateProps = FieldProps & { item : DateSubtype }
@@ -421,6 +439,7 @@ export function isSelect(item: AnyItem): item is SelectSubtype { return isField(
 export function isRadio(item: AnyItem): item is RadioSubtype { return isField(item) && item.subtype === "Radio"}
 export function isCheckbox(item: AnyItem): item is CheckboxSubtype { return isField(item) && item.subtype === "Checkbox"}
 export function isText(item: AnyItem): item is TextSubtype { return isField(item) && item.subtype === "Text"}
+export function isFile(item: AnyItem): item is FileSubtype { return isField(item) && item.subtype === "File"}
 export function isEmail(item: AnyItem): item is EmailSubtype { return isField(item) && item.subtype === "Email"}
 export function isNumber(item: AnyItem): item is NumberSubtype { return isField(item) && item.subtype === "Number"}
 export function isDate(item: AnyItem): item is DateSubtype { return isField(item) && item.subtype === "Date"}
