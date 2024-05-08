@@ -1,7 +1,6 @@
-import React from "react";
 import {FieldItem, HiddenItem, isAutocomplete, isCheckbox, isRadio, isSelect} from "./Items";
 
-const GetValue = (item: FieldItem | HiddenItem): string|number|boolean|string[]|undefined => {
+const GetValue = (item: FieldItem | HiddenItem): string|number|boolean|string[]|File[]|undefined => {
     let value = item.value ?? undefined
 
     if (isRadio(item)) {

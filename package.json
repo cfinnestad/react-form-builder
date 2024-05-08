@@ -92,6 +92,7 @@
     "mini-css-extract-plugin": "^2.7.6",
     "mui-phone-number": "^3.0.3",
     "react-copy-to-clipboard": "^5.1.0",
+    "react-dropzone": "^14.2.3",
     "styled-components": "^5.3.10",
     "tinymce": "^6.6.0",
     "uuidv4": "^6.2.13"
