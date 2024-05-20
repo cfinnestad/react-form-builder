@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, JSX } from 'react';
-import { AnyItem, Option, AllowedItems, AllowedSubtypes } from "../Items";
+import { AnyItem, Option, AllowedItems, AllowedSubtypes, Files } from "../Items";
 import { ErrorType } from "../Errors/Errors";
 import { Theme } from "@mui/material/styles";
 import { SubmitButtonProps } from "../Items";
@@ -29,8 +29,8 @@ export type RenderOptions = {
     submitColors?: string[];
 };
 declare const Render: ({ Items, SetItems, Options }: RenderProps) => JSX.Element;
-export declare const RenderedObject: (items: AnyItem[]) => {};
-export declare const RenderedFlatObject: (items: AnyItem[]) => {};
-export declare const RenderedArray: (items: AnyItem[]) => {} | [];
-export declare const RenderedFlatArray: (items: AnyItem[]) => object[];
+export declare const RenderedObject: (items: AnyItem[], files?: Files) => {};
+export declare const RenderedFlatObject: (items: AnyItem[], files?: Files) => {};
+export declare const RenderedArray: (items: AnyItem[], files?: Files) => {} | [];
+export declare const RenderedFlatArray: (items: AnyItem[], files?: Files) => object[];
 export default Render;
