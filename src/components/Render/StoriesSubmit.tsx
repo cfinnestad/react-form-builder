@@ -2,7 +2,7 @@ import {RenderedArray, RenderedFlatArray, RenderedFlatObject, RenderedObject} fr
 import {Button, ButtonGroup} from "@mui/material";
 import ValidateFields from "../Items/ValidateFields";
 import React from "react";
-import {SubmitButtonProps} from "../Items";
+import {Files, SubmitButtonProps} from "../Items";
 
 export const Submit = ({ items, options, color }: SubmitButtonProps) => {
     return <ButtonGroup>
@@ -10,7 +10,9 @@ export const Submit = ({ items, options, color }: SubmitButtonProps) => {
             // @ts-ignore
             <Button color={color} onClick={() => {
                 if(ValidateFields(items, options)) {
-                    alert(JSON.stringify(RenderedObject(items), null, 4))
+                    const files:Files = {}
+                    alert(JSON.stringify(RenderedObject(items, files), null, 4))
+                    alert(JSON.stringify(files, null, 4))
                 }
             }}>
                 SUBMIT AS OBJECT
@@ -20,7 +22,9 @@ export const Submit = ({ items, options, color }: SubmitButtonProps) => {
             // @ts-ignore
             <Button color={color} onClick={() => {
                 if(ValidateFields(items, options)) {
-                    alert(JSON.stringify(RenderedFlatObject(items), null, 4))
+                    const files:Files = {}
+                    alert(JSON.stringify(RenderedFlatObject(items, files), null, 4))
+                    alert(JSON.stringify(files, null, 4))
                 }
             }}>
                 SUBMIT AS FLAT OBJECT
@@ -30,7 +34,9 @@ export const Submit = ({ items, options, color }: SubmitButtonProps) => {
             // @ts-ignore
             <Button color={color} onClick={() => {
                 if(ValidateFields(items, options)) {
-                    alert(JSON.stringify(RenderedArray(items), null, 4))
+                    const files:Files = {}
+                    alert(JSON.stringify(RenderedArray(items, files), null, 4))
+                    alert(JSON.stringify(files, null, 4))
                 }
             }}>
                 SUBMIT AS ARRAY
@@ -40,7 +46,9 @@ export const Submit = ({ items, options, color }: SubmitButtonProps) => {
             // @ts-ignore
             <Button color={color} onClick={() => {
                 if(ValidateFields(items, options)) {
-                    alert(JSON.stringify(RenderedFlatArray(items), null, 4))
+                    const files:Files = {}
+                    alert(JSON.stringify(RenderedFlatArray(items, files), null, 4))
+                    alert(JSON.stringify(files, null, 4))
                 }
             }}>
                 SUBMIT AS FLAT ARRAY
