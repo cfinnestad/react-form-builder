@@ -1,5 +1,16 @@
 import React, {Dispatch, SetStateAction, useEffect, useState, JSX} from 'react';
-import {AnyItem, isField, isGroup, isHidden, Option, Options, AllowedItems, AllowedSubtypes} from "../Items";
+import {
+    AnyItem,
+    isField,
+    isGroup,
+    isHidden,
+    Option,
+    Options,
+    AllowedItems,
+    AllowedSubtypes,
+    Files,
+    isFile
+} from "../Items";
 import ShowItem from "../Items/ShowItem";
 import DefaultItems from "../Items/DefaultItems";
 import DefaultSubtypes from "../Items/Subtypes/DefaultSubTypes";
@@ -92,14 +103,18 @@ const Render = ({ Items, SetItems, Options }: RenderProps ) => {
     </>
 }
 
-export const RenderedObject = ( items: AnyItem[] ): {} => {
+export const RenderedObject = ( items: AnyItem[], files: Files = {} ): {} => {
     let result: Record<string, any> = {}
 
     for (const item of items) {
 
         if(Filter(item, items, item.filter)) {
             if (isGroup(item)) {
-                result[item.name] = RenderedObject(item.items)
+                result[item.name] = RenderedObject(item.items, files)
+            } else if (isFile(item)) {
+                if (item.value) {
+                    files[item.id] = item.value
+                }
             } else if (isHidden(item)) {
                 result[item.name] = item.value
             } else if (isField(item)) {
@@ -111,13 +126,17 @@ export const RenderedObject = ( items: AnyItem[] ): {} => {
     return result
 }
 
-export const RenderedFlatObject = ( items: AnyItem[]): {} => {
+export const RenderedFlatObject = ( items: AnyItem[], files: Files = {}): {} => {
     let result: Record<string, any> = {}
 
     for (const item of items) {
         if(Filter(item, items, item.filter)) {
             if (isGroup(item)) {
-                result = {...result, ...RenderedFlatObject(item.items)}
+                result = {...result, ...RenderedFlatObject(item.items, files)}
+            } else if (isFile(item)) {
+                if (item.value) {
+                    files[item.id] = item.value
+                }
             } else if (isHidden(item)) {
                 result[item.id] = item.value
             } else if (isField(item)) {
@@ -129,7 +148,7 @@ export const RenderedFlatObject = ( items: AnyItem[]): {} => {
     return result
 }
 
-export const RenderedArray = ( items: AnyItem[]): {} | [] => {
+export const RenderedArray = ( items: AnyItem[], files: Files = {}): {} | [] => {
     let result = []
 
     for (const item of items) {
@@ -138,8 +157,12 @@ export const RenderedArray = ( items: AnyItem[]): {} | [] => {
             if (isGroup(item)) {
                 result.push({
                     name: item.name,
-                    value: RenderedArray(item.items)
+                    value: RenderedArray(item.items, files)
                 })
+            } else if (isFile(item)) {
+                if (item.value) {
+                    files[item.id] = item.value
+                }
             } else if (isHidden(item)) {
                 result.push({
                     name: item.name,
@@ -157,14 +180,18 @@ export const RenderedArray = ( items: AnyItem[]): {} | [] => {
     return result
 }
 
-export const RenderedFlatArray = ( items: AnyItem[]): object[] => {
+export const RenderedFlatArray = ( items: AnyItem[], files: Files = {}): object[] => {
     let result: object[] = []
 
     for (const item of items) {
 
         if(Filter(item, items, item.filter)) {
             if (isGroup(item)) {
-                result = [...result, ...RenderedFlatArray(item.items)]
+                result = [...result, ...RenderedFlatArray(item.items, files)]
+            } else if (isFile(item)) {
+                if (item.value) {
+                    files[item.id] = item.value
+                }
             } else if (isHidden(item)) {
                 result.push({
                     name: item.id,

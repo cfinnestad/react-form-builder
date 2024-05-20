@@ -166,6 +166,10 @@ export type FieldItem = NamedItem & {
     errorText?: string
 }
 
+export type Files = {
+    [key:string]: File[]
+}
+
 export type OptionSubtype = FieldItem & {
     value?: string|string[],
     searchableOptionsName?: string,
