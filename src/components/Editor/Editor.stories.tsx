@@ -96,6 +96,19 @@ export const Primary: Story = {
                     value: "last name"
                 } as TextSubtype,
                 {
+                    id: 'backend',
+                    type: 'Field',
+                    name: 'backend',
+                    label: 'Backend Editable',
+                    deprecated: false,
+                    subtype: 'Text',
+                    maxLength: 10,
+                    minLength: 2,
+                    backend_only: true,
+                    editable: true,
+                    value: "last name"
+                } as TextSubtype,
+                {
                     id: 'text2',
                     type: 'Field',
                     name: 'text2',

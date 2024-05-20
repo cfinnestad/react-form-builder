@@ -3,6 +3,7 @@ import {ActionProps} from "../Actions";
 import {SubmitButtonProps} from "./Submit";
 import {Theme} from "@mui/material/styles";
 import {ActiveType} from "../Builder/Builder";
+import Filter from "../Filter";
 
 export type AllowedSubtypes = {
     [key: string]: AnyFieldType,
@@ -448,3 +449,17 @@ export function isAutocomplete(item: AnyItem): item is AutocompleteSubtype { ret
 export function isPhone(item: AnyItem): item is PhoneSubtype { return isField(item) && item.subtype === "Phone"}
 export function isOption(item: AnyItem): item is OptionSubtype { return isField(item) && item.hasOwnProperty('options')}
 export function isNamed(item: AnyItem): item is NamedItem { return item.hasOwnProperty('name') }
+
+export function hasFiles(items: AnyItem[]): boolean {
+    return items.filter((item) => {
+        if(Filter(item, items, item.filter)) {
+            if (isGroup(item)) {
+                return hasFiles(item.items)
+            }
+            if (isField(item)) {
+                return item.subtype === 'File'
+            }
+        }
+        return false
+    }).length > 0
+}
