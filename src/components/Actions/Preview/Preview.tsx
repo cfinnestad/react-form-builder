@@ -5,10 +5,11 @@ import {
 import React, {useState} from "react";
 import Render, {RenderOptions} from "../../Render";
 import {cloneDeep} from "lodash";
+import {itemCloneDeep, itemsCloneDeep} from "../../Items";
 
 
 const Preview = ({Items, Options}: ActionProps) => {
-    const items = cloneDeep(Items)
+    const items = itemsCloneDeep(Items)
     const [modal, setModal] = useState(<></>)
 
     const options = {

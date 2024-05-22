@@ -4,6 +4,7 @@ import {SubmitButtonProps} from "./Submit";
 import {Theme} from "@mui/material/styles";
 import {ActiveType} from "../Builder/Builder";
 import Filter from "../Filter";
+import {cloneDeep} from "lodash";
 
 export type AllowedSubtypes = {
     [key: string]: AnyFieldType,
@@ -466,4 +467,19 @@ export function hasFiles(items: AnyItem[]): boolean {
         }
         return false
     }).length > 0
+}
+
+
+export function itemsCloneDeep(items: AnyItem[]): AnyItem[] {
+    return items.map((item) => itemCloneDeep(item));
+}
+export function itemCloneDeep(item: AnyItem): AnyItem {
+    const newItem = {...item}
+    if (item?.filter) {
+        newItem.filter = cloneDeep(item.filter)
+    }
+    if (isGroup(newItem)) {
+        newItem.items = itemsCloneDeep(newItem.items)
+    }
+    return newItem
 }

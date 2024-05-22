@@ -1,4 +1,4 @@
-import {AnyItem, GroupItem, isGroup, isNamed} from "../Items";
+import {AnyItem, GroupItem, isGroup, isNamed, itemCloneDeep} from "../Items";
 import {v4} from "uuid";
 import {Active, DragEndEvent} from "@dnd-kit/core";
 import findDragItem, {DragItem} from "../Items/findDragItem";
@@ -94,7 +94,7 @@ const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: BuilderOptio
 		if(destination === undefined || active.data.current?.hasOwnProperty('Items') === false || typeof active.data.current?.Items !== 'object') {
 			return items
 		}
-		const newItems = (active.data.current.Items as AnyItem[]).map(itm => fixItemName(cloneDeep(itm), destination))
+		const newItems = (active.data.current.Items as AnyItem[]).map(itm => fixItemName(itemCloneDeep(itm), destination))
 
 		// destClone.splice(overIndex, 0, ...newItems);
 		return updateItems(items, destination.groupId, [

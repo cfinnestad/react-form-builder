@@ -9,7 +9,7 @@ import {
     AllowedItems,
     AllowedSubtypes,
     Files,
-    isFile
+    isFile, itemsCloneDeep
 } from "../Items";
 import ShowItem from "../Items/ShowItem";
 import DefaultItems from "../Items/DefaultItems";
@@ -86,7 +86,7 @@ const Render = ({ Items, SetItems, Options }: RenderProps ) => {
     }, [items])
     useEffect(()=>{
         updateItemInItems(item, items)
-        setItems(cloneDeep(items))
+        setItems(itemsCloneDeep(items))
     },[item])
 
 

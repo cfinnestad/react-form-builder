@@ -1,6 +1,7 @@
 import React from "react";
 import {
-    RadioProps
+    itemCloneDeep,
+    RadioProps, RadioSubtype
 } from "../../Items";
 import {
     FormControlLabel,
@@ -15,7 +16,7 @@ import {cloneDeep} from "lodash";
 const RadioST = ({item, options}: RadioProps ) => {
 
     function onChange(index: number){
-        const itm = cloneDeep(item)
+        const itm = itemCloneDeep(item) as RadioSubtype
         const curVal = itm.options[index].selected
         itm.options.map((option, index) => {
             itm.options[index].selected = false;

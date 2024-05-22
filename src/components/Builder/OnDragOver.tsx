@@ -1,6 +1,6 @@
 import {DragOverEvent} from "@dnd-kit/core";
 import {DragItem} from "../Items/findDragItem";
-import {AnyItem} from "../Items";
+import {AnyItem, itemsCloneDeep} from "../Items";
 import {updateItems} from "./OnDragEnd";
 import {BuilderOptions, MAIN, TYPES} from "./Builder";
 import FindDragItem from "../Items/findDragItem";
@@ -11,10 +11,10 @@ const OnDragOver = ({ active, over }: DragOverEvent, items: AnyItem[], options: 
     console.error('DragOver Over', over)
     if (!active || !over) return;
     const overRef = over.data?.current?.hasOwnProperty('Items')
-        ? {items: cloneDeep(over.data.current.Items), groupId: TYPES, index: 0, item: over.data.current.Items[0]} as DragItem
+        ? {items: itemsCloneDeep(over.data.current.Items), groupId: TYPES, index: 0, item: over.data.current.Items[0]} as DragItem
         : FindDragItem(over.id, items, MAIN)
     const activeRef = active.data?.current?.hasOwnProperty('Items')
-        ? {items: cloneDeep(active.data.current.Items), groupId: TYPES, index: 0, item: active.data.current.Items[0]} as DragItem
+        ? {items: itemsCloneDeep(active.data.current.Items), groupId: TYPES, index: 0, item: active.data.current.Items[0]} as DragItem
         : FindDragItem(active.id, items, MAIN)
     console.error('DragOver ActiveRef', activeRef)
     console.error('DragOver OverRef', overRef)

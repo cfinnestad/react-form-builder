@@ -1,5 +1,5 @@
 import React from "react";
-import {CheckboxProps} from "../../Items";
+import {CheckboxProps, CheckboxSubtype, itemCloneDeep} from "../../Items";
 import {
     Checkbox,
     FormControlLabel,
@@ -12,7 +12,7 @@ import {cloneDeep} from "lodash";
 
 const CheckboxST = ({item, options}: CheckboxProps ) => {
     function onChange(index: number){
-        const itm = cloneDeep(item)
+        const itm = itemCloneDeep(item) as CheckboxSubtype
         itm.options[index].selected = !itm.options[index].selected;
 
         CheckboxValidate(itm, options)

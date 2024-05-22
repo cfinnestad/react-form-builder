@@ -11,7 +11,7 @@ import {
     Stack
 } from '@mui/material';
 import { Theme, useTheme } from '@mui/material/styles';
-import { SelectProps } from '../../Items';
+import {itemCloneDeep, SelectProps, SelectSubtype} from '../../Items';
 import { SelectValidate } from "./index";
 import { cloneDeep } from "lodash";
 
@@ -29,7 +29,7 @@ const MenuProps = {
 function SelectST({item, options}: SelectProps) {
     const theme = useTheme();
     const handleChange = (event: SelectChangeEvent<string | string[]>) => {
-        const itm = cloneDeep(item)
+        const itm = itemCloneDeep(item) as SelectSubtype
         const { target: { value } } = event;
 
         if (itm.multiples) {

@@ -1,7 +1,17 @@
 import React, {Dispatch, FC, JSX, SetStateAction, useEffect, useState} from "react";
 import Actions, {ActionFC, ActionProps} from "../Actions/Actions";
 import DefaultItems from "../Items/DefaultItems";
-import {AllowedItems, AllowedSubtypes, AnyItem, isGroup, BuildErrors, Option, Options, SubmitButtonProps} from "../Items";
+import {
+    AllowedItems,
+    AllowedSubtypes,
+    AnyItem,
+    isGroup,
+    BuildErrors,
+    Option,
+    Options,
+    SubmitButtonProps,
+    itemsCloneDeep, itemCloneDeep
+} from "../Items";
 import {Box, Grid, ThemeProvider, Typography} from "@mui/material";
 import DefaultSubtypes from "../Items/Subtypes/DefaultSubTypes";
 import Transfer from "../Actions/Transfer/Transfer";
@@ -143,7 +153,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
 
     useEffect(() => {
         console.log('SET ITEM', item)
-        const newItems = cloneDeep(items)
+        const newItems = itemsCloneDeep(items)
         UpdateItemInItems(item, newItems)
         setItems(newItems)
     },[item])
@@ -167,7 +177,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
             // console.log('ITEM', activeRef)
         }
         // console.log('addItems activeRef', activeRef)
-        const cloneItems = newItems.map(item => fixItemName(cloneDeep(item),activeRef as DragItem))
+        const cloneItems = newItems.map(item => fixItemName(itemCloneDeep(item),activeRef as DragItem))
         setActiveItem({
             id: cloneItems[cloneItems.length-1].id,
             groupId: activeRef.groupId

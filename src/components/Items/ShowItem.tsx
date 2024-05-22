@@ -1,5 +1,5 @@
 import React from "react";
-import {AnyItem, isField, isGroup, isHtml, isNamed, ItemProps} from "./Items";
+import {AnyItem, isField, isGroup, isHtml, isNamed, itemCloneDeep, ItemProps} from "./Items";
 import {Box} from "@mui/material";
 import FormatLineSpacingRoundedIcon from "@mui/icons-material/FormatLineSpacingRounded";
 import ModeRoundedIcon from '@mui/icons-material/ModeRounded';
@@ -9,7 +9,7 @@ import ItemFC from "./ItemFC";
 import {SortableItem, DragHandle} from "../SortableItem";
 import Filter from "../Filter/Filter";
 import FindDragItem from "./findDragItem";
-import {cloneDeep, isNull, isUndefined} from "lodash";
+import {isNull, isUndefined} from "lodash";
 import {activeStyle, MAIN} from "../Builder/Builder";
 import {fixItemName, updateItems} from "../Builder/OnDragEnd";
 import DeleteItem from "./DeleteItem";
@@ -35,7 +35,7 @@ export const ShowItem = ({item, items, options, activeItem, setActiveItem, group
         const copyItem = (id:string, items:AnyItem[]) => {
             const itemRef = FindDragItem(id, items, MAIN)
             if (itemRef) {
-                const item = fixItemName(cloneDeep(itemRef.item),itemRef)
+                const item = fixItemName(itemCloneDeep(itemRef.item),itemRef)
                 options.setItems(updateItems(items, itemRef.groupId, [
                     ...itemRef.items.slice(0,itemRef.index+1),
                     item,
