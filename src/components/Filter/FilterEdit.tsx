@@ -168,7 +168,7 @@ const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
         if (isComparisonFilter(filter)) {
             fields = <>
                 <Button onClick={addFilter}>Add Filter</Button>
-                {filter.filters.map((f,i) => <FilterEdit fieldItems={fieldItems} filter={f} setFilter={setLocalFilter} index={i}/>)}
+                {filter.filters.map((f,i) => <FilterEdit key={i} fieldItems={fieldItems} filter={f} setFilter={setLocalFilter} index={i}/>)}
             </>
         } else if(isNotFilter(filter)) {
             fields = <FilterEdit fieldItems={fieldItems} filter={filter.filter} setFilter={setLocalFilter}/>
@@ -280,7 +280,7 @@ const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
                         onChange={changeComparison}
                     >
                         <MenuItem value=''>Remove Filter</MenuItem>
-                        { ['=','>','>=','<','<=','in','and','or','not'].map(option => <MenuItem value={option}>{option}</MenuItem>)}
+                        { ['=','>','>=','<','<=','in','and','or','not'].map((option, index) => <MenuItem key={index} value={option}>{option}</MenuItem>)}
                     </Select>
                 </FormControl>
                 {fields}
