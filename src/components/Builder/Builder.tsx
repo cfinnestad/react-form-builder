@@ -152,31 +152,23 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     }, [items])
 
     useEffect(() => {
-        console.log('SET ITEM', item)
         const newItems = itemsCloneDeep(items)
         UpdateItemInItems(item, newItems)
         setItems(newItems)
     },[item])
 
     const addItems = (newItems: AnyItem[]) => {
-        // console.log('addItems', newItems)
-        // console.warn('AddItems', newItems)
-        // console.warn('AddItems activeItem', activeItem)
         let activeRef = findDragItem(activeItem.id ?? activeItem.groupId, items, MAIN)
         if (activeRef === undefined) {
             activeRef = {items: items, groupId: MAIN, index: 0} as DragItem
-            // console.log('UNDEFINED', activeRef)
         } else if (activeItem.id === undefined) {
             if (!isGroup(activeRef.item)) return
             activeRef.index = 0
             activeRef.groupId = activeRef.item.id
             activeRef.items = activeRef.item.items
-            // console.log('GROUP', activeRef)
         } else {
             activeRef.index++
-            // console.log('ITEM', activeRef)
         }
-        // console.log('addItems activeRef', activeRef)
         const cloneItems = newItems.map(item => fixItemName(itemCloneDeep(item),activeRef as DragItem))
         setActiveItem({
             id: cloneItems[cloneItems.length-1].id,
