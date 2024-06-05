@@ -60,54 +60,45 @@ const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
         }
     }
 
+    const getCurFilter = (value: string): FieldFilter | ComparisonFilter | NotFilter | undefined => {
+        switch (value) {
+            case '': return;
+            case 'and':
+            case 'or':
+                return {
+                    comparison: value,
+                    filters: [{...defaultFilter}, {...defaultFilter}]
+                } as ComparisonFilter
+            case 'not':
+                return {
+                    comparison: value,
+                    filter: {...defaultFilter}
+                } as NotFilter
+            case 'in':
+                return {
+                    comparison: 'in',
+                    fieldId: fieldItems[0].id,
+                    value: [getDefaultValue(fieldItems[0])]
+                } as FieldFilter
+            default:
+                return {
+                    comparison: value,
+                    fieldId: fieldItems[0].id,
+                    value: getDefaultValue(fieldItems[0])
+                } as FieldFilter
+        }
+    }
+
     const changeComparison = (event: SelectChangeEvent<string>) => {
         const { value } = event.target;
-        let curFilter = undefined
-        if (filter === undefined) {
-            switch (value) {
-                case '':
-                    return
-                case 'and':
-                case 'or':
-                    curFilter = {
-                        comparison: value,
-                        filters: [{...defaultFilter}, {...defaultFilter}]
-                    } as ComparisonFilter
-                    break
-                case 'not':
-                    curFilter = {
-                        comparison: value,
-                        filter: {...defaultFilter}
-                    } as NotFilter
-                    break
-                case 'in':
-                    curFilter = {
-                        comparison: 'in',
-                        fieldId: fieldItems[0].id,
-                        value: [getDefaultValue(fieldItems[0])]
-                    } as FieldFilter
-                    break
-                default:
-                    curFilter = {
-                        comparison: value,
-                        fieldId: fieldItems[0].id,
-                        value: getDefaultValue(fieldItems[0])
-                    } as FieldFilter
-            }
-
-        } else if (value !== '') {
-            if (value === filter.comparison) {
-                curFilter = undefined
-            } else if (isComparisonFilter(filter) && ['and','or'].includes(value)) {
-                curFilter = {...filter, comparison: value} as ComparisonFilter
-            } else if (isFieldFilter(filter) && ['=','>','>=','<','<=','in'].includes(value)) {
-                curFilter = {...filter, comparison: value} as FieldFilter
+        let curFilter = getCurFilter(value);
+        if (filter && curFilter) {
+            if (isFieldFilter(filter)) {
+                curFilter = curFilter as FieldFilter;
                 if (value === 'in') {
-                    if (isArray(filter.value)) {
-                        curFilter.value = filter?.value[0]
-                    }
-                } else if(filter.value==='in') {
-                    curFilter.value = [filter.value]
+                    curFilter.value = isArray(filter.value) ? filter.value[0] : [filter.value];
+                } else if (isFieldFilter(curFilter) && isArray(filter.value)) {
+                    curFilter.value = filter.value[0];
                 }
             }
         }
@@ -280,7 +271,8 @@ const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
                         onChange={changeComparison}
                     >
                         <MenuItem value=''>Remove Filter</MenuItem>
-                        { ['=','>','>=','<','<=','in','and','or','not'].map((option, index) => <MenuItem key={index} value={option}>{option}</MenuItem>)}
+                        { ['=','>','>=','<','<=','in','and','or','not'].map((option, index) =>
+                          <MenuItem key={index} value={option}>{option}</MenuItem>)}
                     </Select>
                 </FormControl>
                 {fields}
