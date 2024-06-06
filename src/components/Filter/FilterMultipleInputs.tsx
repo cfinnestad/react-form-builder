@@ -11,8 +11,6 @@ type FilterMultipleInputsProps = {
 }
 
 const FilterMultipleInputs = ({values,setValues,type,label = 'Value'}:FilterMultipleInputsProps) => {
-
-    console.log('Values', values)
     const setValue = (value: string|number|boolean|undefined, index:number|undefined) => {
         if(index===undefined) return
         const vals = [...values]
@@ -30,9 +28,17 @@ const FilterMultipleInputs = ({values,setValues,type,label = 'Value'}:FilterMult
 
     return <>
         <Button onClick={addValue}>Add</Button>
-        {values.map((value,index) => <>
-            <FilterInput value={value} setValue={setValue} type={type} label={label} index={index} inputProps={{endAdornment: <Button onClick={() => deleteValue(index)}><DeleteForeverRoundedIcon sx={{ fontSize: 'medium', verticalAlign:'center', m: 1 }} /></Button>}}/>
-        </>)}
+        {values.map((value,index) =>
+            <FilterInput
+              key={index} value={value} setValue={setValue}
+              type={type} label={label} index={index}
+              inputProps={{
+                    endAdornment: <Button onClick={() => deleteValue(index)}>
+                        <DeleteForeverRoundedIcon sx={{ fontSize: 'medium', verticalAlign:'center', m: 1 }} />
+                    </Button>
+                }}
+            />
+        )}
     </>
 }
 

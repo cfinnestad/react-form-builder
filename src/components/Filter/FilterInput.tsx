@@ -38,6 +38,7 @@ const FilterInput = ({value,index,setValue,type,label,inputProps}:FilterInputPro
                 disableDropdown = {true}
                 onlyCountries = {['us']}
                 InputProps={inputProps}
+                value={value}
             />
         </>
     }
@@ -79,7 +80,15 @@ const FilterInput = ({value,index,setValue,type,label,inputProps}:FilterInputPro
     }
 
     return <>
-        <TextField size='small' InputProps={inputProps} defaultValue={value} label={label ?? 'Value'} onChange={changeValue} type={type} placeholder='<undefined>'/>
+        <TextField
+            size='small'
+            InputProps={inputProps}
+            defaultValue={value}
+            label={label ?? 'Value'}
+            onChange={changeValue}
+            type={type}
+            placeholder='<undefined>'
+        />
     </>
 }
 
