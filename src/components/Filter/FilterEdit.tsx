@@ -95,11 +95,6 @@ const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
         if (filter && curFilter) {
             if (isFieldFilter(filter)) {
                 curFilter = curFilter as FieldFilter;
-                if (value === 'in') {
-                    curFilter.value = isArray(filter.value) ? filter.value[0] : [filter.value];
-                } else if (isFieldFilter(curFilter) && isArray(filter.value)) {
-                    curFilter.value = filter.value[0];
-                }
             }
         }
         setFilter(curFilter as FilterType,index)
