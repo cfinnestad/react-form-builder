@@ -94,13 +94,17 @@ const Filter = (item: AnyItem, items: AnyItem[], filter: FilterType|undefined): 
         let response = true;
         filter.filters.map(nextFilter => {
             response &&= Filter(item, items, nextFilter)
+            if (!response) return response;
         })
+        return response;
     }
     if (isOrFilter(filter)) {
         let response = false;
         filter.filters.map(nextFilter => {
             response ||= Filter(item, items, nextFilter)
+            if (response) return response;
         })
+        return response;
     }
     if (isNotFilter(filter)) {
         return !Filter(item, items, filter.filter)

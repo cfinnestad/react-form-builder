@@ -63,8 +63,7 @@ export const Primary: Story = {
                     deprecated: false,
                     subtype: 'Text',
                     maxLength: 10,
-                    minLength: 2,
-                    backend_only: true
+                    minLength: 2
                 } as TextSubtype,
                 {
                     id: 'last_name',
