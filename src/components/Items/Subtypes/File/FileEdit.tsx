@@ -30,7 +30,6 @@ export const FileEdit = ({item, options, errorHandler}: FileProps ) => {
     const editorRef = useRef(null);
 
     const onChangeContent = (content: string) => {
-        console.log('content', content)
         options.SetItem({...item, content: content})
     }
     const onChangeMaxFiles = (event: ChangeEvent<HTMLInputElement>) => {

@@ -1,5 +1,5 @@
 import React, {ChangeEvent} from "react";
-import {FieldItem, FieldProps} from "../Items";
+import {FieldItem, FieldProps, FieldType} from "../Items";
 import DefaultSubtypes from "../Subtypes/DefaultSubTypes";
 import {
     Checkbox,
@@ -103,6 +103,16 @@ export const FieldEdit = ({item, items, options, errorHandler}: FieldProps) => {
         }
     }
 
+    const getSubtypeEdit = (value: FieldType) => {
+        return <value.EditFC
+          //@ts-ignore
+          item={item}
+          items={items}
+          options={options}
+          errorHandler={errorHandler}
+        ></value.EditFC>
+    }
+
     return <>
         <FormGroup>
             <FormControlLabel control={ <Checkbox  checked={item.required ?? false} onChange={handlers.required}/> } label="Required"/>
@@ -173,16 +183,7 @@ export const FieldEdit = ({item, items, options, errorHandler}: FieldProps) => {
             </FormHelperText>
         </FormControl>
 
-        { Object.entries(options.AllowedSubtypes).map(([key, value]) => {
-            return item.subtype === key &&
-                <value.EditFC
-                    //@ts-ignore
-                    item={item}
-                    items={items}
-                    options={options}
-                    errorHandler={errorHandler}
-                ></value.EditFC>
-        })}
+        { getSubtypeEdit(options.AllowedSubtypes[item.subtype]) }
 
     </>
 }

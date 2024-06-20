@@ -75,16 +75,13 @@ export const ShowItem = ({item, items, options, activeItem, setActiveItem, group
     }
     // @ts-ignore
     if (isNamed(item) && (item?.deprecated || item?.backend_only) && options?.Mode !== "edit") {
-        console.log('1')
         return <></>
     }
     // @ts-ignore
     if (isNamed(item) && ((item?.deprecated && (isUndefined(item?.value) || isNull(item?.value)))) && (options?.Mode === "edit")) {
-        console.log('2')
         return <></>
     }
     if (!Filter(item, items, item.filter)) {
-        console.log('3')
         return <></>
     }
     return <ItemFC key={item.id} item={item} items={items} options={options}/>
