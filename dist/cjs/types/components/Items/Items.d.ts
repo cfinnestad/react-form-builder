@@ -3,6 +3,7 @@ import { ActionProps } from "../Actions";
 import { SubmitButtonProps } from "./Submit";
 import { Theme } from "@mui/material/styles";
 import { ActiveType } from "../Builder/Builder";
+import { Accept } from "react-dropzone";
 export type AllowedSubtypes = {
     [key: string]: AnyFieldType;
 };
@@ -33,6 +34,7 @@ export type Options = {
         [key: string]: any;
     };
     submitColors: string[];
+    fileTypes: Accept;
 };
 export type BaseItem = {
     id: string;

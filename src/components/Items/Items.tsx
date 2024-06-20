@@ -5,6 +5,7 @@ import {Theme} from "@mui/material/styles";
 import {ActiveType} from "../Builder/Builder";
 import Filter from "../Filter";
 import {cloneDeep} from "lodash";
+import {Accept} from "react-dropzone";
 
 export type AllowedSubtypes = {
     [key: string]: AnyFieldType,
@@ -39,6 +40,7 @@ export type Options = {
     // deleteItemSection?: (id: string) => void,
     custom?: {[key:string]: any},
     submitColors: string[],
+    fileTypes: Accept,
 }
 
 export type BaseItem = {

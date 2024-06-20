@@ -1,5 +1,6 @@
 import React, { JSX, FC, Dispatch, SetStateAction } from 'react';
 import { Theme } from '@mui/material/styles';
+import { Accept } from 'react-dropzone';
 
 declare const Transfer: ({ Items, Options }: ActionProps) => React.JSX.Element;
 
@@ -47,6 +48,7 @@ type Options = {
         [key: string]: any;
     };
     submitColors: string[];
+    fileTypes: Accept;
 };
 type BaseItem = {
     id: string;
@@ -485,6 +487,7 @@ type BuilderUseOptions = {
         [key: string]: any;
     };
     submitColors?: string[];
+    fileTypes?: Accept;
 };
 type BuilderProps = {
     AllowedItems?: AllowedItems;
@@ -521,6 +524,7 @@ type RenderOptions = {
     };
     mode?: "build" | "edit" | "render";
     submitColors?: string[];
+    fileTypes: Accept;
 };
 declare const Render: ({ Items, SetItems, Options }: RenderProps) => JSX.Element;
 declare const RenderedObject: (items: AnyItem[], files?: Files) => {};

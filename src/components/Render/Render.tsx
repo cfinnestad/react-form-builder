@@ -22,6 +22,8 @@ import GetValue from "../Items/GetValue";
 import {SubmitButtonProps} from "../Items";
 import {cloneDeep} from "lodash";
 import updateItemInItems from "../Items/UpdateItemInItems";
+import {Accept} from "react-dropzone";
+import {FileTypes} from "../Items/Subtypes/File/FileTypes";
 
 export type RenderProps = {
     Items: AnyItem[],
@@ -46,6 +48,7 @@ export type RenderOptions = {
     custom?: {[key:string]: any},
     mode?: "build" | "edit" | "render",
     submitColors?: string[],
+    fileTypes: Accept,
 }
 
 const Render = ({ Items, SetItems, Options }: RenderProps ) => {
@@ -76,7 +79,8 @@ const Render = ({ Items, SetItems, Options }: RenderProps ) => {
            return GetError(error, item, {...Errors(), ...(Options.Errors ?? {})})
         },
         muiTheme: theme,
-        submitColors: Options.submitColors ?? getPalettes(),
+        submitColors: Options?.submitColors ?? getPalettes(),
+        fileTypes: Options?.fileTypes ?? FileTypes,
     }
 
     useEffect(() => {
