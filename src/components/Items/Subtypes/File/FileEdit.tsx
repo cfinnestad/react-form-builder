@@ -73,7 +73,7 @@ export const FileEdit = ({item, options, errorHandler}: FileProps ) => {
         const fileTypes = isArray(selected.target.value) ? selected.target.value : [selected.target.value]
         var valid = true
         fileTypes.map(type => {
-            if (!isValidType(type)) {
+            if (!isValidType(type, options)) {
                 errorHandler.setError('filesTypes', 'Invalid File Type selected')
                 valid = false
             }

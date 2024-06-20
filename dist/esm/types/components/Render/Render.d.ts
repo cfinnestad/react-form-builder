@@ -3,6 +3,7 @@ import { AnyItem, Option, AllowedItems, AllowedSubtypes, Files } from "../Items"
 import { ErrorType } from "../Errors/Errors";
 import { Theme } from "@mui/material/styles";
 import { SubmitButtonProps } from "../Items";
+import { Accept } from "react-dropzone";
 export type RenderProps = {
     Items: AnyItem[];
     SetItems?: Dispatch<SetStateAction<AnyItem[]>>;
@@ -27,6 +28,7 @@ export type RenderOptions = {
     };
     mode?: "build" | "edit" | "render";
     submitColors?: string[];
+    fileTypes: Accept;
 };
 declare const Render: ({ Items, SetItems, Options }: RenderProps) => JSX.Element;
 export declare const RenderedObject: (items: AnyItem[], files?: Files) => {};

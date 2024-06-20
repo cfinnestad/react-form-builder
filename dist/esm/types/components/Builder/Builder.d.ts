@@ -8,6 +8,7 @@ export declare const activeStyle: {
 };
 export declare const MAIN = "-Main-";
 export declare const TYPES = "-Types-";
+import { Accept } from "react-dropzone";
 export type CollectionType = {
     name: string;
     items: AnyItem[];
@@ -38,6 +39,7 @@ export type BuilderUseOptions = {
         [key: string]: any;
     };
     submitColors?: string[];
+    fileTypes?: Accept;
 };
 export type BuilderOptions = Options & {};
 export type BuilderProps = {
