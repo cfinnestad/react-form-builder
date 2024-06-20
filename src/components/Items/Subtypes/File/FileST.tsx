@@ -61,7 +61,7 @@ function FileST({item, options}: FileProps) {
     } = useDropzone({
         maxSize: item.maxSizeBytes,
         onDrop,
-        accept: getFilesTypes(item.fileTypes)
+        accept: getFilesTypes(item.fileTypes, options)
     });
 
     const removeFile = (name : string) => {
@@ -98,7 +98,11 @@ function FileST({item, options}: FileProps) {
             case ErrorCode.TooManyFiles:
                 return 'Cannot upload more than ' + item.maxFiles + ' files.'
             case ErrorCode.FileInvalidType:
-                return 'Not a valid file type to upload. Must be of type ' + getExtensions(item?.fileTypes ?? ['Undefined']).join(', ') +'.'
+                return (
+                    'Not a valid file type to upload. Must be of type ' +
+                    getExtensions(item?.fileTypes ?? ['Undefined'], options).join(', ') +
+                    '.'
+                )
             default:
                 return fileError.message
         }

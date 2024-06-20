@@ -47,6 +47,8 @@ export const TYPES = '-Types-'
 import ErrorHandler from "../Items/ErrorHandler";
 import {Preview} from "../Actions";
 import Container from "../Collection";
+import {Accept} from "react-dropzone";
+import {FileTypes} from "../Items/Subtypes/File/FileTypes";
 
 export type CollectionType = {
     name: string,
@@ -78,6 +80,7 @@ export type BuilderUseOptions = {
     mode: string,
     custom?: {[key:string]: any},
     submitColors?: string[],
+    fileTypes?: Accept,
 }
 
 export type BuilderOptions = Options & {
@@ -143,7 +146,8 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         },
         muiTheme: theme,
         submitColors: Options?.submitColors ?? getPalettes(),
-        custom: Options?.custom
+        custom: Options?.custom,
+        fileTypes: Options?.fileTypes ?? FileTypes,
     }
     useEffect(() => {
         if(SetItems) {
