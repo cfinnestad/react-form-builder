@@ -48,7 +48,7 @@ export type RenderOptions = {
     custom?: {[key:string]: any},
     mode?: "build" | "edit" | "render",
     submitColors?: string[],
-    fileTypes: Accept,
+    fileTypes?: Accept,
 }
 
 const Render = ({ Items, SetItems, Options }: RenderProps ) => {
