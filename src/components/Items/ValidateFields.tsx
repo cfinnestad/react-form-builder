@@ -1,4 +1,4 @@
-import {AnyItem, isField, Options} from "./Items";
+import {AnyItem, isField, isGroup, Options} from "./Items";
 import Filter from "../Filter";
 
 const ValidateFields = (items: AnyItem[], options: Options): boolean => {
@@ -13,6 +13,10 @@ const ValidateFields = (items: AnyItem[], options: Options): boolean => {
                 }
                 options.SetItem({...item})
             }
+        }
+        else if (isGroup(item) && !item.deprecated && (!item.backend_only || options.Mode === "edit")) {
+            result = ValidateFields(item.items, options) && result
+            options.SetItem({...item})
         }
     }
     return result
