@@ -415,6 +415,6 @@ export declare function isAutocomplete(item: AnyItem): item is AutocompleteSubty
 export declare function isPhone(item: AnyItem): item is PhoneSubtype;
 export declare function isOption(item: AnyItem): item is OptionSubtype;
 export declare function isNamed(item: AnyItem): item is NamedItem;
-export declare function hasFiles(items: AnyItem[]): boolean;
+export declare function hasFiles(items: AnyItem[], allItems?: AnyItem[]): boolean;
 export declare function itemsCloneDeep(items: AnyItem[]): AnyItem[];
 export declare function itemCloneDeep(item: AnyItem): AnyItem;

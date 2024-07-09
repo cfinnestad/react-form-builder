@@ -31,8 +31,8 @@ export type RenderOptions = {
     fileTypes?: Accept;
 };
 declare const Render: ({ Items, SetItems, Options }: RenderProps) => JSX.Element;
-export declare const RenderedObject: (items: AnyItem[], files?: Files) => {};
-export declare const RenderedFlatObject: (items: AnyItem[], files?: Files) => {};
-export declare const RenderedArray: (items: AnyItem[], files?: Files) => {} | [];
-export declare const RenderedFlatArray: (items: AnyItem[], files?: Files) => object[];
+export declare const RenderedObject: (items: AnyItem[], files?: Files, allItems?: AnyItem[]) => {};
+export declare const RenderedFlatObject: (items: AnyItem[], files?: Files, allItems?: AnyItem[]) => {};
+export declare const RenderedArray: (items: AnyItem[], files?: Files, allItems?: AnyItem[]) => {} | [];
+export declare const RenderedFlatArray: (items: AnyItem[], files?: Files, allItems?: AnyItem[]) => object[];
 export default Render;
