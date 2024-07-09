@@ -107,14 +107,14 @@ const Render = ({ Items, SetItems, Options }: RenderProps ) => {
     </>
 }
 
-export const RenderedObject = ( items: AnyItem[], files: Files = {} ): {} => {
+export const RenderedObject = ( items: AnyItem[], files: Files = {}, allItems?: AnyItem[] ): {} => {
     let result: Record<string, any> = {}
 
     for (const item of items) {
 
-        if(Filter(item, items, item.filter)) {
+        if(Filter(item, allItems ?? items, item.filter)) {
             if (isGroup(item)) {
-                result[item.name] = RenderedObject(item.items, files)
+                result[item.name] = RenderedObject(item.items, files, allItems ?? items)
             } else if (isFile(item)) {
                 if (item.value) {
                     files[item.id] = item.value
@@ -130,13 +130,13 @@ export const RenderedObject = ( items: AnyItem[], files: Files = {} ): {} => {
     return result
 }
 
-export const RenderedFlatObject = ( items: AnyItem[], files: Files = {}): {} => {
+export const RenderedFlatObject = ( items: AnyItem[], files: Files = {}, allItems?: AnyItem[] ): {} => {
     let result: Record<string, any> = {}
 
     for (const item of items) {
-        if(Filter(item, items, item.filter)) {
+        if(Filter(item, allItems ?? items, item.filter)) {
             if (isGroup(item)) {
-                result = {...result, ...RenderedFlatObject(item.items, files)}
+                result = {...result, ...RenderedFlatObject(item.items, files, allItems ?? items)}
             } else if (isFile(item)) {
                 if (item.value) {
                     files[item.id] = item.value
@@ -152,16 +152,16 @@ export const RenderedFlatObject = ( items: AnyItem[], files: Files = {}): {} => 
     return result
 }
 
-export const RenderedArray = ( items: AnyItem[], files: Files = {}): {} | [] => {
+export const RenderedArray = ( items: AnyItem[], files: Files = {}, allItems?: AnyItem[] ): {} | [] => {
     let result = []
 
     for (const item of items) {
 
-        if(Filter(item, items, item.filter)) {
+        if(Filter(item, allItems ?? items, item.filter)) {
             if (isGroup(item)) {
                 result.push({
                     name: item.name,
-                    value: RenderedArray(item.items, files)
+                    value: RenderedArray(item.items, files, allItems ?? items)
                 })
             } else if (isFile(item)) {
                 if (item.value) {
@@ -184,14 +184,14 @@ export const RenderedArray = ( items: AnyItem[], files: Files = {}): {} | [] => 
     return result
 }
 
-export const RenderedFlatArray = ( items: AnyItem[], files: Files = {}): object[] => {
+export const RenderedFlatArray = ( items: AnyItem[], files: Files = {}, allItems?: AnyItem[] ): object[] => {
     let result: object[] = []
 
     for (const item of items) {
 
-        if(Filter(item, items, item.filter)) {
+        if(Filter(item, allItems ?? items, item.filter)) {
             if (isGroup(item)) {
-                result = [...result, ...RenderedFlatArray(item.items, files)]
+                result = [...result, ...RenderedFlatArray(item.items, files, allItems ?? items)]
             } else if (isFile(item)) {
                 if (item.value) {
                     files[item.id] = item.value

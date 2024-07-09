@@ -457,11 +457,11 @@ export function isPhone(item: AnyItem): item is PhoneSubtype { return isField(it
 export function isOption(item: AnyItem): item is OptionSubtype { return isField(item) && item.hasOwnProperty('options')}
 export function isNamed(item: AnyItem): item is NamedItem { return item.hasOwnProperty('name') }
 
-export function hasFiles(items: AnyItem[]): boolean {
+export function hasFiles(items: AnyItem[], allItems?: AnyItem[]): boolean {
     return items.filter((item) => {
-        if(Filter(item, items, item.filter)) {
+        if(Filter(item, allItems ?? items, item.filter)) {
             if (isGroup(item)) {
-                return hasFiles(item.items)
+                return hasFiles(item.items, allItems ?? items)
             }
             if (isField(item)) {
                 return item.subtype === 'File'
