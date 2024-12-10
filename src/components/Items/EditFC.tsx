@@ -5,12 +5,12 @@ import {
     HiddenItem,
     isField,
     isGroup,
-    isHidden,
+    isHidden, isList,
     isNamed,
     ItemProps,
-    NamedItem
+    NamedItem, NumberSubtype
 } from "./Items";
-import {FormGroup, FormHelperText, Stack, TextField} from "@mui/material";
+import {Checkbox, FormControlLabel, FormGroup, FormHelperText, Stack, TextField} from "@mui/material";
 import {ShowErrors} from "./Subtypes";
 import FilterEdit, {FilterEditProps} from "../Filter/FilterEdit";
 
@@ -118,16 +118,83 @@ const NamedItemEdit = ({itemProps, onChange}: NamedItemEditProps) => {
     </>
 }
 
-const EditFC = (ItemProps: ItemProps) => {
-    const [itemId, setItemId] = useState(ItemProps.item.id);
+const EditFC = (itemProps: ItemProps) => {
+    const [itemId, setItemId] = useState(itemProps.item.id);
 
     const setFilter = (...[filter]: Parameters<FilterEditProps["setFilter"]>) => {
-        ItemProps.options.SetItem({ ...ItemProps.item, filter: filter } )
+        itemProps.options.SetItem({ ...itemProps.item, filter: filter } )
     }
 
     const onChangeNamedItem = (value: string) => {
         const index = itemId.lastIndexOf('-');
         const prefix = itemId.substring(0, index+1);
+    }
+
+    const onChangeList = (event: ChangeEvent<HTMLInputElement>) => {
+        const itm = { ...itemProps.item }
+        const { target: { checked } } = event;
+        itm.isList = checked
+
+        if(!itm.isList) {
+            itm.isList = undefined
+            delete itm.isList
+        }
+
+        itemProps.options.SetItem(itm)
+    }
+
+    const handleMaxValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const val = parseInt(event.target.value);
+
+        if (isNaN(val)) {
+            itemProps.errorHandler.setError('maxListSize', 'Max Value must be an integer!')
+        }
+        else if (val <= 0) {
+            itemProps.errorHandler.setError('maxListSize', 'Max Value must be greater than zero!')
+        }
+        else if (itemProps.item.minListSize && (val < itemProps.item.minListSize)) {
+            itemProps.errorHandler.setError('maxListSize', 'Max Value must not be less than Min Value!')
+        }
+        else {
+            itemProps.errorHandler.setError('maxListSize')
+
+            const itm = { ...itemProps.item, maxListSize: val } as NumberSubtype;
+
+            itemProps.options.SetItem(itm);
+        }
+    };
+
+    const handleMinValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const val = parseInt(event.target.value);
+
+        if (isNaN(val)) {
+            itemProps.errorHandler.setError('minListSize', 'Min Value must be an integer!')
+        } else if (val < 0) {
+            itemProps.errorHandler.setError('minListSize', 'Min Value must be positive!')
+        } else if (itemProps.item.maxListSize && (val > itemProps.item.maxListSize)) {
+            itemProps.errorHandler.setError('minListSize', 'Min Value must not be greater than Max Value!')
+        } else {
+            itemProps.errorHandler.setError('minListSize')
+
+            // Make sure the Value field still complies with the new Min Value setting
+            if (itemProps.item.minListSize && parseFloat(itemProps.item.minListSize.toString()) < val) {
+                itemProps.errorHandler.setError('value', 'Value cannot be less than the Min Value setting!')
+            } else {
+                itemProps.errorHandler.setError('value')
+            }
+
+            const itm = { ...itemProps.item, min: val } as NumberSubtype;
+
+            itemProps.options.SetItem(itm);
+        }
+    };
+
+    const onMinList = (min: number) => {
+        itemProps.options.SetItem({...itemProps.item, minListSize:min})
+    }
+
+    const onMaxList = (max: number) => {
+        itemProps.options.SetItem({...itemProps.item, maxListSize:max})
     }
 
     return <>
@@ -141,21 +208,52 @@ const EditFC = (ItemProps: ItemProps) => {
             />
             <NamedItemEdit
                 itemProps={{
-                    item: ItemProps.item,
-                    items: ItemProps.items,
-                    options: ItemProps.options,
-                    errorHandler: ItemProps.errorHandler,
+                    item: itemProps.item,
+                    items: itemProps.items,
+                    options: itemProps.options,
+                    errorHandler: itemProps.errorHandler,
                 }}
                 onChange={onChangeNamedItem}
             />
-            <FilterEdit
-                fieldItems={GetFilterItems(ItemProps.items,ItemProps.item)}
-                filter={ItemProps.item.filter}
-                setFilter={setFilter}
-            ></FilterEdit>
+            { isList(itemProps.item) ? <>
+                <FormGroup>
+                    <FormControlLabel control={ <Checkbox  checked={itemProps.item.isList ?? false} onChange={onChangeList}/> } label="Backend Only"/>
+                    <FormHelperText sx = {{marginTop: -1}}>
+                        Will return a variable sized array of this item type as data.
+                    </FormHelperText>
+                </FormGroup>
+                { itemProps.item.isList ? <>
+                    <FormGroup>
+                        <TextField
+                            error={itemProps.errorHandler.hasError('minListSize')}
+                            id={`${itemProps.item.id}-min-list-size`}
+                            inputProps={{ min: 1, shrink: true }}
+                            label="Min List Size"
+                            onChange={handleMinValueChange}
+                            size="small"
+                            type="number"
+                            defaultValue={itemProps.item.minListSize}
+                        />
+                        <ShowErrors errors={itemProps.errorHandler.getError('minListSize')} />
+                    </FormGroup>
+                    <FormGroup>
+                        <TextField
+                            error={itemProps.errorHandler.hasError('maxListSize')}
+                            id={`${itemProps.item.id}-max-list-size`}
+                            inputProps={{ min: 1, shrink: true }}
+                            label="Max List Size"
+                            onChange={handleMaxValueChange}
+                            size="small"
+                            type="number"
+                            defaultValue={itemProps.item.maxListSize}
+                        />
+                        <ShowErrors errors={itemProps.errorHandler.getError('maxListSize')} />
+                    </FormGroup>
+                </> : undefined}
+            </> : undefined}
             {
                 //@ts-ignore
-                ItemProps.options.AllowedItems[ItemProps.item.type].EditFC(ItemProps)
+                itemProps.options.AllowedItems[itemProps.item.type].EditFC(itemProps)
             }
         </Stack>
     </>

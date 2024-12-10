@@ -48,6 +48,9 @@ export type BaseItem = {
     type: string,
     filter?: FilterType,
     custom?: {[key:string]: any},
+    isList?: boolean,
+    maxListSize?: number,
+    minListSize?: number,
 }
 
 export type FilterType = {
@@ -457,6 +460,15 @@ export function isPhone(item: AnyItem): item is PhoneSubtype { return isField(it
 export function isOption(item: AnyItem): item is OptionSubtype { return isField(item) && item.hasOwnProperty('options')}
 export function isNamed(item: AnyItem): item is NamedItem { return item.hasOwnProperty('name') }
 
+export function isList(item: AnyItem): boolean {
+    return isGroup(item)
+        || isText(item)
+        || isDate(item)
+        || isText(item)
+        || isEmail(item)
+        || isNumber(item)
+        || isPhone(item)
+}
 export function hasFiles(items: AnyItem[], allItems?: AnyItem[]): boolean {
     return items.filter((item) => {
         if(Filter(item, allItems ?? items, item.filter)) {
