@@ -7,7 +7,7 @@ import {
     DateSubtype,
     EmailSubtype,
     EqFilter,
-    GroupItem,
+    ListItem,
     HTMLItem,
     NumberSubtype,
     TextSubtype,
@@ -16,7 +16,7 @@ import {
     PhoneSubtype,
     AutocompleteSubtype,
     SubmitItem,
-    Option
+    Option, GroupItem
 } from "../Items";
 import {Submit} from "./StoriesSubmit";
 import {TestTheme} from "../../shared/themes/TestTheme";

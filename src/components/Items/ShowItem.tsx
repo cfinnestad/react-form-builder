@@ -1,5 +1,5 @@
 import React from "react";
-import {AnyItem, isField, isGroup, isHtml, isNamed, itemCloneDeep, ItemProps} from "./Items";
+import {AnyItem, isField, isGroup, isHtml, isList, isNamed, itemCloneDeep, ItemProps} from "./Items";
 import {Box} from "@mui/material";
 import FormatLineSpacingRoundedIcon from "@mui/icons-material/FormatLineSpacingRounded";
 import ModeRoundedIcon from '@mui/icons-material/ModeRounded';
@@ -24,11 +24,12 @@ type ShowItemsProps = ItemProps & {
 }
 
 export const ShowItem = ({item, items, options, activeItem, setActiveItem, groupId}: ShowItemsProps) => {
+    // console.log('ShowItemOptions', options)
     if (options.Mode === "build") {
         const openModal = () => {
             options.SetItem(item)
             if(options.setModal) {
-                options.setModal(true)
+                options.setModal({item:item,inList:options.custom?.inList})
             }
         }
 
@@ -58,15 +59,21 @@ export const ShowItem = ({item, items, options, activeItem, setActiveItem, group
                     ...(activeItem?.id === item.id && activeItem?.groupId === (groupId ?? MAIN) ? activeStyle : {})
                 }}
             >
-                <DragHandle>
-                    <FormatLineSpacingRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }}/>
-                </DragHandle>
+                { !options.custom?.inList ?
+                    <DragHandle>
+                        <FormatLineSpacingRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }}/>
+                    </DragHandle> : undefined
+                }
                 <Box component="div" sx={{ flexGrow: 1}}>
                     { ItemFC({item: item, items: items, activeItem: activeItem, setActiveItem: setActiveItem, groupId: groupId, options: options})}
                 </Box>
                 <ModeRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={openModal}/>
-                <ContentCopyRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={() => copyItem(item.id, items)}/>
-                <DeleteForeverRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={() => deleteItem(item.id, items)}/>
+                { !options.custom?.inList ?
+                    <>
+                        <ContentCopyRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={() => copyItem(item.id, items)}/>
+                        <DeleteForeverRoundedIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={() => deleteItem(item.id, items)}/>
+                    </> : undefined
+                }
             </SortableItem>
     }
 

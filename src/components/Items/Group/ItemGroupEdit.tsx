@@ -11,7 +11,11 @@ const ItemGroupEdit = ({item, options}: GroupProps) => {
         if(itm.label === undefined) {
             delete itm.label
         }
-        options.SetItem(itm)
+        if(options.custom?.parentItem) {
+            options.SetItem({...options.custom?.parentItem, baseItem: itm})
+        } else {
+            options.SetItem(itm)
+        }
     }
 
     const onChangeDeprecated = (event: ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +28,11 @@ const ItemGroupEdit = ({item, options}: GroupProps) => {
             delete itm.deprecated
         }
 
-        options.SetItem(itm)
+        if(options.custom?.parentItem) {
+            options.SetItem({...options.custom?.parentItem, baseItem: itm})
+        } else {
+            options.SetItem(itm)
+        }
     }
     const onChangeBackendOnly = (event: ChangeEvent<HTMLInputElement>) => {
         const itm = { ...item }
@@ -36,27 +44,31 @@ const ItemGroupEdit = ({item, options}: GroupProps) => {
             delete itm.backend_only
         }
 
-        options.SetItem(itm)
+        if(options.custom?.parentItem) {
+            options.SetItem({...options.custom?.parentItem, baseItem: itm})
+        } else {
+            options.SetItem(itm)
+        }
     }
 
     return <>
-            <Stack spacing={.5}>
-                <FormGroup>
-                    <FormControlLabel control={ <Checkbox  defaultChecked={item.deprecated ?? false} onChange={onChangeDeprecated}/> } label="Deprecated"/>
-                    <FormHelperText sx = {{marginTop: -1}}>
-                        Deprecated groups will not be removed from the database. They will still show in the builder interface with a red outline.
-                    </FormHelperText>
-                </FormGroup>
+        <Stack spacing={.5}>
+            <FormGroup>
+                <FormControlLabel control={ <Checkbox  defaultChecked={item.deprecated ?? false} onChange={onChangeDeprecated}/> } label="Deprecated"/>
+                <FormHelperText sx = {{marginTop: -1}}>
+                    Deprecated groups will not be removed from the database. They will still show in the builder interface with a red outline.
+                </FormHelperText>
+            </FormGroup>
 
-                <FormGroup>
-                    <FormControlLabel control={ <Checkbox  defaultChecked={item.backend_only ?? false} onChange={onChangeBackendOnly}/> } label="Backend Only"/>
-                    <FormHelperText sx = {{marginTop: -1}}>
-                        Similar to Deprecated. Backend only group will not be shown in the form, but will still be available on the backend.
-                    </FormHelperText>
-                </FormGroup>
-                <TextField sx={{marginTop:2}} label="Label" defaultValue={item.label} onChange={onChangeLabel}/>
-            </Stack>
-        </>
+            <FormGroup>
+                <FormControlLabel control={ <Checkbox  defaultChecked={item.backend_only ?? false} onChange={onChangeBackendOnly}/> } label="Backend Only"/>
+                <FormHelperText sx = {{marginTop: -1}}>
+                    Similar to Deprecated. Backend only group will not be shown in the form, but will still be available on the backend.
+                </FormHelperText>
+            </FormGroup>
+            <TextField sx={{marginTop:2}} label="Label" defaultValue={item.label} onChange={onChangeLabel}/>
+        </Stack>
+    </>
 };
 
 export default ItemGroupEdit

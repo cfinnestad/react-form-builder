@@ -16,7 +16,7 @@ const Editor = ({ Data, Items, SetItems, Options } : EditorProps) => {
 }
 
 export const setDefaults = (items: AnyItem[], data: object): AnyItem[] => {
-    console.log("editor data: ", data);
+    // console.log("editor data: ", data);
 
     items.map(item => {
 

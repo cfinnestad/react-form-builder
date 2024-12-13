@@ -33,7 +33,6 @@ import ShowTypes from "../Items/ShowTypes";
 import {DragStartEvent} from "@dnd-kit/core/dist/types";
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import ShowItem from "../Items/ShowItem";
-import {cloneDeep} from "lodash";
 import findDragItem, {DragItem} from "../Items/findDragItem";
 import DensitySmallIcon from '@mui/icons-material/DensitySmall';
 import FindDragItem from "../Items/findDragItem";
@@ -80,7 +79,12 @@ export type BuilderUseOptions = {
     mode: string,
     custom?: {[key:string]: any},
     submitColors?: string[],
-    fileTypes?: Accept,
+    fileTypes?: Accept
+}
+
+export type ModalProps = {
+    item: AnyItem,
+    inList?: boolean,
 }
 
 export type BuilderOptions = Options & {
@@ -110,7 +114,7 @@ export type BuilderProps = {
 
 const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     const [items, setItems] = useState<AnyItem[]>(Items ?? [])
-    const [modal, setModal] = useState( false )
+    const [modal, setModal] = useState<ModalProps|undefined>( undefined )
     const [item, setItem] = useState({id:'x', type:'test'} as AnyItem)
     const { setNodeRef } = useDroppable({ id: MAIN });
     const [errors, setErrors] = useState<BuildErrors>({} as BuildErrors)
@@ -146,7 +150,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         },
         muiTheme: theme,
         submitColors: Options?.submitColors ?? getPalettes(),
-        custom: Options?.custom,
+        custom: Options?.custom ?? {},
         fileTypes: Options?.fileTypes ?? FileTypes,
     }
     useEffect(() => {
@@ -156,6 +160,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
     }, [items])
 
     useEffect(() => {
+        console.log('SetItem', item)
         const newItems = itemsCloneDeep(items)
         UpdateItemInItems(item, newItems)
         setItems(newItems)
@@ -163,6 +168,8 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
 
     const addItems = (newItems: AnyItem[]) => {
         let activeRef = findDragItem(activeItem.id ?? activeItem.groupId, items, MAIN)
+        // console.log('newItems',newItems)
+        // console.log('addItems activeRef', activeRef)
         if (activeRef === undefined) {
             activeRef = {items: items, groupId: MAIN, index: 0} as DragItem
         } else if (activeItem.id === undefined) {
@@ -174,6 +181,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
             activeRef.index++
         }
         const cloneItems = newItems.map(item => fixItemName(itemCloneDeep(item),activeRef as DragItem))
+        // console.log('cloneItems', cloneItems)
         setActiveItem({
             id: cloneItems[cloneItems.length-1].id,
             groupId: activeRef.groupId
@@ -243,11 +251,13 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
                     </Grid>
                 </DndContext>
                 { modal ? <EditModal
-                    showModal={modal}
-                    item={item}
+                    showModal={!!modal}
+                    item={modal.item}
                     items={items}
                     options={options}
+                    setActiveItem={setActiveItem}
                     errorHandler={errorHandler}
+                    inList={modal.inList ?? false}
                 ></EditModal> : <></>}
             </Box>
         </div>

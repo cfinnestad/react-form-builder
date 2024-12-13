@@ -49,6 +49,16 @@ const DateST = ({item, options}: DateProps ) => {
                     disableMaskedInput={true}
                     disabled={(!item.editable && options.Mode==="edit")}
                     renderInput={(params) => <Stack spacing={.5}>
+                        {item.label ?
+                        <InputLabel
+                            required = {item.required ?? false}
+                            error={item.errorText != null}
+                            sx={{marginBottom: -1}}
+                            role="label"
+                        >
+                            {item.label}
+                        </InputLabel>
+                        : undefined}
                         <InputLabel
                             required={item.required ?? false}
                             error={item.errorText != null}

@@ -9,7 +9,7 @@ import DensitySmallIcon from "@mui/icons-material/DensitySmall";
 const ItemGroup = ({item, items, options, activeItem, setActiveItem, errorHandler}: GroupProps) => {
     if (options.Mode === "build") {
         return <>
-            <Typography variant="h5">{item.label}</Typography>
+            { !options.custom?.InList ? <Typography variant="h5">{item.label}</Typography> : undefined }
             <Box style={activeItem?.id === undefined && activeItem?.groupId === item.id ? activeStyle : undefined}>
                 <DensitySmallIcon sx={{ fontSize: 'large', verticalAlign:'center', m: 1 }} onClick={() => setActiveItem && setActiveItem({id: undefined, groupId: item.id})} />
                 <Box component="span" sx={{ flexGrow: 1 }}>
@@ -19,7 +19,15 @@ const ItemGroup = ({item, items, options, activeItem, setActiveItem, errorHandle
             <SortableContext
                 items={item.items.map(item => item.id)}
                 strategy={verticalListSortingStrategy}>
-                {item.items.map((itm) => <ShowItem key={itm.id} item={itm} items={items} activeItem={activeItem} setActiveItem={setActiveItem} errorHandler={errorHandler} groupId={item.id} options={options}/>)}
+                {item.items.map((itm) => <ShowItem
+                    key={itm.id}
+                    item={itm}
+                    items={items}
+                    activeItem={activeItem}
+                    setActiveItem={setActiveItem}
+                    errorHandler={errorHandler}
+                    groupId={item.id}
+                    options={{...options, custom:{...options.custom, inList: false}}}/>)}
             </SortableContext>
         </>
     }

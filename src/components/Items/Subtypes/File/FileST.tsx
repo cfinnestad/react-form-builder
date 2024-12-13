@@ -23,9 +23,9 @@ function FileST({item, options}: FileProps) {
     const [rejected, setRejected] = useState<FileRejection[]>([])
 
     const onDrop = useCallback((acceptedFiles: File[], fileRejections : FileRejection[]) => {
-        console.log('Dropped Accepted', acceptedFiles)
-        console.log('Dropped Rejected', fileRejections)
-        console.log('Current Accepted', accepted)
+        // console.log('Dropped Accepted', acceptedFiles)
+        // console.log('Dropped Rejected', fileRejections)
+        // console.log('Current Accepted', accepted)
         const rejections = [...fileRejections]
         if (acceptedFiles.length) {
             const files = [
@@ -34,18 +34,18 @@ function FileST({item, options}: FileProps) {
             ]
             if (files.length > item.maxFiles) {
                 const badFiles = files.slice(item.maxFiles, 9e9)
-                console.log('Bad Files', badFiles)
+                // console.log('Bad Files', badFiles)
                 badFiles.map(file => {
                     rejections.push({file: file, errors: [{message: 'Too many files', code: ErrorCode.TooManyFiles} as FileError]} as FileRejection)
                 })
-                console.log('new Rejections', rejections)
+                // console.log('new Rejections', rejections)
                 files.splice(item.maxFiles, 9e9)
-                console.log('New Accepted', files)
+                // console.log('New Accepted', files)
             }
-            console.log('files',files)
+            // console.log('files',files)
             setAccepted(files)
         }
-        console.log('new Rejections2', rejections)
+        // console.log('new Rejections2', rejections)
         setRejected(rejections)
         // if (rejections.length) {
             // setRejected(previousFiles => [
@@ -65,19 +65,19 @@ function FileST({item, options}: FileProps) {
     });
 
     const removeFile = (name : string) => {
-        console.log('Removing',name)
-        console.log('from',accepted)
+        // console.log('Removing',name)
+        // console.log('from',accepted)
         setAccepted(files => files.filter(file => file.name !== name))
     }
     const removeRejectedFile = (name : string) => {
-        console.log('Removing',name)
-        console.log('from',rejected)
+        // console.log('Removing',name)
+        // console.log('from',rejected)
         setRejected(rejected.filter(fileRejection => fileRejection.file.name !== name))
     }
 
     useEffect(() => {
         if (accepted.length == (item.value?.length ?? 0)) return
-        console.log('Set Accepted Files',accepted)
+        // console.log('Set Accepted Files',accepted)
         const itm = {...item}
         if (accepted.length == 0) {
             delete itm.value
@@ -85,12 +85,12 @@ function FileST({item, options}: FileProps) {
             itm.value = accepted
         }
         FileValidate(itm, options)
-        console.log('accepted Item', itm)
+        // console.log('accepted Item', itm)
         options.SetItem(itm)
     }, [accepted])
 
     useEffect(() => {
-        console.log('set Rejected', rejected)
+        // console.log('set Rejected', rejected)
     }, [rejected])
 
     const fileError = (fileError: FileError, file: File, item: FileSubtype) => {
@@ -151,12 +151,14 @@ function FileST({item, options}: FileProps) {
     });
 
     return <Stack spacing={.5}>
-        <InputLabel
-            required = {item.required ?? false}
-            error={item.errorText !== undefined}
-        >
-            {item.label}
-        </InputLabel>
+        {item.label ?
+            <InputLabel
+                required = {item.required ?? false}
+                error={item.errorText != null}
+            >
+                {item.label}
+            </InputLabel>
+            : undefined}
         <FormControl sx={{ minWidth: 250 }}>
             <Card {...getRootProps({style: {cursor: "cell", margin: "3px", padding: "2px"}})}>
                 <input {...getInputProps()} />

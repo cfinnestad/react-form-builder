@@ -22,13 +22,15 @@ const TextST = ({item, options}: TextProps ) => {
     //use mode to set readonly
     return <>
         <Stack spacing={.5}>
-            <InputLabel
-                required={item.required ?? false}
-                error={item.errorText != null}
-                role="label"
-            >
-                {item.label}
-            </InputLabel>
+            {item.label ?
+                <InputLabel
+                    required = {item.required ?? false}
+                    error={item.errorText != null}
+                    role="label"
+                >
+                    {item.label}
+                </InputLabel>
+                : undefined}
             <TextField
                 id={'render_'+item.id}
                 error={item.errorText !== undefined}

@@ -5,8 +5,9 @@ import {
     isComparisonFilter,
     isFieldFilter,
     isGroup,
+    isList, isListItem,
     isNamed,
-    isNotFilter
+    isNotFilter, ListItem, NamedItem
 } from "./Items";
 
 type ChangedItemIds = {
@@ -33,6 +34,13 @@ const updateFilterIdsOnNameChange = (items: AnyItem[], changedItemIds : ChangedI
         }
         if (isGroup(item)) {
             updateFilterIdsOnNameChange(item.items, changedItemIds)
+        } else if(isList(item)) {
+            if (item.filter) {
+                updateItemFilter(item.filter,changedItemIds)
+            }
+            if (item.baseItem.filter) {
+                updateItemFilter(item.baseItem.filter,changedItemIds)
+            }
         }
     })
 }
@@ -40,7 +48,12 @@ const updateFilterIdsOnNameChange = (items: AnyItem[], changedItemIds : ChangedI
 // when typing quickly, a name change may not be fully committed yet when setting the id, so compare on the original
 let originalId = undefined as any
 
-const UpdateItemInItems = (item: AnyItem, items:AnyItem[], prefix: string = ''): void => {
+const UpdateItemInItems = (
+    item: AnyItem,
+    items:AnyItem[],
+    prefix: string = ''
+): void => {
+    // console.log('********************************** item', item)
     let changedItemIds: ChangedItemIds|undefined = undefined
     items.map((curItem, index) => {
         if (item.id === curItem.id || (originalId && curItem.id === originalId)) {
@@ -52,6 +65,19 @@ const UpdateItemInItems = (item: AnyItem, items:AnyItem[], prefix: string = ''):
             items[index] = item
         } else if (isGroup(curItem)) {
             UpdateItemInItems(item, curItem.items, curItem.id + '-')
+        } else if (isList(curItem)) {
+            if(item.id === curItem.baseItem.id || (originalId && curItem.baseItem.id === originalId)) {
+                if(isListItem(item)) {
+                    originalId = item.id
+                    item.id = prefix + item.name
+                    changedItemIds = {oldId: originalId, newId: item.id} as ChangedItemIds
+                    const newItem = {...curItem, baseItem: item}
+                    delete newItem.list
+                    items[index] = newItem
+                }
+            } else {
+                UpdateItemInItems(item, curItem.list ?? [] as AnyItem[], prefix)
+            }
         }
     })
     if (changedItemIds) {

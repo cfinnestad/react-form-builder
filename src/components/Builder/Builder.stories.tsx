@@ -8,7 +8,6 @@ import {
     DateSubtype,
     EmailSubtype,
     EqFilter,
-    GroupItem,
     HTMLItem,
     HiddenItem,
     NumberSubtype,
@@ -17,7 +16,7 @@ import {
     RadioSubtype,
     SelectSubtype,
     SubmitItem,
-    TextSubtype
+    TextSubtype, GroupItem
 } from "../Items";
 import {Submit} from "../Render/StoriesSubmit";
 import {faker} from "@faker-js/faker";
