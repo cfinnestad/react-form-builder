@@ -33,14 +33,16 @@ const RadioST = ({item, options}: RadioProps ) => {
 
     return <>
         <Stack>
-            <InputLabel
-                required={item.required ?? false}
-                error={item.errorText != null}
-                sx={{marginBottom: -1}}
-                role="label"
-            >
-                {item.label}
-            </InputLabel>
+            {item.label ?
+                <InputLabel
+                    required = {item.required ?? false}
+                    error={item.errorText != null}
+                    sx={{marginBottom: -1}}
+                    role="label"
+                >
+                    {item.label}
+                </InputLabel>
+                : undefined}
             <RadioGroup row={item.inLine}>
                 {item.options.map((option,index) =>
                     <FormControlLabel

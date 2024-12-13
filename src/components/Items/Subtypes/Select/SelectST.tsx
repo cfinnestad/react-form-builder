@@ -51,12 +51,14 @@ function SelectST({item, options}: SelectProps) {
     if (item.multiples) {
         return (
             <Stack spacing={.5}>
-                <InputLabel
-                    required = {item.required ?? false}
-                    error={item.errorText !== undefined}
-                >
-                    {item.label}
-                </InputLabel>
+                {item.label ?
+                    <InputLabel
+                        required = {item.required ?? false}
+                        error={item.errorText != null}
+                    >
+                        {item.label}
+                    </InputLabel>
+                    : undefined}
                 <FormControl sx={{ minWidth: 250 }}>
                     <Select
                         id={item.id}

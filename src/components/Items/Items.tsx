@@ -2,7 +2,7 @@ import {Dispatch, FC, JSX, SetStateAction} from "react";
 import {ActionProps} from "../Actions";
 import {SubmitButtonProps} from "./Submit";
 import {Theme} from "@mui/material/styles";
-import {ActiveType} from "../Builder/Builder";
+import {ActiveType, ModalProps} from "../Builder/Builder";
 import Filter from "../Filter";
 import {cloneDeep} from "lodash";
 import {Accept} from "react-dropzone";
@@ -12,7 +12,7 @@ export type AllowedSubtypes = {
 }
 
 export type AllowedItems = {
-    [key: string]: ItemType | HTMLType | GroupType | FieldType | SubmitType | HiddenType,
+    [key: string]: ItemType | HTMLType | GroupType | ListType | FieldType | SubmitType | HiddenType,
 }
 
 export type BuildErrors = {
@@ -26,7 +26,7 @@ export type Options = {
     onSave?: (Items: AnyItem[]) => void,
     SetItem: Dispatch<SetStateAction<AnyItem>>,
     setItems: Dispatch<SetStateAction<AnyItem[]>>,
-    setModal?: Dispatch<SetStateAction<boolean>>,
+    setModal?: Dispatch<SetStateAction<ModalProps|undefined>>,
     Mode?: string,
     getError: (error: string, item: any) => string|undefined,
     searchableOptions?: {
@@ -146,6 +146,18 @@ export type SubmitItem = BaseItem & {
     submitElementName?: string,
     label?: string,
     color?: string,
+}
+
+export type ListItem = BaseItem & {
+    type: 'List',
+    label?: string,
+    addButton?: string,
+    addColor?: string,
+    list?: InListItem[],
+    deprecated?: boolean,
+    minListSize: number,
+    maxListSize: number,
+    baseItem: InListItem,
 }
 
 export type GroupItem = NamedItem & {
@@ -275,7 +287,26 @@ export type BooleanSubtype = FieldItem & {
     value?: boolean,
 }
 
-export type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | FileSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype | AutocompleteSubtype
+export type AnyItem =
+    BaseItem |
+    FieldItem |
+    GroupItem |
+    ListItem |
+    HTMLItem |
+    HiddenItem |
+    SelectSubtype |
+    RadioSubtype |
+    CheckboxSubtype |
+    TextSubtype |
+    FileSubtype |
+    EmailSubtype |
+    NumberSubtype |
+    DateSubtype |
+    BooleanSubtype |
+    PhoneSubtype |
+    AutocompleteSubtype
+
+export type InListItem = FieldItem | GroupItem
 
 export type ItemType = {
     Item: AnyItem,
@@ -293,6 +324,12 @@ export type GroupType = {
     Item: GroupItem,
     ItemFC: (props: GroupProps) => JSX.Element,
     EditFC: (props: GroupProps) => JSX.Element,
+}
+
+export type ListType = {
+    Item: ListItem,
+    ItemFC: (props: ListProps) => JSX.Element,
+    EditFC: (props: ListProps) => JSX.Element,
 }
 
 export type SubmitType = {
@@ -406,6 +443,7 @@ export type BaseItemProps = {
 
 export type FieldProps = BaseItemProps & { item: FieldItem }
 export type GroupProps = BaseItemProps & { item: GroupItem }
+export type ListProps = BaseItemProps & { item: ListItem }
 export type HTMLProps = BaseItemProps & { item: HTMLItem }
 export type SubmitProps = BaseItemProps & { item: SubmitItem }
 export type HiddenProps = BaseItemProps & { item: HiddenItem }
@@ -420,8 +458,10 @@ export type DateProps = FieldProps & { item : DateSubtype }
 export type BooleanProps = FieldProps & { item : BooleanSubtype }
 export type AutocompleteProps = FieldProps & { item : AutocompleteSubtype }
 export type PhoneProps = FieldProps & { item : PhoneSubtype }
+export type ListItemProps = ItemProps & { index: number, parentItem: ListItem }
 export type ItemProps = BaseItemProps
     | GroupProps
+    | ListProps
     | HiddenProps
     | HTMLProps
     | SubmitProps
@@ -456,6 +496,9 @@ export function isAutocomplete(item: AnyItem): item is AutocompleteSubtype { ret
 export function isPhone(item: AnyItem): item is PhoneSubtype { return isField(item) && item.subtype === "Phone"}
 export function isOption(item: AnyItem): item is OptionSubtype { return isField(item) && item.hasOwnProperty('options')}
 export function isNamed(item: AnyItem): item is NamedItem { return item.hasOwnProperty('name') }
+export function isList(item: AnyItem): item is ListItem { return item.hasOwnProperty('baseItem') }
+
+export function isListItem(item: AnyItem): item is InListItem { return isGroup(item) || isField(item) }
 
 export function hasFiles(items: AnyItem[], allItems?: AnyItem[]): boolean {
     return items.filter((item) => {

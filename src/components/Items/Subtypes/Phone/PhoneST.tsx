@@ -9,7 +9,7 @@ const PhoneST = ({item, options}: PhoneProps ) => {
         const itm = {...item} as PhoneSubtype
         
         itm.value = (typeof e === 'string') ? e.toString() : e.target.value
-console.log('phone', itm.value)
+// console.log('phone', itm.value)
         if(itm.value === undefined || itm.value === '') {
             delete itm.value
         }
@@ -22,12 +22,14 @@ console.log('phone', itm.value)
 
     return <>
         <Stack spacing={.5}>
-            <InputLabel
-                required = {item.required ?? false}
-                error={item.errorText !== undefined}
-            >
-                {item.label}
-            </InputLabel>
+            {item.label ?
+                <InputLabel
+                    required = {item.required ?? false}
+                    error={item.errorText != null}
+                >
+                    {item.label}
+                </InputLabel>
+                : undefined}
             <MuiPhoneNumber
                 defaultCountry={'us'}
                 onChange={onChange}

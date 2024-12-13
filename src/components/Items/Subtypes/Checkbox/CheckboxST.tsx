@@ -24,13 +24,15 @@ const CheckboxST = ({item, options}: CheckboxProps ) => {
 
     return <>
         <Stack>
-            <InputLabel
-                required={item.required ?? false}
-                error={item.errorText != null}
-                sx={{marginBottom: -1}}
-            >
-                {item.label}
-            </InputLabel>
+            {item.label ?
+                <InputLabel
+                    required = {item.required ?? false}
+                    error={item.errorText != null}
+                    sx={{marginBottom: -1}}
+                >
+                    {item.label}
+                </InputLabel>
+                : undefined}
             <FormGroup row={item.inLine}>
                 {item.options.map((option,index) =>
                     <FormControlLabel

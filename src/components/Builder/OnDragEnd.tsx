@@ -1,20 +1,31 @@
-import {AnyItem, GroupItem, isGroup, isNamed, itemCloneDeep} from "../Items";
+import {AnyItem, GroupItem, isGroup, isList, isListItem, isNamed, itemCloneDeep} from "../Items";
 import {v4} from "uuid";
 import {Active, DragEndEvent} from "@dnd-kit/core";
 import findDragItem, {DragItem} from "../Items/findDragItem";
-import {cloneDeep} from "lodash";
 import {BuilderOptions, MAIN, TYPES} from "./Builder";
 
 export const updateItems = (list: AnyItem[], containerId: string|number, listPart: AnyItem[]): AnyItem[] => {
+	// console.log('containerId',containerId);
 	if (containerId === MAIN) {
 		return listPart
 	}
 	return list.map(item => {
-		if (item.id === containerId) {
-			(item as GroupItem).items = listPart
-		} else if(isGroup(item)) {
-			(item as GroupItem).items = updateItems(item.items, containerId, listPart)
+		// console.log('Update Item', item);
+		if (isGroup(item)) {
+
+			if( item.id === containerId) {
+				(item as GroupItem).items = listPart
+			} else {
+				item.items = updateItems(item.items, containerId, listPart)
+			}
+		} else if(isList(item)&&isGroup(item.baseItem)) {
+			if( item.baseItem.id === containerId ) {
+				item.baseItem.items = listPart
+			} else {
+				item.baseItem.items = updateItems(item.baseItem.items, containerId, listPart)
+			}
 		}
+		// console.log('Updated Item', item);
 		return item
 	})
 }
@@ -34,7 +45,15 @@ export const fixItemName = (item: AnyItem, overRef: DragItem): AnyItem => {
 	if (isNamed(item)) {
 		let cnt = 1
 		const name = item.name
-		while (overRef.items.filter(i => isNamed(i) && i.name === item.name).length > 0) {
+		while (overRef.items.filter(i => {
+			let found = false;
+			if (isNamed(i)) {
+				found =  i.name === item.name
+			} else if(isList(i)) {
+				found = i.baseItem.name === item.name
+			}
+			return found
+		}).length > 0) {
 			item.name = name + '_' + (cnt++).toString()
 		}
 		item.id = (overRef.groupId === MAIN ? '' : overRef.groupId + '-') + item.name
@@ -69,25 +88,7 @@ const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: BuilderOptio
 			...newList.slice(destination.index,newList.length)
 		]);
 	};
-	// const move = (source: DragItem | undefined, destination: DragItem | undefined):AnyItem[] => {
-	// 	if(source === undefined || destination === undefined) {
-	// 		return items
-	// 	}
-	//
-	// 	const item = fixItemName(source.item, destination);
-	//
-	// 	let newItems = updateItems(
-	// 		updateItems(items, source.groupId, source.items.splice(source.index,1)),
-	// 		destination.groupId,
-	// 		[
-	// 			...destination.items.slice(0,destination.index),
-	// 			item,
-	// 			...destination.items.slice(destination.index, destination.items.length)
-	// 		]
-	// 	)
-	// 	console.log(newItems)
-	// 	return newItems
-	// };
+
 	const copy = (active: Active, destination: DragItem | undefined) => {
 		// console.log('==> dest', destination);
 
@@ -120,7 +121,7 @@ const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: BuilderOptio
 	// console.log('destination container', destination)
 	switch (source.groupId) {
 		case TYPES:
-			console.log('types')
+			// console.log('types')
 			options.setItems(
 				copy(
 					active,
@@ -129,7 +130,7 @@ const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: BuilderOptio
 			);
 			break;
 		case destination.groupId:
-			console.log('reorder')
+			// console.log('reorder')
 			if (source.index === destination.index) {
 				return
 			}
@@ -140,7 +141,7 @@ const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: BuilderOptio
 			);
 			break;
 		default:
-			console.log('default')
+			// console.log('default')
 			// options.setItems(
 			// 	move(
 			// 		findDragItem(active.id, source.items, source.groupId),

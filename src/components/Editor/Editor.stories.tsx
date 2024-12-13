@@ -6,7 +6,7 @@ import {
     DateSubtype,
     EmailSubtype,
     EqFilter,
-    GroupItem,
+    ListItem,
     HTMLItem,
     NumberSubtype,
     TextSubtype,
@@ -147,7 +147,7 @@ export const Primary: Story = {
                             maxLength: 255
                         } as EmailSubtype,
                     ]
-                } as GroupItem,
+                } as ListItem,
 
                 {
                     id: 'autocomplete1',
@@ -408,7 +408,7 @@ export const EditorWithoutData: Story = {
                             maxLength: 255
                         } as EmailSubtype,
                     ]
-                } as GroupItem,
+                } as ListItem,
 
                 {
                     id: 'autocomplete1',

@@ -92,12 +92,14 @@ const AutocompleteST = ({item, options}: AutocompleteProps) => {
 
     return <>
         <Stack spacing={.5}>
-            <InputLabel
-                required = {item.required ?? false}
-                error={item.errorText != null}
-            >
-                {item.label}
-            </InputLabel>
+            {item.label ?
+                <InputLabel
+                    required = {item.required ?? false}
+                    error={item.errorText != null}
+                >
+                    {item.label}
+                </InputLabel>
+                : undefined}
             <Autocomplete
                 id={item.id}
                 // freeSolo is giving this error: Type boolean is not assignable to type false | undefined
