@@ -13,6 +13,7 @@ import {
 import {FormGroup, FormHelperText, Stack, TextField} from "@mui/material";
 import {ShowErrors} from "./Subtypes";
 import FilterEdit, {FilterEditProps} from "../Filter/FilterEdit";
+import options from "../Options/Options";
 
 export type validateNameChangeResponse = {
     validName: string
@@ -92,7 +93,7 @@ const NamedItemEdit = ({itemProps, onChange}: NamedItemEditProps) => {
         const {validName, changeErrors} = validateNameChange(item, items, event.target.value)
 
         if (changeErrors && changeErrors.length > 0) {
-             errorHandler.setError("name", changeErrors[0])
+            errorHandler.setError("name", changeErrors[0])
         } else {
             setValidNameHint(undefined)
             options.SetItem({...item, name: validName || undefined} as NamedItem)
@@ -148,11 +149,13 @@ const EditFC = (ItemProps: ItemProps) => {
                 }}
                 onChange={onChangeNamedItem}
             />
+            {!ItemProps.options.custom?.inList ?
             <FilterEdit
                 fieldItems={GetFilterItems(ItemProps.items,ItemProps.item)}
                 filter={ItemProps.item.filter}
                 setFilter={setFilter}
             ></FilterEdit>
+                : undefined}
             {
                 //@ts-ignore
                 ItemProps.options.AllowedItems[ItemProps.item.type].EditFC(ItemProps)

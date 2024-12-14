@@ -9,7 +9,7 @@ import {
     AllowedItems,
     AllowedSubtypes,
     Files,
-    isFile, itemsCloneDeep
+    isFile, itemsCloneDeep, isList
 } from "../Items";
 import ShowItem from "../Items/ShowItem";
 import DefaultItems from "../Items/DefaultItems";
@@ -115,6 +115,13 @@ export const RenderedObject = ( items: AnyItem[], files: Files = {}, allItems?: 
         if(Filter(item, allItems ?? items, item.filter)) {
             if (isGroup(item)) {
                 result[item.name] = RenderedObject(item.items, files, allItems ?? items)
+            } else if (isList(item)) {
+                result[item.baseItem.name] =
+                    (item?.list ?? []).map((itm) => {
+                        return isGroup(itm) ?
+                            RenderedObject(itm.items, files, allItems ?? items) :
+                            GetValue(itm)
+                    }) ?? []
             } else if (isFile(item)) {
                 if (item.value) {
                     files[item.id] = item.value
@@ -137,6 +144,13 @@ export const RenderedFlatObject = ( items: AnyItem[], files: Files = {}, allItem
         if(Filter(item, allItems ?? items, item.filter)) {
             if (isGroup(item)) {
                 result = {...result, ...RenderedFlatObject(item.items, files, allItems ?? items)}
+            } else if (isList(item)) {
+                result[item.baseItem.id] =
+                    (item?.list ?? []).map((itm) => {
+                        return isGroup(itm) ?
+                            RenderedFlatObject(itm.items, files, allItems ?? items) :
+                            GetValue(itm)
+                    }) ?? []
             } else if (isFile(item)) {
                 if (item.value) {
                     files[item.id] = item.value
@@ -162,6 +176,15 @@ export const RenderedArray = ( items: AnyItem[], files: Files = {}, allItems?: A
                 result.push({
                     name: item.name,
                     value: RenderedArray(item.items, files, allItems ?? items)
+                })
+            } else if (isList(item)) {
+                result.push({
+                    name: item.baseItem.name,
+                    value: (item?.list ?? []).map((itm) => {
+                        return isGroup(itm) ?
+                            RenderedArray(itm.items, files, allItems ?? items) :
+                            GetValue(itm)
+                    }) ?? []
                 })
             } else if (isFile(item)) {
                 if (item.value) {
@@ -196,6 +219,15 @@ export const RenderedFlatArray = ( items: AnyItem[], files: Files = {}, allItems
                 if (item.value) {
                     files[item.id] = item.value
                 }
+            } else if (isList(item)) {
+                result.push({
+                    name: item.baseItem.name,
+                    value: (item?.list ?? []).map((itm) => {
+                        return isGroup(itm) ?
+                            RenderedFlatArray(itm.items, files, itm.items) :
+                            GetValue(itm)
+                    }) ?? []
+                })
             } else if (isHidden(item)) {
                 result.push({
                     name: item.id,

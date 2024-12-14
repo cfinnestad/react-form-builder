@@ -1,32 +1,39 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import {BooleanSubtype, EqFilter, GroupItem, SubmitItem, TextSubtype} from "../Items";
+import {BooleanSubtype, EqFilter, GroupItem, ListItem, SubmitItem, TextSubtype} from "../Items";
 import {Submit} from "../../Render/StoriesSubmit";
 import {Render} from "../../index";
 
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta = {
-    title: 'Components/Items/Group',
+    title: 'Components/Items/List',
     component: Render,
     tags: ['autodocs'],
     argTypes: {
         Items: [
             {
-                type: 'Group',
-                id: 'group1',
-                name: 'group1',
-                label: 'Group 1',
-                items: [
+                type: 'List',
+                id: 'list1',
+                baseItem: {
+                    type: 'Field',
+                    subtype: 'Text',
+                    id: 'list_text',
+                    name: 'list_text',
+                    label: 'List Text',
+                } as TextSubtype,
+                minListSize: 1,
+                maxListSize: 10,
+                list: [
                     {
                         type: 'Field',
                         subtype: 'Text',
-                        id: 'group1_text1',
-                        name: 'text1',
-                        label: 'Text',
-                    } as TextSubtype
+                        id: 'list_text[0]',
+                        name: 'list_text',
+                        label: 'List Text',
+                    } as TextSubtype,
                 ]
-            } as GroupItem
+            } as ListItem
         ],
     },
 } satisfies Meta<typeof Render>;
@@ -39,20 +46,18 @@ export const Basic: Story = {
     args: {
         Items: [
             {
-                type: 'Group',
-                id: 'group1',
-                name: 'group1',
-                label: 'Group 1',
-                items: [
-                    {
-                        type: 'Field',
-                        subtype: 'Text',
-                        id: 'group1_text',
-                        name: 'text',
-                        label: 'Text',
-                    } as TextSubtype
-                ]
-            } as GroupItem,
+                type: 'List',
+                id: 'list1',
+                label: 'List Text',
+                baseItem: {
+                    type: 'Field',
+                    subtype: 'Text',
+                    id: 'list_text',
+                    name: 'list_text',
+                } as TextSubtype,
+                minListSize: 1,
+                maxListSize: 10
+            } as ListItem,
             {
                 type: 'Submit',
                 id: 'submit1',
@@ -68,38 +73,32 @@ export const Basic: Story = {
     }
 }
 
-export const Nested: Story = {
+export const grouplist: Story = {
     args: {
         ...Basic.args,
         Items: [
             {
-                ...Basic.args.Items[0],
-                items: [
-                    {
-                        type: 'Field',
-                        subtype: 'Text',
-                        id: 'group1_text',
-                        name: 'text',
-                        label: 'Text',
-                    } as TextSubtype,
-                    {
-                        type: 'Group',
-                        id: 'group1_group2',
-                        name: 'group2',
-                        label: 'Group 2',
-                        items: [
-                            {
-                                type: 'Field',
-                                subtype: 'Text',
-                                id: 'group1_group2_text',
-                                name: 'text',
-                                label: 'Text',
-                            } as TextSubtype
-                        ]
-                    } as GroupItem
-                ]
-
-            } as GroupItem,
+                type: 'List',
+                id: 'list1',
+                label: 'List Items',
+                addbutton: 'Add List Item',
+                baseItem: {
+                    type: 'Group',
+                    id: 'group1',
+                    name: 'group1',
+                    items: [
+                        {
+                            type: 'Field',
+                            subtype: 'Text',
+                            id: 'group1-text',
+                            name: 'text',
+                            label: 'Text',
+                        } as TextSubtype
+                    ]
+                } as GroupItem,
+                minListSize: 1,
+                maxListSize: 10
+            } as ListItem,
             {
                 type: 'Submit',
                 id: 'submit1',
@@ -127,7 +126,7 @@ export const Filter: Story = {
                     fieldId: 'boolean1',
                     value: true
                 } as EqFilter
-            } as GroupItem,
+            } as ListItem,
             {
                 type: 'Submit',
                 id: 'submit1',

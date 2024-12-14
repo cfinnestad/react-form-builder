@@ -11,8 +11,7 @@ export const Submit = ({ items, options, color }: SubmitButtonProps) => {
             <Button color={color} onClick={() => {
                 if(ValidateFields(items, options)) {
                     const files:Files = {}
-                    alert(JSON.stringify(RenderedObject(items, files), null, 4))
-                    alert(JSON.stringify(files, null, 4))
+                    alert(JSON.stringify({data: RenderedObject(items, files), files: files}, null, 4))
                 }
             }}>
                 SUBMIT AS OBJECT
@@ -23,8 +22,7 @@ export const Submit = ({ items, options, color }: SubmitButtonProps) => {
             <Button color={color} onClick={() => {
                 if(ValidateFields(items, options)) {
                     const files:Files = {}
-                    alert(JSON.stringify(RenderedFlatObject(items, files), null, 4))
-                    alert(JSON.stringify(files, null, 4))
+                    alert(JSON.stringify({data: RenderedFlatObject(items, files), files: files}, null, 4))
                 }
             }}>
                 SUBMIT AS FLAT OBJECT
@@ -35,8 +33,7 @@ export const Submit = ({ items, options, color }: SubmitButtonProps) => {
             <Button color={color} onClick={() => {
                 if(ValidateFields(items, options)) {
                     const files:Files = {}
-                    alert(JSON.stringify(RenderedArray(items, files), null, 4))
-                    alert(JSON.stringify(files, null, 4))
+                    alert(JSON.stringify({data: RenderedArray(items, files), files: files}, null, 4))
                 }
             }}>
                 SUBMIT AS ARRAY
@@ -47,8 +44,7 @@ export const Submit = ({ items, options, color }: SubmitButtonProps) => {
             <Button color={color} onClick={() => {
                 if(ValidateFields(items, options)) {
                     const files:Files = {}
-                    alert(JSON.stringify(RenderedFlatArray(items, files), null, 4))
-                    alert(JSON.stringify(files, null, 4))
+                    alert(JSON.stringify({data: RenderedFlatArray(items, files), files: files}, null, 4))
                 }
             }}>
                 SUBMIT AS FLAT ARRAY

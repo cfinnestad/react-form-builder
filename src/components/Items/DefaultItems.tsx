@@ -6,7 +6,8 @@ import {
     HiddenType,
     HTMLItem, HTMLType,
     SubmitItem, SubmitType,
-    TextSubtype
+    TextSubtype,
+    ListItem, ListType
 } from "./Items";
 import Field from "./Field/Field";
 import FieldEdit from "./Field/FieldEdit";
@@ -20,6 +21,7 @@ import Submit from "./Submit";
 import SubmitEdit from "./Submit/SubmitEdit";
 import {v4} from "uuid";
 import {TextST} from "./Subtypes/Text";
+import ItemList, {ItemListEdit} from "./List";
 
 const DefaultItems = (): AllowedItems => {
     return {
@@ -82,7 +84,35 @@ const DefaultItems = (): AllowedItems => {
             } as GroupItem,
             EditFC: ItemGroupEdit,
             ItemFC: ItemGroup,
-        } as GroupType
+        } as GroupType,
+        List: {
+            Item: {
+                id:'List',
+                type:'List',
+                label:'List Of Items',
+                addButton:'New List Item',
+                baseItem: {
+                    id: 'ListItem',
+                    type: 'Field',
+                    label: '',
+                    name: 'List_Item',
+                    subtype: 'Text'
+                } as TextSubtype,
+                list: [
+                    {
+                        id: 'ListItem[0]',
+                            type: 'Field',
+                            label: '',
+                            name: 'List_Item',
+                            subtype: 'Text'
+                    } as TextSubtype,
+                ],
+                minListSize: 1,
+                maxListSize: 10,
+            } as ListItem,
+            EditFC: ItemListEdit,
+            ItemFC: ItemList
+        } as ListType,
     }
 }
 

@@ -27,13 +27,15 @@ const NumberST = ({item, options}: NumberProps ) => {
 
     return <>
         <Stack spacing={.5}>
-            <InputLabel
-                required={item.required ?? false}
-                error={item.errorText != null}
-                role="label"
-            >
-                {item.label}
-            </InputLabel>
+            {item.label ?
+                <InputLabel
+                    required = {item.required ?? false}
+                    error={item.errorText != null}
+                    role="label"
+                >
+                    {item.label}
+                </InputLabel>
+                : undefined}
             <TextField
                 id={item.id}
                 error={item.errorText != null}

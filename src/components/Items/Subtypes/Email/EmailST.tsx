@@ -12,7 +12,7 @@ const EmailST = ({item, options}: EmailProps ) => {
         if (itm.value === undefined) {
             delete itm.value
         }
-        console.log('onChange Email', itm)
+        // console.log('onChange Email', itm)
 
         EmailValidate(itm, options)
         if (!(options.Mode === "build")) {
@@ -22,12 +22,14 @@ const EmailST = ({item, options}: EmailProps ) => {
 
     return <>
         <Stack spacing={.5}>
+            {item.label ?
             <InputLabel
                 required = {item.required ?? false}
                 error={item.errorText != null}
             >
                 {item.label}
             </InputLabel>
+            : undefined}
             <TextField
                 id={item.id}
                 error={item.errorText !== undefined}

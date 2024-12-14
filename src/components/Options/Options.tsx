@@ -43,7 +43,7 @@ const Options = ({options,setOptions,selectedType}: OptionsProps) => {
             }
             return opt
         })
-        console.log('opts', opts)
+        // console.log('opts', opts)
         if (JSON.stringify(opts) !== JSON.stringify(options)) {
             setOptions(opts)
         }
@@ -70,7 +70,7 @@ const Options = ({options,setOptions,selectedType}: OptionsProps) => {
 
     const deleteOption = (id: string) => {
         const opts = itemOptions.filter(opt => opt.id !== id)
-        console.log('opts')
+        // console.log('opts')
         setItemOptions(opts)
     }
 
@@ -81,29 +81,29 @@ const Options = ({options,setOptions,selectedType}: OptionsProps) => {
         if (active.id !== over.id) {
             const from = itemOptions.findIndex(itemOption => itemOption.id === active.id)
             const to = itemOptions.findIndex(itemOption => itemOption.id === over.id)
-            console.log('from: ', from)
-            console.log('to: ', to)
+            // console.log('from: ', from)
+            // console.log('to: ', to)
             setItemOptions(arrayMove(itmOptions, from, to));
         }
     }
 
     const onChangeSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
         const optionId = event.target.value
-        console.log('optionId: ', optionId)
+        // console.log('optionId: ', optionId)
         if (selectedType === SelectedType.None) {
             return;
         }
         const newOptions = itemOptions.map((optionItem) => {
             const opt = {...optionItem.option} as Option
             if (selectedType === SelectedType.Single && optionItem.id !== optionId) {
-                console.log('Unselecting: ', optionItem)
+                // console.log('Unselecting: ', optionItem)
                 opt.selected = false
             } else if (optionItem.id === optionId){
                 opt.selected = !opt.selected
             }
             return {...optionItem, option:opt} as OptionItemType
         })
-        console.log('newOptions: ',newOptions)
+        // console.log('newOptions: ',newOptions)
         setItemOptions(newOptions)
     }
 
