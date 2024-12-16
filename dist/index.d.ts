@@ -22,7 +22,7 @@ type AllowedSubtypes = {
     [key: string]: AnyFieldType;
 };
 type AllowedItems = {
-    [key: string]: ItemType | HTMLType | GroupType | FieldType | SubmitType | HiddenType;
+    [key: string]: ItemType | HTMLType | GroupType | ListType | FieldType | SubmitType | HiddenType;
 };
 type BuildErrors = {
     [key: string]: string;
@@ -34,7 +34,7 @@ type Options = {
     onSave?: (Items: AnyItem[]) => void;
     SetItem: Dispatch<SetStateAction<AnyItem>>;
     setItems: Dispatch<SetStateAction<AnyItem[]>>;
-    setModal?: Dispatch<SetStateAction<boolean>>;
+    setModal?: Dispatch<SetStateAction<ModalProps | undefined>>;
     Mode?: string;
     getError: (error: string, item: any) => string | undefined;
     searchableOptions?: {
@@ -139,6 +139,17 @@ type SubmitItem = BaseItem & {
     submitElementName?: string;
     label?: string;
     color?: string;
+};
+type ListItem = BaseItem & {
+    type: 'List';
+    label?: string;
+    addButton?: string;
+    addColor?: string;
+    list?: InListItem[];
+    deprecated?: boolean;
+    minListSize: number;
+    maxListSize: number;
+    baseItem: InListItem;
 };
 type GroupItem = NamedItem & {
     type: 'Group';
@@ -253,7 +264,8 @@ type BooleanSubtype = FieldItem & {
     description: string;
     value?: boolean;
 };
-type AnyItem = BaseItem | FieldItem | GroupItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | FileSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype | AutocompleteSubtype;
+type AnyItem = BaseItem | FieldItem | GroupItem | ListItem | HTMLItem | HiddenItem | SelectSubtype | RadioSubtype | CheckboxSubtype | TextSubtype | FileSubtype | EmailSubtype | NumberSubtype | DateSubtype | BooleanSubtype | PhoneSubtype | AutocompleteSubtype;
+type InListItem = FieldItem | GroupItem;
 type ItemType = {
     Item: AnyItem;
     ItemFC: (props: ItemProps | HiddenProps | FieldProps | SubmitProps | HTMLProps | GroupProps) => JSX.Element;
@@ -268,6 +280,11 @@ type GroupType = {
     Item: GroupItem;
     ItemFC: (props: GroupProps) => JSX.Element;
     EditFC: (props: GroupProps) => JSX.Element;
+};
+type ListType = {
+    Item: ListItem;
+    ItemFC: (props: ListProps) => JSX.Element;
+    EditFC: (props: ListProps) => JSX.Element;
 };
 type SubmitType = {
     Item: SubmitItem;
@@ -368,6 +385,9 @@ type FieldProps = BaseItemProps & {
 type GroupProps = BaseItemProps & {
     item: GroupItem;
 };
+type ListProps = BaseItemProps & {
+    item: ListItem;
+};
 type HTMLProps = BaseItemProps & {
     item: HTMLItem;
 };
@@ -410,7 +430,11 @@ type AutocompleteProps = FieldProps & {
 type PhoneProps = FieldProps & {
     item: PhoneSubtype;
 };
-type ItemProps = BaseItemProps | GroupProps | HiddenProps | HTMLProps | SubmitProps | FieldProps | SelectProps | RadioProps | CheckboxProps | TextProps | EmailProps | NumberProps | DateProps | BooleanProps | AutocompleteProps | PhoneProps;
+type ListItemProps = ItemProps & {
+    index: number;
+    parentItem: ListItem;
+};
+type ItemProps = BaseItemProps | GroupProps | ListProps | HiddenProps | HTMLProps | SubmitProps | FieldProps | SelectProps | RadioProps | CheckboxProps | TextProps | EmailProps | NumberProps | DateProps | BooleanProps | AutocompleteProps | PhoneProps;
 declare function isGroup(item: AnyItem): item is GroupItem;
 declare function isHidden(item: AnyItem): item is HiddenItem;
 declare function isField(item: AnyItem): item is FieldItem;
@@ -429,6 +453,8 @@ declare function isAutocomplete(item: AnyItem): item is AutocompleteSubtype;
 declare function isPhone(item: AnyItem): item is PhoneSubtype;
 declare function isOption(item: AnyItem): item is OptionSubtype;
 declare function isNamed(item: AnyItem): item is NamedItem;
+declare function isList(item: AnyItem): item is ListItem;
+declare function isListItem(item: AnyItem): item is InListItem;
 declare function hasFiles(items: AnyItem[], allItems?: AnyItem[]): boolean;
 declare function itemsCloneDeep(items: AnyItem[]): AnyItem[];
 declare function itemCloneDeep(item: AnyItem): AnyItem;
@@ -489,6 +515,10 @@ type BuilderUseOptions = {
     submitColors?: string[];
     fileTypes?: Accept;
 };
+type ModalProps = {
+    item: AnyItem;
+    inList?: boolean;
+};
 type BuilderProps = {
     AllowedItems?: AllowedItems;
     AdditionalItems?: AllowedItems;
@@ -532,4 +562,4 @@ declare const RenderedFlatObject: (items: AnyItem[], files?: Files, allItems?: A
 declare const RenderedArray: (items: AnyItem[], files?: Files, allItems?: AnyItem[]) => {} | [];
 declare const RenderedFlatArray: (items: AnyItem[], files?: Files, allItems?: AnyItem[]) => object[];
 
-export { AllowedItems, AllowedSubtypes, AndFilter, AnyFieldType, AnyItem, AutocompleteProps, AutocompleteSubtype, AutocompleteType, BaseItem, BaseItemProps, BooleanProps, BooleanSubtype, BooleanType, BuildErrors, Builder, BuilderProps, BuilderUseOptions, CheckboxProps, CheckboxSubtype, CheckboxType, Clear, ComparisonFilter, DateProps, DateSubtype, DateType, EmailProps, EmailSubtype, EmailType, EqFilter, ErrorType, Errors, FieldFilter, FieldItem, FieldProps, FieldType, FileProps, FileSubtype, FileType, Files, FilterType, GetNamedItem as GetItem, GroupItem, GroupProps, GroupType, GtFilter, GteFilter, HTMLItem, HTMLProps, HTMLType, HiddenItem, HiddenProps, HiddenType, InFilter, ItemProps, ItemType, LtFilter, LteFilter, MultiplesSubtype, NamedItem, NotFilter, NumberProps, NumberSubtype, NumberType, Option, OptionSubtype, Options, OrFilter, PhoneProps, PhoneSubtype, PhoneType, Preview, RadioProps, RadioSubtype, RadioType, Render, RenderOptions, RenderProps, RenderedArray, RenderedFlatArray, RenderedFlatObject, RenderedObject, Save, SelectProps, SelectSubtype, SelectType, UpdateItemInItems as SetItem, SubmitButtonElement, SubmitButtonProps, SubmitItem, SubmitProps, SubmitType, TextProps, TextSubtype, TextType, Transfer, ValidateFields, getSiblingItems, hasFiles, isAndFilter, isAutocomplete, isBoolean, isCheckbox, isComparisonFilter, isDate, isEmail, isEqFilter, isField, isFieldFilter, isFile, isGroup, isGtFilter, isGteFilter, isHidden, isHtml, isInFilter, isLtFilter, isLteFilter, isNamed, isNotFilter, isNumber, isOption, isOrFilter, isPhone, isRadio, isSelect, isSubmit, isText, itemCloneDeep, itemsCloneDeep, validateNameChange };
+export { AllowedItems, AllowedSubtypes, AndFilter, AnyFieldType, AnyItem, AutocompleteProps, AutocompleteSubtype, AutocompleteType, BaseItem, BaseItemProps, BooleanProps, BooleanSubtype, BooleanType, BuildErrors, Builder, BuilderProps, BuilderUseOptions, CheckboxProps, CheckboxSubtype, CheckboxType, Clear, ComparisonFilter, DateProps, DateSubtype, DateType, EmailProps, EmailSubtype, EmailType, EqFilter, ErrorType, Errors, FieldFilter, FieldItem, FieldProps, FieldType, FileProps, FileSubtype, FileType, Files, FilterType, GetNamedItem as GetItem, GroupItem, GroupProps, GroupType, GtFilter, GteFilter, HTMLItem, HTMLProps, HTMLType, HiddenItem, HiddenProps, HiddenType, InFilter, InListItem, ItemProps, ItemType, ListItem, ListItemProps, ListProps, ListType, LtFilter, LteFilter, MultiplesSubtype, NamedItem, NotFilter, NumberProps, NumberSubtype, NumberType, Option, OptionSubtype, Options, OrFilter, PhoneProps, PhoneSubtype, PhoneType, Preview, RadioProps, RadioSubtype, RadioType, Render, RenderOptions, RenderProps, RenderedArray, RenderedFlatArray, RenderedFlatObject, RenderedObject, Save, SelectProps, SelectSubtype, SelectType, UpdateItemInItems as SetItem, SubmitButtonElement, SubmitButtonProps, SubmitItem, SubmitProps, SubmitType, TextProps, TextSubtype, TextType, Transfer, ValidateFields, getSiblingItems, hasFiles, isAndFilter, isAutocomplete, isBoolean, isCheckbox, isComparisonFilter, isDate, isEmail, isEqFilter, isField, isFieldFilter, isFile, isGroup, isGtFilter, isGteFilter, isHidden, isHtml, isInFilter, isList, isListItem, isLtFilter, isLteFilter, isNamed, isNotFilter, isNumber, isOption, isOrFilter, isPhone, isRadio, isSelect, isSubmit, isText, itemCloneDeep, itemsCloneDeep, validateNameChange };
