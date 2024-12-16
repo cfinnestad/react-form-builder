@@ -41,6 +41,10 @@ export type BuilderUseOptions = {
     submitColors?: string[];
     fileTypes?: Accept;
 };
+export type ModalProps = {
+    item: AnyItem;
+    inList?: boolean;
+};
 export type BuilderOptions = Options & {};
 export type BuilderProps = {
     AllowedItems?: AllowedItems;
