@@ -1,12 +1,12 @@
 import React, {ChangeEvent} from "react";
-import {TextProps, TextSubtype} from "../../Items";
+import {itemCloneDeep, TextProps} from "../../Items";
 import {FormHelperText, TextField, Stack, InputLabel} from "@mui/material";
 import {TextValidate} from "./index";
 
 const TextST = ({item, options}: TextProps ) => {
     const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const val = event.target.value || undefined
-        const itm = {...item} as TextSubtype
+        const itm = itemCloneDeep(item)
 
         itm.value = val
         if(itm.value === undefined) {

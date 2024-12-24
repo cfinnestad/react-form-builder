@@ -1,11 +1,20 @@
 import React, {useEffect, useState} from "react";
 import ShowItem from "../ShowItem";
 import {Button,  Grid, List, ListItem, ListItemIcon, Stack, Typography} from "@mui/material";
-import {ListProps, ListItemProps, AnyItem, InListItem, ListItem as LI, isList, isListItem} from "../Items";
+import {
+    ListProps,
+    ListItemProps,
+    AnyItem,
+    InListItem,
+    ListItem as LI,
+    itemCloneDeep, isGroup, isNamed
+} from "../Items";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import {cloneDeep} from "lodash";
+import {v4} from "uuid";
 
 const ShowListItem = ({item, items, options, errorHandler, index, parentItem}: ListItemProps) => {
+
     const [listItem, setListItem] = useState<AnyItem>(item);
     useEffect(() => {
         // console.log('parentItem', parentItem);
@@ -20,36 +29,50 @@ const ShowListItem = ({item, items, options, errorHandler, index, parentItem}: L
 }
 
 const ItemList = ({item, items, options, activeItem, setActiveItem, errorHandler}: ListProps) => {
+    const [list, setList] = useState<InListItem[]>([]);
+
+
+
     const genList = (): InListItem[] => {
         // console.log('genList item', item);
-        const newList = item.list ? [...item.list] : [];
+        const newList = [...item.listItems ?? []];
         // console.log('newList',newList);
         let index = newList.length
         while (index < item.minListSize ) {
-            index = newList.push({
+            const newItem = {
                 ...cloneDeep(item.baseItem),
                 id: item.baseItem.id + '-' + index.toString(),
-                name: item.baseItem.name + '-' + index.toString()
-            })
+            };
+            if(isGroup(newItem)) {
+                newItem.items.map((item) => {
+                    if (isNamed(item)) {
+                        item.id = newItem.id + '-' + item.name
+                    } else {
+                        item.id = v4()
+                    }
+                });
+            }
+            index = newList.push(newItem)
+
         }
         return newList
     }
 
-    const [list, setList] = useState<InListItem[]>(genList());
-    // const [listItem, setListItem] = useState<AnyItem>(item.baseItem);
-    // useEffect(() => {
-    //     console.log('parentItem', item);
-    //     console.log('listItem', listItem);
-    //     const regex= new RegExp('^' + item.baseItem.id + '(\\[\d+\\])?$')
-    //     if(isListItem(listItem) && listItem.id === item.baseItem.id) {
-    //         options.SetItem({...item, baseItem: listItem} as LI);
-    //     } else {
-    //         options.SetItem(listItem);
-    //     }
-    // },[listItem]);
     useEffect(() => {
-        options.SetItem({...item, list: list} as LI)
+        if (options.Mode === "build") return
+        if(item?.listItems === undefined) {
+            setList(genList());
+        }
+    }, []);
+
+    useEffect(() => {
+        if (options.Mode === "build") return
+        options.SetItem({...item, listItems: list} as LI)
     }, [list])
+
+    useEffect(() => {
+        setList(genList())
+    }, [])
 
     const InListOptions = () => {
         // console.log('inListOptions', {...options, custom: {...options.custom, inList: true, parentItem: item}})
@@ -69,6 +92,7 @@ const ItemList = ({item, items, options, activeItem, setActiveItem, errorHandler
         </>
     }
 
+
     if (item.deprecated || item.baseItem.deprecated) return <></>
 
     const onDelete = (index: number) => {
@@ -79,11 +103,20 @@ const ItemList = ({item, items, options, activeItem, setActiveItem, errorHandler
     }
 
     const addListItem = () => {
-        const lst = [...(item.list ?? [])]
-        const itm = cloneDeep(item.baseItem);
+        const lst = [...(item.listItems ?? [])]
+        const itm = itemCloneDeep(item.baseItem);
 
         itm.id += '-' + lst.length.toString();
         itm.name += '-' + lst.length.toString();
+        if (isGroup(itm)) {
+            itm.items.map((item,index) => {
+                if (isNamed(item)) {
+                    item.id = itm.id + '-' + item.name
+                } else {
+                    item.id = v4()
+                }
+            })
+        }
         lst.push(itm)
         setList(lst)
     }

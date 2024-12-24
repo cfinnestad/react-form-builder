@@ -92,21 +92,12 @@ const DefaultItems = (): AllowedItems => {
                 label:'List Of Items',
                 addButton:'New List Item',
                 baseItem: {
-                    id: 'ListItem',
+                    id: 'List_Item',
                     type: 'Field',
                     label: '',
                     name: 'List_Item',
                     subtype: 'Text'
                 } as TextSubtype,
-                list: [
-                    {
-                        id: 'ListItem[0]',
-                            type: 'Field',
-                            label: '',
-                            name: 'List_Item',
-                            subtype: 'Text'
-                    } as TextSubtype,
-                ],
                 minListSize: 1,
                 maxListSize: 10,
             } as ListItem,

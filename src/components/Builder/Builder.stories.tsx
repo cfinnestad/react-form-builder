@@ -343,6 +343,65 @@ export const Primary: Story = {
     }
 }
 
+export const Empty: Story = {
+    args: {
+        Items:
+            [
+                {
+                    type: 'Submit',
+                    id: 'submit1',
+                    label: 'Submit',
+                    submitElementName: 'default'
+                } as SubmitItem
+            ],
+        Options: {
+            muiTheme: TestTheme,
+            templates: [
+                {
+                    name: "Name",
+                    items: [
+                        {
+                            id: 'first_name',
+                            type: 'Field',
+                            name: 'first_name',
+                            required: true,
+                            label: 'First Name',
+                            subtype: 'Text',
+                            maxLength: 50
+                        } as TextSubtype,
+                        {
+                            id: 'last_name',
+                            type: 'Field',
+                            name: 'last_name',
+                            required: true,
+                            label: 'Last Name',
+                            deprecated: false,
+                            subtype: 'Text',
+                            maxLength: 10,
+                            minLength: 2
+                        } as TextSubtype,
+                    ]
+                } as CollectionType
+            ],
+            searchableOptions: {
+                exampleCities: (input) => input != null
+                    ? exampleCities.filter(city => city.value?.toLowerCase().includes(input))
+                    : [],
+                exampleOtherCities: (input) => input != null
+                    ? exampleCities.filter(city => city.value?.toUpperCase().includes(input))
+                    : []
+            },
+            submitElements: {
+                'default': Submit
+            },
+            mode: "build",
+            Actions:[Save, Clear, Transfer],
+            ActionsAppend: [Preview]
+        } as BuilderUseOptions
+    }
+}
+
+
 const exampleCities: Option[] = []
 for (let x = 0; x < 50; x++) {
     const city = faker.location.city()

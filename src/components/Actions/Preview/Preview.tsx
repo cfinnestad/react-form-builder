@@ -4,18 +4,18 @@ import {
 } from "@mui/material";
 import React, {useState} from "react";
 import Render, {RenderOptions} from "../../Render";
-import {cloneDeep} from "lodash";
-import {itemCloneDeep, itemsCloneDeep} from "../../Items";
+import {itemCloneDeep} from "../../Items";
 
 
 const Preview = ({Items, Options}: ActionProps) => {
-    const items = itemsCloneDeep(Items)
+    const items = itemCloneDeep(Items)
     const [modal, setModal] = useState(<></>)
 
     const options = {
         searchableOptions : Options.searchableOptions,
         submitElements : Options.submitElements,
-        muiTheme : Options.muiTheme
+        muiTheme : Options.muiTheme,
+        Mode : 'render'
     } as RenderOptions
 
     const Close = () => {

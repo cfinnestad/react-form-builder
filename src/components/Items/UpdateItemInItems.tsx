@@ -5,9 +5,9 @@ import {
     isComparisonFilter,
     isFieldFilter,
     isGroup,
-    isList, isListItem,
+    isList,
     isNamed,
-    isNotFilter, ListItem, NamedItem
+    isNotFilter, itemCloneDeep
 } from "./Items";
 
 type ChangedItemIds = {
@@ -46,43 +46,82 @@ const updateFilterIdsOnNameChange = (items: AnyItem[], changedItemIds : ChangedI
 }
 
 // when typing quickly, a name change may not be fully committed yet when setting the id, so compare on the original
-let originalId = undefined as any
+let originalId = undefined as string|undefined
+
+export const updateChildItemsInItems = (
+    items: AnyItem[],
+    changedItemIds: ChangedItemIds[],
+    prefix: string
+): void => {
+    items.map(item => {
+
+        if (isNamed(item)) {
+            originalId = item.id
+            item.id = prefix + item.name
+            if (originalId !== item.id) {
+                changedItemIds.push({oldId: originalId, newId: item.id})
+            }
+            if (isGroup(item)) {
+                updateChildItemsInItems(item.items,changedItemIds,item.id + '-')
+            }
+        }
+        if (isList(item)) {
+            updateChildItemsInItems(item?.listItems ?? [], changedItemIds, item.baseItem.id + '-')
+        }
+    })
+}
 
 const UpdateItemInItems = (
     item: AnyItem,
     items:AnyItem[],
     prefix: string = ''
 ): void => {
-    // console.log('********************************** item', item)
-    let changedItemIds: ChangedItemIds|undefined = undefined
+    const changedItemIds = [] as ChangedItemIds[]
     items.map((curItem, index) => {
+        console.log('index', index)
         if (item.id === curItem.id || (originalId && curItem.id === originalId)) {
+            console.log('Item found prefix', prefix)
             if (isNamed(item) && item.id !== prefix + item.name) {
                 originalId = curItem.id
-                changedItemIds = {oldId: originalId, newId: prefix + item.name} as ChangedItemIds
                 item.id = prefix + item.name
+                changedItemIds.push({oldId: curItem.id, newId: item.id} as ChangedItemIds)
+                if (isGroup(item)) {
+                    updateChildItemsInItems(item.items,changedItemIds,item.id + '-')
+                } else if (isList(item) && item.listItems && item.listItems.length > 0) {
+                    item.listItems.map((i,idx) => {
+                        i.id = item.baseItem.id + '-' + idx.toString() + '-' + i.name
+                        if (isGroup(i)) {
+                            updateChildItemsInItems(i.items, changedItemIds, i.id + '-')
+                        }
+                    })
+                }
             }
             items[index] = item
         } else if (isGroup(curItem)) {
             UpdateItemInItems(item, curItem.items, curItem.id + '-')
         } else if (isList(curItem)) {
             if(item.id === curItem.baseItem.id || (originalId && curItem.baseItem.id === originalId)) {
-                if(isListItem(item)) {
-                    originalId = item.id
+                if (isNamed(item) && item.id !== prefix + item.name) {
+                    changedItemIds.push({oldId: curItem.baseItem.id, newId: prefix + item.name} as ChangedItemIds)
                     item.id = prefix + item.name
-                    changedItemIds = {oldId: originalId, newId: item.id} as ChangedItemIds
-                    const newItem = {...curItem, baseItem: item}
-                    delete newItem.list
-                    items[index] = newItem
+                    if (isGroup(item)) {
+                        updateChildItemsInItems(item.items,changedItemIds,item.id + '-')
+                    }
                 }
+                items[index] = {...curItem, baseItem: item} as AnyItem
             } else {
-                UpdateItemInItems(item, curItem.list ?? [] as AnyItem[], prefix)
+                if (isGroup(curItem.baseItem)) {
+                    UpdateItemInItems(item, curItem.baseItem.items ?? [], curItem.baseItem.id + '-')
+                }
+                if (curItem?.listItems && curItem.listItems.length > 0) {
+                    UpdateItemInItems(item, curItem.listItems ?? [] as AnyItem[], prefix)
+                }
             }
         }
     })
-    if (changedItemIds) {
-        updateFilterIdsOnNameChange(items, changedItemIds)
-    }
+    changedItemIds.map(changedItemId => {
+        updateFilterIdsOnNameChange(items, changedItemId)
+    })
 }
 
 export default UpdateItemInItems

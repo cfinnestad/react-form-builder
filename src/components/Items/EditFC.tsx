@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useState} from "react";
 import {
-    AnyItem, BaseItem,
+    AnyItem,
     FieldItem,
     HiddenItem,
     isField,
@@ -13,7 +13,6 @@ import {
 import {FormGroup, FormHelperText, Stack, TextField} from "@mui/material";
 import {ShowErrors} from "./Subtypes";
 import FilterEdit, {FilterEditProps} from "../Filter/FilterEdit";
-import options from "../Options/Options";
 
 export type validateNameChangeResponse = {
     validName: string
@@ -120,18 +119,18 @@ const NamedItemEdit = ({itemProps, onChange}: NamedItemEditProps) => {
 }
 
 const EditFC = (ItemProps: ItemProps) => {
-    const [itemId, setItemId] = useState(ItemProps.item.id);
+    const [itemId] = useState(ItemProps.item.id);
 
     const setFilter = (...[filter]: Parameters<FilterEditProps["setFilter"]>) => {
         ItemProps.options.SetItem({ ...ItemProps.item, filter: filter } )
     }
 
     const onChangeNamedItem = (value: string) => {
-        const index = itemId.lastIndexOf('-');
-        const prefix = itemId.substring(0, index+1);
+        ItemProps.options.SetItem({ ...ItemProps.item, name: value } as NamedItem )
     }
 
     return <>
+        <div>{ItemProps.item.id}</div>
         <Stack spacing={2} sx={{ marginTop: 1}}>
             <TextField
                 size="small"

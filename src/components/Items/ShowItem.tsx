@@ -1,5 +1,5 @@
 import React from "react";
-import {AnyItem, isField, isGroup, isHtml, isList, isNamed, itemCloneDeep, ItemProps} from "./Items";
+import {AnyItem, isField, isGroup, isHtml, isNamed, itemCloneDeep, ItemProps} from "./Items";
 import {Box} from "@mui/material";
 import FormatLineSpacingRoundedIcon from "@mui/icons-material/FormatLineSpacingRounded";
 import ModeRoundedIcon from '@mui/icons-material/ModeRounded';
@@ -27,7 +27,7 @@ export const ShowItem = ({item, items, options, activeItem, setActiveItem, group
     // console.log('ShowItemOptions', options)
     if (options.Mode === "build") {
         const openModal = () => {
-            options.SetItem(item)
+            // options.SetItem(item)
             if(options.setModal) {
                 options.setModal({item:item,inList:options.custom?.inList})
             }
@@ -45,9 +45,7 @@ export const ShowItem = ({item, items, options, activeItem, setActiveItem, group
             }
         }
 
-        // const color = ((isField(item) || isGroup(item)) && item.deprecated) ? '#9ff' : '#ff9'
         const deleteItem = (id:string, items:AnyItem[]) => {
-            // console.log('deleteItem', items)
             options.setItems(DeleteItem(id, items))
         }
 

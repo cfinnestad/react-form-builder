@@ -4,7 +4,6 @@ import {SubmitButtonProps} from "./Submit";
 import {Theme} from "@mui/material/styles";
 import {ActiveType, ModalProps} from "../Builder/Builder";
 import Filter from "../Filter";
-import {cloneDeep} from "lodash";
 import {Accept} from "react-dropzone";
 
 export type AllowedSubtypes = {
@@ -100,23 +99,23 @@ export type ComparisonFilter = FilterType & {
     comparison: 'and'|'or',
     filters: FilterType[],
 }
-export const isComparisonFilter = (filter: FilterType): filter is AndFilter => { return ['and','or'].includes(filter.comparison) }
+export const isComparisonFilter = (filter: FilterType): filter is ComparisonFilter => { return filter.hasOwnProperty('filters') }
 
 export type AndFilter = ComparisonFilter & {
     comparison: 'and',
 }
-export const isAndFilter = (filter: FilterType): filter is AndFilter => { return filter.comparison === 'and' }
+export const isAndFilter = (filter: FilterType): filter is AndFilter => { return isComparisonFilter(filter) && filter.comparison === 'and' }
 
 export type OrFilter = ComparisonFilter & {
     comparison: 'or',
 }
-export const isOrFilter = (filter: FilterType): filter is OrFilter => { return filter.comparison === 'or' }
+export const isOrFilter = (filter: FilterType): filter is OrFilter => { return isComparisonFilter(filter) && filter.comparison === 'or' }
 
 export type NotFilter = FilterType & {
     comparison: 'not',
     filter: FilterType,
 }
-export const isNotFilter = (filter: FilterType): filter is NotFilter => { return filter.comparison === 'not' }
+export const isNotFilter = (filter: FilterType): filter is NotFilter => { return filter.hasOwnProperty('filter') && filter.comparison === 'not' }
 
 export type NamedItem = BaseItem & {
     name: string,
@@ -153,7 +152,7 @@ export type ListItem = BaseItem & {
     label?: string,
     addButton?: string,
     addColor?: string,
-    list?: InListItem[],
+    listItems?: InListItem[],
     deprecated?: boolean,
     minListSize: number,
     maxListSize: number,
@@ -514,17 +513,16 @@ export function hasFiles(items: AnyItem[], allItems?: AnyItem[]): boolean {
     }).length > 0
 }
 
+// export function filterCloneDeep(filter: FilterType): FilterType {
+//     const newFilter = {...filter};
+//     if (isComparisonFilter(newFilter) && isComparisonFilter(filter)) {
+//         newFilter.filters = filter.filters.map(filter => filterCloneDeep(filter))
+//     } else if(isNotFilter(newFilter) && isNotFilter(filter)) {
+//         newFilter.filter = filterCloneDeep(filter.filter);
+//     }
+//     return newFilter;
+// }
 
-export function itemsCloneDeep(items: AnyItem[]): AnyItem[] {
-    return items.map((item) => itemCloneDeep(item));
-}
-export function itemCloneDeep(item: AnyItem): AnyItem {
-    const newItem = {...item}
-    if (item?.filter) {
-        newItem.filter = cloneDeep(item.filter)
-    }
-    if (isGroup(newItem)) {
-        newItem.items = itemsCloneDeep(newItem.items)
-    }
-    return newItem
+export function itemCloneDeep<T>(items: T): T {
+    return JSON.parse(JSON.stringify(items));
 }

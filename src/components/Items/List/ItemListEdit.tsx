@@ -5,7 +5,7 @@ import {ShowErrors} from "../Subtypes";
 import DefaultItems from "../DefaultItems";
 import {cloneDeep} from "lodash";
 import SelectOption from "../../SelectOption/SelectOption";
-const ItemListEdit = ({item, items, options, groupId, setActiveItem, errorHandler}: ListProps) => {
+const ItemListEdit = ({item, items, options, groupId, errorHandler}: ListProps) => {
     const [group,setGroup] = React.useState(isGroup(item.baseItem));
     const [color, setColor] = useState<string|undefined>(item?.addColor);
 
@@ -20,7 +20,7 @@ const ItemListEdit = ({item, items, options, groupId, setActiveItem, errorHandle
             const name = itm.baseItem.name
             let cnt = 1
             while (items.filter(i => isNamed(i) && i.name === itm.baseItem.name).length > 0) {
-                itm.baseItem.name = name + '_' + (cnt++).toString()
+                itm.baseItem.name = name + '=' + (cnt++).toString()
             }
             itm.baseItem.id = (groupId ? groupId + '-' : '') + itm.baseItem.name
             options.SetItem(itm)
