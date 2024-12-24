@@ -87,7 +87,7 @@ export type ComparisonFilter = FilterType & {
     comparison: 'and' | 'or';
     filters: FilterType[];
 };
-export declare const isComparisonFilter: (filter: FilterType) => filter is AndFilter;
+export declare const isComparisonFilter: (filter: FilterType) => filter is ComparisonFilter;
 export type AndFilter = ComparisonFilter & {
     comparison: 'and';
 };
@@ -131,7 +131,7 @@ export type ListItem = BaseItem & {
     label?: string;
     addButton?: string;
     addColor?: string;
-    list?: InListItem[];
+    listItems?: InListItem[];
     deprecated?: boolean;
     minListSize: number;
     maxListSize: number;
@@ -442,5 +442,4 @@ export declare function isNamed(item: AnyItem): item is NamedItem;
 export declare function isList(item: AnyItem): item is ListItem;
 export declare function isListItem(item: AnyItem): item is InListItem;
 export declare function hasFiles(items: AnyItem[], allItems?: AnyItem[]): boolean;
-export declare function itemsCloneDeep(items: AnyItem[]): AnyItem[];
-export declare function itemCloneDeep(item: AnyItem): AnyItem;
+export declare function itemCloneDeep<T>(items: T): T;
