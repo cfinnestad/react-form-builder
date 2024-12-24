@@ -89,8 +89,10 @@ const Render = ({ Items, SetItems, Options }: RenderProps ) => {
     }, [items])
 
     useEffect(()=>{
+        // console.log('SetItem item', itemCloneDeep(item))
         const itms = itemCloneDeep(items)
         updateItemInItems(item, itms)
+        // console.log('setting ',itms)
         setItems(itms)
     },[item])
 

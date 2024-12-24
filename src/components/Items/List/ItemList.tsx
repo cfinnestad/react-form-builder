@@ -13,30 +13,11 @@ import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined
 import {cloneDeep} from "lodash";
 import {v4} from "uuid";
 
-const ShowListItem = ({item, items, options, errorHandler, index, parentItem}: ListItemProps) => {
-
-    const [listItem, setListItem] = useState<AnyItem>(item);
-    useEffect(() => {
-        // console.log('parentItem', parentItem);
-        // console.log('listItem', listItem);
-        if (listItem.id === parentItem.baseItem.id) {
-            options.SetItem({...parentItem, baseItem: listItem} as LI);
-        } else {
-            options.SetItem({...parentItem, baseItem: listItem} as LI);
-        }
-    },[listItem]);
-    return <ShowItem item={item} items={items} options={{...options, SetItem: setListItem}} errorHandler={errorHandler}></ShowItem>
-}
-
 const ItemList = ({item, items, options, activeItem, setActiveItem, errorHandler}: ListProps) => {
-    const [list, setList] = useState<InListItem[]>([]);
-
-
+    const [list, setList] = useState<InListItem[]>(item?.listItems ?? []);
 
     const genList = (): InListItem[] => {
-        // console.log('genList item', item);
         const newList = [...item.listItems ?? []];
-        // console.log('newList',newList);
         let index = newList.length
         while (index < item.minListSize ) {
             const newItem = {
@@ -59,23 +40,28 @@ const ItemList = ({item, items, options, activeItem, setActiveItem, errorHandler
     }
 
     useEffect(() => {
-        if (options.Mode === "build") return
         if(item?.listItems === undefined) {
-            setList(genList());
+            setList(genList())
         }
     }, []);
 
     useEffect(() => {
         if (options.Mode === "build") return
-        options.SetItem({...item, listItems: list} as LI)
-    }, [list])
+        if(item?.listItems === undefined) {
+            setList(genList());
+        } else if(JSON.stringify(item.listItems) !== JSON.stringify(list)) {
+            setList(item.listItems);
+        }
+    }, [item]);
 
     useEffect(() => {
-        setList(genList())
-    }, [])
+        if (options.Mode === "build") return
+        if(JSON.stringify(item?.listItems ?? []) !== JSON.stringify(list)) {
+            options.SetItem({...item, listItems: list} as LI)
+        }
+    }, [list])
 
     const InListOptions = () => {
-        // console.log('inListOptions', {...options, custom: {...options.custom, inList: true, parentItem: item}})
         return  {...options, custom: {...options.custom, inList: true, parentItem: item}}
     }
 
@@ -103,11 +89,10 @@ const ItemList = ({item, items, options, activeItem, setActiveItem, errorHandler
     }
 
     const addListItem = () => {
-        const lst = [...(item.listItems ?? [])]
+        const lst = itemCloneDeep(list)
         const itm = itemCloneDeep(item.baseItem);
 
         itm.id += '-' + lst.length.toString();
-        itm.name += '-' + lst.length.toString();
         if (isGroup(itm)) {
             itm.items.map((item,index) => {
                 if (isNamed(item)) {

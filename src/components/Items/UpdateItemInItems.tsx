@@ -78,12 +78,9 @@ const UpdateItemInItems = (
 ): void => {
     const changedItemIds = [] as ChangedItemIds[]
     items.map((curItem, index) => {
-        console.log('index', index)
         if (item.id === curItem.id || (originalId && curItem.id === originalId)) {
-            console.log('Item found prefix', prefix)
             if (isNamed(item) && item.id !== prefix + item.name) {
-                originalId = curItem.id
-                item.id = prefix + item.name
+                item.id = prefix + item.name + '-' + index
                 changedItemIds.push({oldId: curItem.id, newId: item.id} as ChangedItemIds)
                 if (isGroup(item)) {
                     updateChildItemsInItems(item.items,changedItemIds,item.id + '-')
