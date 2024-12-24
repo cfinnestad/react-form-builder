@@ -1,6 +1,6 @@
 {
   "name": "@cfinnestad/react-form-builder",
-  "version": "1.0.34",
+  "version": "1.0.35",
   "description": "FormBuilder and FormRender Component library for building and gathering custom form data",
   "scripts": {
     "rollup": "rollup -c",
