@@ -67,6 +67,7 @@ const ItemList = ({item, items, options, activeItem, setActiveItem, errorHandler
 
     if (options.Mode === "build") {
         return <>
+            { item.label ? <Typography sx={{fontWeight: 'bold', fontSize: isGroup(item.baseItem) ? '1.35rem' : '1.25rem'}}>{item.label}</Typography> : undefined }
             <ShowItem
                 key={item.baseItem.id}
                 item={item.baseItem}
@@ -115,7 +116,7 @@ const ItemList = ({item, items, options, activeItem, setActiveItem, errorHandler
 
     return <>
         <Stack>
-            { item.label ? <Typography sx={{fontWeight: 'bold', fontSize: '1.25rem'}}>{item.label}</Typography> : undefined }
+            { item.label ? <Typography sx={{fontWeight: 'bold', fontSize: isGroup(item.baseItem) ? '1.35rem' : '1.25rem'}}>{item.label}</Typography> : undefined }
             <List dense sx={{padding: 0}}>
                 {list.map((listItem, index) => <Grid container alignItems="center" spacing={1}>
                     <Grid item xs={11} sx={{backgroundColor: index % 2 ? 'lightgray' : 'white'}}>
