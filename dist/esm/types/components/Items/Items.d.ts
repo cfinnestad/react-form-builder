@@ -136,6 +136,7 @@ export type ListItem = BaseItem & {
     minListSize: number;
     maxListSize: number;
     baseItem: InListItem;
+    errorText?: string;
 };
 export type GroupItem = NamedItem & {
     type: 'Group';

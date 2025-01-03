@@ -150,6 +150,7 @@ type ListItem = BaseItem & {
     minListSize: number;
     maxListSize: number;
     baseItem: InListItem;
+    errorText?: string;
 };
 type GroupItem = NamedItem & {
     type: 'Group';
