@@ -9,6 +9,8 @@ const Errors = (): ErrorType => {
         minLength: 'Must be at least {minLength} characters',
         min: 'Value must be at least {min}',
         max: 'Value cannot be more than {max}',
+        minList: 'List must contain at least {minListSize} items',
+        maxList: 'List must not contain more than {maxListSize} items',
         email: 'Invalid email address',
         mustCheck: 'You are required to check this',
         number: 'Must be a valid number',

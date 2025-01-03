@@ -1,4 +1,4 @@
-import {AnyItem, isField, isGroup, Options} from "./Items";
+import {AnyItem, isField, isGroup, isList, Options} from "./Items";
 import Filter from "../Filter";
 
 const ValidateFields = (items: AnyItem[], options: Options, allItems?: AnyItem[]): boolean => {
@@ -16,6 +16,27 @@ const ValidateFields = (items: AnyItem[], options: Options, allItems?: AnyItem[]
             else if (isGroup(item) && !item.deprecated && (!item.backend_only || options.Mode === "edit")) {
                 result = ValidateFields(item.items, options, allItems ?? items) && result
                 options.SetItem({...item})
+            }
+            else if (isList(item)
+                && !item.baseItem.deprecated
+                && (!item.baseItem.backend_only || options.Mode === "edit")
+            ) {
+                item.errorText = undefined
+                if((item.listItems ?? []).length < item.minListSize) {
+                    item.errorText = options.getError('minList', item)
+                }
+                if((item.listItems ?? []).length > item.maxListSize) {
+                    item.errorText = options.getError('maxList', item)
+                }
+                if(item.errorText === undefined) {
+                    delete item.errorText
+                } else {
+                    result = false;
+                }
+
+                if (item.listItems) {
+                    result = ValidateFields(item.listItems, options, allItems ?? items) && result
+                }
             }
         }
     }

@@ -157,6 +157,7 @@ export type ListItem = BaseItem & {
     minListSize: number,
     maxListSize: number,
     baseItem: InListItem,
+    errorText?: string,
 }
 
 export type GroupItem = NamedItem & {
@@ -512,16 +513,6 @@ export function hasFiles(items: AnyItem[], allItems?: AnyItem[]): boolean {
         return false
     }).length > 0
 }
-
-// export function filterCloneDeep(filter: FilterType): FilterType {
-//     const newFilter = {...filter};
-//     if (isComparisonFilter(newFilter) && isComparisonFilter(filter)) {
-//         newFilter.filters = filter.filters.map(filter => filterCloneDeep(filter))
-//     } else if(isNotFilter(newFilter) && isNotFilter(filter)) {
-//         newFilter.filter = filterCloneDeep(filter.filter);
-//     }
-//     return newFilter;
-// }
 
 export function itemCloneDeep<T>(items: T): T {
     return JSON.parse(JSON.stringify(items));
