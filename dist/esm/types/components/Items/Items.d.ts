@@ -443,4 +443,5 @@ export declare function isNamed(item: AnyItem): item is NamedItem;
 export declare function isList(item: AnyItem): item is ListItem;
 export declare function isListItem(item: AnyItem): item is InListItem;
 export declare function hasFiles(items: AnyItem[], allItems?: AnyItem[]): boolean;
-export declare function itemCloneDeep<T>(items: T): T;
+export declare function itemsCloneDeep(items: AnyItem[]): AnyItem[];
+export declare function itemCloneDeep(item: AnyItem): AnyItem;
