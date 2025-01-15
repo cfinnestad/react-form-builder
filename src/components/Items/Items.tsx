@@ -514,6 +514,22 @@ export function hasFiles(items: AnyItem[], allItems?: AnyItem[]): boolean {
     }).length > 0
 }
 
-export function itemCloneDeep<T>(items: T): T {
-    return JSON.parse(JSON.stringify(items));
+export function itemsCloneDeep(items: AnyItem[]): AnyItem[] {
+    const newItems = [] as AnyItem[];
+    items.map((item) => {
+        newItems.push(itemCloneDeep(item));
+    })
+    return newItems;
+}
+
+export function itemCloneDeep(item: AnyItem): AnyItem {
+    const newItem = JSON.parse(JSON.stringify(item));
+    if (isList(item) && isList(newItem) && item.listItems !== undefined) {
+        newItem.listItems = itemsCloneDeep(item.listItems) as InListItem[]
+    } else if (isGroup(item) && isGroup(newItem)) {
+        newItem.items = itemsCloneDeep(item.items)
+    } else if (isFile(item)) {
+        newItem.value = item.value
+    }
+    return newItem;
 }

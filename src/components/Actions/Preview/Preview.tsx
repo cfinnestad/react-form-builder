@@ -4,11 +4,11 @@ import {
 } from "@mui/material";
 import React, {useState} from "react";
 import Render, {RenderOptions} from "../../Render";
-import {itemCloneDeep} from "../../Items";
+import {itemsCloneDeep} from "../../Items";
 
 
 const Preview = ({Items, Options}: ActionProps) => {
-    const items = itemCloneDeep(Items)
+    const items = itemsCloneDeep(Items)
     const [modal, setModal] = useState(<></>)
 
     const options = {

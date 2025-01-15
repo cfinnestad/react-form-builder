@@ -10,7 +10,7 @@ import {
     Option,
     Options,
     SubmitButtonProps,
-    itemCloneDeep
+    itemsCloneDeep, itemCloneDeep
 } from "../Items";
 import {Box, Grid, ThemeProvider, Typography} from "@mui/material";
 import DefaultSubtypes from "../Items/Subtypes/DefaultSubTypes";
@@ -162,7 +162,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
 
     useEffect(() => {
         // console.log('SetItem', itemCloneDeep(item))
-        const newItems = itemCloneDeep(items)
+        const newItems = itemsCloneDeep(items)
         UpdateItemInItems(item, newItems)
         setItems(newItems)
     },[item])

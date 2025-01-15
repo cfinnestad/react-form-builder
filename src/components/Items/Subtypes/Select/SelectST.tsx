@@ -13,7 +13,6 @@ import {
 import { Theme, useTheme } from '@mui/material/styles';
 import {itemCloneDeep, SelectProps, SelectSubtype} from '../../Items';
 import { SelectValidate } from "./index";
-import { cloneDeep } from "lodash";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

@@ -1,5 +1,5 @@
 import React from "react";
-import {AnyItem, isField, isGroup, isHtml, isNamed, itemCloneDeep, ItemProps} from "./Items";
+import {AnyItem, isField, isGroup, isHtml, isNamed, ItemProps, itemCloneDeep} from "./Items";
 import {Box} from "@mui/material";
 import FormatLineSpacingRoundedIcon from "@mui/icons-material/FormatLineSpacingRounded";
 import ModeRoundedIcon from '@mui/icons-material/ModeRounded';

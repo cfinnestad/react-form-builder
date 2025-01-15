@@ -8,7 +8,6 @@ import {
     InputLabel, Stack
 } from "@mui/material";
 import {CheckboxValidate} from "./index";
-import {cloneDeep} from "lodash";
 
 const CheckboxST = ({item, options}: CheckboxProps ) => {
     function onChange(index: number){

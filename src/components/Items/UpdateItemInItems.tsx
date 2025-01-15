@@ -7,7 +7,7 @@ import {
     isGroup,
     isList,
     isNamed,
-    isNotFilter, itemCloneDeep
+    isNotFilter
 } from "./Items";
 
 type ChangedItemIds = {

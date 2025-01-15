@@ -9,7 +9,7 @@ import {
     AllowedItems,
     AllowedSubtypes,
     Files,
-    isFile, itemCloneDeep, isList
+    isFile, itemsCloneDeep, isList
 } from "../Items";
 import ShowItem from "../Items/ShowItem";
 import DefaultItems from "../Items/DefaultItems";
@@ -90,7 +90,7 @@ const Render = ({ Items, SetItems, Options }: RenderProps ) => {
 
     useEffect(()=>{
         // console.log('SetItem item', itemCloneDeep(item))
-        const itms = itemCloneDeep(items)
+        const itms = itemsCloneDeep(items)
         updateItemInItems(item, itms)
         // console.log('setting ',itms)
         setItems(itms)

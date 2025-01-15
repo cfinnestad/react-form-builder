@@ -3,11 +3,9 @@ import ShowItem from "../ShowItem";
 import {Button,  Grid, List, ListItem, ListItemIcon, Stack, Typography} from "@mui/material";
 import {
     ListProps,
-    ListItemProps,
-    AnyItem,
     InListItem,
     ListItem as LI,
-    itemCloneDeep, isGroup, isNamed
+    itemsCloneDeep, isGroup, isNamed, itemCloneDeep
 } from "../Items";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import {cloneDeep} from "lodash";
@@ -90,12 +88,12 @@ const ItemList = ({item, items, options, activeItem, setActiveItem, errorHandler
     }
 
     const addListItem = () => {
-        const lst = itemCloneDeep(list)
+        const lst = itemsCloneDeep(list) as InListItem[]
         const itm = itemCloneDeep(item.baseItem);
 
         itm.id += '-' + lst.length.toString();
         if (isGroup(itm)) {
-            itm.items.map((item,index) => {
+            itm.items.map((item) => {
                 if (isNamed(item)) {
                     item.id = itm.id + '-' + item.name
                 } else {
@@ -103,7 +101,7 @@ const ItemList = ({item, items, options, activeItem, setActiveItem, errorHandler
                 }
             })
         }
-        lst.push(itm)
+        lst.push(itm as InListItem)
         setList(lst)
     }
 
