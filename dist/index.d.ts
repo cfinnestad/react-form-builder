@@ -464,7 +464,7 @@ declare const ValidateFields: (items: AnyItem[], options: Options, allItems?: An
 
 declare const GetNamedItem: (id: string | number, items: AnyItem[]) => FieldItem | HiddenItem | undefined;
 
-declare const UpdateItemInItems: (item: AnyItem, items: AnyItem[], prefix?: string) => void;
+declare const UpdateItemInItems: (item: AnyItem, items: AnyItem[], prefix?: string, useIndex?: boolean) => void;
 
 type validateNameChangeResponse = {
     validName: string;
