@@ -74,13 +74,14 @@ export const updateChildItemsInItems = (
 const UpdateItemInItems = (
     item: AnyItem,
     items:AnyItem[],
-    prefix: string = ''
+    prefix: string = '',
+    useIndex: boolean = false,
 ): void => {
     const changedItemIds = [] as ChangedItemIds[]
     items.map((curItem, index) => {
         if (item.id === curItem.id || (originalId && curItem.id === originalId)) {
             if (isNamed(item) && item.id !== prefix + item.name) {
-                item.id = prefix + item.name + '-' + index
+                item.id = prefix + item.name + (useIndex ? '-' + index : '')
                 changedItemIds.push({oldId: curItem.id, newId: item.id} as ChangedItemIds)
                 if (isGroup(item)) {
                     updateChildItemsInItems(item.items,changedItemIds,item.id + '-')
@@ -111,7 +112,7 @@ const UpdateItemInItems = (
                     UpdateItemInItems(item, curItem.baseItem.items ?? [], curItem.baseItem.id + '-')
                 }
                 if (curItem?.listItems && curItem.listItems.length > 0) {
-                    UpdateItemInItems(item, curItem.listItems ?? [] as AnyItem[], prefix)
+                    UpdateItemInItems(item, curItem.listItems ?? [] as AnyItem[], prefix, true)
                 }
             }
         }

@@ -20,7 +20,7 @@ const ItemListEdit = ({item, items, options, groupId, errorHandler}: ListProps) 
             const name = itm.baseItem.name
             let cnt = 1
             while (items.filter(i => isNamed(i) && i.name === itm.baseItem.name).length > 0) {
-                itm.baseItem.name = name + '=' + (cnt++).toString()
+                itm.baseItem.name = name + '-' + (cnt++).toString()
             }
             itm.baseItem.id = (groupId ? groupId + '-' : '') + itm.baseItem.name
             options.SetItem(itm)
