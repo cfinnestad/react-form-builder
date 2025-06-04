@@ -21,7 +21,7 @@ export const TestTheme = createTheme({
                     "&:focus-within": {
                         bgcolor: 'primary.light',
                     },
-                    height: '3rem'
+                    minHeight: '3rem'
                 },
             },
             styleOverrides: {
