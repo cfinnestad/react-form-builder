@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import type { StoryObj } from '@storybook/react';
 import { TextSubtype } from "../Items";
 declare const meta: {
