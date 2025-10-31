@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import type { StoryObj } from '@storybook/react';
 import { FileSubtype } from "../../Items";
 declare const meta: {
