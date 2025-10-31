@@ -18,6 +18,8 @@ const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const selectRef = React.useRef(null);
 const MenuProps = {
+    keepMounted: true,
+    disablePortal: true,
     autofocus: false,
     disableAutoFocusItem: true,
     disableEnforceFocus: true,
