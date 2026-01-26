@@ -37,6 +37,8 @@ const PhoneST = ({item, options}: PhoneProps ) => {
                 disableCountryCode = {true}
                 disableDropdown = {true}
                 onlyCountries = {['us']}
+                // @ts-expect-error -- mui-phone-number types reject valid NANP area codes
+                isValid={() => true}
                 placeholder = {item.placeholder ?? ''}
                 InputProps = {{ id: item.id }}
                 error={item.errorText !== undefined}
