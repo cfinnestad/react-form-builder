@@ -18,6 +18,10 @@ type SubmitButtonProps = {
 };
 type SubmitButtonElement = (props: SubmitButtonProps) => JSX.Element;
 
+type EventItem = {
+    eventName: string;
+    callback: (eventName: string, fieldName: string) => void;
+};
 type AllowedSubtypes = {
     [key: string]: AnyFieldType;
 };
@@ -49,6 +53,7 @@ type Options = {
     };
     submitColors: string[];
     fileTypes: Accept;
+    eventList: EventItem[];
 };
 type BaseItem = {
     id: string;
@@ -556,6 +561,7 @@ type RenderOptions = {
     mode?: "build" | "edit" | "render";
     submitColors?: string[];
     fileTypes?: Accept;
+    eventList?: EventItem[];
 };
 declare const Render: ({ Items, SetItems, Options }: RenderProps) => JSX.Element;
 declare const RenderedObject: (items: AnyItem[], files?: Files, allItems?: AnyItem[]) => {};
@@ -563,4 +569,4 @@ declare const RenderedFlatObject: (items: AnyItem[], files?: Files, allItems?: A
 declare const RenderedArray: (items: AnyItem[], files?: Files, allItems?: AnyItem[]) => {} | [];
 declare const RenderedFlatArray: (items: AnyItem[], files?: Files, allItems?: AnyItem[]) => object[];
 
-export { AllowedItems, AllowedSubtypes, AndFilter, AnyFieldType, AnyItem, AutocompleteProps, AutocompleteSubtype, AutocompleteType, BaseItem, BaseItemProps, BooleanProps, BooleanSubtype, BooleanType, BuildErrors, Builder, BuilderProps, BuilderUseOptions, CheckboxProps, CheckboxSubtype, CheckboxType, Clear, ComparisonFilter, DateProps, DateSubtype, DateType, EmailProps, EmailSubtype, EmailType, EqFilter, ErrorType, Errors, FieldFilter, FieldItem, FieldProps, FieldType, FileProps, FileSubtype, FileType, Files, FilterType, GetNamedItem as GetItem, GroupItem, GroupProps, GroupType, GtFilter, GteFilter, HTMLItem, HTMLProps, HTMLType, HiddenItem, HiddenProps, HiddenType, InFilter, InListItem, ItemProps, ItemType, ListItem, ListItemProps, ListProps, ListType, LtFilter, LteFilter, MultiplesSubtype, NamedItem, NotFilter, NumberProps, NumberSubtype, NumberType, Option, OptionSubtype, Options, OrFilter, PhoneProps, PhoneSubtype, PhoneType, Preview, RadioProps, RadioSubtype, RadioType, Render, RenderOptions, RenderProps, RenderedArray, RenderedFlatArray, RenderedFlatObject, RenderedObject, Save, SelectProps, SelectSubtype, SelectType, UpdateItemInItems as SetItem, SubmitButtonElement, SubmitButtonProps, SubmitItem, SubmitProps, SubmitType, TextProps, TextSubtype, TextType, Transfer, ValidateFields, getSiblingItems, hasFiles, isAndFilter, isAutocomplete, isBoolean, isCheckbox, isComparisonFilter, isDate, isEmail, isEqFilter, isField, isFieldFilter, isFile, isGroup, isGtFilter, isGteFilter, isHidden, isHtml, isInFilter, isList, isListItem, isLtFilter, isLteFilter, isNamed, isNotFilter, isNumber, isOption, isOrFilter, isPhone, isRadio, isSelect, isSubmit, isText, itemCloneDeep, itemsCloneDeep, validateNameChange };
+export { AllowedItems, AllowedSubtypes, AndFilter, AnyFieldType, AnyItem, AutocompleteProps, AutocompleteSubtype, AutocompleteType, BaseItem, BaseItemProps, BooleanProps, BooleanSubtype, BooleanType, BuildErrors, Builder, BuilderProps, BuilderUseOptions, CheckboxProps, CheckboxSubtype, CheckboxType, Clear, ComparisonFilter, DateProps, DateSubtype, DateType, EmailProps, EmailSubtype, EmailType, EqFilter, ErrorType, Errors, EventItem, FieldFilter, FieldItem, FieldProps, FieldType, FileProps, FileSubtype, FileType, Files, FilterType, GetNamedItem as GetItem, GroupItem, GroupProps, GroupType, GtFilter, GteFilter, HTMLItem, HTMLProps, HTMLType, HiddenItem, HiddenProps, HiddenType, InFilter, InListItem, ItemProps, ItemType, ListItem, ListItemProps, ListProps, ListType, LtFilter, LteFilter, MultiplesSubtype, NamedItem, NotFilter, NumberProps, NumberSubtype, NumberType, Option, OptionSubtype, Options, OrFilter, PhoneProps, PhoneSubtype, PhoneType, Preview, RadioProps, RadioSubtype, RadioType, Render, RenderOptions, RenderProps, RenderedArray, RenderedFlatArray, RenderedFlatObject, RenderedObject, Save, SelectProps, SelectSubtype, SelectType, UpdateItemInItems as SetItem, SubmitButtonElement, SubmitButtonProps, SubmitItem, SubmitProps, SubmitType, TextProps, TextSubtype, TextType, Transfer, ValidateFields, getSiblingItems, hasFiles, isAndFilter, isAutocomplete, isBoolean, isCheckbox, isComparisonFilter, isDate, isEmail, isEqFilter, isField, isFieldFilter, isFile, isGroup, isGtFilter, isGteFilter, isHidden, isHtml, isInFilter, isList, isListItem, isLtFilter, isLteFilter, isNamed, isNotFilter, isNumber, isOption, isOrFilter, isPhone, isRadio, isSelect, isSubmit, isText, itemCloneDeep, itemsCloneDeep, validateNameChange };

@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, JSX } from 'react';
-import { AnyItem, Option, AllowedItems, AllowedSubtypes, Files } from "../Items";
+import { AnyItem, Option, AllowedItems, AllowedSubtypes, Files, EventItem } from "../Items";
 import { ErrorType } from "../Errors/Errors";
 import { Theme } from "@mui/material/styles";
 import { SubmitButtonProps } from "../Items";
@@ -29,6 +29,7 @@ export type RenderOptions = {
     mode?: "build" | "edit" | "render";
     submitColors?: string[];
     fileTypes?: Accept;
+    eventList?: EventItem[];
 };
 declare const Render: ({ Items, SetItems, Options }: RenderProps) => JSX.Element;
 export declare const RenderedObject: (items: AnyItem[], files?: Files, allItems?: AnyItem[]) => {};
