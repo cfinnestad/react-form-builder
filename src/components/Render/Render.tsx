@@ -9,7 +9,7 @@ import {
     AllowedItems,
     AllowedSubtypes,
     Files,
-    isFile, itemsCloneDeep, isList
+    isFile, itemsCloneDeep, isList, EventItem
 } from "../Items";
 import ShowItem from "../Items/ShowItem";
 import DefaultItems from "../Items/DefaultItems";
@@ -48,6 +48,7 @@ export type RenderOptions = {
     mode?: "build" | "edit" | "render",
     submitColors?: string[],
     fileTypes?: Accept,
+    eventList?: EventItem[],
 }
 
 const Render = ({ Items, SetItems, Options }: RenderProps ) => {
@@ -80,6 +81,7 @@ const Render = ({ Items, SetItems, Options }: RenderProps ) => {
         muiTheme: theme,
         submitColors: Options?.submitColors ?? getPalettes(),
         fileTypes: Options?.fileTypes ?? FileTypes,
+        eventList: Options?.eventList ?? [],
     }
 
     useEffect(() => {
