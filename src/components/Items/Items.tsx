@@ -6,6 +6,11 @@ import {ActiveType, ModalProps} from "../Builder/Builder";
 import Filter from "../Filter";
 import {Accept} from "react-dropzone";
 
+export type EventItem = {
+    eventName: string,
+    callback: (eventName: string, fieldName: string) => void,
+}
+
 export type AllowedSubtypes = {
     [key: string]: AnyFieldType,
 }
@@ -40,6 +45,7 @@ export type Options = {
     custom?: {[key:string]: any},
     submitColors: string[],
     fileTypes: Accept,
+    eventList: EventItem[],
 }
 
 export type BaseItem = {
