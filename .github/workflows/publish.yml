@@ -10,8 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  release:
-    name: publish
+  publish:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -21,5 +20,6 @@ jobs:
         with:
           registry-url: https://registry.npmjs.org/
           node-version: 16
-      - name: publish
-        uses: JS-DevTools/npm-publish@v2
+      - run: npm ci
+      - run: npm run rollup
+      - run: npm publish
