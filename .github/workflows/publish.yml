@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - master
+
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   release:
     name: publish
@@ -18,5 +23,3 @@ jobs:
           node-version: 16
       - name: publish
         uses: JS-DevTools/npm-publish@v2
-        with:
-          token: ${{secrets.NPMJS_ACCESS_TOKEN}}
