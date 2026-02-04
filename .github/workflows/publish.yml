@@ -2,8 +2,6 @@ name: publish
 
 on:
   push:
-    tags:
-      - 'v*'
     branches:
       - master
 
@@ -22,6 +20,7 @@ jobs:
         with:
           registry-url: https://registry.npmjs.org/
           node-version: 16
+      - run: NODE_AUTH_TOKEN=""
       - run: npm ci
       - run: npm run rollup
       - run: npm publish
