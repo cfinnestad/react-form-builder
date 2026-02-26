@@ -1,6 +1,7 @@
 import React, {useEffect, useRef} from "react";
 import {FieldProps} from "../Items";
 import {Box} from "@mui/material";
+import {isArray} from "lodash";
 
 const Field = (fieldProps: FieldProps) => {
     if(fieldProps.options.Mode !== "build" && fieldProps.options.Mode !== "edit") {
@@ -11,21 +12,23 @@ const Field = (fieldProps: FieldProps) => {
 
 
     useEffect(() => {
-        fieldProps.options.eventList.forEach((eventItem) => {
-            const eventHandler = (e: Event) => {
-                eventItem.callback(e.type, fieldProps.item.name)
-            }
-
-            if (divref.current) {
-                divref.current.addEventListener(eventItem.eventName, eventHandler);
-            }
-
-            return () => {
-                if (divref.current) {
-                    divref.current.removeEventListener(eventItem.eventName, eventHandler)
+        if(isArray(fieldProps.options.eventList)) {
+            fieldProps.options.eventList.forEach((eventItem) => {
+                const eventHandler = (e: Event) => {
+                    eventItem.callback(e.type, fieldProps.item.name)
                 }
-            }
-        })
+
+                if (divref.current) {
+                    divref.current.addEventListener(eventItem.eventName, eventHandler);
+                }
+
+                return () => {
+                    if (divref.current) {
+                        divref.current.removeEventListener(eventItem.eventName, eventHandler)
+                    }
+                }
+            })
+        }
     })
 
     return <Box ref={divref} component="div" sx={{ flexGrow: 1 }} marginTop={1.75} marginBottom={1}>
