@@ -6,7 +6,7 @@ const config: StorybookConfig = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
-    // '@storybook/addon-styling',
+    "@storybook/addon-webpack5-compiler-babel",
   ],
   framework: {
     name: "@storybook/react-webpack5",
@@ -16,10 +16,28 @@ const config: StorybookConfig = {
     autodocs: "tag",
   },
   staticDirs: ['../public', '../src/resources'],
+  typescript: {
+    reactDocgen: false
+  },
+  babel: async (options) => {
+    return {
+      ...options,
+      presets: [
+        ...(options.presets ?? []),
+      ],
+      plugins: [
+        ...(options.plugins ?? []),
+      ],
+    };
+  },
   webpackFinal: async (config) => {
-    config.module.rules.push({
+    config.module?.rules?.push({
       test: /\.scss$/,
-      use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"],
+      use: [
+        "style-loader",
+        "css-loader",
+        "postcss-loader",
+      ],
     });
     return config;
   }
