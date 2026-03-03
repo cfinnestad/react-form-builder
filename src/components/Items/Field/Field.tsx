@@ -1,7 +1,6 @@
 import React, {useEffect, useRef} from "react";
 import {FieldProps} from "../Items";
 import {Box} from "@mui/material";
-import {isArray} from "lodash";
 
 const Field = (fieldProps: FieldProps) => {
     if(fieldProps.options.Mode !== "build" && fieldProps.options.Mode !== "edit") {
@@ -12,7 +11,7 @@ const Field = (fieldProps: FieldProps) => {
 
 
     useEffect(() => {
-        if(isArray(fieldProps.options.eventList)) {
+        if(Array.isArray(fieldProps.options.eventList)) {
             fieldProps.options.eventList.forEach((eventItem) => {
                 const eventHandler = (e: Event) => {
                     eventItem.callback(e.type, fieldProps.item.name)

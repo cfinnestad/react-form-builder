@@ -8,7 +8,7 @@ import dts from "rollup-plugin-dts";
 // import tailwindcss from 'tailwindcss';
 // import tailwindConfig from "./tailwind.config.js";
 
-import packageJson from './package.json' assert { type: 'json' };
+import packageJson from './package.json' with { type: 'json' };
 import terser from "@rollup/plugin-terser";
 export default [
     {
