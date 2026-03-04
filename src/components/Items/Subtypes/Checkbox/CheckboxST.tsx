@@ -7,7 +7,7 @@ import {
     FormHelperText,
     InputLabel, Stack
 } from "@mui/material";
-import {CheckboxValidate} from "./index";
+import CheckboxValidate from "./CheckboxValidate";
 
 const CheckboxST = ({item, options}: CheckboxProps ) => {
     function onChange(index: number){

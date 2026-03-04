@@ -10,6 +10,7 @@ import dts from "rollup-plugin-dts";
 
 import packageJson from './package.json' with { type: 'json' };
 import terser from "@rollup/plugin-terser";
+
 export default [
     {
         input: "src/index.ts",
@@ -41,6 +42,12 @@ export default [
             })
         ],
         external: Object.keys(packageJson.peerDependencies),
+        onwarn(warning, warn) {
+            if (warning.code === 'MODULE_LEVEL_DIRECTIVE') {
+                return; // Silence the warning
+            }
+            warn(warning); // Otherwise, still log other warnings
+        },
     },
     {
         input: "dist/esm/types/index.d.ts",

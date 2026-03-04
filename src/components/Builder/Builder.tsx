@@ -152,6 +152,7 @@ const Builder = ({ Items, SetItems, Options }: BuilderProps) => {
         submitColors: Options?.submitColors ?? getPalettes(),
         custom: Options?.custom ?? {},
         fileTypes: Options?.fileTypes ?? FileTypes,
+        eventList: [],
     }
     useEffect(() => {
         // console.log('SetItems', items)

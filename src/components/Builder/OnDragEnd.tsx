@@ -3,6 +3,7 @@ import {v4} from "uuid";
 import {Active, DragEndEvent} from "@dnd-kit/core";
 import findDragItem, {DragItem} from "../Items/findDragItem";
 import {BuilderOptions, MAIN, TYPES} from "./Builder";
+import {cloneDeep} from "lodash";
 
 export const updateItems = (list: AnyItem[], containerId: string|number, listPart: AnyItem[]): AnyItem[] => {
 	// console.log('containerId',containerId);
@@ -95,7 +96,7 @@ const onDragEnd = (result: DragEndEvent, items: AnyItem[], options: BuilderOptio
 		if(destination === undefined || active.data.current?.hasOwnProperty('Items') === false || typeof active.data.current?.Items !== 'object') {
 			return items
 		}
-		const newItems = (active.data.current.Items as AnyItem[]).map(itm => fixItemName(itemCloneDeep(itm), destination))
+		const newItems = (active.data.current.Items as AnyItem[]).map(itm => fixItemName(cloneDeep(itm), destination))
 
 		// destClone.splice(overIndex, 0, ...newItems);
 		return updateItems(items, destination.groupId, [

@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { Theme, useTheme } from '@mui/material/styles';
 import {itemCloneDeep, SelectProps, SelectSubtype} from '../../Items';
-import { SelectValidate } from "./index";
+import SelectValidate from "./SelectValidate";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

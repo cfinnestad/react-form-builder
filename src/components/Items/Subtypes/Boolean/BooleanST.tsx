@@ -1,7 +1,7 @@
 import React from "react";
 import {BooleanProps, BooleanSubtype} from "../../Items";
 import {Checkbox, FormControlLabel, FormGroup, FormHelperText, InputLabel} from "@mui/material";
-import {BooleanValidate} from "./index";
+import BooleanValidate from "./BooleanValidate";
 
 const BooleanST = ({item, options}: BooleanProps ) => {
 

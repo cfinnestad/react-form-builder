@@ -47,7 +47,7 @@ const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
         value: getDefaultValue(fieldItems[0])
     } as EqFilter
 
-    const changeRelatedField = (event: SelectChangeEvent<string>) => {
+    const changeRelatedField = (event: SelectChangeEvent) => {
 
         const { value } = event.target;
         let curFilter = undefined
@@ -89,7 +89,7 @@ const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
         }
     }
 
-    const changeComparison = (event: SelectChangeEvent<string>) => {
+    const changeComparison = (event: SelectChangeEvent) => {
         const { value } = event.target;
         let curFilter = getCurFilter(value);
         if (filter && curFilter) {
@@ -123,9 +123,9 @@ const FilterEdit = ({fieldItems,filter,setFilter,index}:FilterEditProps) => {
 
     const addFilter = ()=> {
         if (filter !== undefined && isComparisonFilter(filter)) {
-            const fltr = cloneDeep(filter as ComparisonFilter)
-            fltr.filters.push({...defaultFilter})
-            setFilter(fltr, index)
+            const curFilter = cloneDeep(filter as ComparisonFilter)
+            curFilter.filters.push({...defaultFilter})
+            setFilter(curFilter, index)
         }
     }
 

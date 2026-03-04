@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from "react";
 import {NumberProps, NumberSubtype} from "../../Items";
 import {FormHelperText, InputLabel, Stack, TextField} from "@mui/material";
-import {NumberValidate} from "./index";
+import NumberValidate from "./NumberValidate";
 
 const NumberST = ({item, options}: NumberProps ) => {
     const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

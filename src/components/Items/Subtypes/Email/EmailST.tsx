@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from "react";
 import {EmailProps, EmailSubtype} from "../../Items";
 import {FormHelperText, InputLabel, Stack, TextField} from "@mui/material";
-import {EmailValidate} from "./index";
+import EmailValidate from "./EmailValidate";
 
 const EmailST = ({item, options}: EmailProps ) => {
     const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

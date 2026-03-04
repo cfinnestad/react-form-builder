@@ -2,11 +2,12 @@ import React, {ChangeEvent} from "react";
 import {itemCloneDeep, TextProps} from "../../Items";
 import {FormHelperText, TextField, Stack, InputLabel} from "@mui/material";
 import {TextValidate} from "./index";
+import {cloneDeep} from "lodash";
 
 const TextST = ({item, options}: TextProps ) => {
     const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const val = event.target.value || undefined
-        const itm = itemCloneDeep(item)
+        const itm = cloneDeep(item)
 
         itm.value = val
         if(itm.value === undefined) {

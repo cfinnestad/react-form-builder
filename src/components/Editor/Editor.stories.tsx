@@ -15,7 +15,7 @@ import {
     PhoneSubtype,
     AutocompleteSubtype,
     SubmitItem,
-    Option
+    Option, GroupItem
 } from "../Items";
 import {Submit} from "../Render/StoriesSubmit";
 import {TestTheme} from "../../shared/themes/TestTheme";
@@ -147,7 +147,7 @@ export const Primary: Story = {
                             maxLength: 255
                         } as EmailSubtype,
                     ]
-                } as ListItem,
+                } as GroupItem,
 
                 {
                     id: 'autocomplete1',
@@ -408,7 +408,7 @@ export const EditorWithoutData: Story = {
                             maxLength: 255
                         } as EmailSubtype,
                     ]
-                } as ListItem,
+                } as GroupItem,
 
                 {
                     id: 'autocomplete1',

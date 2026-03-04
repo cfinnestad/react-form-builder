@@ -10,7 +10,7 @@ import {
     Radio,
     RadioGroup, Stack
 } from "@mui/material";
-import {RadioValidate} from "./index";
+import RadioValidate from "./RadioValidate";
 import {cloneDeep} from "lodash";
 
 const RadioST = ({item, options}: RadioProps ) => {
