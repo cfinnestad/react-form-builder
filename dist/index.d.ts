@@ -203,12 +203,14 @@ type CheckboxSubtype = OptionSubtype & {
     value?: string[];
     inLine?: boolean;
 };
-type AutocompleteSubtype = OptionSubtype & {
+type AutocompleteSubtype = FieldItem & {
     subtype: 'Autocomplete';
     allowAnyInput?: boolean;
     value?: string;
     emptyValueOption?: string;
     noOptionsFound?: string;
+    searchableOptionsName?: string;
+    options?: Option[];
 };
 type TextSubtype = FieldItem & {
     label?: string;

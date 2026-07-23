@@ -23,7 +23,7 @@ const AutocompleteST = ({item, options}: AutocompleteProps) => {
             }
         } else {
             filterOptions.current = (input) => {
-                return (item.options).filter(option =>
+                return (item.options ?? []).filter(option =>
                     input !== undefined
                         ? option.value?.toLowerCase().includes(input) || option.label.toLowerCase().includes(input)
                         : false

@@ -6,16 +6,18 @@ import Options, {SelectedType} from "../../../Options/Options";
 
 const AutocompleteEdit = ({item, options}: AutocompleteProps) => {
     const [searchableOption, setSearchableOption] = useState(item.searchableOptionsName)
-    const [itemOptions, setItemOptions] = useState(item.options);
+    const [itemOptions, setItemOptions] = useState(item.options ?? []);
 
-    const searchableOptions = Object.keys(options.searchableOptions ?? [] as string[])
+    const searchableOptions = Object.keys(options.searchableOptions ?? {} as string[])
 
     useEffect( ()=>{
-        const optionsEqual = item.options.length == itemOptions.length
-            && item.options.every(function(u, i) {
-                return u === itemOptions[i];
-            })
-
+        let optionsEqual = false;
+        if (item.options !== undefined) {
+            optionsEqual = (item.options.length ?? 0) == itemOptions.length
+              && item.options.every(function (u, i) {
+                  return u === itemOptions[i];
+              })
+        }
         if (item.searchableOptionsName !== searchableOption || !optionsEqual) {
             options.SetItem({...item, searchableOptionsName: searchableOption, options:(searchableOption === undefined ? [] : itemOptions)} as AutocompleteSubtype)
         }
