@@ -189,12 +189,14 @@ export type CheckboxSubtype = OptionSubtype & {
     value?: string[];
     inLine?: boolean;
 };
-export type AutocompleteSubtype = OptionSubtype & {
+export type AutocompleteSubtype = FieldItem & {
     subtype: 'Autocomplete';
     allowAnyInput?: boolean;
     value?: string;
     emptyValueOption?: string;
     noOptionsFound?: string;
+    searchableOptionsName?: string;
+    options?: Option[];
 };
 export type TextSubtype = FieldItem & {
     label?: string;

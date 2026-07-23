@@ -101,6 +101,16 @@ export const Primary: Story = {
                     options: [],
                 } as AutocompleteSubtype,
                 {
+                    id: "Autocomplete_City",
+                    name: "Autocomplete_City",
+                    type: "Field",
+                    label: "City Autocomplete",
+                    subtype: "Autocomplete",
+                    required: true,
+                    deprecated: false,
+                    searchableOptionsName: "exampleCities"
+                } as AutocompleteSubtype,
+                {
                     id: 'number1',
                     type: 'Field',
                     name: 'number1',
